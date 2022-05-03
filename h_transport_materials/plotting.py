@@ -5,11 +5,18 @@ from h_transport_materials import Property
 import math
 import matplotlib as mpl
 
-def plot(prop: Property, T_bounds=(300, 1200), **kwargs):
+def plot(prop: Property, T_bounds=(300, 1200), inverse_temperature=True, **kwargs):
     T = np.linspace(*T_bounds, num=50)
-    plt.xlabel("1/T (K$^{-1}$)")
+    if inverse_temperature:
+        plt.xlabel("1/T (K$^{-1}$)")
+        x = (1/T)[::-1]
+        y = prop.value(T)[::-1]
+    else:
+        plt.xlabel("T (K)")
+        x = T
+        y = prop.value(T)
 
-    return plt.plot((1/T)[::-1], prop.value(T)[::-1], label=prop.name, **kwargs)
+    return plt.plot(x, y, label=prop.name, **kwargs)
 
 
 def line_labels(
