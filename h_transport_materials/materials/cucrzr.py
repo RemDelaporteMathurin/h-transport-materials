@@ -27,24 +27,38 @@ data_diffusivity_serra_h = data_diffusivity_serra[2:, :2].astype(float)
 data_diffusivity_serra_d = data_diffusivity_serra[2:, 2:].astype(float)
 
 
-D_0, E_D = fit_arhenius(data_diffusivity_serra_h[:, 1], 1000/data_diffusivity_serra_h[:, 0])
-serra_diffusivity_h = ArheniusProperty(pre_exp=D_0, act_energy=E_D, source=serra_src, name="H Serra (1998) (refitted)")
+serra_diffusivity_h = ArheniusProperty(
+    *fit_arhenius(data_diffusivity_serra_h[:, 1], 1000/data_diffusivity_serra_h[:, 0]),
+    data_T=1000/data_diffusivity_serra_h[:, 0],
+    data_y=data_diffusivity_serra_h[:, 1],
+    source=serra_src, name="H Serra (1998) (refitted)")
 
-D_0, E_D = fit_arhenius(data_diffusivity_serra_d[:, 1], 1000/data_diffusivity_serra_d[:, 0])
-serra_diffusivity_d = ArheniusProperty(pre_exp=D_0, act_energy=E_D, source=serra_src, name="D Serra (1998) (refitted)")
+serra_diffusivity_d = ArheniusProperty(
+    *fit_arhenius(data_diffusivity_serra_d[:, 1], 1000/data_diffusivity_serra_d[:, 0]),
+    data_T=1000/data_diffusivity_serra_d[:, 0],
+    data_y=data_diffusivity_serra_d[:, 1],
+    source=serra_src, name="D Serra (1998) (refitted)")
 
 # solubility
 data_solubility_serra = np.genfromtxt("h_transport_materials/materials/cucrzr/serra_solubility_1998.csv", delimiter=",", dtype=str)
 data_solubility_serra_h = data_solubility_serra[2:, :2][:-1].astype(float)
 data_solubility_serra_d = data_solubility_serra[2:, 2:].astype(float)
 
-S_0, E_S = fit_arhenius(data_solubility_serra_h[:, 1]*avogadro_nb, 1000/data_solubility_serra_h[:, 0])
-serra_solubility_h = ArheniusProperty(pre_exp=S_0, act_energy=E_S, source=serra_src, name="H Serra (1998) (refitted)")
+serra_solubility_h = ArheniusProperty(
+    *fit_arhenius(data_solubility_serra_h[:, 1]*avogadro_nb, 1000/data_solubility_serra_h[:, 0]),
+    data_T=1000/data_solubility_serra_h[:, 0],
+    data_y=data_solubility_serra_h[:, 1]*avogadro_nb,
+    source=serra_src, name="H Serra (1998) (refitted)")
 
-S_0, E_D = fit_arhenius(data_solubility_serra_d[:, 1]*avogadro_nb, 1000/data_solubility_serra_d[:, 0])
-serra_solubility_d = ArheniusProperty(pre_exp=S_0, act_energy=E_S, source=serra_src, name="D Serra (1998) (refitted)")
+serra_solubility_d = ArheniusProperty(
+    *fit_arhenius(data_solubility_serra_d[:, 1]*avogadro_nb, 1000/data_solubility_serra_d[:, 0]),
+    data_T=1000/data_solubility_serra_d[:, 0],
+    data_y=data_solubility_serra_d[:, 1]*avogadro_nb,
+    source=serra_src, name="D Serra (1998) (refitted)")
 
-serra_diffusivity_iter = ArheniusProperty(pre_exp=3.92e-7, act_energy=0.418, source=serra_src, name="T Serra acc. ITER (1998)")
+serra_diffusivity_iter = ArheniusProperty(
+    pre_exp=3.92e-7, act_energy=0.418,
+    source=serra_src, name="T Serra acc. ITER (1998)")
 
 cucrzr = Material(D=serra_diffusivity_h, S=serra_solubility_h, name="cucrzr")
 

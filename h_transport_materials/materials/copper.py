@@ -33,18 +33,24 @@ data_diffusivity_katz_h = data_diffusivity_katz[2:, :2].astype(float)
 
 katz_diffusivity_copper_h = ArheniusProperty(
     *fit_arhenius(data_diffusivity_katz_h[:, 1]*1e-4, 1000/data_diffusivity_katz_h[:, 0]),
+    data_T=1000/data_diffusivity_katz_h[:, 0],
+    data_y=data_diffusivity_katz_h[:, 1]*1e-4,
     source=katz_src, name="H Katz (1971)")
 
 
 data_diffusivity_katz_d = data_diffusivity_katz[2:, 2:4][:-2].astype(float)
 katz_diffusivity_copper_d = ArheniusProperty(
     *fit_arhenius(data_diffusivity_katz_d[:, 1]*1e-4, 1000/data_diffusivity_katz_d[:, 0]),
+    data_T=1000/data_diffusivity_katz_d[:, 0],
+    data_y=data_diffusivity_katz_d[:, 1]*1e-4,
     source=katz_src, name="D Katz (1971)")
 
 
 data_diffusivity_katz_t = data_diffusivity_katz[2:, 4:][:-2].astype(float)
 katz_diffusivity_copper_t = ArheniusProperty(
     *fit_arhenius(data_diffusivity_katz_t[:, 1]*1e-4, 1000/data_diffusivity_katz_t[:, 0]),
+    data_T=1000/data_diffusivity_katz_t[:, 0],
+    data_y=data_diffusivity_katz_t[:, 1]*1e-4,
     source=katz_src, name="T Katz (1971)")
 
 # ################# Eichenauer 1957 #############################
