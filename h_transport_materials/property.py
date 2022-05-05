@@ -3,21 +3,21 @@ from h_transport_materials import k_B
 from h_transport_materials.fitting import fit_arhenius
 
 class Property:
-    def __init__(self, source: str="", name : str="", range: tuple=None, data_T: list=None, data_y: list=None) -> None:
+    def __init__(self, source: str="", name : str="", range: tuple=None) -> None:
         self.source = source
         self.name = name
         self.range = range
-        self.data_T = data_T
-        self.data_y = data_y
 
     def value(self, T):
         pass
 
 
 class ArheniusProperty(Property):
-    def __init__(self, pre_exp: float=None, act_energy: float=None, **kwargs) -> None:
+    def __init__(self, pre_exp: float=None, act_energy: float=None, data_T: list=None, data_y: list=None, **kwargs) -> None:
         self.pre_exp = pre_exp
         self.act_energy = act_energy
+        self.data_T = data_T
+        self.data_y = data_y
         super().__init__(**kwargs)
 
     @property
