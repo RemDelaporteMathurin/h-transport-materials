@@ -22,7 +22,8 @@ with plt.style.context(matplotx.styles.dufte):
 
     # cucrzr
     T_bounds_CuCrZr = (561, 769)
-    plot(serra_diffusivity, color=yellow_CuCrZr, T_bounds=T_bounds_CuCrZr)
+    plot(serra_diffusivity_h, color=yellow_CuCrZr, T_bounds=T_bounds_CuCrZr)
+    plot(serra_diffusivity_h_eq, color=yellow_CuCrZr, T_bounds=T_bounds_CuCrZr)
 
     plt.yscale("log")
     plt.xlabel("")
@@ -41,7 +42,7 @@ with plt.style.context(matplotx.styles.dufte):
 
     # cucrzr
     T_bounds_CuCrZr = (561, 769)
-    plot(serra_solubility, color=yellow_CuCrZr, T_bounds=T_bounds_CuCrZr)
+    plot(serra_solubility_h_eq, color=yellow_CuCrZr, T_bounds=T_bounds_CuCrZr)
 
     plt.yscale("log")
 
