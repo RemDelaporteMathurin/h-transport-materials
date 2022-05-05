@@ -11,13 +11,31 @@ anderl_recombination = ArheniusProperty(pre_exp=2.9e-14, act_energy=1.92, source
 serra_src = "E Serra and A Perujo. 'Hydrogen and deuterium transport and inventory parameters in a Cu–0.65Cr–0.08Zr alloy for fusion reactor applications'. en. In: Journal of Nuclear Materials 258-263 (Oct. 1998), pp. 1028–1032"
 
 # these are the equations given in Serra 1998 but some are wrong (not in agreement with the plotted data)
-serra_diffusivity_h_eq = ArheniusProperty(pre_exp=5.7e-7, act_energy=41220*k_B/Rg, source=serra_src, name="H Serra (1998)")
-serra_diffusivity_d_eq = ArheniusProperty(pre_exp=4.8e-7, act_energy=40370*k_B/Rg, source=serra_src, name="D Serra (1998)")
-serra_diffusivity_T_eq = ArheniusProperty(pre_exp=3.07e-7, act_energy=39120*k_B/Rg, source=serra_src, name="T Serra (1998)")
+serra_diffusivity_h_eq = ArheniusProperty(
+    pre_exp=5.7e-7, act_energy=41220*k_B/Rg,
+    range=(553, 773),
+    source=serra_src, name="H Serra (1998)")
+serra_diffusivity_d_eq = ArheniusProperty(
+    pre_exp=4.8e-7, act_energy=40370*k_B/Rg,
+    range=(553, 773),
+    source=serra_src, name="D Serra (1998)")
+serra_diffusivity_T_eq = ArheniusProperty(
+    pre_exp=3.07e-7, act_energy=39120*k_B/Rg,
+    range=(553, 773),
+    source=serra_src, name="T Serra (1998)")
 
-serra_solubility_h_eq = ArheniusProperty(pre_exp=0.9*avogadro_nb, act_energy=38580*k_B/Rg, source=serra_src, name="H Serra (1998)")
-serra_solubility_d_eq = ArheniusProperty(pre_exp=0.71*avogadro_nb, act_energy=37380*k_B/Rg, source=serra_src, name="D Serra (1998)")
-serra_solubility_t_eq = ArheniusProperty(pre_exp=0.84*avogadro_nb, act_energy=38540*k_B/Rg, source=serra_src, name="T Serra (1998)")
+serra_solubility_h_eq = ArheniusProperty(
+    pre_exp=0.9*avogadro_nb, act_energy=38580*k_B/Rg,
+    range=(553, 773),
+    source=serra_src, name="H Serra (1998)")
+serra_solubility_d_eq = ArheniusProperty(
+    pre_exp=0.71*avogadro_nb, act_energy=37380*k_B/Rg,
+    range=(553, 773),
+    source=serra_src, name="D Serra (1998)")
+serra_solubility_t_eq = ArheniusProperty(
+    pre_exp=0.84*avogadro_nb, act_energy=38540*k_B/Rg,
+    range=(553, 773),
+    source=serra_src, name="T Serra (1998)")
 
 
 # these are the fitted values from the experimental points in Serra 1998
