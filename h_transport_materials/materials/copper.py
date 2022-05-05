@@ -60,6 +60,10 @@ eichenauer_diffusivity_copper_h = ArheniusProperty(
     1.1e-6, 0.4, range=(700, 920),
     source=cited_in_database_for_ITER, name="H Eichenauer (1957)")
 
+eichenauer_solubility_copper_h = ArheniusProperty(
+    4.9e23, 0.37, range=(700, 920),
+    source=cited_in_database_for_ITER, name="H Eichenauer (1957)")
+
 # ################# Perkins 1973 #############################
 perkins_diffusivity_copper_h = ArheniusProperty(
     1.06e-6, 0.4, range=(410, 710),
@@ -73,6 +77,12 @@ tanabe_diffusivity_copper_d = ArheniusProperty(
 # ################# Eichenauer 1965 #############################
 eichenauer_diffusivity_copper_d = ArheniusProperty(
     6.19e-7, 0.392, range=(703, 913),
+    source="Z. Metallkd., 56 (1965), p. 287",
+    name="D Eichenauer (1965)")
+
+eichenauer_solubility_copper_d = ArheniusProperty(
+    3.19e24, 0.41,
+    range=(703, 913),
     source="Z. Metallkd., 56 (1965), p. 287",
     name="D Eichenauer (1965)")
 
@@ -101,3 +111,13 @@ otsuka_diffusivity_copper_t = ArheniusProperty(
     1.11e-6, 0.399, range=(303, 353),
     source="Behavior of tritium accumulated on materials surface, Fusion Engineering and Design, Volume 85, Issues 7–9, December 2010, Pages 1437–1441",
     name="T Otsuka (1982)")
+
+# ################# Thomas 1967 #############################
+thomas_solubility_copper_h = ArheniusProperty(
+    1.90e24, 0.51, range=(770, 1320),
+    source=cited_in_database_for_ITER, name="H Thomas (1967)")
+
+# ################# Wampler 1976 #############################
+wampler_solubility_copper_h = ArheniusProperty(
+    1.07e24, 0.44, range=(770, 1070),
+    source=cited_in_database_for_ITER, name="H Wampler (1976)")
