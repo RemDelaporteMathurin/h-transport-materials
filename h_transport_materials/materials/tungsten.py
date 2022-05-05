@@ -7,7 +7,10 @@ frauenfelder_diffusivity = ArheniusProperty(
     pre_exp=2.4e-7, act_energy=0.39,
     range=(1100, 2400),
     source=frauenfelder_src, name="Frauenfelder (1969)")
-frauenfelder_solubility = ArheniusProperty(pre_exp=1.87e24, act_energy=1.04, source=frauenfelder_src, name="Frauenfelder (1969)")
+frauenfelder_solubility = ArheniusProperty(
+    pre_exp=1.87e24, act_energy=1.04,
+    range=(1100, 2400),
+    source=frauenfelder_src, name="Frauenfelder (1969)")
 
 
 reiter_src = "Reiter, F., Forcey, K. S. & Gervasini, G. A Compilation of Tritium: Material Interaction Parameters in Fusion Reactor Materials (Publications Office of the European Union, Luxembourg, 1996)"
