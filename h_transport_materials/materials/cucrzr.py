@@ -31,11 +31,13 @@ data_diffusivity_serra_d = data_diffusivity_serra[2:, 2:].astype(float)
 serra_diffusivity_h = ArheniusProperty(
     data_T=1000/data_diffusivity_serra_h[:, 0],
     data_y=data_diffusivity_serra_h[:, 1],
+    range=(553, 773),
     source=serra_src, name="H Serra (1998) (refitted)")
 
 serra_diffusivity_d = ArheniusProperty(
     data_T=1000/data_diffusivity_serra_d[:, 0],
     data_y=data_diffusivity_serra_d[:, 1],
+    range=(553, 773),
     source=serra_src, name="D Serra (1998) (refitted)")
 
 # solubility
@@ -46,15 +48,18 @@ data_solubility_serra_d = data_solubility_serra[2:, 2:].astype(float)
 serra_solubility_h = ArheniusProperty(
     data_T=1000/data_solubility_serra_h[:, 0],
     data_y=data_solubility_serra_h[:, 1]*avogadro_nb,
+    range=(553, 773),
     source=serra_src, name="H Serra (1998) (refitted)")
 
 serra_solubility_d = ArheniusProperty(
     data_T=1000/data_solubility_serra_d[:, 0],
     data_y=data_solubility_serra_d[:, 1]*avogadro_nb,
+    range=(553, 773),
     source=serra_src, name="D Serra (1998) (refitted)")
 
 serra_diffusivity_iter = ArheniusProperty(
     pre_exp=3.92e-7, act_energy=0.418,
+    range=(553, 773),
     source=serra_src, name="T Serra acc. ITER (1998)")
 
 cucrzr = Material(D=serra_diffusivity_h, S=serra_solubility_h, name="cucrzr")
@@ -73,6 +78,6 @@ anderl_diffusivity_cucrzr_d = ArheniusProperty(
 
 # ################# Penalva 1999 #############################
 penalva_diffusivity_cucrzr_h = ArheniusProperty(
-    3.55e-5, 65.5e3*k_B/Rg, range=(700, 800),
+    3.55e-5, 65.5e3*k_B/Rg, range=(593, 773),
     source="Interaction of Copper Alloys with Hydrogen, Copper Alloys – Early Applications and Current Performance – Enhancing Processes",
     name="D Penalva (1999)")
