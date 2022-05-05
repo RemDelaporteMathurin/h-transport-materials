@@ -88,6 +88,16 @@ nog_diffusivity_cucrzr_t = ArheniusProperty(
     source="Hydrogen-isotope transport in an ELBRODUR G CuCrZr alloy for nuclear applications in heat sinks, Journal of Nuclear Materials, Volume 473, May 2016, Pages 112–118",
     name="T Noh (2016)")
 
+nog_solubility_cucrzr_t_1 = ArheniusProperty(
+    7.83e20, 0.0715, range=(573, 873),
+    source="Hydrogen-isotope transport in an ELBRODUR G CuCrZr alloy for nuclear applications in heat sinks, Journal of Nuclear Materials, Volume 473, May 2016, Pages 112–118",
+    name="T Noh (2016)")
+
+nog_solubility_cucrzr_t_2 = ArheniusProperty(
+    5.42e23, 0.4, range=(573, 873),
+    source="Hydrogen-isotope transport in an ELBRODUR G CuCrZr alloy for nuclear applications in heat sinks, Journal of Nuclear Materials, Volume 473, May 2016, Pages 112–118",
+    name="T Noh (2016)")
+
 # ################# Anderl 1999 #############################
 anderl_diffusivity_cucrzr_d = ArheniusProperty(
     2.0e-2, 1.2, range=(700, 800),
@@ -97,5 +107,10 @@ anderl_diffusivity_cucrzr_d = ArheniusProperty(
 # ################# Penalva 1999 #############################
 penalva_diffusivity_cucrzr_h = ArheniusProperty(
     3.55e-5, 65.5e3*k_B/Rg, range=(593, 773),
+    source="Interaction of Copper Alloys with Hydrogen, Copper Alloys – Early Applications and Current Performance – Enhancing Processes",
+    name="D Penalva (1999)")
+
+penalva_solubility_cucrzr_h = ArheniusProperty(
+    6.71e-3*avogadro_nb, 8.4e3*k_B/Rg, range=(593, 773),
     source="Interaction of Copper Alloys with Hydrogen, Copper Alloys – Early Applications and Current Performance – Enhancing Processes",
     name="D Penalva (1999)")
