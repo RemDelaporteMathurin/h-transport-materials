@@ -41,7 +41,6 @@ class ArheniusProperty(Property):
         self._act_energy = value
 
     def fit(self):
-        print('fitting')
         self.pre_exp, self.act_energy = fit_arhenius(self.data_y, self.data_T)
 
     def value(self, T, exp=np.exp):
