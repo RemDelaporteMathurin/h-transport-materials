@@ -30,7 +30,18 @@ class ArheniusProperty(Property):
     def pre_exp(self, value):
         self._pre_exp = value
 
+    @property
+    def act_energy(self):
+        if self._act_energy is None and self.data_T is not None:
+            self.fit()
+        return self._act_energy
+    
+    @act_energy.setter
+    def act_energy(self, value):
+        self._act_energy = value
+
     def fit(self):
+        print('fitting')
         self.pre_exp, self.act_energy = fit_arhenius(self.data_y, self.data_T)
 
     def value(self, T, exp=np.exp):
