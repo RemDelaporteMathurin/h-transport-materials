@@ -11,6 +11,7 @@ serra_src = "E Serra and A Perujo. 'Hydrogen and deuterium transport and invento
 serra_diffusivity_h_eq = ArheniusProperty(pre_exp=5.7e-7, act_energy=41220*k_B/Rg, source=serra_src, name="H Serra (1998)")
 serra_diffusivity_d_eq = ArheniusProperty(pre_exp=4.8e-7, act_energy=40370*k_B/Rg, source=serra_src, name="D Serra (1998)")
 serra_diffusivity_T_eq = ArheniusProperty(pre_exp=3.07e-7, act_energy=39120*k_B/Rg, source=serra_src, name="T Serra (1998)")
+
 serra_solubility_h_eq = ArheniusProperty(pre_exp=0.9*avogadro_nb, act_energy=38580*k_B/Rg, source=serra_src, name="H Serra (1998)")
 serra_solubility_d_eq = ArheniusProperty(pre_exp=0.71*avogadro_nb, act_energy=37380*k_B/Rg, source=serra_src, name="D Serra (1998)")
 serra_solubility_t_eq = ArheniusProperty(pre_exp=0.84*avogadro_nb, act_energy=38540*k_B/Rg, source=serra_src, name="T Serra (1998)")
@@ -33,8 +34,8 @@ D_0, E_D = fit_arhenius(data_diffusivity_serra_d[:, 1], 1000/data_diffusivity_se
 serra_diffusivity_d = ArheniusProperty(pre_exp=D_0, act_energy=E_D, source=serra_src, name="D Serra (1998) (refitted)")
 
 # solubility
-data_solubility_serra = np.genfromtxt("h_transport_materials/materials/cucrzr/serra_diffusivity_1998.csv", delimiter=",", dtype=str)
-data_solubility_serra_h = data_solubility_serra[2:, :2].astype(float)
+data_solubility_serra = np.genfromtxt("h_transport_materials/materials/cucrzr/serra_solubility_1998.csv", delimiter=",", dtype=str)
+data_solubility_serra_h = data_solubility_serra[2:, :2][:-1].astype(float)
 data_solubility_serra_d = data_solubility_serra[2:, 2:].astype(float)
 
 S_0, E_S = fit_arhenius(data_solubility_serra_h[:, 1]*avogadro_nb, 1000/data_solubility_serra_h[:, 0])
