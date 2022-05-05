@@ -2,9 +2,10 @@ import numpy as np
 from h_transport_materials import k_B
 
 class Property:
-    def __init__(self, source: str="", name : str="") -> None:
+    def __init__(self, source: str="", name : str="", range: tuple=None) -> None:
         self.source = source
         self.name = name
+        self.range = range
     
     def value(self, T):
         pass

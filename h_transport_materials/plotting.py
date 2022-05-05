@@ -6,7 +6,11 @@ import math
 import matplotlib as mpl
 
 def plot(prop: Property, T_bounds=(300, 1200), inverse_temperature=True, **kwargs):
-    T = np.linspace(*T_bounds, num=50)
+    if prop.range is None:
+        range = T_bounds
+    else:
+        range = prop.range
+    T = np.linspace(*range, num=50)
     if inverse_temperature:
         plt.xlabel("1/T (K$^{-1}$)")
         x = (1/T)[::-1]
