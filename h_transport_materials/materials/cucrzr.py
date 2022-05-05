@@ -2,6 +2,9 @@ from h_transport_materials import k_B, Rg, avogadro_nb
 from h_transport_materials.materials import Material
 from h_transport_materials.property import ArheniusProperty
 
+import numpy as np
+
+
 anderl_src = "R. A. Anderl et al. 'Deuterium transport in Cu, CuCrZr, and Cu/Be'. In: Journal of Nuclear Materials 266-269 (Mar. 1999), pp. 761–765"
 anderl_recombination = ArheniusProperty(pre_exp=2.9e-14, act_energy=1.92, source=anderl_src, name="Anderl (1999)")
 
@@ -18,8 +21,6 @@ serra_solubility_t_eq = ArheniusProperty(pre_exp=0.84*avogadro_nb, act_energy=38
 
 
 # these are the fitted values from the experimental points in Serra 1998
-from h_transport_materials.fitting import fit_arhenius
-import numpy as np
 
 # diffusivity
 data_diffusivity_serra = np.genfromtxt("h_transport_materials/materials/cucrzr/serra_diffusivity_1998.csv", delimiter=",", dtype=str)
@@ -28,13 +29,11 @@ data_diffusivity_serra_d = data_diffusivity_serra[2:, 2:].astype(float)
 
 
 serra_diffusivity_h = ArheniusProperty(
-    *fit_arhenius(data_diffusivity_serra_h[:, 1], 1000/data_diffusivity_serra_h[:, 0]),
     data_T=1000/data_diffusivity_serra_h[:, 0],
     data_y=data_diffusivity_serra_h[:, 1],
     source=serra_src, name="H Serra (1998) (refitted)")
 
 serra_diffusivity_d = ArheniusProperty(
-    *fit_arhenius(data_diffusivity_serra_d[:, 1], 1000/data_diffusivity_serra_d[:, 0]),
     data_T=1000/data_diffusivity_serra_d[:, 0],
     data_y=data_diffusivity_serra_d[:, 1],
     source=serra_src, name="D Serra (1998) (refitted)")
@@ -45,13 +44,11 @@ data_solubility_serra_h = data_solubility_serra[2:, :2][:-1].astype(float)
 data_solubility_serra_d = data_solubility_serra[2:, 2:].astype(float)
 
 serra_solubility_h = ArheniusProperty(
-    *fit_arhenius(data_solubility_serra_h[:, 1]*avogadro_nb, 1000/data_solubility_serra_h[:, 0]),
     data_T=1000/data_solubility_serra_h[:, 0],
     data_y=data_solubility_serra_h[:, 1]*avogadro_nb,
     source=serra_src, name="H Serra (1998) (refitted)")
 
 serra_solubility_d = ArheniusProperty(
-    *fit_arhenius(data_solubility_serra_d[:, 1]*avogadro_nb, 1000/data_solubility_serra_d[:, 0]),
     data_T=1000/data_solubility_serra_d[:, 0],
     data_y=data_solubility_serra_d[:, 1]*avogadro_nb,
     source=serra_src, name="D Serra (1998) (refitted)")

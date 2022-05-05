@@ -1,7 +1,6 @@
 from h_transport_materials import k_B, Rg
 from h_transport_materials.property import ArheniusProperty
 from h_transport_materials.materials import Material
-from h_transport_materials.fitting import fit_arhenius
 
 import numpy as np
 
@@ -32,7 +31,6 @@ data_diffusivity_katz = np.genfromtxt("h_transport_materials/materials/copper/ka
 data_diffusivity_katz_h = data_diffusivity_katz[2:, :2].astype(float)
 
 katz_diffusivity_copper_h = ArheniusProperty(
-    *fit_arhenius(data_diffusivity_katz_h[:, 1]*1e-4, 1000/data_diffusivity_katz_h[:, 0]),
     data_T=1000/data_diffusivity_katz_h[:, 0],
     data_y=data_diffusivity_katz_h[:, 1]*1e-4,
     source=katz_src, name="H Katz (1971)")
@@ -40,7 +38,6 @@ katz_diffusivity_copper_h = ArheniusProperty(
 
 data_diffusivity_katz_d = data_diffusivity_katz[2:, 2:4][:-2].astype(float)
 katz_diffusivity_copper_d = ArheniusProperty(
-    *fit_arhenius(data_diffusivity_katz_d[:, 1]*1e-4, 1000/data_diffusivity_katz_d[:, 0]),
     data_T=1000/data_diffusivity_katz_d[:, 0],
     data_y=data_diffusivity_katz_d[:, 1]*1e-4,
     source=katz_src, name="D Katz (1971)")
@@ -48,7 +45,6 @@ katz_diffusivity_copper_d = ArheniusProperty(
 
 data_diffusivity_katz_t = data_diffusivity_katz[2:, 4:][:-2].astype(float)
 katz_diffusivity_copper_t = ArheniusProperty(
-    *fit_arhenius(data_diffusivity_katz_t[:, 1]*1e-4, 1000/data_diffusivity_katz_t[:, 0]),
     data_T=1000/data_diffusivity_katz_t[:, 0],
     data_y=data_diffusivity_katz_t[:, 1]*1e-4,
     source=katz_src, name="T Katz (1971)")
