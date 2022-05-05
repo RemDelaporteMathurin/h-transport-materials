@@ -47,3 +47,21 @@ serra_solubility_d = ArheniusProperty(pre_exp=S_0, act_energy=E_S, source=serra_
 serra_diffusivity_iter = ArheniusProperty(pre_exp=3.92e-7, act_energy=0.418, source=serra_src, name="T Serra acc. ITER (1998)")
 
 cucrzr = Material(D=serra_diffusivity_h, S=serra_solubility_h, name="cucrzr")
+
+# ################# Noh 2016 #############################
+nog_diffusivity_cucrzr_t = ArheniusProperty(
+    5.05e-4, 0.964, range=(573, 873),
+    source="Hydrogen-isotope transport in an ELBRODUR G CuCrZr alloy for nuclear applications in heat sinks, Journal of Nuclear Materials, Volume 473, May 2016, Pages 112–118",
+    name="T Noh (2016)")
+
+# ################# Anderl 1999 #############################
+anderl_diffusivity_cucrzr_d = ArheniusProperty(
+    2.0e-2, 1.2, range=(700, 800),
+    source="Deuterium transport in Cu, CuCrZr, and Cu/Be, Journal of Nuclear Materials 266-269 (1999) 761-765",
+    name="D Anderl (1999)")
+
+# ################# Penalva 1999 #############################
+penalva_diffusivity_cucrzr_h = ArheniusProperty(
+    3.55e-5, 65.5e3*k_B/Rg, range=(700, 800),
+    source="Interaction of Copper Alloys with Hydrogen, Copper Alloys – Early Applications and Current Performance – Enhancing Processes",
+    name="D Penalva (1999)")
