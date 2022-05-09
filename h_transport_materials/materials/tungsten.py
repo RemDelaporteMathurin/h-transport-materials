@@ -125,6 +125,20 @@ esteban_solubility_tungsten_t = ArheniusProperty(
     name="T Esteban (2001)",
 )
 
+holzner_src = ": G Holzner et al 2020 Phys. Scr. 2020 014034"
+holzner_diffusivity_tungsten_h = ArheniusProperty(
+    pre_exp=2.06e-3 * 1e-4,
+    act_energy=0.28,
+    source=holzner_src,
+    name="H Holzner (2020)",
+)
+holzner_diffusivity_tungsten_d = ArheniusProperty(
+    pre_exp=1.60e-3 * 1e-4,
+    act_energy=0.28,
+    source=holzner_src,
+    name="H Holzner (2020)",
+)
 
-tungsten = Material(D=frauenfelder_diffusivity, S=frauenfelder_solubility, name="tungsten")
-
+tungsten = Material(
+    D=frauenfelder_diffusivity, S=frauenfelder_solubility, name="tungsten"
+)
