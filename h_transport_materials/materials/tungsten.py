@@ -19,11 +19,6 @@ frauenfelder_solubility = ArheniusProperty(
 )
 
 
-reiter_src = "Reiter, F., Forcey, K. S. & Gervasini, G. A Compilation of Tritium: Material Interaction Parameters in Fusion Reactor Materials (Publications Office of the European Union, Luxembourg, 1996)"
-reiter_diffusivity_tungsten = ArheniusProperty(
-    pre_exp=1.9e-7, act_energy=0.2, source=reiter_src, name="Reiter (1996)"
-)
-
 liu_src = "Yi-Nan Liu, Hydrogen diffusion in tungsten: A molecular dynamics study, Journal of Nuclear Materials (2014)"
 liu_diffusivity_tungsten = ArheniusProperty(
     pre_exp=5.13e-8,
@@ -129,14 +124,21 @@ holzner_src = ": G Holzner et al 2020 Phys. Scr. 2020 014034"
 holzner_diffusivity_tungsten_h = ArheniusProperty(
     pre_exp=2.06e-3 * 1e-4,
     act_energy=0.28,
+    range=(1600, 2600),
     source=holzner_src,
     name="H Holzner (2020)",
 )
 holzner_diffusivity_tungsten_d = ArheniusProperty(
     pre_exp=1.60e-3 * 1e-4,
     act_energy=0.28,
+    range=(1600, 2600),
     source=holzner_src,
-    name="H Holzner (2020)",
+    name="D Holzner (2020)",
+)
+
+fernandez_src = "N. Fernandez, Y. Ferro, D. Kato 'Hydrogen diffusion and vacancies formation in tungsten: Density Functional Theory calculations and statistical models' Acta Materialia (2015)"
+fernandez_diffusivity_tungsten_h = ArheniusProperty(
+    pre_exp=1.93e-7, act_energy=0.20, range=(300, 1200), name="H Fernandez (2015)"
 )
 
 tungsten = Material(
