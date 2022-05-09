@@ -12,7 +12,6 @@ with plt.style.context(matplotx.styles.dufte):
     plt.yscale("log")
 
     plot(liu_diffusivity_tungsten)
-    plot(reiter_diffusivity_tungsten)
     plot(heinola_diffusivity_tungsten)
 
     plot(johnson_diffusivity_tungsten_h)
@@ -20,14 +19,25 @@ with plt.style.context(matplotx.styles.dufte):
     plot(moore_diffusivity_tungsten_t)
     plot(zakharov_diffusivity_tungsten_h)
     plot(ryabchikov_diffusivity_tungsten_h)
-
+    plot(holzner_diffusivity_tungsten_d)
+    plot(fernandez_diffusivity_tungsten_h)
 
     line_labels(fontsize=10)
-    esteban_plot, = plot(esteban_diffusivity_tungsten_h)
-    frauenfelder_plot, = plot(frauenfelder_diffusivity)
+    (esteban_plot,) = plot(esteban_diffusivity_tungsten_h)
+    (frauenfelder_plot,) = plot(frauenfelder_diffusivity)
 
-    plt.annotate(esteban_diffusivity_tungsten_h.name, (5.8e-4, 1.6e-11), fontsize=10, color=esteban_plot.get_color())
-    plt.annotate(frauenfelder_diffusivity.name, (5e-4, 1.2e-7), fontsize=10, color=frauenfelder_plot.get_color())
+    plt.annotate(
+        esteban_diffusivity_tungsten_h.name,
+        (5.8e-4, 1.6e-11),
+        fontsize=10,
+        color=esteban_plot.get_color(),
+    )
+    plt.annotate(
+        frauenfelder_diffusivity.name,
+        (5e-4, 1.2e-7),
+        fontsize=10,
+        color=frauenfelder_plot.get_color(),
+    )
 
     plt.xlabel("")
     plt.ylabel("Diffusivity (m$^2$ s$^{-1}$)")
@@ -43,7 +53,7 @@ with plt.style.context(matplotx.styles.dufte):
     plt.yscale("log")
     plt.ylim(bottom=1e19)
     line_labels(fontsize=10)
-    plt.ticklabel_format(axis="x", style="sci", scilimits=(0,0))
+    plt.ticklabel_format(axis="x", style="sci", scilimits=(0, 0))
     plt.ylabel("Solubility (m$^{-3}$ Pa$^{-0.5}$)")
 
     plt.tight_layout()
