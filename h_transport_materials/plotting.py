@@ -5,6 +5,7 @@ from h_transport_materials import Property
 import math
 import matplotlib as mpl
 
+
 def plot(prop: Property, T_bounds=(300, 1200), inverse_temperature=True, **kwargs):
     if prop.range is None:
         range = T_bounds
@@ -13,7 +14,7 @@ def plot(prop: Property, T_bounds=(300, 1200), inverse_temperature=True, **kwarg
     T = np.linspace(*range, num=50)
     if inverse_temperature:
         plt.xlabel("1/T (K$^{-1}$)")
-        x = (1/T)[::-1]
+        x = (1 / T)[::-1]
         y = prop.value(T)[::-1]
     else:
         plt.xlabel("T (K)")
@@ -24,10 +25,12 @@ def plot(prop: Property, T_bounds=(300, 1200), inverse_temperature=True, **kwarg
 
 
 def line_labels(
-    ax=None, min_label_distance: float | str = "auto", alpha: float = 1.0, **text_kwargs
+    ax=None,
+    min_label_distance: float or str = "auto",
+    alpha: float = 1.0,
+    **text_kwargs
 ):
-    """Adapted from matplotx
-    """
+    """Adapted from matplotx"""
     ax = ax or plt.gca()
 
     logy = ax.get_yscale() == "log"
@@ -86,7 +89,6 @@ def line_labels(
     if logx:
         targets_x = [math.log10(t) for t in targets_x]
 
-
     # Sometimes, the max value if beyond ymax. It'd be cool if in this case we could put
     # the label above the graph (instead of the to the right), but for now let's just
     # cap the target y.
@@ -113,6 +115,7 @@ def line_labels(
         plt.text(
             xpos, ypos, label, verticalalignment="center", color=color, **text_kwargs
         )
+
 
 def _move_min_distance(targets: ArrayLike, min_distance: float) -> np.ndarray:
     """Move the targets such that they are close to their original positions, but keep
