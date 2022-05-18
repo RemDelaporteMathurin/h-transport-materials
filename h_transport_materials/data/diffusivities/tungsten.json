@@ -1,0 +1,29 @@
+{
+    "frauenfelder_diffusivity": {
+        "pre_exp": 2.4e-7,
+        "act_energy": 0.39,
+        "range": [
+            1100,
+            2400
+        ],
+        "source": "R. Frauenfelder. 'Solution and Diffusion of Hydrogen in Tungsten'. In: Journal of Vacuum Science and Technology 6.3 (May 1969), pp. 388–397. doi: 10.1116/1.1492699.",
+        "name": "Frauenfelder (1969)",
+        "material": "tungsten",
+        "author": "frauenfelder",
+        "isotope": "H",
+        "year": 1969
+    },
+    "liu_diffusivity_tungsten": {
+        "pre_exp": 5.13e-8,
+        "act_energy": 0.21,
+        "range": [
+            200,
+            3000
+        ],
+        "author": "Yi-Nan Liu",
+        "source": "Yi-Nan Liu, Hydrogen diffusion in tungsten: A molecular dynamics study, Journal of Nuclear Materials (2014)",
+        "year": 2014,
+        "isotope": "H",
+        "material": "tungsten"
+    }
+}
