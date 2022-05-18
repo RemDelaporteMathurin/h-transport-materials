@@ -1,4 +1,4 @@
-from h_transport_materials import *
+import h_transport_materials as htm
 from h_transport_materials.plotting import *
 import matplotx
 import matplotlib.pyplot as plt
@@ -11,44 +11,20 @@ with plt.style.context(matplotx.styles.dufte):
     plt.sca(axs[0])
     plt.yscale("log")
 
-    plot(liu_diffusivity_tungsten)
-    plot(heinola_diffusivity_tungsten)
-
-    plot(johnson_diffusivity_tungsten_h)
-    plot(johnson_diffusivity_tungsten_t)
-    plot(moore_diffusivity_tungsten_t)
-    plot(zakharov_diffusivity_tungsten_h)
-    plot(ryabchikov_diffusivity_tungsten_h)
-    plot(holzner_diffusivity_tungsten_d)
-    plot(fernandez_diffusivity_tungsten_h)
+    diffusivities = htm.diffusivities.filter(material="tungsten").filter(isotope="H")
+    for property in diffusivities:
+        plot(property)
 
     line_labels(fontsize=10)
-    (esteban_plot,) = plot(esteban_diffusivity_tungsten_h)
-    (frauenfelder_plot,) = plot(frauenfelder_diffusivity)
-
-    plt.annotate(
-        esteban_diffusivity_tungsten_h.name,
-        (5.8e-4, 1.6e-11),
-        fontsize=10,
-        color=esteban_plot.get_color(),
-    )
-    plt.annotate(
-        frauenfelder_diffusivity.name,
-        (5e-4, 1.2e-7),
-        fontsize=10,
-        color=frauenfelder_plot.get_color(),
-    )
 
     plt.xlabel("")
     plt.ylabel("Diffusivity (m$^2$ s$^{-1}$)")
     plt.ylim(bottom=1e-15)
 
     plt.sca(axs[1])
-    plot(frauenfelder_solubility, color=frauenfelder_plot.get_color())
-
-    plot(esteban_solubility_tungsten_h, color=esteban_plot.get_color())
-    plot(esteban_solubility_tungsten_d, color=esteban_plot.get_color())
-    plot(esteban_solubility_tungsten_t, color=esteban_plot.get_color())
+    solubilities = htm.solubilities.filter(material="tungsten")
+    for property in solubilities:
+        plot(property)
 
     plt.yscale("log")
     plt.ylim(bottom=1e19)

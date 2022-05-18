@@ -1,4 +1,4 @@
-from h_transport_materials import *
+import h_transport_materials as htm
 from h_transport_materials.plotting import *
 import matplotx
 import matplotlib.pyplot as plt
@@ -13,18 +13,9 @@ with plt.style.context(matplotx.styles.dufte):
     # plt.figure(figsize=(6.4, 3.3))
     plt.yscale("log")
 
-    plot(eichenauer_diffusivity_copper_h)
-    plot(eichenauer_diffusivity_copper_d)
-    plot(katz_diffusivity_copper_h, T_bounds=T_bounds)
-    # plot(katz_diffusivity_copper_d, T_bounds=T_bounds)
-    # plot(katz_diffusivity_copper_t, T_bounds=T_bounds)
-    plot(magnusson_diffusivity_copper)
-    plot(tanabe_diffusivity_copper_d)
-    # plot(anderl_diffusivity_copper_d)
-    plot(anderl_diffusivity_copper_d_1999)
-    plot(sakamoto_diffusivity_copper_h)
-    plot(otsuka_diffusivity_copper_t)
-    plot(perkins_diffusivity_copper_h)
+    diffusivities = htm.diffusivities.filter(material="tungsten").filter(isotope="H")
+    for property in diffusivities:
+        plot(property)
 
     line_labels(fontsize=10)
 
@@ -33,11 +24,10 @@ with plt.style.context(matplotx.styles.dufte):
 
     plt.sca(axs[1])
     plt.ylabel("Solubility (m$^{-3}$ Pa$^{-0.5}$)")
-    plot(eichenauer_solubility_copper_h)
-    plot(eichenauer_solubility_copper_d)
-    plot(reiter_solubility)
-    plot(thomas_solubility_copper_h)
-    plot(wampler_solubility_copper_h)
+    solubilities = htm.solubilities.filter(material="tungsten").filter(isotope="H")
+    for property in solubilities:
+        plot(property)
+
 
     plt.yscale("log")
     line_labels(fontsize=10)
