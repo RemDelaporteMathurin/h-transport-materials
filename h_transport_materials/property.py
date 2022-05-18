@@ -34,12 +34,14 @@ class ArheniusProperty(Property):
         act_energy: float = None,
         data_T: list = None,
         data_y: list = None,
+        act_energy_units: str = "eV",
         **kwargs
     ) -> None:
         self.pre_exp = pre_exp
         self.act_energy = act_energy
         self.data_T = data_T
         self.data_y = data_y
+        self.act_energy_units = act_energy_units
         super().__init__(**kwargs)
 
     @property
