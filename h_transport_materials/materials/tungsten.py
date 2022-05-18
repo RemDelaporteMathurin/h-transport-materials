@@ -195,7 +195,6 @@ fernandez_diffusivity_tungsten_h = ArheniusProperty(
 tungsten_diffusivities = [
     frauenfelder_diffusivity,
     liu_diffusivity_tungsten,
-    liu_diffusivity_tungsten,
     heinola_diffusivity_tungsten,
     johnson_diffusivity_tungsten_h,
     johnson_diffusivity_tungsten_t,
