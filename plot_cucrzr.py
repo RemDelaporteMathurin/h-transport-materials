@@ -1,4 +1,4 @@
-from h_transport_materials import *
+import h_transport_materials as htm
 from h_transport_materials.plotting import *
 import matplotx
 import matplotlib.pyplot as plt
@@ -9,11 +9,9 @@ with plt.style.context(matplotx.styles.dufte):
     plt.sca(axs[0])
     plt.yscale("log")
 
-    plot(serra_diffusivity_h)
-    plot(serra_diffusivity_d)
-    plot(penalva_diffusivity_cucrzr_h)
-    plot(nog_diffusivity_cucrzr_t)
-    plot(anderl_diffusivity_cucrzr_d)
+    diffusivities = htm.diffusivities.filter(material="cucrzr").filter(isotope="D")
+    for property in diffusivities:
+        plot(property)
 
     line_labels(fontsize=10)
     plt.xlabel("")
@@ -22,11 +20,9 @@ with plt.style.context(matplotx.styles.dufte):
     plt.sca(axs[1])
     plt.yscale("log")
 
-    plot(serra_solubility_h)
-    plot(serra_solubility_d)
-    plot(penalva_solubility_cucrzr_h)
-    plot(nog_solubility_cucrzr_t_1)
-    # plot(nog_solubility_cucrzr_t_2)
+    solubilities = htm.solubilities.filter(material="cucrzr").filter(isotope="D")
+    for property in solubilities:
+        plot(property)
 
     plt.ylabel("Solubility (m$^{-3}$ Pa$^{-0.5}$)")
     line_labels(fontsize=10)
