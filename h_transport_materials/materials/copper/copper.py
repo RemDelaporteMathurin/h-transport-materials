@@ -1,6 +1,7 @@
 from h_transport_materials import k_B, Rg, diffusivities, solubilities
 from h_transport_materials.property import ArrheniusProperty
 from h_transport_materials.materials import Material
+from pathlib import Path
 import numpy as np
 
 
@@ -49,9 +50,8 @@ magnusson_diffusivity_copper = ArrheniusProperty(
 # ################# KATZ 1971 #############################
 
 katz_src = "Diffusion of H2, D2, and T2 in Single-Crystal Ni and Cu, PHYSICAL REVIEW B, VOLUM E 4, NUMBER 2, 15 JULY 1971"
-
 data_diffusivity_katz = np.genfromtxt(
-    "h_transport_materials/materials/copper/katz_1971_diffusivity.csv",
+    str(Path(__file__).parent) + "/katz_1971_diffusivity.csv",
     delimiter=",",
 )
 data_diffusivity_katz_h = data_diffusivity_katz[2:, :2].astype(float)
