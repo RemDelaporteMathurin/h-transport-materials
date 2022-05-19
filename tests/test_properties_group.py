@@ -68,7 +68,7 @@ def test_mean(mean_D_0, mean_E_D):
     # create properties with noise
     for i in range(nb_props):
         my_group.properties.append(
-            htm.ArheniusProperty(
+            htm.ArrheniusProperty(
                 pre_exp=mean_D_0 + noise_D_0[i],
                 act_energy=mean_E_D + noise_E_D[i],
             )

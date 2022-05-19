@@ -35,10 +35,10 @@ import h_transport_materials as htm
 import numpy as np
 
 # Create a custom property
-my_custom_property = htm.ArheniusProperty(pre_exp=1e-5, act_energy=0.2)
+my_custom_property = htm.ArrheniusProperty(pre_exp=1e-5, act_energy=0.2)
 
 # From (T, y) data
-my_fitted_property = htm.ArheniusProperty(
+my_fitted_property = htm.ArrheniusProperty(
     data_T=np.array([300, 400, 500, 600]), data_y=np.array([1e-8, 1e-7, 1e-6, 1e-5])
 )
 
@@ -79,7 +79,7 @@ tungsten_diffusivities = htm.diffusivities.filter(material="tungsten").filter(
 
 # compute mean diffusivity
 mean_D_0, mean_E_D = tungsten_diffusivities.mean()
-mean_diffusivity = htm.ArheniusProperty(mean_D_0, mean_E_D)
+mean_diffusivity = htm.ArrheniusProperty(mean_D_0, mean_E_D)
 
 # plot
 for D in tungsten_diffusivities:

@@ -40,7 +40,7 @@ class Property:
         pass
 
 
-class ArheniusProperty(Property):
+class ArrheniusProperty(Property):
     def __init__(
         self,
         pre_exp: float = None,
@@ -49,7 +49,7 @@ class ArheniusProperty(Property):
         data_y: list = None,
         **kwargs
     ) -> None:
-        """Inits ArheniusProperty
+        """Inits ArrheniusProperty
         property = pre_exp * exp( - act_energy/(k_B T) )
 
         Args:
