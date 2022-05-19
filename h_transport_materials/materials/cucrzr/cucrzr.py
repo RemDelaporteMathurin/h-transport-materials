@@ -2,6 +2,7 @@ from h_transport_materials import k_B, Rg, avogadro_nb, diffusivities, solubilit
 from h_transport_materials.materials import Material
 from h_transport_materials.property import ArrheniusProperty
 
+from pathlib import Path
 import numpy as np
 
 
@@ -86,7 +87,7 @@ serra_solubility_t_eq = ArrheniusProperty(
 
 # diffusivity
 data_diffusivity_serra = np.genfromtxt(
-    "h_transport_materials/materials/cucrzr/serra_diffusivity_1998.csv",
+    str(Path(__file__).parent) + "/serra_diffusivity_1998.csv",
     delimiter=",",
     dtype=str,
 )
@@ -118,7 +119,7 @@ serra_diffusivity_d = ArrheniusProperty(
 
 # solubility
 data_solubility_serra = np.genfromtxt(
-    "h_transport_materials/materials/cucrzr/serra_solubility_1998.csv",
+    str(Path(__file__).parent) + "/serra_solubility_1998.csv",
     delimiter=",",
     dtype=str,
 )
