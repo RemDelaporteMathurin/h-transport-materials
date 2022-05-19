@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 
 with plt.style.context(matplotx.styles.dufte):
 
-    # plt.figure(figsize=(6.4, 3.3))
     fig, axs = plt.subplots(2, 1, figsize=(6.4, 6.6), sharex=True)
 
     plt.sca(axs[0])
