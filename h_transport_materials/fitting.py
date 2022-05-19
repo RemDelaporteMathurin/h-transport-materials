@@ -4,15 +4,16 @@ from h_transport_materials import k_B
 
 
 def D(T, D_0, E_D):
-    return D_0*np.exp(-E_D/k_B/T)
+    return D_0 * np.exp(-E_D / k_B / T)
+
 
 def fit_arhenius(D, T):
     D_ln = np.log(D)
-    T_inv = 1/T
+    T_inv = 1 / T
 
     res = stats.linregress(T_inv, D_ln)
     D_0 = np.exp(res.intercept)
-    E_D = -res.slope*k_B
+    E_D = -res.slope * k_B
     return D_0, E_D
 
 
@@ -30,7 +31,11 @@ def plot_ci_manual(t, s_err, n, x, x2, y2, ax=None, color=None):
     if ax is None:
         ax = plt.gca()
     y2_log = np.log(y2)
-    ci = t * s_err * np.sqrt(1/n + (x2 - np.mean(x))**2 / np.sum((x - np.mean(x))**2))
+    ci = (
+        t
+        * s_err
+        * np.sqrt(1 / n + (x2 - np.mean(x)) ** 2 / np.sum((x - np.mean(x)) ** 2))
+    )
     fill = ax.fill_between(x2, np.exp(y2_log + ci), np.exp(y2_log - ci), alpha=0.2)
     if color is not None:
         fill.set_color(color)
@@ -53,11 +58,10 @@ def regression_plot(T_exp, D_exp, ci=0.95, color=None):
     s_err = np.sqrt(np.sum(resid**2) / dof)
     T_2 = np.linspace(min(T_exp), max(T_exp), endpoint=False)
     D_2 = D(T_2, D_0, E_D)
-    l, = plt.plot(1/T_2, D_2)
+    (l,) = plt.plot(1 / T_2, D_2)
     if color is not None:
         l.set_color(color)
-    plt.scatter(1/T_exp, D_exp, color=l.get_color())
+    plt.scatter(1 / T_exp, D_exp, color=l.get_color())
 
-    plot_ci_manual(t, s_err, n, 1/T_exp, 1/T_2, D_2, color=l.get_color())
+    plot_ci_manual(t, s_err, n, 1 / T_exp, 1 / T_2, D_2, color=l.get_color())
     return D_0, E_D
-
