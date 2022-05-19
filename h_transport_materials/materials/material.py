@@ -3,7 +3,8 @@ from h_transport_materials import Property, ArheniusProperty
 try:
     import FESTIM
 except ModuleNotFoundError:
-    print("FESTIM module not found")
+    pass
+    # print("FESTIM module not found")
 
 
 class Material:
