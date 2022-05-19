@@ -45,11 +45,14 @@ class PropertiesGroup:
                 elif getattr(prop, attr) != value:
                     match = False
 
+            # append the property to the filtered list
             if (match and not exclude) or (not match and exclude):
                 list_of_filtered_props.append(prop)
 
+        # create a new PropertiesGroup object
         filtered_group = PropertiesGroup()
         filtered_group.properties = list_of_filtered_props
+
         return filtered_group
 
     def mean(self, samples_per_line=5, default_range=(300, 1200)):
