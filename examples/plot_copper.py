@@ -17,10 +17,7 @@ with plt.style.context(matplotx.styles.dufte):
         .filter(exclude=True, author="katz", isotope=["h", "d"])
     )
     for property in diffusivities:
-        plot(
-            property,
-            label="{} {} ({})".format(property.isotope, property.author, property.year),
-        )
+        plot(property)
 
     line_labels(fontsize=10)
 
