@@ -21,7 +21,7 @@ def plot(prop: Property, T_bounds=(300, 1200), inverse_temperature=True, **kwarg
         x = T
         y = prop.value(T)
 
-    return plt.plot(x, y, label=prop.name, **kwargs)
+    return plt.plot(x, y, **kwargs)
 
 
 def line_labels(
