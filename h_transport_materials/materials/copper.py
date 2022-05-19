@@ -16,6 +16,7 @@ reiter_diffusivity_copper = ArheniusProperty(
     source=reiter_src,
     name="T Reiter (1996)",
     year=1996,
+    isotope="T",
     author="reiter",
 )
 reiter_solubility_copper = ArheniusProperty(
@@ -25,6 +26,7 @@ reiter_solubility_copper = ArheniusProperty(
     source=reiter_src,
     name="T Reiter (1996)",
     year=1996,
+    isotope="T",
     author="reiter",
 )
 
@@ -38,6 +40,7 @@ magnusson_diffusivity_copper = ArheniusProperty(
     range=(298, 1273),
     source=magnusson_src,
     name="H Magnusson (2013)",
+    isotope="H",
     year=2013,
     author="magnusson",
 )
