@@ -28,6 +28,8 @@ class PropertiesGroup:
         Args:
             exclude (bool, optional): if True, the searched
                 keys will be excluded. Defaults to False.
+            kwargs: attributes of properties (ex: material="tungsten").
+                String values must be lowercase to ensure good comparison.
 
         Returns:
             PropertiesGroup: the resulting properties
@@ -38,11 +40,15 @@ class PropertiesGroup:
         for prop in self.properties:
             match = True
             for attr, value in kwargs.items():
+                prop_attr = getattr(prop, attr)
+                # make sure are prop_attr are lower
+                if isinstance(prop_attr, str):
+                    prop_attr = prop_attr.lower()
 
                 if isinstance(value, list):
-                    if getattr(prop, attr) not in value:
+                    if prop_attr not in value:
                         match = False
-                elif getattr(prop, attr) != value:
+                elif prop_attr != value:
                     match = False
 
             # append the property to the filtered list
