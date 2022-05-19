@@ -13,8 +13,7 @@ with plt.style.context(matplotx.styles.dufte):
 
     diffusivities = (
         htm.diffusivities.filter(material="tungsten")
-        .filter(exclude=True, author="esteban", isotope="H")
-        .filter(exclude=True, author="esteban", isotope="D")
+        .filter(exclude=True, author="esteban", isotope=["H", "D"])
         .filter(exclude=True, author="holzner", isotope="D")
     )
     for property in diffusivities:

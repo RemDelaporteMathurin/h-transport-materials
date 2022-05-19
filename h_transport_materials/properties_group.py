@@ -11,27 +11,49 @@ class PropertiesGroup:
         return self.properties[item]
 
     def filter(self, exclude=False, **kwargs):
-        """_summary_
+        """Returns properties that match the specified arguments.
+        Usage:
+        ```
+        group = htm.diffusivities
+
+        # filter tungsten and authors esteban or heinola
+        filtered_props = group.filter(material="tungsten").filter(author=["esteban", "heinola"])
+
+        # exclude isotope T
+        filtered_props = filtered_props.filter(exclude=True, isotope="T")
+
+        property = filtered_props[0]
+        ```
 
         Args:
             exclude (bool, optional): if True, the searched
                 keys will be excluded. Defaults to False.
 
         Returns:
-            PropertiesGroup: _description_
+            PropertiesGroup: the resulting properties
         """
-        list_of_props = PropertiesGroup()
-        list_of_searched_props = self.properties
-        for prop in list_of_searched_props:
+        list_of_filtered_props = []
+
+        # iterate through properties
+        for prop in self.properties:
             match = True
-            for key, value in kwargs.items():
-                if getattr(prop, key) != value:
+            for attr, value in kwargs.items():
+
+                if isinstance(value, list):
+                    if getattr(prop, attr) not in value:
+                        match = False
+                elif getattr(prop, attr) != value:
                     match = False
 
+            # append the property to the filtered list
             if (match and not exclude) or (not match and exclude):
-                list_of_props.properties.append(prop)
+                list_of_filtered_props.append(prop)
 
-        return list_of_props
+        # create a new PropertiesGroup object
+        filtered_group = PropertiesGroup()
+        filtered_group.properties = list_of_filtered_props
+
+        return filtered_group
 
     def mean(self, samples_per_line=5, default_range=(300, 1200)):
         """Fits all the data and returns the mean pre-exponential
