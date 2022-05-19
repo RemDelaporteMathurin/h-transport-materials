@@ -32,21 +32,25 @@ class PropertiesGroup:
         Returns:
             PropertiesGroup: the resulting properties
         """
-        list_of_props = PropertiesGroup()
-        list_of_searched_props = self.properties
-        for prop in list_of_searched_props:
+        list_of_filtered_props = []
+
+        # iterate through properties
+        for prop in self.properties:
             match = True
-            for key, value in kwargs.items():
+            for attr, value in kwargs.items():
+
                 if isinstance(value, list):
-                    if getattr(prop, key) not in value:
+                    if getattr(prop, attr) not in value:
                         match = False
-                elif getattr(prop, key) != value:
+                elif getattr(prop, attr) != value:
                     match = False
 
             if (match and not exclude) or (not match and exclude):
-                list_of_props.properties.append(prop)
+                list_of_filtered_props.append(prop)
 
-        return list_of_props
+        filtered_group = PropertiesGroup()
+        filtered_group.properties = list_of_filtered_props
+        return filtered_group
 
     def mean(self, samples_per_line=5, default_range=(300, 1200)):
         """Fits all the data and returns the mean pre-exponential
