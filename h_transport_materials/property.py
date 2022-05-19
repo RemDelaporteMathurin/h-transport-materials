@@ -14,6 +14,19 @@ class Property:
         isotope: str = None,
         author: str = "",
     ) -> None:
+        """Inits Property
+
+        Args:
+            material (str, optional): name of the material. Defaults to "".
+            source (str, optional): bibliographic reference. Defaults to "".
+            name (str, optional): name of the property. Defaults to "".
+            range (tuple, optional): temperature validity range in K.
+                Defaults to None.
+            year (int, optional): year of publication. Defaults to None.
+            isotope (str, optional): isotope of the property ("H", "D" or "T").
+                Defaults to None.
+            author (str, optional): name of the author. Defaults to "".
+        """
 
         self.material = material
         self.source = source
@@ -36,6 +49,18 @@ class ArheniusProperty(Property):
         data_y: list = None,
         **kwargs
     ) -> None:
+        """Inits ArheniusProperty
+        property = pre_exp * exp( - act_energy/(k_B T) )
+
+        Args:
+            pre_exp (float, optional): the pre-exponential factor. Defaults to None.
+            act_energy (float, optional): the activation energy in eV. Defaults to None.
+            data_T (list, optional): list of temperatures in K. Used to automatically
+                fit experimental points. Defaults to None.
+            data_y (list, optional): list of y data. Used to automatically
+                fit experimental points. Defaults to None.
+            kwargs: other Property arguments
+        """
         self.pre_exp = pre_exp
         self.act_energy = act_energy
         self.data_T = data_T
