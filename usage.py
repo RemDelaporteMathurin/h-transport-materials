@@ -1,16 +1,21 @@
 import h_transport_materials as htm
 import matplotlib.pyplot as plt
 
-my_D = htm.diffusivities.filter(material="tungsten")
+#
+tungsten_diffusivities = htm.diffusivities.filter(material="tungsten")
 
-mean_D_0, mean_E_D = my_D.mean()
-
-for prop in my_D:
-    htm.plotting.plot(prop, alpha=0.5)
-
+# compute mean diffusivity
+mean_D_0, mean_E_D = tungsten_diffusivities.mean()
 D_mean = htm.ArheniusProperty(mean_D_0, mean_E_D)
+
+# plot
+for D in tungsten_diffusivities:
+    htm.plotting.plot(D, alpha=0.5)
+
 htm.plotting.plot(D_mean, color="black", linewidth=3)
 
+
+# annotate
 x_annotation = 0.0034
 plt.annotate("mean value", (x_annotation, D_mean.value(T=1 / x_annotation)))
 
