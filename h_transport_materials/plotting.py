@@ -1,3 +1,4 @@
+from enum import auto
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy.typing import ArrayLike
@@ -6,7 +7,29 @@ import math
 import matplotlib as mpl
 
 
-def plot(prop: Property, T_bounds=(300, 1200), inverse_temperature=True, **kwargs):
+def plot(
+    prop: Property,
+    T_bounds=(300, 1200),
+    inverse_temperature=True,
+    auto_label=True,
+    **kwargs
+):
+    """Plots a Property object on a temperature plot
+
+    Args:
+        prop (Property): the property to plot
+        T_bounds (tuple, optional): If the property doesn't have
+            a temperature range, this range will be used. Defaults
+            to (300, 1200).
+        inverse_temperature (bool, optional): If True, the x axis
+            will be the inverse temperature (in K^-1). Defaults to True.
+        auto_label (bool, optional): If True, a label will be automatically
+            generated from the isotope, author and year. Ignored if label is set in kwargs.
+            Defaults to True.
+        kwargs: other matplotlib.pyplot.plot arguments
+    Returns:
+        matplotlib.lines.Line2D: the Line2D artist
+    """
     if prop.range is None:
         range = T_bounds
     else:
@@ -21,7 +44,11 @@ def plot(prop: Property, T_bounds=(300, 1200), inverse_temperature=True, **kwarg
         x = T
         y = prop.value(T)
 
-    return plt.plot(x, y, label=prop.name, **kwargs)
+    if auto_label and "label" not in kwargs.keys():
+        label = "{} {} ({})".format(prop.isotope, prop.author.capitalize(), prop.year)
+        kwargs["label"] = label
+
+    return plt.plot(x, y, **kwargs)
 
 
 def line_labels(
