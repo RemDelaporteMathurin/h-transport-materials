@@ -14,8 +14,7 @@ with plt.style.context(matplotx.styles.dufte):
     diffusivities = (
         htm.diffusivities.filter(material="copper")
         .filter(exclude=True, author="eichenauer", year=1957)
-        .filter(exclude=True, author="katz", isotope="H")
-        .filter(exclude=True, author="katz", isotope="D")
+        .filter(exclude=True, author="katz", isotope=["H", "D"])
     )
     for property in diffusivities:
         plot(property)
