@@ -67,6 +67,36 @@ htm.diffusivities.filter(material="tungsten").filter(author="ryabchikov", exclud
 htm.diffusivities.filter(isotope="t")
 ```
 
+### Compute mean values
+
+```python
+import h_transport_materials as htm
+import matplotlib.pyplot as plt
+
+tungsten_diffusivities = htm.diffusivities.filter(material="tungsten").filter(
+    author=["moore", "zakharov"], exclude=True
+)
+
+# compute mean diffusivity
+mean_D_0, mean_E_D = tungsten_diffusivities.mean()
+mean_diffusivity = htm.ArheniusProperty(mean_D_0, mean_E_D)
+
+# plot
+for D in tungsten_diffusivities:
+    htm.plotting.plot(D, alpha=0.5)
+
+htm.plotting.plot(mean_diffusivity, color="black", linewidth=3)
+
+x_annotation = 0.0034
+plt.annotate("mean value", (x_annotation, mean_diffusivity.value(T=1 / x_annotation)))
+
+plt.ylabel("Diffusivity (m$^2$ s$^{-1}$)")
+plt.yscale("log")
+plt.show()
+```
+![Figure_1](https://user-images.githubusercontent.com/40028739/169285178-7cccc183-8ae1-4afe-8e4e-af2d54ac8741.svg)
+
+
 # Contributions
 
 The current database is far from complete.
