@@ -13,15 +13,17 @@ class PropertiesGroup:
                 keys will be excluded. Defaults to False.
 
         Returns:
-            PropertiesGroup or htm.Property: _description_
+            PropertiesGroup: _description_
         """
         list_of_props = PropertiesGroup()
         list_of_searched_props = self.properties
-        for key, value in kwargs.items():
-            for prop in list_of_searched_props:
-                if getattr(prop, key) == value:
-                    if not exclude:
-                        list_of_props.properties.append(prop)
-                elif exclude:
-                    list_of_props.properties.append(prop)
+        for prop in list_of_searched_props:
+            match = True
+            for key, value in kwargs.items():
+                if getattr(prop, key) != value:
+                    match = False
+
+            if (match and not exclude) or (not match and exclude):
+                list_of_props.properties.append(prop)
+
         return list_of_props
