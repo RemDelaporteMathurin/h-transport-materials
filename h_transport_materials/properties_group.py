@@ -25,7 +25,10 @@ class PropertiesGroup:
         for prop in list_of_searched_props:
             match = True
             for key, value in kwargs.items():
-                if getattr(prop, key) != value:
+                if isinstance(value, list):
+                    if getattr(prop, key) not in value:
+                        match = False
+                elif getattr(prop, key) != value:
                     match = False
 
             if (match and not exclude) or (not match and exclude):
