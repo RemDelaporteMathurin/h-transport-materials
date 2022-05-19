@@ -1,16 +1,16 @@
 import h_transport_materials as htm
+import matplotlib.pyplot as plt
+import numpy as np
 
-my_D = (
-    htm.diffusivities.filter(material="tungsten")
-    .filter(author="frauenfelder")
-    .filter(year=1969)
-)[0]
+my_D = htm.diffusivities.filter(material="copper")
 
-my_S = (
-    htm.solubilities.filter(material="copper")
-    # .filter(author="frauenfelder")
-    # .filter(isotope="H")
-    # .filter(year=1969)
-)[0]
+mean_D_0, mean_E_D = my_D.mean()
 
-my_festim_mat = htm.Material(D=my_D, S=my_S).festim_material
+for prop in my_D:
+    htm.plotting.plot(prop)
+
+D_mean = htm.ArheniusProperty(mean_D_0, mean_E_D)
+htm.plotting.plot(D_mean, color="black", linewidth=3)
+
+plt.yscale("log")
+plt.show()
