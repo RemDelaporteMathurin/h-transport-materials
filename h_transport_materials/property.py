@@ -64,6 +64,38 @@ class ArheniusProperty(Property):
     def act_energy(self, value):
         self._act_energy = value
 
+    @property
+    def data_T(self):
+        return self._data_T
+
+    @data_T.setter
+    def data_T(self, value):
+        if value is None:
+            self._data_T = value
+            return
+        if not isinstance(value, (list, np.ndarray)):
+            raise TypeError("data_T accepts list or np.ndarray")
+        elif isinstance(value, list):
+            self._data_T = np.array(value)
+        else:
+            self._data_T = value
+
+    @property
+    def data_y(self):
+        return self._data_y
+
+    @data_y.setter
+    def data_y(self, value):
+        if value is None:
+            self._data_y = value
+            return
+        if not isinstance(value, (list, np.ndarray)):
+            raise TypeError("data_y accepts list or np.ndarray")
+        elif isinstance(value, list):
+            self._data_y = np.array(value)
+        else:
+            self._data_y = value
+
     def fit(self):
         self.pre_exp, self.act_energy = fit_arhenius(self.data_y, self.data_T)
 
