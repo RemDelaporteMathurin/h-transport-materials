@@ -1,6 +1,7 @@
 import numpy as np
 import scipy.stats as stats
 from h_transport_materials import k_B
+import matplotlib.pyplot as plt
 
 
 def D(T, D_0, E_D):
