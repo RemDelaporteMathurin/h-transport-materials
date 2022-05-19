@@ -1,5 +1,5 @@
 from h_transport_materials import k_B, Rg, diffusivities, solubilities
-from h_transport_materials.property import ArheniusProperty
+from h_transport_materials.property import ArrheniusProperty
 from h_transport_materials.materials import Material
 import numpy as np
 
@@ -9,7 +9,7 @@ cited_in_database_for_ITER = "cited in Assessment of Database for Interaction of
 # ################# REITER 1996 #############################
 
 reiter_src = "F. Reiter, K. S. Forcey, and G. Gervasini. A compilation of tritium : Material interaction parameters in fusion reactor materials. en. Publications Office of the European Union, July 1996."
-reiter_diffusivity_copper = ArheniusProperty(
+reiter_diffusivity_copper = ArrheniusProperty(
     pre_exp=6.6e-7,
     act_energy=0.39,
     range=(470, 1200),
@@ -19,7 +19,7 @@ reiter_diffusivity_copper = ArheniusProperty(
     isotope="T",
     author="reiter",
 )
-reiter_solubility_copper = ArheniusProperty(
+reiter_solubility_copper = ArrheniusProperty(
     pre_exp=3.14e24,
     act_energy=0.57,
     range=(470, 1200),
@@ -34,7 +34,7 @@ reiter_solubility_copper = ArheniusProperty(
 
 
 magnusson_src = "Self-diffusion and impurity diffusion of hydrogen, oxygen, sulphur and phosphorus in copper, Magnusson & Firsk 2013"
-magnusson_diffusivity_copper = ArheniusProperty(
+magnusson_diffusivity_copper = ArrheniusProperty(
     pre_exp=1.74e-6,
     act_energy=42000 * k_B / Rg,
     range=(298, 1273),
@@ -56,7 +56,7 @@ data_diffusivity_katz = np.genfromtxt(
 )
 data_diffusivity_katz_h = data_diffusivity_katz[2:, :2].astype(float)
 
-katz_diffusivity_copper_h = ArheniusProperty(
+katz_diffusivity_copper_h = ArrheniusProperty(
     data_T=1000 / data_diffusivity_katz_h[:, 0],
     data_y=data_diffusivity_katz_h[:, 1] * 1e-4,
     source=katz_src,
@@ -68,7 +68,7 @@ katz_diffusivity_copper_h = ArheniusProperty(
 
 
 data_diffusivity_katz_d = data_diffusivity_katz[2:, 2:4][:-2].astype(float)
-katz_diffusivity_copper_d = ArheniusProperty(
+katz_diffusivity_copper_d = ArrheniusProperty(
     data_T=1000 / data_diffusivity_katz_d[:, 0],
     data_y=data_diffusivity_katz_d[:, 1] * 1e-4,
     source=katz_src,
@@ -80,7 +80,7 @@ katz_diffusivity_copper_d = ArheniusProperty(
 
 
 data_diffusivity_katz_t = data_diffusivity_katz[2:, 4:][:-2].astype(float)
-katz_diffusivity_copper_t = ArheniusProperty(
+katz_diffusivity_copper_t = ArrheniusProperty(
     data_T=1000 / data_diffusivity_katz_t[:, 0],
     data_y=data_diffusivity_katz_t[:, 1] * 1e-4,
     source=katz_src,
@@ -91,7 +91,7 @@ katz_diffusivity_copper_t = ArheniusProperty(
 )
 
 # ################# Eichenauer 1957 #############################
-eichenauer_diffusivity_copper_h = ArheniusProperty(
+eichenauer_diffusivity_copper_h = ArrheniusProperty(
     1.1e-6,
     0.4,
     range=(700, 920),
@@ -102,7 +102,7 @@ eichenauer_diffusivity_copper_h = ArheniusProperty(
     author="eichenauer",
 )
 
-eichenauer_solubility_copper_h = ArheniusProperty(
+eichenauer_solubility_copper_h = ArrheniusProperty(
     4.9e23,
     0.37,
     range=(700, 920),
@@ -114,7 +114,7 @@ eichenauer_solubility_copper_h = ArheniusProperty(
 )
 
 # ################# Perkins 1973 #############################
-perkins_diffusivity_copper_h = ArheniusProperty(
+perkins_diffusivity_copper_h = ArrheniusProperty(
     1.06e-6,
     0.4,
     range=(410, 710),
@@ -126,7 +126,7 @@ perkins_diffusivity_copper_h = ArheniusProperty(
 )
 
 # ################# Perkins 1973 #############################
-tanabe_diffusivity_copper_d = ArheniusProperty(
+tanabe_diffusivity_copper_d = ArrheniusProperty(
     6.7e-8,
     0.24,
     range=(298, 1070),
@@ -138,7 +138,7 @@ tanabe_diffusivity_copper_d = ArheniusProperty(
 )
 
 # ################# Eichenauer 1965 #############################
-eichenauer_diffusivity_copper_d = ArheniusProperty(
+eichenauer_diffusivity_copper_d = ArrheniusProperty(
     6.19e-7,
     0.392,
     range=(703, 913),
@@ -149,7 +149,7 @@ eichenauer_diffusivity_copper_d = ArheniusProperty(
     author="eichenauer",
 )
 
-eichenauer_solubility_copper_d = ArheniusProperty(
+eichenauer_solubility_copper_d = ArrheniusProperty(
     3.19e24,
     0.41,
     range=(703, 913),
@@ -161,7 +161,7 @@ eichenauer_solubility_copper_d = ArheniusProperty(
 )
 
 # ################# Anderl 1990 #############################
-anderl_diffusivity_copper_d = ArheniusProperty(
+anderl_diffusivity_copper_d = ArrheniusProperty(
     9.26e-7,
     0.409,
     range=(638, 723),
@@ -174,7 +174,7 @@ anderl_diffusivity_copper_d = ArheniusProperty(
 
 
 # ################# Anderl 1999 #############################
-anderl_diffusivity_copper_d_1999 = ArheniusProperty(
+anderl_diffusivity_copper_d_1999 = ArrheniusProperty(
     2.1e-6,
     0.52,
     range=(700, 800),
@@ -187,7 +187,7 @@ anderl_diffusivity_copper_d_1999 = ArheniusProperty(
 
 
 # ################# Sakamoto 1982 #############################
-sakamoto_diffusivity_copper_h = ArheniusProperty(
+sakamoto_diffusivity_copper_h = ArrheniusProperty(
     3.69e-7,
     36820 * k_B / Rg,
     range=(292, 339),
@@ -199,7 +199,7 @@ sakamoto_diffusivity_copper_h = ArheniusProperty(
 )
 
 # ################# Otsuka 2010 #############################
-otsuka_diffusivity_copper_t = ArheniusProperty(
+otsuka_diffusivity_copper_t = ArrheniusProperty(
     1.11e-6,
     0.399,
     range=(303, 353),
@@ -211,7 +211,7 @@ otsuka_diffusivity_copper_t = ArheniusProperty(
 )
 
 # ################# Thomas 1967 #############################
-thomas_solubility_copper_h = ArheniusProperty(
+thomas_solubility_copper_h = ArrheniusProperty(
     1.90e24,
     0.51,
     range=(770, 1320),
@@ -223,7 +223,7 @@ thomas_solubility_copper_h = ArheniusProperty(
 )
 
 # ################# Wampler 1976 #############################
-wampler_solubility_copper_h = ArheniusProperty(
+wampler_solubility_copper_h = ArrheniusProperty(
     1.07e24,
     0.44,
     range=(770, 1070),

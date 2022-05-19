@@ -20,7 +20,7 @@ import h_transport_materials as htm
 def test_fit(data_T, data_y):
     expected_values = htm.fitting.fit_arhenius(data_y, data_T)
 
-    my_prop = htm.ArheniusProperty(data_T=data_T, data_y=data_y)
+    my_prop = htm.ArrheniusProperty(data_T=data_T, data_y=data_y)
 
     my_prop.fit()
     computed_values = my_prop.pre_exp, my_prop.act_energy
@@ -28,7 +28,7 @@ def test_fit(data_T, data_y):
 
 
 def test_pre_exp_getter_fit():
-    my_prop = htm.ArheniusProperty(
+    my_prop = htm.ArrheniusProperty(
         data_T=300 + 100 * np.random.random_sample(size=10),
         data_y=100 + 600 * np.random.random_sample(size=10),
     )
@@ -42,7 +42,7 @@ def test_pre_exp_getter_fit():
 
 
 def test_act_energy_getter_fit():
-    my_prop = htm.ArheniusProperty(
+    my_prop = htm.ArrheniusProperty(
         data_T=300 + 100 * np.random.random_sample(size=10),
         data_y=100 + 600 * np.random.random_sample(size=10),
     )
@@ -59,7 +59,7 @@ def test_act_energy_getter_fit():
     "T,pre_exp,act_energy", [(300, 3, 0.2), (205, 6, 0.8), (600, 1e5, 1.2)]
 )
 def test_value(T, pre_exp, act_energy):
-    my_prop = htm.ArheniusProperty(pre_exp=pre_exp, act_energy=act_energy)
+    my_prop = htm.ArrheniusProperty(pre_exp=pre_exp, act_energy=act_energy)
 
     computed_value = my_prop.value(T=T)
     expected_value = pre_exp * np.exp(-act_energy / htm.k_B / T)

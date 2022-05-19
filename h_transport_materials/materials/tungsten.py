@@ -1,10 +1,10 @@
 from h_transport_materials.materials import Material
 from h_transport_materials import diffusivities, solubilities
-from h_transport_materials.property import ArheniusProperty
+from h_transport_materials.property import ArrheniusProperty
 from h_transport_materials import k_B, Rg, avogadro_nb
 
 frauenfelder_src = "R. Frauenfelder. 'Solution and Diffusion of Hydrogen in Tungsten'. In: Journal of Vacuum Science and Technology 6.3 (May 1969), pp. 388–397. doi: 10.1116/1.1492699."
-frauenfelder_diffusivity = ArheniusProperty(
+frauenfelder_diffusivity = ArrheniusProperty(
     pre_exp=2.4e-7,
     act_energy=0.39,
     range=(1100, 2400),
@@ -14,7 +14,7 @@ frauenfelder_diffusivity = ArheniusProperty(
     year=1969,
     isotope="H",
 )
-frauenfelder_solubility = ArheniusProperty(
+frauenfelder_solubility = ArrheniusProperty(
     pre_exp=1.87e24,
     act_energy=1.04,
     range=(1100, 2400),
@@ -27,7 +27,7 @@ frauenfelder_solubility = ArheniusProperty(
 
 
 liu_src = "Yi-Nan Liu, Hydrogen diffusion in tungsten: A molecular dynamics study, Journal of Nuclear Materials (2014)"
-liu_diffusivity_tungsten = ArheniusProperty(
+liu_diffusivity_tungsten = ArrheniusProperty(
     pre_exp=5.13e-8,
     act_energy=0.21,
     range=(200, 3000),
@@ -40,7 +40,7 @@ liu_diffusivity_tungsten = ArheniusProperty(
 
 
 heinola_src = "K. Heinola, Diffusion of hydrogen in bcc tungsten studied with first principle calculations (2010)"
-heinola_diffusivity_tungsten = ArheniusProperty(
+heinola_diffusivity_tungsten = ArrheniusProperty(
     pre_exp=5.2e-8,
     act_energy=0.21,
     source=heinola_src,
@@ -51,7 +51,7 @@ heinola_diffusivity_tungsten = ArheniusProperty(
 )
 
 johnson_src = "Hydrogen in tungsten: Absorption, diffusion, vacancy trapping, and decohesion, J. Mater. Res., Vol. 25, No. 2, (2010)"
-johnson_diffusivity_tungsten_h = ArheniusProperty(
+johnson_diffusivity_tungsten_h = ArrheniusProperty(
     pre_exp=6.32e-7,
     act_energy=0.39,
     source=johnson_src,
@@ -61,7 +61,7 @@ johnson_diffusivity_tungsten_h = ArheniusProperty(
     isotope="H",
 )
 
-johnson_diffusivity_tungsten_t = ArheniusProperty(
+johnson_diffusivity_tungsten_t = ArrheniusProperty(
     pre_exp=5.16e-7,
     act_energy=0.40,
     source=johnson_src,
@@ -73,7 +73,7 @@ johnson_diffusivity_tungsten_t = ArheniusProperty(
 
 
 moore_src = "Close G.E. Moore, F.C. Unterwald J. Chem. Phys., 40 (1964), p. 2639"
-moore_diffusivity_tungsten_t = ArheniusProperty(
+moore_diffusivity_tungsten_t = ArrheniusProperty(
     pre_exp=7.2e-8,
     act_energy=173.7e3 * k_B / Rg,
     range=(1510, 1902),
@@ -85,7 +85,7 @@ moore_diffusivity_tungsten_t = ArheniusProperty(
 )
 
 
-zakharov_diffusivity_tungsten_h = ArheniusProperty(
+zakharov_diffusivity_tungsten_h = ArrheniusProperty(
     pre_exp=6.0e-4,
     act_energy=103.4e3 * k_B / Rg,
     range=(400, 1200),
@@ -96,7 +96,7 @@ zakharov_diffusivity_tungsten_h = ArheniusProperty(
     isotope="H",
 )
 
-ryabchikov_diffusivity_tungsten_h = ArheniusProperty(
+ryabchikov_diffusivity_tungsten_h = ArrheniusProperty(
     pre_exp=8.1e-6,
     act_energy=82.9e3 * k_B / Rg,
     range=(1055, 1570),
@@ -108,7 +108,7 @@ ryabchikov_diffusivity_tungsten_h = ArheniusProperty(
 )
 
 esteban_src = "Esteban, Hydrogen isotope diffusive transport parameters in pure polycrystalline tungsten (2001)"
-esteban_diffusivity_tungsten_h = ArheniusProperty(
+esteban_diffusivity_tungsten_h = ArrheniusProperty(
     pre_exp=5.68e-10,
     act_energy=9.3e3 * k_B / Rg,
     range=(673, 1073),
@@ -119,7 +119,7 @@ esteban_diffusivity_tungsten_h = ArheniusProperty(
     isotope="H",
 )
 
-esteban_diffusivity_tungsten_d = ArheniusProperty(
+esteban_diffusivity_tungsten_d = ArrheniusProperty(
     pre_exp=5.49e-10,
     act_energy=10e3 * k_B / Rg,
     range=(673, 1073),
@@ -130,7 +130,7 @@ esteban_diffusivity_tungsten_d = ArheniusProperty(
     isotope="D",
 )
 
-esteban_diffusivity_tungsten_t = ArheniusProperty(
+esteban_diffusivity_tungsten_t = ArrheniusProperty(
     pre_exp=5.34e-10,
     act_energy=11.2e3 * k_B / Rg,
     range=(673, 1073),
@@ -142,7 +142,7 @@ esteban_diffusivity_tungsten_t = ArheniusProperty(
 )
 
 
-esteban_solubility_tungsten_h = ArheniusProperty(
+esteban_solubility_tungsten_h = ArrheniusProperty(
     pre_exp=2.9e-2 * avogadro_nb,
     act_energy=26.9e3 * k_B / Rg,
     range=(673, 1073),
@@ -153,7 +153,7 @@ esteban_solubility_tungsten_h = ArheniusProperty(
     isotope="H",
 )
 
-esteban_solubility_tungsten_d = ArheniusProperty(
+esteban_solubility_tungsten_d = ArrheniusProperty(
     pre_exp=0.75e-2 * avogadro_nb,
     act_energy=28.7e3 * k_B / Rg,
     range=(673, 1073),
@@ -164,7 +164,7 @@ esteban_solubility_tungsten_d = ArheniusProperty(
     isotope="D",
 )
 
-esteban_solubility_tungsten_t = ArheniusProperty(
+esteban_solubility_tungsten_t = ArrheniusProperty(
     pre_exp=2.25e-2 * avogadro_nb,
     act_energy=27.8e3 * k_B / Rg,
     range=(673, 1073),
@@ -176,7 +176,7 @@ esteban_solubility_tungsten_t = ArheniusProperty(
 )
 
 holzner_src = ": G Holzner et al 2020 Phys. Scr. 2020 014034"
-holzner_diffusivity_tungsten_h = ArheniusProperty(
+holzner_diffusivity_tungsten_h = ArrheniusProperty(
     pre_exp=2.06e-3 * 1e-4,
     act_energy=0.28,
     range=(1600, 2600),
@@ -186,7 +186,7 @@ holzner_diffusivity_tungsten_h = ArheniusProperty(
     year=2020,
     isotope="H",
 )
-holzner_diffusivity_tungsten_d = ArheniusProperty(
+holzner_diffusivity_tungsten_d = ArrheniusProperty(
     pre_exp=1.60e-3 * 1e-4,
     act_energy=0.28,
     range=(1600, 2600),
@@ -198,7 +198,7 @@ holzner_diffusivity_tungsten_d = ArheniusProperty(
 )
 
 fernandez_src = "N. Fernandez, Y. Ferro, D. Kato 'Hydrogen diffusion and vacancies formation in tungsten: Density Functional Theory calculations and statistical models' Acta Materialia (2015)"
-fernandez_diffusivity_tungsten_h = ArheniusProperty(
+fernandez_diffusivity_tungsten_h = ArrheniusProperty(
     pre_exp=1.93e-7,
     act_energy=0.20,
     range=(300, 1200),

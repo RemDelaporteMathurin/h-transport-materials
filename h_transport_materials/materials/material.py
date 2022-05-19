@@ -1,4 +1,4 @@
-from h_transport_materials import Property, ArheniusProperty
+from h_transport_materials import Property, ArrheniusProperty
 
 try:
     import FESTIM
@@ -10,8 +10,8 @@ except ModuleNotFoundError:
 class Material:
     def __init__(
         self,
-        D: ArheniusProperty,
-        S: ArheniusProperty,
+        D: ArrheniusProperty,
+        S: ArrheniusProperty,
         lambd=None,
         rho=None,
         cp=None,
