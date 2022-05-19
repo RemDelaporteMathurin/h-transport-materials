@@ -41,8 +41,9 @@ class PropertiesGroup:
             match = True
             for attr, value in kwargs.items():
                 prop_attr = getattr(prop, attr)
-                # make sure are prop_attr are lower
+
                 if isinstance(prop_attr, str):
+                    # make sure prop_attr are lower
                     prop_attr = prop_attr.lower()
 
                 if isinstance(value, list):
