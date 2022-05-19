@@ -51,7 +51,8 @@ magnusson_diffusivity_copper = ArheniusProperty(
 katz_src = "Diffusion of H2, D2, and T2 in Single-Crystal Ni and Cu, PHYSICAL REVIEW B, VOLUM E 4, NUMBER 2, 15 JULY 1971"
 
 data_diffusivity_katz = np.genfromtxt(
-    "h_transport_materials/materials/copper/katz_1971_diffusivity.csv", delimiter=","
+    "h_transport_materials/materials/copper/katz_1971_diffusivity.csv",
+    delimiter=",",
 )
 data_diffusivity_katz_h = data_diffusivity_katz[2:, :2].astype(float)
 
