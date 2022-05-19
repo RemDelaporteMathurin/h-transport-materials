@@ -9,7 +9,7 @@ with plt.style.context(matplotx.styles.dufte):
     plt.sca(axs[0])
     plt.yscale("log")
 
-    diffusivities = htm.diffusivities.filter(material="cucrzr").filter(isotope="D")
+    diffusivities = htm.diffusivities.filter(material="cucrzr")
     for property in diffusivities:
         plot(property)
 
@@ -20,7 +20,7 @@ with plt.style.context(matplotx.styles.dufte):
     plt.sca(axs[1])
     plt.yscale("log")
 
-    solubilities = htm.solubilities.filter(material="cucrzr").filter(isotope="D")
+    solubilities = htm.solubilities.filter(material="cucrzr")
     for property in solubilities:
         plot(property)
 
@@ -28,5 +28,5 @@ with plt.style.context(matplotx.styles.dufte):
     line_labels(fontsize=10)
     plt.ylim(bottom=7e19)
     plt.tight_layout()
-    plt.ticklabel_format(axis="x", style="sci", scilimits=(0,0))
+    plt.ticklabel_format(axis="x", style="sci", scilimits=(0, 0))
     plt.show()

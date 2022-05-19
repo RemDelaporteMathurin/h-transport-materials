@@ -11,7 +11,12 @@ with plt.style.context(matplotx.styles.dufte):
     plt.sca(axs[0])
     plt.yscale("log")
 
-    diffusivities = htm.diffusivities.filter(material="tungsten").filter(isotope="H")
+    diffusivities = (
+        htm.diffusivities.filter(material="tungsten")
+        .filter(exclude=True, author="esteban", isotope="H")
+        .filter(exclude=True, author="esteban", isotope="D")
+        .filter(exclude=True, author="holzner", isotope="D")
+    )
     for property in diffusivities:
         plot(property)
 
@@ -19,7 +24,7 @@ with plt.style.context(matplotx.styles.dufte):
 
     plt.xlabel("")
     plt.ylabel("Diffusivity (m$^2$ s$^{-1}$)")
-    plt.ylim(bottom=1e-15)
+    # plt.ylim(bottom=1e-15)
 
     plt.sca(axs[1])
     solubilities = htm.solubilities.filter(material="tungsten")
