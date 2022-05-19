@@ -11,14 +11,26 @@ class PropertiesGroup:
         return self.properties[item]
 
     def filter(self, exclude=False, **kwargs):
-        """_summary_
+        """Returns properties that match the specified arguments.
+        Usage:
+        ```
+        group = htm.diffusivities
+
+        # filter tungsten and authors esteban or heinola
+        filtered_props = group.filter(material="tungsten").filter(author=["esteban", "heinola"])
+
+        # exclude isotope T
+        filtered_props = filtered_props.filter(exclude=True, isotope="T")
+
+        property = filtered_props[0]
+        ```
 
         Args:
             exclude (bool, optional): if True, the searched
                 keys will be excluded. Defaults to False.
 
         Returns:
-            PropertiesGroup: _description_
+            PropertiesGroup: the resulting properties
         """
         list_of_props = PropertiesGroup()
         list_of_searched_props = self.properties
