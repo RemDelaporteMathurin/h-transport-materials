@@ -1,3 +1,4 @@
+from enum import auto
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy.typing import ArrayLike
@@ -6,7 +7,13 @@ import math
 import matplotlib as mpl
 
 
-def plot(prop: Property, T_bounds=(300, 1200), inverse_temperature=True, **kwargs):
+def plot(
+    prop: Property,
+    T_bounds=(300, 1200),
+    inverse_temperature=True,
+    auto_label=True,
+    **kwargs
+):
     if prop.range is None:
         range = T_bounds
     else:
@@ -20,6 +27,10 @@ def plot(prop: Property, T_bounds=(300, 1200), inverse_temperature=True, **kwarg
         plt.xlabel("T (K)")
         x = T
         y = prop.value(T)
+
+    if auto_label and "label" not in kwargs.keys():
+        label = "{} {} ({})".format(prop.isotope, prop.author.capitalize(), prop.year)
+        kwargs["label"] = label
 
     return plt.plot(x, y, **kwargs)
 
