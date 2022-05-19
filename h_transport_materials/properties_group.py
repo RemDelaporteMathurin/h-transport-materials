@@ -33,21 +33,41 @@ class PropertiesGroup:
 
         return list_of_props
 
-    def mean(self, samples_per_line=5):
+    def mean(self, samples_per_line=5, default_range=(300, 1200)):
+        """Fits all the data and returns the mean pre-exponential
+        factor and activation energy.
+
+        Args:
+            samples_per_line (int, optional): number of points taken
+                per Property if it doesn't have any data. Defaults to 5.
+            default_range (tuple, optional): temperature range taken if
+                a Property doesn't have range. Defaults to (300, 1200).
+
+        Returns:
+            float, float: pre-exponential factor, activation energy (eV)
+        """
+        # initialise data points
         data_T = np.array([])
         data_y = np.array([])
+
+        # add data points
         for prop in self.properties:
+            # if the property has data points, use them
             if prop.data_T is not None:
                 prop_T = prop.data_T
                 prop_y = prop.data_y
+            # else, take samples
             else:
                 T_range = prop.range
                 if prop.range == None:
-                    T_range = (300, 1200)
+                    T_range = default_range
                 prop_T = np.linspace(T_range[0], T_range[1], num=samples_per_line)
                 prop_y = prop.value(prop_T)
+
             data_T = np.concatenate((data_T, prop_T))
             data_y = np.concatenate((data_y, prop_y))
 
+        # fit all the data
         pre_exp, act_energy = fit_arhenius(data_y, data_T)
+
         return pre_exp, act_energy
