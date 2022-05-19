@@ -87,7 +87,7 @@ moore_diffusivity_tungsten_t = ArheniusProperty(
 
 zakharov_diffusivity_tungsten_h = ArheniusProperty(
     pre_exp=6.0e-4,
-    act_energy=103.4 * k_B / Rg,
+    act_energy=103.4e3 * k_B / Rg,
     range=(400, 1200),
     source="Close A.P. Zakharov, V.M. Sharapov, E.I. Evko Sov. Mater. Sci., 9 (1973), p. 149",
     name="H Zakharov (1973)",
@@ -98,7 +98,7 @@ zakharov_diffusivity_tungsten_h = ArheniusProperty(
 
 ryabchikov_diffusivity_tungsten_h = ArheniusProperty(
     pre_exp=8.1e-6,
-    act_energy=82.9 * k_B / Rg,
+    act_energy=82.9e3 * k_B / Rg,
     range=(1055, 1570),
     source="L.N. Ryabchikov Ukr. Fiz. Zh., 9 (1964), p. 293",
     name="H Ryabchikov (1964)",
