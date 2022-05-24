@@ -1,5 +1,5 @@
 from h_transport_materials import k_B, Rg, diffusivities, solubilities
-from h_transport_materials.property import ArrheniusProperty
+from h_transport_materials.property import ArrheniusProperty, Solubility
 from pathlib import Path
 import numpy as np
 
@@ -19,13 +19,27 @@ fukada_diffusivity_h = ArrheniusProperty(
 )
 
 # nakamura 2015
-data_nakamura = np.genfromtxt(
-    str(Path(__file__).parent) + "/nakamura_2015/data_nakamura_2015.csv", delimiter=";"
+data_nakamura_D = np.genfromtxt(
+    str(Path(__file__).parent) + "/nakamura_2015/diffusivity/data_nakamura_2015.csv",
+    delimiter=";",
 )
 
 nakamura_diffusivity_h = ArrheniusProperty(
-    data_T=1 / data_nakamura[:, 0],
-    data_y=data_nakamura[:, 1],
+    data_T=1 / data_nakamura_D[:, 0],
+    data_y=data_nakamura_D[:, 1],
+    source="Nakamura et al, Hydrogen isotopes permeation in a fluoride molten salt for nuclear fusion blanket (2015)",
+    author="nakamura",
+    isotope="h",
+    year=2015,
+)
+
+data_nakamura_S = np.genfromtxt(
+    str(Path(__file__).parent) + "/nakamura_2015/solubility/data_nakamura_2015.csv",
+    delimiter=";",
+)
+nakamura_solubility_h = Solubility(
+    data_T=1 / data_nakamura_S[:, 0],
+    data_y=data_nakamura_S[:, 1],
     source="Nakamura et al, Hydrogen isotopes permeation in a fluoride molten salt for nuclear fusion blanket (2015)",
     author="nakamura",
     isotope="h",
@@ -89,6 +103,7 @@ zeng_diffusivity_h_2014 = ArrheniusProperty(
     year=2014,
 )
 
+
 flinak_diffusivities = [
     fukada_diffusivity_h,
     nakamura_diffusivity_h,
@@ -98,7 +113,7 @@ flinak_diffusivities = [
     zeng_diffusivity_h_2019,
 ]
 
-flinak_solubilities = []
+flinak_solubilities = [nakamura_solubility_h]
 
 for prop in flinak_diffusivities + flinak_solubilities:
     prop.material = "flinak"
