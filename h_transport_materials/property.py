@@ -68,6 +68,16 @@ class ArrheniusProperty(Property):
         super().__init__(**kwargs)
 
     @property
+    def range(self):
+        if self._range is None and self.data_T is not None:
+            self.fit()
+        return self._range
+
+    @range.setter
+    def range(self, value):
+        self._range = value
+
+    @property
     def pre_exp(self):
         if self._pre_exp is None and self.data_T is not None:
             self.fit()
@@ -121,6 +131,7 @@ class ArrheniusProperty(Property):
 
     def fit(self):
         self.pre_exp, self.act_energy = fit_arhenius(self.data_y, self.data_T)
+        self.range = (self.data_T.min(), self.data_T.max())
 
     def value(self, T, exp=np.exp):
         return self.pre_exp * exp(-self.act_energy / k_B / T)
