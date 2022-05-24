@@ -136,11 +136,11 @@ zeng_solubility_h_2019 = Solubility(
 # zeng 2014
 
 data_zeng_2014 = np.genfromtxt(
-    str(Path(__file__).parent) + "/zeng_2014/data_zeng_2014.csv", delimiter=";"
+    str(Path(__file__).parent) + "/zeng_2014/diffusivity/data_zeng_2014.csv",
+    delimiter=";",
 )
-
 zeng_diffusivity_h_2014 = ArrheniusProperty(
-    data_T=1 / data_zeng_2014[:, 0],
+    data_T=data_zeng_2014[:, 0],
     data_y=data_zeng_2014[:, 1],
     source="Zeng et al, Apparatus for determining permeability of hydrogen isotopes in molten-salt (2014)",
     author="zeng",
@@ -148,6 +148,25 @@ zeng_diffusivity_h_2014 = ArrheniusProperty(
     year=2014,
 )
 
+data_zeng_2014_S = np.genfromtxt(
+    str(Path(__file__).parent) + "/zeng_2014/solubility/data_zeng_2014.csv",
+    delimiter=";",
+)
+
+data_T_zeng_S = data_zeng_2014_S[:, 0]  # in °C
+data_T_zeng_S += 273.15  # in K-1
+data_y_zeng_S = data_zeng_2014_S[:, 1]  # in mol/m3/Pa
+data_y_zeng_S *= avogadro_nb  # in /m3/Pa
+
+zeng_solubility_h_2014 = Solubility(
+    data_T=data_T_zeng_S,
+    data_y=data_y_zeng_S,
+    source="Zeng et al, Apparatus for determining permeability of hydrogen isotopes in molten-salt (2014)",
+    author="zeng",
+    isotope="h",
+    year=2014,
+    units="m-3 Pa-1",
+)
 
 flinak_diffusivities = [
     fukada_diffusivity_h,
@@ -162,6 +181,7 @@ flinak_solubilities = [
     nakamura_solubility_h,
     fukada_solubility_h,
     zeng_solubility_h_2019,
+    zeng_solubility_h_2014,
 ]
 
 for prop in flinak_diffusivities + flinak_solubilities:
