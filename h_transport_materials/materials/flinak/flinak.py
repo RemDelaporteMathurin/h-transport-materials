@@ -99,17 +99,39 @@ lam_diffusivity_t_ions = ArrheniusProperty(
 
 # Zeng 2019
 data_zeng = np.genfromtxt(
-    str(Path(__file__).parent) + "/zeng_2019/data_zeng_2019.csv", delimiter=";"
+    str(Path(__file__).parent) + "/zeng_2019/diffusivity/data_zeng_2019.csv",
+    delimiter=";",
 )
+data_T_zeng = 1 / (data_zeng[:, 0])  # in °C
+data_T_zeng += 273.15  # in K
 
 zeng_diffusivity_h_2019 = ArrheniusProperty(
-    data_T=1 / data_zeng[:, 0],
+    data_T=data_T_zeng,
     data_y=data_zeng[:, 1],
     source="Zeng et al, Behavior characteristics of hydrogen and its isotope in molten salt of LiF-NaF-KF (FLiNaK) (2019)",
     author="zeng",
     isotope="h",
     year=2019,
 )
+
+data_zeng_S = np.genfromtxt(
+    str(Path(__file__).parent) + "/zeng_2019/solubility/data_zeng_2019.csv",
+    delimiter=";",
+)
+data_T_zeng_S = 1 / (data_zeng_S[:, 0])  # in °C
+data_T_zeng_S += 273.15  # in K-1
+data_y_zeng_S = data_zeng_S[:, 1]  # in mol/m3/Pa
+data_y_zeng_S *= avogadro_nb  # in /m3/Pa
+zeng_solubility_h_2019 = Solubility(
+    data_T=data_T_zeng_S,
+    data_y=data_y_zeng_S,
+    source="Zeng et al, Behavior characteristics of hydrogen and its isotope in molten salt of LiF-NaF-KF (FLiNaK) (2019)",
+    author="zeng",
+    isotope="h",
+    year=2019,
+    units="m-3 Pa-1",
+)
+
 
 # zeng 2014
 
@@ -139,6 +161,7 @@ flinak_diffusivities = [
 flinak_solubilities = [
     nakamura_solubility_h,
     fukada_solubility_h,
+    zeng_solubility_h_2019,
 ]
 
 for prop in flinak_diffusivities + flinak_solubilities:
