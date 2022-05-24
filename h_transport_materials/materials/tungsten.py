@@ -1,6 +1,6 @@
 from h_transport_materials.materials import Material
 from h_transport_materials import diffusivities, solubilities
-from h_transport_materials.property import ArrheniusProperty
+from h_transport_materials.property import ArrheniusProperty, Solubility
 from h_transport_materials import k_B, Rg, avogadro_nb
 
 frauenfelder_src = "R. Frauenfelder. 'Solution and Diffusion of Hydrogen in Tungsten'. In: Journal of Vacuum Science and Technology 6.3 (May 1969), pp. 388–397. doi: 10.1116/1.1492699."
@@ -14,7 +14,7 @@ frauenfelder_diffusivity = ArrheniusProperty(
     year=1969,
     isotope="H",
 )
-frauenfelder_solubility = ArrheniusProperty(
+frauenfelder_solubility = Solubility(
     pre_exp=1.87e24,
     act_energy=1.04,
     range=(1100, 2400),
@@ -23,6 +23,7 @@ frauenfelder_solubility = ArrheniusProperty(
     author="frauenfelder",
     year=1969,
     isotope="H",
+    units="m-3 Pa-1/2",
 )
 
 
@@ -142,7 +143,7 @@ esteban_diffusivity_tungsten_t = ArrheniusProperty(
 )
 
 
-esteban_solubility_tungsten_h = ArrheniusProperty(
+esteban_solubility_tungsten_h = Solubility(
     pre_exp=2.9e-2 * avogadro_nb,
     act_energy=26.9e3 * k_B / Rg,
     range=(673, 1073),
@@ -151,9 +152,10 @@ esteban_solubility_tungsten_h = ArrheniusProperty(
     author="esteban",
     year=2001,
     isotope="H",
+    units="m-3 Pa-1/2",
 )
 
-esteban_solubility_tungsten_d = ArrheniusProperty(
+esteban_solubility_tungsten_d = Solubility(
     pre_exp=0.75e-2 * avogadro_nb,
     act_energy=28.7e3 * k_B / Rg,
     range=(673, 1073),
@@ -162,9 +164,10 @@ esteban_solubility_tungsten_d = ArrheniusProperty(
     author="esteban",
     year=2001,
     isotope="D",
+    units="m-3 Pa-1/2",
 )
 
-esteban_solubility_tungsten_t = ArrheniusProperty(
+esteban_solubility_tungsten_t = Solubility(
     pre_exp=2.25e-2 * avogadro_nb,
     act_energy=27.8e3 * k_B / Rg,
     range=(673, 1073),
@@ -173,6 +176,7 @@ esteban_solubility_tungsten_t = ArrheniusProperty(
     author="esteban",
     year=2001,
     isotope="T",
+    units="m-3 Pa-1/2",
 )
 
 holzner_src = ": G Holzner et al 2020 Phys. Scr. 2020 014034"
