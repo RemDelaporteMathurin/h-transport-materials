@@ -1,6 +1,6 @@
 from h_transport_materials import k_B, Rg, avogadro_nb, diffusivities, solubilities
 from h_transport_materials.materials import Material
-from h_transport_materials.property import ArrheniusProperty
+from h_transport_materials.property import ArrheniusProperty, Solubility
 
 from pathlib import Path
 import numpy as np
@@ -51,7 +51,7 @@ serra_diffusivity_T_eq = ArrheniusProperty(
     year=1998,
 )
 
-serra_solubility_h_eq = ArrheniusProperty(
+serra_solubility_h_eq = Solubility(
     pre_exp=0.9 * avogadro_nb,
     act_energy=38580 * k_B / Rg,
     range=(553, 773),
@@ -60,8 +60,9 @@ serra_solubility_h_eq = ArrheniusProperty(
     author="serra",
     isotope="H",
     year=1998,
+    units="m-3 Pa-1/2",
 )
-serra_solubility_d_eq = ArrheniusProperty(
+serra_solubility_d_eq = Solubility(
     pre_exp=0.71 * avogadro_nb,
     act_energy=37380 * k_B / Rg,
     range=(553, 773),
@@ -70,8 +71,9 @@ serra_solubility_d_eq = ArrheniusProperty(
     author="serra",
     isotope="D",
     year=1998,
+    units="m-3 Pa-1/2",
 )
-serra_solubility_t_eq = ArrheniusProperty(
+serra_solubility_t_eq = Solubility(
     pre_exp=0.84 * avogadro_nb,
     act_energy=38540 * k_B / Rg,
     range=(553, 773),
@@ -80,6 +82,7 @@ serra_solubility_t_eq = ArrheniusProperty(
     author="serra",
     isotope="T",
     year=1998,
+    units="m-3 Pa-1/2",
 )
 
 
@@ -126,7 +129,7 @@ data_solubility_serra = np.genfromtxt(
 data_solubility_serra_h = data_solubility_serra[2:, :2][:-1].astype(float)
 data_solubility_serra_d = data_solubility_serra[2:, 2:].astype(float)
 
-serra_solubility_h = ArrheniusProperty(
+serra_solubility_h = Solubility(
     data_T=1000 / data_solubility_serra_h[:, 0],
     data_y=data_solubility_serra_h[:, 1] * avogadro_nb,
     range=(553, 773),
@@ -135,9 +138,10 @@ serra_solubility_h = ArrheniusProperty(
     author="serra",
     isotope="H",
     year=1998,
+    units="m-3 Pa-1/2",
 )
 
-serra_solubility_d = ArrheniusProperty(
+serra_solubility_d = Solubility(
     data_T=1000 / data_solubility_serra_d[:, 0],
     data_y=data_solubility_serra_d[:, 1] * avogadro_nb,
     range=(553, 773),
@@ -146,6 +150,7 @@ serra_solubility_d = ArrheniusProperty(
     author="serra",
     isotope="D",
     year=1998,
+    units="m-3 Pa-1/2",
 )
 
 serra_diffusivity_iter = ArrheniusProperty(
@@ -173,32 +178,34 @@ nog_diffusivity_cucrzr_t = ArrheniusProperty(
     year=2016,
 )
 
-nog_solubility_cucrzr_t_1 = ArrheniusProperty(
-    7.83e20,
-    0.0715,
+nog_solubility_cucrzr_t_1 = Solubility(
+    pre_exp=7.83e20,
+    act_energy=0.0715,
     range=(573, 873),
     source="Hydrogen-isotope transport in an ELBRODUR G CuCrZr alloy for nuclear applications in heat sinks, Journal of Nuclear Materials, Volume 473, May 2016, Pages 112–118",
     name="T Noh (2016)",
     author="noh",
     isotope="T",
     year=2016,
+    units="m-3 Pa-1/2",
 )
 
-nog_solubility_cucrzr_t_2 = ArrheniusProperty(
-    5.42e23,
-    0.4,
+nog_solubility_cucrzr_t_2 = Solubility(
+    pre_exp=5.42e23,
+    act_energy=0.4,
     range=(573, 873),
     source="Hydrogen-isotope transport in an ELBRODUR G CuCrZr alloy for nuclear applications in heat sinks, Journal of Nuclear Materials, Volume 473, May 2016, Pages 112–118",
     name="T Noh (2016)",
     author="noh",
     isotope="T",
     year=2016,
+    units="m-3 Pa-1/2",
 )
 
 # ################# Anderl 1999 #############################
 anderl_diffusivity_cucrzr_d = ArrheniusProperty(
-    2.0e-2,
-    1.2,
+    pre_exp=2.0e-2,
+    act_energy=1.2,
     range=(700, 800),
     source="Deuterium transport in Cu, CuCrZr, and Cu/Be, Journal of Nuclear Materials 266-269 (1999) 761-765",
     name="D Anderl (1999)",
@@ -219,15 +226,16 @@ penalva_diffusivity_cucrzr_h = ArrheniusProperty(
     year=1999,
 )
 
-penalva_solubility_cucrzr_h = ArrheniusProperty(
-    6.71e-3 * avogadro_nb,
-    8.4e3 * k_B / Rg,
+penalva_solubility_cucrzr_h = Solubility(
+    pre_exp=6.71e-3 * avogadro_nb,
+    act_energy=8.4e3 * k_B / Rg,
     range=(593, 773),
     source="Interaction of Copper Alloys with Hydrogen, Copper Alloys – Early Applications and Current Performance – Enhancing Processes",
     name="D Penalva (1999)",
     author="penalva",
     year=1999,
     isotope="D",
+    units="m-3 Pa-1/2",
 )
 
 cucrzr_diffusivities = [
