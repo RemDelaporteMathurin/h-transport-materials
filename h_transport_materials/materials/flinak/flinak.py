@@ -1,4 +1,4 @@
-from h_transport_materials import k_B, Rg, diffusivities, solubilities
+from h_transport_materials import k_B, avogadro_nb, Rg, diffusivities, solubilities
 from h_transport_materials.property import ArrheniusProperty, Solubility
 from pathlib import Path
 import numpy as np
@@ -6,7 +6,8 @@ import numpy as np
 
 # Fukada, 2006
 data_fukada = np.genfromtxt(
-    str(Path(__file__).parent) + "/fukada_2006/data_fukada_2006.csv", delimiter=";"
+    str(Path(__file__).parent) + "/fukada_2006/diffusivity/data_fukada_2006.csv",
+    delimiter=";",
 )
 
 fukada_diffusivity_h = ArrheniusProperty(
@@ -16,6 +17,27 @@ fukada_diffusivity_h = ArrheniusProperty(
     author="fukada",
     isotope="h",
     year=2006,
+)
+
+
+data_fukada_S = np.genfromtxt(
+    str(Path(__file__).parent) + "/fukada_2006/solubility/data_fukada_2006.csv",
+    delimiter=";",
+)
+
+data_y_solubility_fukada = data_fukada_S[:, 1]  # mol/cm3/atm
+data_y_solubility_fukada *= avogadro_nb  # /cm3/atm
+data_y_solubility_fukada *= 1 / 101325  # /cm3/Pa
+data_y_solubility_fukada *= 1e6  # /m3/Pa
+
+fukada_solubility_h = Solubility(
+    data_T=1 / data_fukada_S[:, 0],
+    data_y=data_y_solubility_fukada,
+    source="Fukada and Morisaki, Hydrogen permeability through a mixed molten salt of LiF, NaF and KF (Flinak) as a heat-transfer fluid (2006)",
+    author="fukada",
+    isotope="h",
+    year=2006,
+    units="m-3 Pa-1",
 )
 
 # nakamura 2015
@@ -39,11 +61,12 @@ data_nakamura_S = np.genfromtxt(
 )
 nakamura_solubility_h = Solubility(
     data_T=1 / data_nakamura_S[:, 0],
-    data_y=data_nakamura_S[:, 1],
+    data_y=data_nakamura_S[:, 1] * avogadro_nb,
     source="Nakamura et al, Hydrogen isotopes permeation in a fluoride molten salt for nuclear fusion blanket (2015)",
     author="nakamura",
     isotope="h",
     year=2015,
+    units="m-3 Pa-1",
 )
 
 # lam 2020
@@ -113,7 +136,10 @@ flinak_diffusivities = [
     zeng_diffusivity_h_2019,
 ]
 
-flinak_solubilities = [nakamura_solubility_h]
+flinak_solubilities = [
+    nakamura_solubility_h,
+    fukada_solubility_h,
+]
 
 for prop in flinak_diffusivities + flinak_solubilities:
     prop.material = "flinak"
