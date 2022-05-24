@@ -124,3 +124,27 @@ class ArrheniusProperty(Property):
 
     def value(self, T, exp=np.exp):
         return self.pre_exp * exp(-self.act_energy / k_B / T)
+
+
+class Solubility(ArrheniusProperty):
+    def __init__(self, units: str, **kwargs) -> None:
+        """Inits Solubility
+
+        Args:
+            units (str): units of the solubility "m-3 Pa-1/2" or "m-3 Pa-1".
+        """
+        super().__init__(**kwargs)
+        self.units = units
+
+    @property
+    def units(self):
+        return self._units
+
+    @units.setter
+    def units(self, value):
+        acceptable_values = ["m-3 Pa-1/2", "m-3 Pa-1"]
+        if value not in acceptable_values:
+            raise ValueError(
+                "units can only accept {} or {}".format(*acceptable_values)
+            )
+        self._units = value
