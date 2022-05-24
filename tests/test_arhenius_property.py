@@ -64,3 +64,14 @@ def test_value(T, pre_exp, act_energy):
     computed_value = my_prop.value(T=T)
     expected_value = pre_exp * np.exp(-act_energy / htm.k_B / T)
     assert expected_value == computed_value
+
+
+def test_fit_creates_temp_range():
+    """Checks that when given data_T and data_y,
+    ArrheniusProperty.range is based on data_T"""
+    my_prop = htm.ArrheniusProperty(
+        data_T=[300, 400, 500],
+        data_y=[1, 2, 3],
+    )
+
+    assert my_prop.range == (300, 500)
