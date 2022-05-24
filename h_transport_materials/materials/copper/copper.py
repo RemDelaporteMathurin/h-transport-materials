@@ -1,5 +1,5 @@
 from h_transport_materials import k_B, Rg, diffusivities, solubilities
-from h_transport_materials.property import ArrheniusProperty
+from h_transport_materials.property import ArrheniusProperty, Solubility
 from h_transport_materials.materials import Material
 from pathlib import Path
 import numpy as np
@@ -20,7 +20,7 @@ reiter_diffusivity_copper = ArrheniusProperty(
     isotope="T",
     author="reiter",
 )
-reiter_solubility_copper = ArrheniusProperty(
+reiter_solubility_copper = Solubility(
     pre_exp=3.14e24,
     act_energy=0.57,
     range=(470, 1200),
@@ -29,6 +29,7 @@ reiter_solubility_copper = ArrheniusProperty(
     year=1996,
     isotope="T",
     author="reiter",
+    units="m-3 Pa-1/2",
 )
 
 # copper = Material(D=reiter_diffusivity_copper, S=reiter_solubility_copper, name="copper")
@@ -102,15 +103,16 @@ eichenauer_diffusivity_copper_h = ArrheniusProperty(
     author="eichenauer",
 )
 
-eichenauer_solubility_copper_h = ArrheniusProperty(
-    4.9e23,
-    0.37,
+eichenauer_solubility_copper_h = Solubility(
+    pre_exp=4.9e23,
+    act_energy=0.37,
     range=(700, 920),
     source=cited_in_database_for_ITER,
     name="H Eichenauer (1957)",
     year=1957,
     isotope="H",
     author="eichenauer",
+    units="m-3 Pa-1/2",
 )
 
 # ################# Perkins 1973 #############################
@@ -149,15 +151,16 @@ eichenauer_diffusivity_copper_d = ArrheniusProperty(
     author="eichenauer",
 )
 
-eichenauer_solubility_copper_d = ArrheniusProperty(
-    3.19e24,
-    0.41,
+eichenauer_solubility_copper_d = Solubility(
+    pre_exp=3.19e24,
+    act_energy=0.41,
     range=(703, 913),
     source="Z. Metallkd., 56 (1965), p. 287",
     name="D Eichenauer (1965)",
     year=1965,
     isotope="D",
     author="eichenauer",
+    units="m-3 Pa-1/2",
 )
 
 # ################# Anderl 1990 #############################
@@ -211,27 +214,29 @@ otsuka_diffusivity_copper_t = ArrheniusProperty(
 )
 
 # ################# Thomas 1967 #############################
-thomas_solubility_copper_h = ArrheniusProperty(
-    1.90e24,
-    0.51,
+thomas_solubility_copper_h = Solubility(
+    pre_exp=1.90e24,
+    act_energy=0.51,
     range=(770, 1320),
     source=cited_in_database_for_ITER,
     name="H Thomas (1967)",
     year=1967,
     isotope="H",
     author="thomas",
+    units="m-3 Pa-1/2",
 )
 
 # ################# Wampler 1976 #############################
-wampler_solubility_copper_h = ArrheniusProperty(
-    1.07e24,
-    0.44,
+wampler_solubility_copper_h = Solubility(
+    pre_exp=1.07e24,
+    act_energy=0.44,
     range=(770, 1070),
     source=cited_in_database_for_ITER,
     name="H Wampler (1976)",
     year=1976,
     isotope="H",
     author="wampler",
+    units="m-3 Pa-1/2",
 )
 
 
