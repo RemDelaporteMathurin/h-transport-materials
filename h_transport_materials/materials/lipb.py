@@ -77,10 +77,20 @@ katsuta_solubility = Solubility(
 
 
 fauvet_src = "P. Fauvet, J. Sannier, DOI:10.1016/0022-3115(88)90301-7"
+fauvet_diffusivity = ArrheniusProperty(
+    pre_exp=1.5e-09 * atom_density_lipb,
+    act_energy=0,
+    range=(722, 724),  # TODO should be 723 link to issue #37
+    source=fauvet_src,
+    name="Fauvet (1988)",
+    author="fauvet",
+    year=1988,
+    isotope="H",
+)
 fauvet_solubility = Solubility(
     pre_exp=2.7e-08 * atom_density_lipb,
     act_energy=0,
-    range=(722, 724),
+    range=(722, 724),  # TODO should be 723 link to issue #37
     source=fauvet_src,
     name="Fauvet (1988)",
     author="fauvet",
@@ -104,99 +114,134 @@ schumacher_solubility = Solubility(
 )
 
 
-eg_src = "E. g, DOI:111"
-eg_solubility = Solubility(
-    pre_exp=1,
-    act_energy=0,
-    range=(1, 1),
-    source=eg_src,
-    name="eg (0000)",
-    author="eg",
-    year=0000,
+reiter_src = "F. Reiter, DOI:10.1016/0920-3796(91)90003-9"
+reiter_diffusivity_h = ArrheniusProperty(
+    pre_exp=4.03e-08 * atom_density_lipb,
+    act_energy=19500 * k_B / Rg,
+    range=(508, 700),
+    source=reiter_src,
+    name="Reiter (1991)",
+    author="reiter",
+    year=1991,
+    isotope="H",
+)
+reiter_diffusivity_d = ArrheniusProperty(
+    pre_exp=4.03e-08 * atom_density_lipb,
+    act_energy=19500 * k_B / Rg,
+    range=(508, 700),
+    source=reiter_src,
+    name="Reiter (1991)",
+    author="reiter",
+    year=1991,
+    isotope="D",
+)
+reiter_diffusivity_t = ArrheniusProperty(
+    pre_exp=4.03e-08 * atom_density_lipb,
+    act_energy=19500 * k_B / Rg,
+    range=(508, 700),
+    source=reiter_src,
+    name="Reiter (1991)",
+    author="reiter",
+    year=1991,
+    isotope="T",
+)
+reiter_solubility_h = Solubility(
+    pre_exp=2.44e-08 * atom_density_lipb,
+    act_energy=1350 * k_B / Rg,
+    range=(508, 700),
+    source=reiter_src,
+    name="Reiter (1991)",
+    author="reiter",
+    year=1991,
+    isotope="H",
+    units="m-3 Pa-1/2",
+)
+reiter_solubility_d = Solubility(
+    pre_exp=2.36e-08 * atom_density_lipb,
+    act_energy=1350 * k_B / Rg,
+    range=(508, 700),
+    source=reiter_src,
+    name="Reiter (1991)",
+    author="reiter",
+    year=1991,
+    isotope="D",
+    units="m-3 Pa-1/2",
+)
+reiter_solubility_t = Solubility(
+    pre_exp=2.32e-08 * atom_density_lipb,
+    act_energy=1350 * k_B / Rg,
+    range=(508, 700),
+    source=reiter_src,
+    name="Reiter (1991)",
+    author="reiter",
+    year=1991,
+    isotope="T",
+    units="m-3 Pa-1/2",
+)
+
+
+aiello_src = (
+    "A. Aiello, A. Ciampichetti, G. Benamati, DOI:10.1016/j.fusengdes.2005.06.364"
+)
+aiello_solubility = Solubility(
+    pre_exp=4.66e-06 * atom_density_lipb,
+    act_energy=13399 * k_B / Rg,
+    range=(600, 900),
+    source=aiello_src,
+    name="Aiello (2006)",
+    author="aiello",
+    year=2006,
     isotope="H",
     units="m-3 Pa-1/2",
 )
 
 
-eg_src = "E. g, DOI:111"
-eg_solubility = Solubility(
-    pre_exp=1,
-    act_energy=0,
-    range=(1, 1),
-    source=eg_src,
-    name="eg (0000)",
-    author="eg",
-    year=0000,
+shibuya_src = (
+    "Y. Shibuya, M. Aida, Y.Fujii, M. Okamoto, DOI:10.1016/0022-3115(87)90006-7"
+)
+shibuya_diffusivity = ArrheniusProperty(
+    pre_exp=2.62e-03 * atom_density_lipb,
+    act_energy=6630 * k_B / Rg,
+    range=(573, 773),
+    source=shibuya_src,
+    name="Shibuya (1987)",
+    author="shibuya",
+    year=1987,
+    isotope="T",
+)
+
+
+terai_src = (
+    "T. Terai, S. Nagai, T. Yoneoka, Y. Takashi, DOI:10.1016/0022-3115(92)90504-E"
+)
+terai_diffusivity = ArrheniusProperty(
+    pre_exp=2.50e-07 * atom_density_lipb,
+    act_energy=27000 * k_B / Rg,
+    range=(573, 973),
+    source=terai_src,
+    name="Terai (1987)",
+    author="terai",
+    year=1987,
+    isotope="T",
+)
+
+alberro_src = "G. Alberro, I. Penalva, F. Legarda, G.A. Esteban, DOI:10.1016/j.fusengdes.2015.05.060"
+alberro_solubility = Solubility(
+    pre_exp=5.203e21,
+    act_energy=9000 * k_B / Rg,
+    range=(523, 922),
+    source=alberro_src,
+    name="Alberro (2015)",
+    author="alberro",
+    year=2015,
     isotope="H",
     units="m-3 Pa-1/2",
 )
 
 
-eg_src = "E. g, DOI:111"
-eg_solubility = Solubility(
-    pre_exp=1,
-    act_energy=0,
-    range=(1, 1),
-    source=eg_src,
-    name="eg (0000)",
-    author="eg",
-    year=0000,
-    isotope="H",
-    units="m-3 Pa-1/2",
-)
+lipb_diffusivities = []
 
-
-eg_src = "E. g, DOI:111"
-eg_solubility = Solubility(
-    pre_exp=1,
-    act_energy=0,
-    range=(1, 1),
-    source=eg_src,
-    name="eg (0000)",
-    author="eg",
-    year=0000,
-    isotope="H",
-    units="m-3 Pa-1/2",
-)
-
-
-eg_src = "E. g, DOI:111"
-eg_solubility = Solubility(
-    pre_exp=1,
-    act_energy=0,
-    range=(1, 1),
-    source=eg_src,
-    name="eg (0000)",
-    author="eg",
-    year=0000,
-    isotope="H",
-    units="m-3 Pa-1/2",
-)
-
-
-tungsten_diffusivities = [
-    frauenfelder_diffusivity,
-    liu_diffusivity_tungsten,
-    heinola_diffusivity_tungsten,
-    johnson_diffusivity_tungsten_h,
-    johnson_diffusivity_tungsten_t,
-    moore_diffusivity_tungsten_t,
-    zakharov_diffusivity_tungsten_h,
-    ryabchikov_diffusivity_tungsten_h,
-    esteban_diffusivity_tungsten_h,
-    esteban_diffusivity_tungsten_d,
-    esteban_diffusivity_tungsten_t,
-    holzner_diffusivity_tungsten_h,
-    holzner_diffusivity_tungsten_d,
-    fernandez_diffusivity_tungsten_h,
-]
-
-tungsten_solubilities = [
-    frauenfelder_solubility,
-    esteban_solubility_tungsten_h,
-    esteban_solubility_tungsten_d,
-    esteban_solubility_tungsten_t,
-]
+lipb_solubilities = []
 
 for prop in tungsten_diffusivities + tungsten_solubilities:
     prop.material = "tungsten"
