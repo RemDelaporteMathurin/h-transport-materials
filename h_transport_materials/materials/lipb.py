@@ -10,32 +10,9 @@ molar_mass_lipb = molar_mass_Pb + 16 * molar_mass_li
 rho_lipb = 10163.197  # kg/m3  at 300K
 atom_density_lipb = (rho_lipb * avogadro_nb) / molar_mass_lipb
 
-eg_src = "E. g, DOI:111"
-eg_diffusivity = ArrheniusProperty(
-    pre_exp=1,
-    act_energy=0,
-    range=(1, 1),
-    source=eg_src,
-    name="eg (0000)",
-    author="eg",
-    year=0000,
-    isotope="H",
-)
-eg_solubility = Solubility(
-    pre_exp=1,
-    act_energy=0,
-    range=(1, 1),
-    source=eg_src,
-    name="eg (0000)",
-    author="eg",
-    year=0000,
-    isotope="H",
-    units="m-3 Pa-1/2",
-)
-
 
 wu_src = "C.H. Wu, DOI:10.1016/0022-3115(83)90069-7"
-eg_solubility = Solubility(
+wu_solubility = Solubility(
     pre_exp=6.33e-07 * atom_density_lipb,
     act_energy=0,
     range=(850, 1040),
@@ -239,12 +216,30 @@ alberro_solubility = Solubility(
 )
 
 
-lipb_diffusivities = []
+lipb_diffusivities = [
+    fauvet_diffusivity,
+    reiter_diffusivity_h,
+    reiter_diffusivity_d,
+    reiter_diffusivity_t,
+    shibuya_diffusivity,
+    terai_diffusivity,
+]
 
-lipb_solubilities = []
+lipb_solubilities = [
+    wu_solubility,
+    chan_solubility,
+    katsuta_solubility,
+    fauvet_solubility,
+    schumacher_solubility,
+    reiter_solubility_h,
+    reiter_solubility_d,
+    reiter_solubility_t,
+    aiello_solubility,
+    alberro_solubility,
+]
 
-for prop in tungsten_diffusivities + tungsten_solubilities:
-    prop.material = "tungsten"
+for prop in lipb_diffusivities + lipb_solubilities:
+    prop.material = "lipb"
 
-diffusivities.properties += tungsten_diffusivities
-solubilities.properties += tungsten_solubilities
+diffusivities.properties += lipb_diffusivities
+solubilities.properties += lipb_solubilities
