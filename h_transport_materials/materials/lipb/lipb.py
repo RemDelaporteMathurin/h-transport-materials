@@ -196,7 +196,7 @@ reiter_solubility_t = Solubility(
 aiello_src = (
     "A. Aiello, A. Ciampichetti, G. Benamati, DOI:10.1016/j.fusengdes.2005.06.364"
 )
-data_aiello = data_zeng = np.genfromtxt(
+data_aiello = np.genfromtxt(
     str(Path(__file__).parent) + "/aiello_2006/solubility_data.csv",
     delimiter=",",
 )
