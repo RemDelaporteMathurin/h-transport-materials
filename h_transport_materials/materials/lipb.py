@@ -55,7 +55,7 @@ katsuta_solubility = Solubility(
 
 fauvet_src = "P. Fauvet, J. Sannier, DOI:10.1016/0022-3115(88)90301-7"
 fauvet_diffusivity = ArrheniusProperty(
-    pre_exp=1.5e-09 * atom_density_lipb,
+    pre_exp=1.5e-09,
     act_energy=0,
     range=(722, 724),  # TODO should be 723 link to issue #37
     source=fauvet_src,
@@ -103,7 +103,7 @@ reiter_diffusivity_h = ArrheniusProperty(
     isotope="H",
 )
 reiter_diffusivity_d = ArrheniusProperty(
-    pre_exp=4.03e-08 * atom_density_lipb,
+    pre_exp=4.03e-08,
     act_energy=19500 * k_B / Rg,
     range=(508, 700),
     source=reiter_src,
@@ -113,7 +113,7 @@ reiter_diffusivity_d = ArrheniusProperty(
     isotope="D",
 )
 reiter_diffusivity_t = ArrheniusProperty(
-    pre_exp=4.03e-08 * atom_density_lipb,
+    pre_exp=4.03e-08,
     act_energy=19500 * k_B / Rg,
     range=(508, 700),
     source=reiter_src,
@@ -177,7 +177,7 @@ shibuya_src = (
     "Y. Shibuya, M. Aida, Y.Fujii, M. Okamoto, DOI:10.1016/0022-3115(87)90006-7"
 )
 shibuya_diffusivity = ArrheniusProperty(
-    pre_exp=2.62e-03 * atom_density_lipb,
+    pre_exp=2.62e-03,
     act_energy=6630 * k_B / Rg,
     range=(573, 773),
     source=shibuya_src,
@@ -192,7 +192,7 @@ terai_src = (
     "T. Terai, S. Nagai, T. Yoneoka, Y. Takashi, DOI:10.1016/0022-3115(92)90504-E"
 )
 terai_diffusivity = ArrheniusProperty(
-    pre_exp=2.50e-07 * atom_density_lipb,
+    pre_exp=2.50e-07,
     act_energy=27000 * k_B / Rg,
     range=(573, 973),
     source=terai_src,
@@ -204,7 +204,7 @@ terai_diffusivity = ArrheniusProperty(
 
 alberro_src = "G. Alberro, I. Penalva, F. Legarda, G.A. Esteban, DOI:10.1016/j.fusengdes.2015.05.060"
 alberro_solubility = Solubility(
-    pre_exp=5.203e21,
+    pre_exp=8.64e-3*avogadro_nb,
     act_energy=9000 * k_B / Rg,
     range=(523, 922),
     source=alberro_src,
