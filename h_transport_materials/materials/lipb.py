@@ -2,6 +2,8 @@ from h_transport_materials import diffusivities, solubilities
 from h_transport_materials.property import ArrheniusProperty, Solubility
 from h_transport_materials import k_B, Rg, avogadro_nb
 
+import numpy as np
+
 atm_to_Pa = 101325  # Pa/atm
 
 molar_mass_li = 0.06941  # kg/mol
@@ -219,16 +221,14 @@ shibuya_src = (
     "Y. Shibuya, M. Aida, Y.Fujii, M. Okamoto, DOI:10.1016/0022-3115(87)90006-7"
 )
 shibuya_diffusivity = ArrheniusProperty(
-    pre_exp=2.62e-03,
-    act_energy=6630 * k_B / Rg,
-    range=(573, 773),
+    data_T=np.array([300, 400, 500]) + 273.15,
+    data_y=np.array([6.6e-6, 7.8e-6, 9.5e-6]) * 1e-4,
     source=shibuya_src,
     name="T Shibuya (1987)",
     author="shibuya",
     year=1987,
     isotope="T",
 )
-
 
 terai_src = (
     "T. Terai, S. Nagai, T. Yoneoka, Y. Takashi, DOI:10.1016/0022-3115(92)90504-E"
