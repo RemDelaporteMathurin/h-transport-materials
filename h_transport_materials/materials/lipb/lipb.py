@@ -123,10 +123,29 @@ fauvet_solubility = Solubility(
 )
 
 
+def arhenius_coeff_from_schumacher(A: float, B: float):
+    """Returns pre-exponential factor and activation energy from A, B values given in Schumacher's paper
+
+    Args:
+        A (float): the A value in at.fr.
+        B (float): the B value in K
+
+    Returns:
+        float, float: pre-exponential factor (at.fr. Pa-1/2), activation energy (eV)
+    """
+    pre_exp = ((1e5) ** 0.5 * np.exp(A)) ** -1
+    act_energy = B * k_B
+    return pre_exp, act_energy
+
+
+pre_exp_schumacher_lipb, act_energy_schumacher_lipb = arhenius_coeff_from_schumacher(
+    A=8.17, B=734
+)
+
 schumacher_src = "R. Schumacher, A. Weiss, DOI:10.1002/bbpc.19900940612"
 schumacher_solubility = Solubility(
-    pre_exp=8.98e-07 * atom_density_lipb(nb_li=1, nb_pb=1),
-    act_energy=6100 * k_B / Rg,
+    pre_exp=pre_exp_schumacher_lipb * atom_density_lipb(nb_li=1, nb_pb=1),
+    act_energy=act_energy_schumacher_lipb,
     range=(770, 1100),
     source=schumacher_src,
     name="H Schumacher (1990)",
