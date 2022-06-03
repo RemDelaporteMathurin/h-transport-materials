@@ -100,4 +100,4 @@ plt.show()
 # Contributions
 
 The current database is far from complete.
-Contributions are most welcome to extend it by adding new properties and also new materials!
+[Contributions](https://github.com/RemDelaporteMathurin/h-transport-materials/issues/new) are most welcome to extend it by adding new properties and also new materials!
