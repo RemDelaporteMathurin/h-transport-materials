@@ -104,7 +104,7 @@ schumacher_solubility = Solubility(
 
 reiter_src = "F. Reiter, DOI:10.1016/0920-3796(91)90003-9"
 reiter_diffusivity_h = ArrheniusProperty(
-    pre_exp=4.03e-08 * atom_density_lipb,
+    pre_exp=4.03e-08,
     act_energy=19500 * k_B / Rg,
     range=(508, 700),
     source=reiter_src,
