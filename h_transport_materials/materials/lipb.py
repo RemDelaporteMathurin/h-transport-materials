@@ -1,4 +1,3 @@
-from h_transport_materials.materials import Material
 from h_transport_materials import diffusivities, solubilities
 from h_transport_materials.property import ArrheniusProperty, Solubility
 from h_transport_materials import k_B, Rg, avogadro_nb
@@ -204,7 +203,7 @@ terai_diffusivity = ArrheniusProperty(
 
 alberro_src = "G. Alberro, I. Penalva, F. Legarda, G.A. Esteban, DOI:10.1016/j.fusengdes.2015.05.060"
 alberro_solubility = Solubility(
-    pre_exp=8.64e-3*avogadro_nb,
+    pre_exp=8.64e-3 * avogadro_nb,
     act_energy=9000 * k_B / Rg,
     range=(523, 922),
     source=alberro_src,
