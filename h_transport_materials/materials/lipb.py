@@ -24,6 +24,7 @@ wu_solubility = Solubility(
 )
 
 
+# extrapolated to Pb-17Li
 chan_src = "Y.C. Chan, E.Veleckis, DOI:10.1016/0022-3115(84)90198-3"
 chan_solubility = Solubility(
     pre_exp=4.7e-07 * atom_density_lipb,
