@@ -135,12 +135,16 @@ schumacher_solubility_data = np.genfromtxt(
 schumacher_solubility_data_T = schumacher_solubility_data[:, 0]  # 1000K-1
 schumacher_solubility_data_T = 1000 / schumacher_solubility_data_T  # K
 
-schumacher_solubility_data_y = schumacher_solubility_data[:, 1]
-schumacher_solubility_data_y = (
-    np.exp(-schumacher_solubility_data_y)
-    / ((1e5) ** 0.5)
-    * atom_density_lipb(nb_li=1, nb_pb=1)
-)
+schumacher_solubility_data_y = schumacher_solubility_data[:, 1]  # ln(Ks/sqrt(bar))
+schumacher_solubility_data_y *= (
+    -1
+)  # -ln(Ks/sqrt(bar)) = ln(sqrt(bar)/Ks) = ln(solubility * sqrt(bar))
+schumacher_solubility_data_y = np.exp(
+    schumacher_solubility_data_y
+)  # solubility * sqrt(bar)
+
+schumacher_solubility_data_y *= 1 / ((1e5) ** 0.5)  # solubility (at.fr Pa-1/2)
+schumacher_solubility_data_y *= atom_density_lipb(nb_li=1, nb_pb=1)
 
 schumacher_src = "R. Schumacher, A. Weiss, DOI:10.1002/bbpc.19900940612"
 schumacher_solubility = Solubility(
