@@ -157,16 +157,7 @@ reiter_diffusivity_d = ArrheniusProperty(
     year=1991,
     isotope="D",
 )
-reiter_diffusivity_t = ArrheniusProperty(
-    pre_exp=4.03e-08,
-    act_energy=19500 * k_B / Rg,
-    range=(508, 700),
-    source=reiter_src,
-    name="T Reiter (1991)",
-    author="reiter",
-    year=1991,
-    isotope="T",
-)
+
 reiter_solubility_h = Solubility(
     pre_exp=2.44e-08 * atom_density_lipb(nb_li=17, nb_pb=1),
     act_energy=1350 * k_B / Rg,
@@ -272,7 +263,6 @@ lipb_diffusivities = [
     fauvet_diffusivity,
     reiter_diffusivity_h,
     reiter_diffusivity_d,
-    reiter_diffusivity_t,
     shibuya_diffusivity,
     terai_diffusivity,
 ]
