@@ -133,7 +133,7 @@ def arhenius_coeff_from_schumacher(A: float, B: float):
     Returns:
         float, float: pre-exponential factor (at.fr. Pa-1/2), activation energy (eV)
     """
-    pre_exp = ((1e5) ** 0.5 * np.exp(A)) ** -1
+    pre_exp = np.exp(-A) / ((1e5) ** 0.5)
     act_energy = B * k_B
     return pre_exp, act_energy
 
@@ -142,11 +142,29 @@ pre_exp_schumacher_lipb, act_energy_schumacher_lipb = arhenius_coeff_from_schuma
     A=8.17, B=734
 )
 
+# in the review of E.Mas de les Valls there's a mistake in the conversion and
+# the activation energy of solubility should be positive
+# We decided to refit Schumacher's data
+
+schumacher_solubility_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/schumacher_1990/solubility.csv",
+    delimiter=",",
+)
+
+schumacher_solubility_data_T = schumacher_solubility_data[:, 0]  # 1000K-1
+schumacher_solubility_data_T = 1000 / schumacher_solubility_data_T  # K
+
+schumacher_solubility_data_y = schumacher_solubility_data[:, 1]
+schumacher_solubility_data_y = (
+    np.exp(-schumacher_solubility_data_y)
+    / ((1e5) ** 0.5)
+    * atom_density_lipb(nb_li=1, nb_pb=1)
+)
+
 schumacher_src = "R. Schumacher, A. Weiss, DOI:10.1002/bbpc.19900940612"
 schumacher_solubility = Solubility(
-    pre_exp=pre_exp_schumacher_lipb * atom_density_lipb(nb_li=1, nb_pb=1),
-    act_energy=act_energy_schumacher_lipb,
-    range=(770, 1100),
+    data_T=schumacher_solubility_data_T,
+    data_y=schumacher_solubility_data_y,
     source=schumacher_src,
     name="H Schumacher (1990)",
     author="schumacher",
