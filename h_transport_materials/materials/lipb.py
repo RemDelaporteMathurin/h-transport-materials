@@ -4,22 +4,53 @@ from h_transport_materials import k_B, Rg, avogadro_nb
 
 atm_to_Pa = 101325  # Pa/atm
 
+molar_mass_li = 0.06941  # kg/mol
+molar_mass_Pb = 0.2072  # kg/mol
+rho_lipb = 10163.197  # kg/m3  at 300K
+
 
 def atm05_to_pa05(P):
+    """Converts values in atm^0.5 to Pa^0.5
+
+    Args:
+        P (float): the sqrt pressure in atm^0.5
+
+    Returns:
+        float: the sqrt pressure in atm^0.5
+    """
     return P * atm_to_Pa**0.5
 
 
-molar_mass_li = 0.06941  # kg/mol
-molar_mass_Pb = 0.2072  # kg/mol
-# For Pb-16Li
-molar_mass_lipb = molar_mass_Pb + 16 * molar_mass_li
-rho_lipb = 10163.197  # kg/m3  at 300K
-atom_density_lipb = (rho_lipb * avogadro_nb) / molar_mass_lipb
+def molar_mass_lipb(nb_li: int, nb_pb: int):
+    """Returns the molar mass (kg/mol) of a LiPb compound
+
+    Args:
+        nb_li (int): the number of Li atoms
+        nb_pb (int): the number of Pb atoms
+
+    Returns:
+        float: the molar mass in kg/mol
+    """
+
+    return nb_pb * molar_mass_Pb + nb_li * molar_mass_li
+
+
+def atom_density_lipb(nb_li: int, nb_pb: int):
+    """Returns the atomic density (in m-3) of a LiPb compound
+
+    Args:
+        nb_li (int): the number of Li atoms
+        nb_pb (int): the number of Pb atoms
+
+    Returns:
+        float: the atomic density in m-3
+    """
+    return (rho_lipb * avogadro_nb) / molar_mass_lipb(nb_li, nb_pb)
 
 
 wu_src = "C.H. Wu, DOI:10.1016/0022-3115(83)90069-7"
 wu_solubility = Solubility(
-    pre_exp=6.33e-07 * atom_density_lipb,
+    pre_exp=6.33e-07 * atom_density_lipb(nb_li=17, nb_pb=83),
     act_energy=0,
     range=(850, 1040),
     source=wu_src,
@@ -34,7 +65,7 @@ wu_solubility = Solubility(
 # extrapolated to Pb-17Li
 chan_src = "Y.C. Chan, E.Veleckis, DOI:10.1016/0022-3115(84)90198-3"
 chan_solubility = Solubility(
-    pre_exp=4.7e-07 * atom_density_lipb,
+    pre_exp=4.7e-07 * atom_density_lipb(nb_li=17, nb_pb=1),
     act_energy=9000 * k_B / Rg,
     range=(573, 773),
     source=chan_src,
@@ -52,7 +83,7 @@ pre_exp_katsuta = atm05_to_pa05(pre_exp_katsuta)  # Pa^0.5 / at.fr.
 pre_exp_katsuta = 1 / pre_exp_katsuta  # at.fr. / Pa^0.5
 
 katsuta_solubility = Solubility(
-    pre_exp=pre_exp_katsuta * atom_density_lipb,
+    pre_exp=pre_exp_katsuta * atom_density_lipb(nb_li=17, nb_pb=83),
     act_energy=0,
     range=(573, 723),
     source=katsuta_src,
@@ -76,7 +107,7 @@ fauvet_diffusivity = ArrheniusProperty(
     isotope="H",
 )
 fauvet_solubility = Solubility(
-    pre_exp=2.7e-08 * atom_density_lipb,
+    pre_exp=2.7e-08 * atom_density_lipb(nb_li=17, nb_pb=83),
     act_energy=0,
     range=(722, 724),  # TODO should be 723 link to issue #37
     source=fauvet_src,
@@ -90,7 +121,7 @@ fauvet_solubility = Solubility(
 
 schumacher_src = "R. Schumacher, A. Weiss, DOI:10.1002/bbpc.19900940612"
 schumacher_solubility = Solubility(
-    pre_exp=8.98e-07 * atom_density_lipb,
+    pre_exp=8.98e-07 * atom_density_lipb(nb_li=1, nb_pb=1),
     act_energy=6100 * k_B / Rg,
     range=(508, 1040),
     source=schumacher_src,
@@ -134,7 +165,7 @@ reiter_diffusivity_t = ArrheniusProperty(
     isotope="T",
 )
 reiter_solubility_h = Solubility(
-    pre_exp=2.44e-08 * atom_density_lipb,
+    pre_exp=2.44e-08 * atom_density_lipb(nb_li=17, nb_pb=1),
     act_energy=1350 * k_B / Rg,
     range=(508, 700),
     source=reiter_src,
@@ -145,7 +176,7 @@ reiter_solubility_h = Solubility(
     units="m-3 Pa-1/2",
 )
 reiter_solubility_d = Solubility(
-    pre_exp=2.36e-08 * atom_density_lipb,
+    pre_exp=2.36e-08 * atom_density_lipb(nb_li=17, nb_pb=1),
     act_energy=1350 * k_B / Rg,
     range=(508, 700),
     source=reiter_src,
@@ -156,7 +187,7 @@ reiter_solubility_d = Solubility(
     units="m-3 Pa-1/2",
 )
 reiter_solubility_t = Solubility(
-    pre_exp=2.32e-08 * atom_density_lipb,
+    pre_exp=2.32e-08 * atom_density_lipb(nb_li=17, nb_pb=1),
     act_energy=1350 * k_B / Rg,
     range=(508, 700),
     source=reiter_src,
@@ -172,7 +203,7 @@ aiello_src = (
     "A. Aiello, A. Ciampichetti, G. Benamati, DOI:10.1016/j.fusengdes.2005.06.364"
 )
 aiello_solubility = Solubility(
-    pre_exp=4.66e-06 * atom_density_lipb,
+    pre_exp=4.66e-06 * atom_density_lipb(nb_li=16, nb_pb=1),
     act_energy=13399 * k_B / Rg,
     range=(600, 900),
     source=aiello_src,
