@@ -123,25 +123,6 @@ fauvet_solubility = Solubility(
 )
 
 
-def arhenius_coeff_from_schumacher(A: float, B: float):
-    """Returns pre-exponential factor and activation energy from A, B values given in Schumacher's paper
-
-    Args:
-        A (float): the A value in at.fr.
-        B (float): the B value in K
-
-    Returns:
-        float, float: pre-exponential factor (at.fr. Pa-1/2), activation energy (eV)
-    """
-    pre_exp = np.exp(-A) / ((1e5) ** 0.5)
-    act_energy = B * k_B
-    return pre_exp, act_energy
-
-
-pre_exp_schumacher_lipb, act_energy_schumacher_lipb = arhenius_coeff_from_schumacher(
-    A=8.17, B=734
-)
-
 # in the review of E.Mas de les Valls there's a mistake in the conversion and
 # the activation energy of solubility should be positive
 # We decided to refit Schumacher's data
