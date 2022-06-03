@@ -1,6 +1,7 @@
 from h_transport_materials import diffusivities, solubilities
 from h_transport_materials.property import ArrheniusProperty, Solubility
 from h_transport_materials import k_B, Rg, avogadro_nb
+from pathlib import Path
 
 import numpy as np
 
@@ -204,9 +205,18 @@ reiter_solubility_t = Solubility(
 aiello_src = (
     "A. Aiello, A. Ciampichetti, G. Benamati, DOI:10.1016/j.fusengdes.2005.06.364"
 )
+data_aiello = data_zeng = np.genfromtxt(
+    str(Path(__file__).parent) + "/aiello_2006/solubility_data.csv",
+    delimiter=",",
+)
+data_T_aiello = data_aiello[:, 0]  # 1000/K
+data_T_aiello = 1000 / data_T_aiello  # K
+data_y_aiello = data_aiello[:, 1]  # mol m-3 Pa-1/2
+data_y_aiello *= avogadro_nb  # m-3 Pa-1/2
+
 aiello_solubility = Solubility(
-    pre_exp=4.66e-06 * atom_density_lipb(nb_li=16, nb_pb=1),
-    act_energy=13399 * k_B / Rg,
+    data_T=data_T_aiello,
+    data_y=data_y_aiello,
     range=(600, 900),
     source=aiello_src,
     name="H Aiello (2006)",
