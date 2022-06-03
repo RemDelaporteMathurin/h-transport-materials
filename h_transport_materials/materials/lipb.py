@@ -2,6 +2,13 @@ from h_transport_materials import diffusivities, solubilities
 from h_transport_materials.property import ArrheniusProperty, Solubility
 from h_transport_materials import k_B, Rg, avogadro_nb
 
+atm_to_Pa = 101325  # Pa/atm
+
+
+def atm05_to_pa05(P):
+    return P * atm_to_Pa**0.5
+
+
 molar_mass_li = 0.06941  # kg/mol
 molar_mass_Pb = 0.2072  # kg/mol
 # For Pb-16Li
@@ -40,8 +47,12 @@ chan_solubility = Solubility(
 
 
 katsuta_src = "H. Katsuta, H. Iwamoto, H. Ohno, DOI:10.1016/0022-3115(85)90127-8"
+pre_exp_katsuta = 2.9e3  # atm^0.5  / at.fr.
+pre_exp_katsuta = atm05_to_pa05(pre_exp_katsuta)  # Pa^0.5 / at.fr.
+pre_exp_katsuta = 1 / pre_exp_katsuta  # at.fr. / Pa^0.5
+
 katsuta_solubility = Solubility(
-    pre_exp=1.08e-06 * atom_density_lipb,
+    pre_exp=pre_exp_katsuta * atom_density_lipb,
     act_energy=0,
     range=(573, 723),
     source=katsuta_src,
