@@ -137,9 +137,20 @@ schumacher_solubility = Solubility(
 
 
 reiter_src = "F. Reiter, DOI:10.1016/0920-3796(91)90003-9"
+
+reiter_diffusivity_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/reiter_1991/diffusivity.csv",
+    delimiter=",",
+)
+
+reiter_difusivity_data_H = reiter_diffusivity_data[2:, 2:]
+
+reiter_difusivity_data_H_T = reiter_difusivity_data_H[:, 0]  # 1000/K
+reiter_difusivity_data_H_T = 1000 / reiter_difusivity_data_H_T  # K
+
 reiter_diffusivity_h = ArrheniusProperty(
-    pre_exp=4.03e-08,
-    act_energy=19500 * k_B / Rg,
+    data_T=reiter_difusivity_data_H_T,
+    data_y=reiter_difusivity_data_H[:, 1],
     range=(508, 700),
     source=reiter_src,
     name="H Reiter (1991)",
@@ -147,9 +158,15 @@ reiter_diffusivity_h = ArrheniusProperty(
     year=1991,
     isotope="H",
 )
+
+reiter_difusivity_data_D = reiter_diffusivity_data[2:, :2]
+
+reiter_difusivity_data_D_T = reiter_difusivity_data_D[:, 0]  # 1000/K
+reiter_difusivity_data_D_T = 1000 / reiter_difusivity_data_D_T  # K
+
 reiter_diffusivity_d = ArrheniusProperty(
-    pre_exp=4.03e-08,
-    act_energy=19500 * k_B / Rg,
+    data_T=reiter_difusivity_data_D_T[np.isfinite(reiter_difusivity_data_D_T)],
+    data_y=reiter_difusivity_data_D[:, 1][np.isfinite(reiter_difusivity_data_D[:, 1])],
     range=(508, 700),
     source=reiter_src,
     name="D Reiter (1991)",
@@ -158,9 +175,22 @@ reiter_diffusivity_d = ArrheniusProperty(
     isotope="D",
 )
 
+
+reiter_solubility_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/reiter_1991/solubility.csv",
+    delimiter=",",
+)
+
+reiter_solubility_data_H = reiter_solubility_data[2:, :2]
+reiter_solubility_data_H_T = reiter_solubility_data_H[:, 0]  # 1000/K
+reiter_solubility_data_H_T = 1000 / reiter_solubility_data_H_T  # K
+
+reiter_solubility_data_H_y = reiter_solubility_data_H[:, 1]  # at.fr. Pa-1/2
+reiter_solubility_data_H_y *= atom_density_lipb(nb_li=17, nb_pb=1)  # m-3 Pa-1/2
+
 reiter_solubility_h = Solubility(
-    pre_exp=2.44e-08 * atom_density_lipb(nb_li=17, nb_pb=1),
-    act_energy=1350 * k_B / Rg,
+    data_T=reiter_solubility_data_H_T,
+    data_y=reiter_solubility_data_H_y,
     range=(508, 700),
     source=reiter_src,
     name="H Reiter (1991)",
@@ -169,9 +199,17 @@ reiter_solubility_h = Solubility(
     isotope="H",
     units="m-3 Pa-1/2",
 )
+
+reiter_solubility_data_D = reiter_solubility_data[2:, 2:]
+reiter_solubility_data_D_T = reiter_solubility_data_D[:, 0]  # 1000/K
+reiter_solubility_data_D_T = 1000 / reiter_solubility_data_D_T  # K
+
+reiter_solubility_data_D_y = reiter_solubility_data_D[:, 1]  # at.fr. Pa-1/2
+reiter_solubility_data_D_y *= atom_density_lipb(nb_li=17, nb_pb=1)  # m-3 Pa-1/2
+
 reiter_solubility_d = Solubility(
-    pre_exp=2.36e-08 * atom_density_lipb(nb_li=17, nb_pb=1),
-    act_energy=1350 * k_B / Rg,
+    data_T=reiter_solubility_data_D_T[np.isfinite(reiter_solubility_data_D_T)],
+    data_y=reiter_solubility_data_D_y[np.isfinite(reiter_solubility_data_D_y)],
     range=(508, 700),
     source=reiter_src,
     name="D Reiter (1991)",
@@ -180,6 +218,7 @@ reiter_solubility_d = Solubility(
     isotope="D",
     units="m-3 Pa-1/2",
 )
+
 reiter_solubility_t = Solubility(
     pre_exp=2.32e-08 * atom_density_lipb(nb_li=17, nb_pb=1),
     act_energy=1350 * k_B / Rg,
