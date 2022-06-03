@@ -127,7 +127,7 @@ schumacher_src = "R. Schumacher, A. Weiss, DOI:10.1002/bbpc.19900940612"
 schumacher_solubility = Solubility(
     pre_exp=8.98e-07 * atom_density_lipb(nb_li=1, nb_pb=1),
     act_energy=6100 * k_B / Rg,
-    range=(508, 1040),
+    range=(770, 1100),
     source=schumacher_src,
     name="H Schumacher (1990)",
     author="schumacher",
