@@ -32,14 +32,16 @@ class Property:
         self.source = source
         self.name = name
         self.range = range
-        self.year = year
         self.isotope = isotope
-        self.author = author
 
         if source in bib_database.entries:
             self.bibsource = bib_database.entries[source]
+            self.year = self.bibsource.fields["year"]
+            self.author = self.bibsource.persons["author"][0].last_names[0]
         else:
             self.bibsource = None
+            self.author = author
+            self.year = year
 
     def value(self, T):
         pass
