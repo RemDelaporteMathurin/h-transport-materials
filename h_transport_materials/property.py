@@ -1,5 +1,5 @@
 import numpy as np
-from h_transport_materials import k_B
+from h_transport_materials import k_B, bib_database
 from h_transport_materials.fitting import fit_arhenius
 
 
@@ -8,6 +8,7 @@ class Property:
         self,
         material: str = "",
         source: str = "",
+        bibsource=None,
         name: str = "",
         range: tuple = None,
         year: int = None,
@@ -35,6 +36,9 @@ class Property:
         self.year = year
         self.isotope = isotope
         self.author = author
+
+        if bibsource is not None:
+            self.source = bib_database.entries[bibsource]
 
     def value(self, T):
         pass
