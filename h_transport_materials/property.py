@@ -8,7 +8,6 @@ class Property:
         self,
         material: str = "",
         source: str = "",
-        bibsource=None,
         name: str = "",
         range: tuple = None,
         year: int = None,
@@ -37,8 +36,10 @@ class Property:
         self.isotope = isotope
         self.author = author
 
-        if bibsource is not None:
-            self.source = bib_database.entries[bibsource]
+        if source in bib_database.entries:
+            self.bibsource = bib_database.entries[source]
+        else:
+            self.bibsource = None
 
     def value(self, T):
         pass
