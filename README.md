@@ -112,9 +112,7 @@ The refernces of properties and properties groups can be exported to a bibfile.
 ```python
 import h_transport_materials as htm
 
-tungsten_diffusivities = htm.diffusivities.filter(material="tungsten").filter(
-    author=["frauenfelder", "fernandez", "liu"]
-)
+tungsten_diffusivities = htm.diffusivities.filter(material="tungsten")
 
 tungsten_diffusivities.export_bib("my_bibfile.bib")
 
