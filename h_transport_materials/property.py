@@ -46,7 +46,7 @@ class Property:
         # try get year and author from bibsource
         if self.bibsource:
             self.year = self.bibsource.fields["year"]
-            self.author = self.bibsource.persons["author"][0].last_names[0]
+            self.author = self.bibsource.persons["author"][0].last_names[0].lower()
         else:
             self.author = author
             self.year = year
