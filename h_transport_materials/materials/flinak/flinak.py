@@ -70,9 +70,7 @@ lam_diffusivity_t = ArrheniusProperty(
     data_T=1 / data_lam[:, 0],
     data_y=data_lam[:, 1],
     source="lam_impact_2021",
-    author="lam",
     isotope="t",
-    year=2020,
 )
 
 # T ions
