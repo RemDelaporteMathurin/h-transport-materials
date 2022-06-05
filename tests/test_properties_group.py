@@ -4,7 +4,6 @@ import pytest
 from pybtex.database import BibliographyData
 
 
-
 def test_iterable():
     """Checks that PropertiesGroup can be iterated through"""
     my_group = htm.PropertiesGroup()
@@ -83,6 +82,7 @@ def test_mean(mean_D_0, mean_E_D):
     assert mean_D_0_computed == pytest.approx(mean_D_0, rel=0.2)
     assert mean_E_D_computed == pytest.approx(mean_E_D, rel=0.2)
 
+
 def test_bibdata():
     source_bib = """@article{article-minimal,
         author = "L[eslie] B. Lamport",
@@ -95,10 +95,11 @@ def test_bibdata():
     my_group = htm.PropertiesGroup()
     my_group.properties = [
         htm.Property(material="my_mat", source=source_bib),
-        htm.Property(material="my_mat", source="source")
+        htm.Property(material="my_mat", source="source"),
     ]
 
     assert isinstance(my_group.bibdata, BibliographyData)
+
 
 def test_export_bib():
     source_bib = """@article{article-minimal,
@@ -112,6 +113,6 @@ def test_export_bib():
     my_group = htm.PropertiesGroup()
     my_group.properties = [
         htm.Property(material="my_mat", source=source_bib),
-        htm.Property(material="my_mat", source="source")
+        htm.Property(material="my_mat", source="source"),
     ]
     my_group.export_bib("out.bib")
