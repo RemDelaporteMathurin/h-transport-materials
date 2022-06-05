@@ -6,7 +6,7 @@ import h_transport_materials as htm
     "material,group",
     [
         (mat, group)
-        for mat in ["tungsten", "copper", "cucrzr", "flinak"]
+        for mat in ["tungsten", "copper", "cucrzr", "flinak", "lipb"]
         for group in [htm.diffusivities, htm.solubilities]
     ],
 )

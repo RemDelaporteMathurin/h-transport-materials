@@ -1,6 +1,7 @@
 import h_transport_materials as htm
 import numpy as np
 import pytest
+from pybtex.database import BibliographyData
 
 
 def test_iterable():
@@ -80,3 +81,38 @@ def test_mean(mean_D_0, mean_E_D):
     # test
     assert mean_D_0_computed == pytest.approx(mean_D_0, rel=0.2)
     assert mean_E_D_computed == pytest.approx(mean_E_D, rel=0.2)
+
+
+def test_bibdata():
+    source_bib = """@article{article-minimal,
+        author = "L[eslie] B. Lamport",
+        title = "The Gnats and Gnus Document Preparation System",
+        journal = "G-Animal's Journal",
+        year = "1986"
+    }
+    """
+
+    my_group = htm.PropertiesGroup()
+    my_group.properties = [
+        htm.Property(material="my_mat", source=source_bib),
+        htm.Property(material="my_mat", source="source"),
+    ]
+
+    assert isinstance(my_group.bibdata, BibliographyData)
+
+
+def test_export_bib():
+    source_bib = """@article{article-minimal,
+        author = "L[eslie] B. Lamport",
+        title = "The Gnats and Gnus Document Preparation System",
+        journal = "G-Animal's Journal",
+        year = "1986"
+    }
+    """
+
+    my_group = htm.PropertiesGroup()
+    my_group.properties = [
+        htm.Property(material="my_mat", source=source_bib),
+        htm.Property(material="my_mat", source="source"),
+    ]
+    my_group.export_bib("out.bib")

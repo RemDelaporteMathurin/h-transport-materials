@@ -1,4 +1,5 @@
 import numpy as np
+from pybtex.database import BibliographyData, Entry
 
 from h_transport_materials.fitting import fit_arhenius
 
@@ -9,6 +10,19 @@ class PropertiesGroup:
 
     def __getitem__(self, item):
         return self.properties[item]
+
+    @property
+    def bibdata(self):
+        bibdata = {}
+
+        for prop in self.properties:
+            if prop.bibsource is None:
+                print('{} is not a bibsource'.format(prop.source))
+                continue
+            key = prop.bibsource.key
+            bibdata[key] = prop.bibsource
+
+        return BibliographyData(bibdata)
 
     def filter(self, exclude=False, **kwargs):
         """Returns properties that match the specified arguments.
@@ -100,3 +114,12 @@ class PropertiesGroup:
         pre_exp, act_energy = fit_arhenius(data_y, data_T)
 
         return pre_exp, act_energy
+
+    def export_bib(self, filename: str):
+        """Exports the bibliography data
+
+        Args:
+            filename (str): the path of the exported file
+        """
+
+        self.bibdata.to_file(filename)
