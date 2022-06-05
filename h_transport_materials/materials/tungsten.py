@@ -10,8 +10,6 @@ frauenfelder_diffusivity = ArrheniusProperty(
     range=(1100, 2400),
     source=frauenfelder_src,
     name="Frauenfelder (1969)",
-    author="frauenfelder",
-    year=1969,
     isotope="H",
 )
 frauenfelder_solubility = Solubility(
@@ -20,8 +18,6 @@ frauenfelder_solubility = Solubility(
     range=(1100, 2400),
     source=frauenfelder_src,
     name="Frauenfelder (1969)",
-    author="frauenfelder",
-    year=1969,
     isotope="H",
     units="m-3 Pa-1/2",
 )
@@ -33,8 +29,6 @@ liu_diffusivity_tungsten = ArrheniusProperty(
     act_energy=0.21,
     range=(200, 3000),
     source=liu_src,
-    year=2014,
-    author="liu",
     name="H Liu (2014)",
     isotope="H",
 )
@@ -46,8 +40,6 @@ heinola_diffusivity_tungsten = ArrheniusProperty(
     act_energy=0.21,
     source=heinola_src,
     name="H Heinola (2010)",
-    author="heinola",
-    year=2010,
     isotope="H",
 )
 
@@ -57,8 +49,6 @@ johnson_diffusivity_tungsten_h = ArrheniusProperty(
     act_energy=0.39,
     source=johnson_src,
     name="H Johnson (2010)",
-    author="johnson",
-    year=2010,
     isotope="H",
 )
 
@@ -67,8 +57,6 @@ johnson_diffusivity_tungsten_t = ArrheniusProperty(
     act_energy=0.40,
     source=johnson_src,
     name="T Johnson (2010)",
-    author="johnson",
-    year=2010,
     isotope="T",
 )
 
@@ -79,8 +67,6 @@ moore_diffusivity_tungsten_t = ArrheniusProperty(
     range=(1510, 1902),
     source="moore_adsorptiondesorption_1964",
     name="T Moore (1964)",
-    author="moore",
-    year=1964,
     isotope="T",
 )
 
@@ -91,8 +77,6 @@ zakharov_diffusivity_tungsten_h = ArrheniusProperty(
     range=(400, 1200),
     source="zakharov_hydrogen_1975",
     name="H Zakharov (1973)",
-    author="zakharov",
-    year=1973,
     isotope="H",
 )
 
@@ -102,8 +86,6 @@ ryabchikov_diffusivity_tungsten_h = ArrheniusProperty(
     range=(1055, 1570),
     source="ryabchikov_notitle_1964",
     name="H Ryabchikov (1964)",
-    author="ryabchikov",
-    year=1964,
     isotope="H",
 )
 
@@ -114,8 +96,6 @@ esteban_diffusivity_tungsten_h = ArrheniusProperty(
     range=(673, 1073),
     source=esteban_src,
     name="H Esteban (2001)",
-    author="esteban",
-    year=2001,
     isotope="H",
 )
 
@@ -125,8 +105,6 @@ esteban_diffusivity_tungsten_d = ArrheniusProperty(
     range=(673, 1073),
     source=esteban_src,
     name="D Esteban (2001)",
-    author="esteban",
-    year=2001,
     isotope="D",
 )
 
@@ -136,8 +114,6 @@ esteban_diffusivity_tungsten_t = ArrheniusProperty(
     range=(673, 1073),
     source=esteban_src,
     name="T Esteban (2001)",
-    author="esteban",
-    year=2001,
     isotope="T",
 )
 
@@ -148,8 +124,6 @@ esteban_solubility_tungsten_h = Solubility(
     range=(673, 1073),
     source=esteban_src,
     name="H Esteban (2001)",
-    author="esteban",
-    year=2001,
     isotope="H",
     units="m-3 Pa-1/2",
 )
@@ -160,8 +134,6 @@ esteban_solubility_tungsten_d = Solubility(
     range=(673, 1073),
     source=esteban_src,
     name="D Esteban (2001)",
-    author="esteban",
-    year=2001,
     isotope="D",
     units="m-3 Pa-1/2",
 )
@@ -172,8 +144,6 @@ esteban_solubility_tungsten_t = Solubility(
     range=(673, 1073),
     source=esteban_src,
     name="T Esteban (2001)",
-    author="esteban",
-    year=2001,
     isotope="T",
     units="m-3 Pa-1/2",
 )
@@ -185,8 +155,6 @@ holzner_diffusivity_tungsten_h = ArrheniusProperty(
     range=(1600, 2600),
     source=holzner_src,
     name="H Holzner (2020)",
-    author="holzner",
-    year=2020,
     isotope="H",
 )
 holzner_diffusivity_tungsten_d = ArrheniusProperty(
@@ -195,8 +163,6 @@ holzner_diffusivity_tungsten_d = ArrheniusProperty(
     range=(1600, 2600),
     source=holzner_src,
     name="D Holzner (2020)",
-    author="holzner",
-    year=2020,
     isotope="D",
 )
 
@@ -205,9 +171,7 @@ fernandez_diffusivity_tungsten_h = ArrheniusProperty(
     act_energy=0.20,
     range=(300, 1200),
     name="H Fernandez (2015)",
-    author="fernandez",
     source="fernandez_hydrogen_2015",
-    year=2015,
     isotope="H",
 )
 

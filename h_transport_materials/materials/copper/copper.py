@@ -15,9 +15,7 @@ reiter_diffusivity_copper = ArrheniusProperty(
     range=(470, 1200),
     source="reiter_compilation_1996",
     name="T Reiter (1996)",
-    year=1996,
     isotope="T",
-    author="reiter",
 )
 reiter_solubility_copper = Solubility(
     pre_exp=3.14e24,
@@ -25,9 +23,7 @@ reiter_solubility_copper = Solubility(
     range=(470, 1200),
     source="reiter_compilation_1996",
     name="T Reiter (1996)",
-    year=1996,
     isotope="T",
-    author="reiter",
     units="m-3 Pa-1/2",
 )
 
@@ -41,8 +37,6 @@ magnusson_diffusivity_copper = ArrheniusProperty(
     source="magnusson_self-diffusion_2013",
     name="H Magnusson (2013)",
     isotope="H",
-    year=2013,
-    author="magnusson",
 )
 
 
@@ -60,9 +54,7 @@ katz_diffusivity_copper_h = ArrheniusProperty(
     data_y=data_diffusivity_katz_h[:, 1] * 1e-4,
     source=katz_src,
     name="H Katz (1971)",
-    year=1971,
     isotope="H",
-    author="katz",
 )
 
 
@@ -72,9 +64,7 @@ katz_diffusivity_copper_d = ArrheniusProperty(
     data_y=data_diffusivity_katz_d[:, 1] * 1e-4,
     source=katz_src,
     name="D Katz (1971)",
-    year=1971,
     isotope="D",
-    author="katz",
 )
 
 
@@ -84,9 +74,7 @@ katz_diffusivity_copper_t = ArrheniusProperty(
     data_y=data_diffusivity_katz_t[:, 1] * 1e-4,
     source=katz_src,
     name="T Katz (1971)",
-    year=1971,
     isotope="T",
-    author="katz",
 )
 
 # ################# Eichenauer 1957 #############################
@@ -96,9 +84,7 @@ eichenauer_diffusivity_copper_h = ArrheniusProperty(
     range=(700, 920),
     source="eichenauer_notitle_1957",
     name="H Eichenauer (1957)",
-    year=1957,
     isotope="H",
-    author="eichenauer",
 )
 
 eichenauer_solubility_copper_h = Solubility(
@@ -107,9 +93,7 @@ eichenauer_solubility_copper_h = Solubility(
     range=(700, 920),
     source="eichenauer_notitle_1957",
     name="H Eichenauer (1957)",
-    year=1957,
     isotope="H",
-    author="eichenauer",
     units="m-3 Pa-1/2",
 )
 
@@ -120,9 +104,7 @@ perkins_diffusivity_copper_h = ArrheniusProperty(
     range=(410, 710),
     source="perkins_permeation_1973",
     name="H Perkins (1973)",
-    year=1973,
     isotope="H",
-    author="perkins",
 )
 
 # ################# Tanabe 1987 #############################
@@ -133,9 +115,7 @@ tanabe_diffusivity_copper_d = ArrheniusProperty(
     range=(298, 1070),
     source="tanabe_hydrogen_1987",
     name="D Tanabe (1987)",
-    year=1987,
     isotope="D",
-    author="tanabe",
 )
 
 # ################# Eichenauer 1965 #############################
@@ -145,9 +125,7 @@ eichenauer_diffusivity_copper_d = ArrheniusProperty(
     range=(703, 913),
     source="eichenauer_notitle_1965",
     name="D Eichenauer (1965)",
-    year=1965,
     isotope="D",
-    author="eichenauer",
 )
 
 eichenauer_solubility_copper_d = Solubility(
@@ -156,9 +134,7 @@ eichenauer_solubility_copper_d = Solubility(
     range=(703, 913),
     source="eichenauer_notitle_1965",
     name="D Eichenauer (1965)",
-    year=1965,
     isotope="D",
-    author="eichenauer",
     units="m-3 Pa-1/2",
 )
 
@@ -169,9 +145,7 @@ anderl_diffusivity_copper_d = ArrheniusProperty(
     range=(638, 723),
     source="anderl_hydrogen_1990",
     name="D Anderl (1990)",
-    year=1990,
     isotope="D",
-    author="anderl",
 )
 
 
@@ -182,9 +156,7 @@ anderl_diffusivity_copper_d_1999 = ArrheniusProperty(
     range=(700, 800),
     source="anderl_deuterium_1999",
     name="D Anderl (1999)",
-    year=1999,
     isotope="D",
-    author="anderl",
 )
 
 
@@ -195,9 +167,7 @@ sakamoto_diffusivity_copper_h = ArrheniusProperty(
     range=(292, 339),
     source="sakamoto_electrochemical_1982",
     name="H Sakamoto (1982)",
-    year=1982,
     isotope="H",
-    author="sakamoto",
 )
 
 # ################# Otsuka 2010 #############################
@@ -207,9 +177,7 @@ otsuka_diffusivity_copper_t = ArrheniusProperty(
     range=(303, 353),
     source="otsuka_behavior_2010",
     name="T Otsuka (1982)",
-    year=1982,
     isotope="T",
-    author="otsuka",
 )
 
 # ################# Thomas 1967 #############################
@@ -219,9 +187,7 @@ thomas_solubility_copper_h = Solubility(
     range=(770, 1320),
     source="thomas_solubility_1967",
     name="H Thomas (1967)",
-    year=1967,
     isotope="H",
-    author="thomas",
     units="m-3 Pa-1/2",
 )
 
@@ -232,9 +198,7 @@ wampler_solubility_copper_h = Solubility(
     range=(770, 1070),
     source="wampler_precipitation_1976",
     name="H Wampler (1976)",
-    year=1976,
     isotope="H",
-    author="wampler",
     units="m-3 Pa-1/2",
 )
 
