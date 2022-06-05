@@ -1,4 +1,5 @@
 import numpy as np
+import pybtex
 from h_transport_materials import k_B, bib_database
 from h_transport_materials.fitting import fit_arhenius
 
@@ -34,12 +35,19 @@ class Property:
         self.range = range
         self.isotope = isotope
 
+        # make bibsource
         if source in bib_database.entries:
             self.bibsource = bib_database.entries[source]
+        elif self.source.startswith("@"):
+            self.bibsource = list(pybtex.database.parse_string(self.source, bib_format="bibtex").entries.values())[0]
+        else:
+            self.bibsource = None
+
+        # try get year and author from bibsource
+        if self.bibsource:
             self.year = self.bibsource.fields["year"]
             self.author = self.bibsource.persons["author"][0].last_names[0]
         else:
-            self.bibsource = None
             self.author = author
             self.year = year
 
