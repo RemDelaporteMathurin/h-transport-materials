@@ -1,5 +1,5 @@
 import numpy as np
-import pybtex
+from pybtex.database import BibliographyData, parse_string
 from h_transport_materials import k_B, bib_database
 from h_transport_materials.fitting import fit_arhenius
 
@@ -39,7 +39,7 @@ class Property:
         if source in bib_database.entries:
             self.bibsource = bib_database.entries[source]
         elif self.source.startswith("@"):
-            self.bibsource = list(pybtex.database.parse_string(self.source, bib_format="bibtex").entries.values())[0]
+            self.bibsource = list(parse_string(self.source, bib_format="bibtex").entries.values())[0]
         else:
             self.bibsource = None
 
@@ -50,6 +50,28 @@ class Property:
         else:
             self.author = author
             self.year = year
+
+    @property
+    def bibdata(self):
+        if self.bibsource is None:
+            raise ValueError("No bibsource found")
+
+        bibdata = {
+            self.bibsource.key: self.bibsource
+        }
+        return BibliographyData(bibdata)
+
+    def export_bib(self, filename: str):
+        """Exports the property reference to bib
+
+        Args:
+            filename (str): the filename
+
+        Raises:
+            ValueError: if the property bibsource attribute is None
+        """
+        
+        self.bibdata.to_file(filename)
 
     def value(self, T):
         pass
