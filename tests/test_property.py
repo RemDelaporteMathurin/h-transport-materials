@@ -14,11 +14,13 @@ source_bib_as_string = """@article{article-minimal,
 
 source_bib_from_file = "alberro_experimental_2015"
 
+
 def test_author_year_from_bib_source():
     my_prop = htm.Property(source=source_bib_as_string)
 
     assert my_prop.author == "lamport"
     assert my_prop.year == 1986
+
 
 def test_author_year_from_bib_file():
     my_prop = htm.Property(source=source_bib_from_file)
@@ -33,11 +35,29 @@ def test_bibdata(source):
 
     assert isinstance(my_prop.bibdata, BibliographyData)
 
+
 def test_bibdata_raises_error_when_bibsource_is_none():
     my_prop = htm.Property(source="coucou")
     with pytest.raises(ValueError, match="No bibsource found"):
         my_prop.bibdata
 
+
 def test_export_bib():
     my_prop = htm.Property(source=source_bib_as_string)
     my_prop.export_bib("out.bib")
+
+
+def test_warning_overwriting_author():
+    with pytest.warns(
+        UserWarning,
+        match="author argument will be ignored since a bib source was found",
+    ):
+        htm.Property(source=source_bib_as_string, author="me")
+
+
+def test_warning_overwriting_year():
+    with pytest.warns(
+        UserWarning,
+        match="year argument will be ignored since a bib source was found",
+    ):
+        htm.Property(source=source_bib_as_string, year=2010)
