@@ -1,7 +1,10 @@
+from distutils.log import warn
 import numpy as np
 from pybtex.database import BibliographyData, parse_string
 from h_transport_materials import k_B, bib_database
 from h_transport_materials.fitting import fit_arhenius
+
+import warnings
 
 
 class Property:
@@ -39,14 +42,24 @@ class Property:
         if source in bib_database.entries:
             self.bibsource = bib_database.entries[source]
         elif self.source.startswith("@"):
-            self.bibsource = list(parse_string(self.source, bib_format="bibtex").entries.values())[0]
+            self.bibsource = list(
+                parse_string(self.source, bib_format="bibtex").entries.values()
+            )[0]
         else:
             self.bibsource = None
 
         # try get year and author from bibsource
         if self.bibsource:
             self.year = int(self.bibsource.fields["year"])
+            if year is not None:
+                warnings.warn(
+                    "year argument will be ignored since a bib source was found"
+                )
             self.author = self.bibsource.persons["author"][0].last_names[0].lower()
+            if author != "":
+                warnings.warn(
+                    "author argument will be ignored since a bib source was found"
+                )
         else:
             self.author = author
             self.year = year
@@ -56,9 +69,7 @@ class Property:
         if self.bibsource is None:
             raise ValueError("No bibsource found")
 
-        bibdata = {
-            self.bibsource.key: self.bibsource
-        }
+        bibdata = {self.bibsource.key: self.bibsource}
         return BibliographyData(bibdata)
 
     def export_bib(self, filename: str):
@@ -70,7 +81,7 @@ class Property:
         Raises:
             ValueError: if the property bibsource attribute is None
         """
-        
+
         self.bibdata.to_file(filename)
 
     def value(self, T):
