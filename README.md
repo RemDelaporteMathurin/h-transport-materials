@@ -8,7 +8,15 @@ pip install h-transport-materials
 ```
 
 ## Usage
-### Access the internal database:
+
+1. [Access the internal database](#access-the-internal-database)  
+2. [Add custom properties](#add-custom-properties)  
+3. [Filters](#filters)  
+4. [Compute mean values](#compute-mean-values)  
+5. [Export to BibTeX](#export-to-bibtex)  
+
+
+### Access the internal database
 ```python
 import h_transport_materials as htm
 import matplotlib.pyplot as plt
@@ -26,7 +34,7 @@ plt.legend()
 plt.show()
 ```
 ![Figure_1](https://user-images.githubusercontent.com/40028739/169280320-c4d45d9b-7f33-4628-a4fd-72e81be16124.svg)
-
+>
 ### Add custom properties
 
 ```python
@@ -39,7 +47,8 @@ my_custom_property = htm.ArrheniusProperty(pre_exp=1e-5, act_energy=0.2)
 
 # From (T, y) data
 my_fitted_property = htm.ArrheniusProperty(
-    data_T=np.array([300, 400, 500, 600]), data_y=np.array([1e-8, 1e-7, 1e-6, 1e-5])
+    data_T=[300, 400, 500, 600],
+    data_y=[1e-8, 1e-7, 1e-6, 1e-5],
 )
 
 print("Pre-exponential factor: {:.2e}".format(my_fitted_property.pre_exp))
@@ -95,6 +104,21 @@ plt.yscale("log")
 plt.show()
 ```
 ![Figure_1](https://user-images.githubusercontent.com/40028739/169285178-7cccc183-8ae1-4afe-8e4e-af2d54ac8741.svg)
+
+### Export to BibTeX
+
+The refernces of properties and properties groups can be exported to a bibfile.
+
+```python
+import h_transport_materials as htm
+
+tungsten_diffusivities = htm.diffusivities.filter(material="tungsten").filter(
+    author=["frauenfelder", "fernandez", "liu"]
+)
+
+tungsten_diffusivities.export_bib("my_bibfile.bib")
+
+```
 
 
 # Contributions
