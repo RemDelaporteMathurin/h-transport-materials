@@ -78,11 +78,14 @@ class Property:
     def nb_citations(self):
         # if nb_citations doesn't already exist, compute it
         if self._nb_citations is None:
-            try:
-                doi = self.bibsource.fields['doi']
-                self.nb_citations = get_nb_citations(doi)
-            except KeyError:
+            if self.bibsource is None:
                 self.nb_citations = 0
+            else:
+                try:
+                    doi = self.bibsource.fields['doi']
+                    self.nb_citations = get_nb_citations(doi)
+                except KeyError:
+                    self.nb_citations = 0
         return self._nb_citations
     
     @nb_citations.setter
