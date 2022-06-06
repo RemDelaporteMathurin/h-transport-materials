@@ -80,12 +80,11 @@ class Property:
         if self._nb_citations is None:
             if self.bibsource is None:
                 self.nb_citations = 0
+            elif "doi" in self.bibsource.fields:
+                doi = self.bibsource.fields['doi']
+                self.nb_citations = get_nb_citations(doi)
             else:
-                try:
-                    doi = self.bibsource.fields['doi']
-                    self.nb_citations = get_nb_citations(doi)
-                except KeyError:
-                    self.nb_citations = 0
+                self.nb_citations = 0
         return self._nb_citations
     
     @nb_citations.setter
