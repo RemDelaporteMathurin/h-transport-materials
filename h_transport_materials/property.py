@@ -1,5 +1,5 @@
-from distutils.log import warn
 import numpy as np
+from crossref.restful import Works
 from pybtex.database import BibliographyData, parse_string
 from h_transport_materials import k_B, bib_database
 from h_transport_materials.fitting import fit_arhenius
@@ -37,6 +37,7 @@ class Property:
         self.name = name
         self.range = range
         self.isotope = isotope
+        self.nb_citations = None
 
         # make bibsource
         if source in bib_database.entries:
@@ -71,6 +72,22 @@ class Property:
 
         bibdata = {self.bibsource.key: self.bibsource}
         return BibliographyData(bibdata)
+
+
+    @property
+    def nb_citations(self):
+        # if nb_citations doesn't already exist, compute it
+        if self._nb_citations is None:
+            try:
+                doi = self.bibsource.fields['doi']
+                self.nb_citations = get_nb_citations(doi)
+            except KeyError:
+                self.nb_citations = 0
+        return self._nb_citations
+    
+    @nb_citations.setter
+    def nb_citations(self, value):
+        self._nb_citations = value
 
     def export_bib(self, filename: str):
         """Exports the property reference to bib
@@ -207,3 +224,22 @@ class Solubility(ArrheniusProperty):
                 "units can only accept {} or {}".format(*acceptable_values)
             )
         self._units = value
+
+
+def get_nb_citations(doi: str):
+    """Returns the number of citations of a given doi in the crossref database
+
+    Args:
+        doi (str): the DOI of the source
+
+    Returns:
+        int: the number of citations according to crossref
+    """
+    record = works.doi(doi)
+    if record:
+        nb_citations = record["is-referenced-by-count"]
+    else:
+        nb_citations = 0
+    return nb_citations
+
+works = Works()
