@@ -61,3 +61,14 @@ def test_warning_overwriting_year():
         match="year argument will be ignored since a bib source was found",
     ):
         htm.Property(source=source_bib_as_string, year=2010)
+
+
+def test_nb_citations():
+    my_prop = htm.Property(source=source_bib_from_file)
+    assert my_prop.nb_citations > 0
+
+def test_nb_citations_no_citations_with_unknown_source():
+    my_prop = htm.Property(source="coucou")
+
+    assert my_prop.nb_citations == 0
+
