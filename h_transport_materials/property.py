@@ -1,5 +1,5 @@
 import numpy as np
-from crossref.restful import Works
+from crossref.restful import Works, Etiquette
 from pybtex.database import BibliographyData, parse_string
 from h_transport_materials import k_B, bib_database
 from h_transport_materials.fitting import fit_arhenius
@@ -244,4 +244,12 @@ def get_nb_citations(doi: str):
         nb_citations = 0
     return nb_citations
 
-works = Works()
+
+my_etiquette = Etiquette(
+    "H-transport-materials",
+    "latest",
+    "https://github.com/RemDelaporteMathurin/h-transport-materials",
+    "rdelaportemathurin@gmail.com",
+)
+
+works = Works(etiquette=my_etiquette)
