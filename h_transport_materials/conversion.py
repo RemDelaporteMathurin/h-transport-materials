@@ -29,13 +29,35 @@ def kcal_per_mol_to_eV(E):
 
 # PRESSURE
 
+atm_to_Pa_factor = 101325
+
 
 def atm_to_Pa(P):
-    return 101325 * P
+    return atm_to_Pa_factor * P
 
 
 def Pa_to_atm(P):
-    return 1 / 101325 * P
+    return 1 / atm_to_Pa_factor * P
+
+
+def atmn_to_Pan(P, n):
+    """Converts values in atm^n to Pa^n
+
+    Args:
+        P (float): the sqrt pressure in atm^n
+
+    Returns:
+        float: the sqrt pressure in atm^n
+    """
+    return P * atm_to_Pa_factor**n
+
+
+def Pan_to_atmn(P, n):
+    return P / (atm_to_Pa_factor**n)
+
+
+def per_atm05_to_per_pa05(P):
+    return
 
 
 def bar_to_Pa(P):
@@ -45,8 +67,10 @@ def bar_to_Pa(P):
 def Pa_to_bar(P):
     return P * 1e-5
 
+
 def Torr_to_Pa(P):
-    return P*133.322
+    return P * 133.322
+
 
 def Pa_to_Torr(P):
-    return P/133.322
+    return P / 133.322
