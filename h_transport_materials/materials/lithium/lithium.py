@@ -29,7 +29,7 @@ alire_diffusivity = ArrheniusProperty(
 )
 # NOTE: in Shimada 2020, there is an error in Table 1 Lithium (lq.) line E_D column it should be 105.0 kJ/mol
 
-veleckis_solubility = ArrheniusProperty(
+veleckis_solubility = Solubility(
     pre_exp=atmn_to_Pan(np.exp(-6.498), n=-0.5) * avogadro_nb / LITHIUM_MOLAR_VOLUME,
     # pre_exp=1.75e-1 * avogadro_nb,
     act_energy=-6182 * k_B,
@@ -37,6 +37,7 @@ veleckis_solubility = ArrheniusProperty(
     year=1974,
     author="veleckis",
     isotope="H",
+    units="m-3 Pa-1/2",
 )
 
 lithium_diffusivities = [alire_diffusivity]
