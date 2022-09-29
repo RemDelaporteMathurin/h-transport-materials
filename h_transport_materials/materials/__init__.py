@@ -14,3 +14,4 @@ from .iron import iron_diffusivities, iron_solubilities
 from .nickel import nickel_diffusivities, nickel_solubilities
 from .zirconium import zirconium_diffusivities, zirconium_solubilities
 from .molybdenum import molybdenum_diffusivities, molybdenum_solubilities
+from .niobium import niobium_diffusivities, niobium_solubilities
