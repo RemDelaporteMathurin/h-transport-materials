@@ -9,3 +9,5 @@ from .beryllium import beryllium_diffusivities, beryllium_solubilities
 from .carbon import carbon_diffusivities, carbon_solubilities
 from .aluminium import aluminium_diffusivities, aluminium_solubilities
 from .titanium import titanium_diffusivities, titanium_solubilities
+from .vanadium import vanadium_diffusivities, vanadium_solubilities
+from .iron import iron_diffusivities, iron_solubilities
