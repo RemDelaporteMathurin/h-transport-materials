@@ -1,18 +1,22 @@
 from h_transport_materials.property import ArrheniusProperty, Solubility
 from h_transport_materials import k_B, Rg, avogadro_nb
 from h_transport_materials import diffusivities, solubilities
+from h_transport_materials.conversion import kJ_per_mol_to_eV
 
+from pathlib import Path
+import numpy as np
 
-def kJ_per_mol_to_eV(E):
-    E_in_J = E * 1000
-    return E_in_J * k_B / Rg  # eV
+alire_diffusivity_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/alire_1976/diffusivity.csv",
+    delimiter=",",
+)
 
+alire_diffusivity_data_T = 1 / alire_diffusivity_data[:, 0]
+alire_diffusivity_data_y = alire_diffusivity_data[:, 1] * 1e-4  # from cm2 to m2
 
 alire_diffusivity = ArrheniusProperty(
-    pre_exp=13.0e-4,
-    act_energy=kJ_per_mol_to_eV(
-        150.0
-    ),  # TODO check Shimada paper for inconsistency with original paper
+    data_T=alire_diffusivity_data_T,
+    data_y=alire_diffusivity_data_y,
     range=(898, 1178),
     # source=frauenfelder_src,
     name="Alire (1976)",
@@ -20,6 +24,7 @@ alire_diffusivity = ArrheniusProperty(
     author="alire",
     year=1976,
 )
+# NOTE: in Shimada 2020, there is an error in Table 1 Lithium (lq.) line E_D column it should be 105.0 kJ/mol
 
 
 lithium_diffusivities = [alire_diffusivity]
