@@ -22,7 +22,6 @@ alire_diffusivity = ArrheniusProperty(
     data_T=alire_diffusivity_data_T,
     data_y=alire_diffusivity_data_y,
     range=(898, 1178),
-    # source=frauenfelder_src,
     name="Alire (1976)",
     isotope="H",
     author="alire",
