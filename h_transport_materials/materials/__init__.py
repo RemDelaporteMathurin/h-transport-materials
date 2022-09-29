@@ -12,3 +12,4 @@ from .titanium import titanium_diffusivities, titanium_solubilities
 from .vanadium import vanadium_diffusivities, vanadium_solubilities
 from .iron import iron_diffusivities, iron_solubilities
 from .nickel import nickel_diffusivities, nickel_solubilities
+from .zirconium import zirconium_diffusivities, zirconium_solubilities
