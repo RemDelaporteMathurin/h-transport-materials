@@ -27,6 +27,8 @@ alire_diffusivity = ArrheniusProperty(
 # NOTE: in Shimada 2020, there is an error in Table 1 Lithium (lq.) line E_D column it should be 105.0 kJ/mol
 
 
+veleckis_solubility = ArrheniusProperty(pre_exp=1)
+
 lithium_diffusivities = [alire_diffusivity]
 
 lithium_solubilities = []
