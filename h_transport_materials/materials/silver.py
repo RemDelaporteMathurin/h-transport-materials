@@ -27,9 +27,9 @@ mclellan_solubility = Solubility(
 )
 
 
-silver_diffusivities = []
+silver_diffusivities = [katsuta_diffusivity]
 
-silver_solubilities = []
+silver_solubilities = [mclellan_solubility]
 
 for prop in silver_diffusivities + silver_solubilities:
     prop.material = "silver"
