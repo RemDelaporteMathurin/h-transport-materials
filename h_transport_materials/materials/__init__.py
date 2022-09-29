@@ -8,3 +8,4 @@ from .lithium import lithium_diffusivities, lithium_solubilities
 from .beryllium import beryllium_diffusivities, beryllium_solubilities
 from .carbon import carbon_diffusivities, carbon_solubilities
 from .aluminium import aluminium_diffusivities, aluminium_solubilities
+from .titanium import titanium_diffusivities, titanium_solubilities
