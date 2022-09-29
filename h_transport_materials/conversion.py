@@ -25,3 +25,22 @@ def J_to_kcal(E):
 def kcal_per_mol_to_eV(E):
     E_in_J = kcal_to_J(E)
     return J_per_mol_to_eV(E_in_J)
+
+
+# PRESSURE
+
+
+def atm_to_Pa(P):
+    return 101325 * P
+
+
+def Pa_to_atm(P):
+    return 1 / 101325 * P
+
+
+def bar_to_Pa(P):
+    return P * 1e5
+
+
+def Pa_to_bar(P):
+    return P * 1e-5

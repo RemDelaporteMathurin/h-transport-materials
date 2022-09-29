@@ -1,5 +1,6 @@
 import h_transport_materials as htm
 import h_transport_materials.conversion as c
+import numpy as np
 
 
 def test_J_per_mol_to_eV_regression():
@@ -31,3 +32,27 @@ def test_kJ_per_mol_to_eV():
 def test_kcal_per_mol_to_eV():
     value = 22
     assert c.kcal_per_mol_to_eV(value) == c.J_per_mol_to_eV(c.kcal_to_J(value))
+
+
+def test_atm_to_Pa():
+    value = 62
+
+    assert c.atm_to_Pa(value) == 101325 * value
+
+
+def test_atm_to_Pa_reg():
+    value = 56
+
+    assert np.isclose(c.atm_to_Pa(c.Pa_to_atm(value)), value)
+
+
+def test_bar_to_Pa():
+    value = 16
+
+    assert c.bar_to_Pa(value) == value * 1e5
+
+
+def test_bar_to_Pa_reg():
+    value = 12.5
+
+    assert c.bar_to_Pa(c.Pa_to_bar(value)) == value
