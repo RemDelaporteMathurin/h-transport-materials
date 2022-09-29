@@ -7,6 +7,7 @@ from h_transport_materials import (
 )
 import h_transport_materials.conversion as c
 
+VANADIUM_MOLAR_VOLUME = 8.34e-6  # m3/mol  https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/vanadium
 
 volk_diffusivity = ArrheniusProperty(
     pre_exp=2.9e-8,
@@ -22,7 +23,22 @@ veleckis_solubility = Solubility(
     range=(519, 827),
     pre_exp=1.38e-1 * htm.avogadro_nb,
     act_energy=c / c.kJ_per_mol_to_eV(-29.0),
-    source="veleckis_thermodynamic_1969"
+    source="veleckis_thermodynamic_1969",
+)
+
+# found in Assessment of Database for Interaction of Tritium with ITER Plasma Facing Materials
+schober_diffusivity = ArrheniusProperty(
+    pre_exp=5.6e-8,
+    act_energy=c.kJ_per_mol_to_eV(9.1),
+    range=(-150, 200),
+    source="schober_h_1990",
+)  # TODO get data from experimental points, see issue #64
+
+reiter_solubility = Solubility(
+    units="m-3 Pa-1/2",
+    pre_exp=2.1e-6 * htm.avogadro_nb / VANADIUM_MOLAR_VOLUME,
+    act_energy=c.kJ_per_mol_to_eV(-32.2),
+    source="reiter_compilation_1996",
 )
 
 vanadium_diffusivities = [volk_diffusivity]
