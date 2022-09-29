@@ -20,7 +20,7 @@ avogadro_nb = 6.022e23
 from pybtex.database import parse_file
 from pathlib import Path
 
-bib_database = parse_file(str(Path(__file__).parent) + '/references.bib')
+bib_database = parse_file(str(Path(__file__).parent) + "/references.bib")
 
 from .property import Property, ArrheniusProperty, Solubility
 from .properties_group import PropertiesGroup
@@ -29,5 +29,6 @@ diffusivities = PropertiesGroup()
 solubilities = PropertiesGroup()
 from .materials import *
 
+from . import conversion
 from . import fitting
 from . import plotting
