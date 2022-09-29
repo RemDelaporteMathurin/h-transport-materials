@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 
 
-LITHIUM_MOLAR_VOLUME = 1.3e-5  # m3/mol
+LITHIUM_MOLAR_VOLUME = 1.3e-5  # m3/mol ref https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/lithium
 
 
 alire_diffusivity_data = np.genfromtxt(
