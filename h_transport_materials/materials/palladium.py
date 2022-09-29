@@ -21,7 +21,7 @@ volkl_diffusivity = ArrheniusProperty(
 # TODO: try and fit the data ourself https://www.osti.gov/biblio/4413386
 favreau_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=4.45e-1 * htm.avogadro_nb / PALLADIUM_MOLAR_VOLUME,
+    pre_exp=4.45e-1 * htm.avogadro_nb,
     act_energy=c.kJ_per_mol_to_eV(-8.4),
     source="favreau_solubility_1954",
     isotope="T",

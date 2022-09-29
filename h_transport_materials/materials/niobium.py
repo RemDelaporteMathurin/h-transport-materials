@@ -22,7 +22,7 @@ schober_diffusivity = ArrheniusProperty(
 
 veleckis_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=1.26e-1 * htm.avogadro_nb / NIOBIUM_MOLAR_VOLUME,
+    pre_exp=1.26e-1 * htm.avogadro_nb,
     act_energy=c.kJ_per_mol_to_eV(-35.3),
     range=(625, 944),
     source="veleckis_thermodynamic_1969",
