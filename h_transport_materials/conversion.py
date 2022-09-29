@@ -29,7 +29,7 @@ def kcal_per_mol_to_eV(E):
 
 # PRESSURE
 
-atm_to_Pa_factor = 101325
+atm_to_Pa_factor = 101325  # Pa/atm
 
 
 def atm_to_Pa(P):
