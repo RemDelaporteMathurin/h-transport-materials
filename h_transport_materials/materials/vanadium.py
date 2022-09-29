@@ -22,7 +22,7 @@ veleckis_solubility = Solubility(
     isotope="H",
     range=(519, 827),
     pre_exp=1.38e-1 * htm.avogadro_nb,
-    act_energy=c / c.kJ_per_mol_to_eV(-29.0),
+    act_energy=c.kJ_per_mol_to_eV(-29.0),
     source="veleckis_thermodynamic_1969",
 )
 
