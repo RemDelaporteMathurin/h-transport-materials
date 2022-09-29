@@ -5,3 +5,4 @@ from .tungsten import tungsten_diffusivities, tungsten_solubilities
 from .flinak import flinak_diffusivities, flinak_solubilities
 from .lipb import lipb_diffusivities, lipb_solubilities
 from .lithium import lithium_diffusivities, lithium_solubilities
+from .beryllium import beryllium_diffusivities, beryllium_solubilities
