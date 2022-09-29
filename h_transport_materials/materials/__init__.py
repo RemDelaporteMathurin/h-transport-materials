@@ -18,3 +18,4 @@ from .niobium import niobium_diffusivities, niobium_solubilities
 from .palladium import palladium_diffusivities, palladium_solubilities
 from .silver import silver_diffusivities, silver_solubilities
 from .tantalum import tantalum_diffusivities, tantalum_solubilities
+from .gold import gold_diffusivities, gold_solubilities
