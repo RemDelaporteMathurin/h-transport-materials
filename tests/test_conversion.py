@@ -56,3 +56,16 @@ def test_bar_to_Pa_reg():
     value = 12.5
 
     assert c.bar_to_Pa(c.Pa_to_bar(value)) == value
+
+
+def test_Torr_to_Pa():
+    value = 12.6
+
+    assert np.isclose(c.Torr_to_Pa(value), value * 133.322)
+
+
+def test_Torr_to_Pa_reg():
+
+    value = 13.5
+
+    assert np.isclose(c.Torr_to_Pa(c.Pa_to_Torr(value)), value)

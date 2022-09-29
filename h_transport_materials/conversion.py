@@ -44,3 +44,9 @@ def bar_to_Pa(P):
 
 def Pa_to_bar(P):
     return P * 1e-5
+
+def Torr_to_Pa(P):
+    return P*133.322
+
+def Pa_to_Torr(P):
+    return P/133.322
