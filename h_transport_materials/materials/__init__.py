@@ -32,3 +32,4 @@ from .inconel_625 import inconel_625_diffusivities, inconel_625_solubilities
 from .incoloy_800 import incoloy_800_diffusivities, incoloy_800_solubilities
 
 from .vanadium_alloy import vanadium_alloy_diffusivities, vanadium_alloy_solubilities
+from .pdag import palladium_alloy_diffusivities, palladium_alloy_solubilities
