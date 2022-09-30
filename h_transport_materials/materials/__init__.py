@@ -27,3 +27,4 @@ from .series_300_steel import (
     series_300_steel_solubilities,
 )
 from .steel_316L import steel_316L_diffusivities, steel_316L_solubilities
+from .inconel_600 import inconel_600_diffusivities, inconel_600_solubilities
