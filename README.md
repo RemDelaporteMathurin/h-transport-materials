@@ -1,4 +1,5 @@
 # H-transport-materials
+![zenodo](https://zenodo.org/badge/doi/10.5281/zenodo.7057854.svg)
 ![CI](https://github.com/RemDelaporteMathurin/h_transport_materials/actions/workflows/ci.yml/badge.svg)
 
 ## Installation
