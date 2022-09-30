@@ -22,3 +22,7 @@ from .gold import gold_diffusivities, gold_solubilities
 
 
 from .rafm_steel import rafm_steel_diffusivities, rafm_steel_solubilities
+from .series_300_steel import (
+    series_300_steel_diffusivities,
+    series_300_steel_solubilities,
+)
