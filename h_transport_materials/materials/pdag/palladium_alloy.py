@@ -16,13 +16,8 @@ serra_diffusivity_data = np.genfromtxt(
 )
 
 serra_diffusivity_h = ArrheniusProperty(
-    data_T=1000
-    / serra_diffusivity_data["hydrogenX"][
-        ~np.isnan(serra_diffusivity_data["hydrogenX"])
-    ],
-    data_y=serra_diffusivity_data["hydrogenY"][
-        ~np.isnan(serra_diffusivity_data["hydrogenY"])
-    ],
+    data_T=1000 / serra_diffusivity_data["hydrogenX"],
+    data_y=serra_diffusivity_data["hydrogenY"],
     isotope="H",
     source="serra_hydrogen_1998-1",
 )
@@ -50,14 +45,8 @@ serra_solubility_h = Solubility(
 
 serra_solubility_d = Solubility(
     units="m-3 Pa-1/2",
-    data_T=1000
-    / serra_solubility_data["deuteriumX"][
-        ~np.isnan(serra_solubility_data["deuteriumX"])
-    ],
-    data_y=serra_solubility_data["deuteriumY"][
-        ~np.isnan(serra_solubility_data["deuteriumY"])
-    ]
-    * htm.avogadro_nb,
+    data_T=1000 / serra_solubility_data["deuteriumX"],
+    data_y=serra_solubility_data["deuteriumY"] * htm.avogadro_nb,
     isotope="D",
     source="serra_hydrogen_1998-1",
 )
