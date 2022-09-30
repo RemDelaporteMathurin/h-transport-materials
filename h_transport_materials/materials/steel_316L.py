@@ -34,7 +34,7 @@ steel_316L_diffusivities = [reiter_diffusivity]
 steel_316L_solubilities = [reiter_solubility]
 
 for prop in steel_316L_diffusivities + steel_316L_solubilities:
-    prop.material = "300_series_steel"
+    prop.material = "steel_316L"
 
 diffusivities.properties += steel_316L_diffusivities
 solubilities.properties += steel_316L_solubilities
