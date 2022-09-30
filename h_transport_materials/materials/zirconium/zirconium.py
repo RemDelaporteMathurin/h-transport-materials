@@ -7,6 +7,10 @@ from h_transport_materials import (
 )
 import h_transport_materials.conversion as c
 
+import numpy as np
+from pathlib import Path
+
+
 ZIRCONIUM_MOLAR_VOLUME = 1.4e-5  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/zirconium
 
 kearns_diffusivity = ArrheniusProperty(
@@ -35,15 +39,19 @@ kearns_solubility = Solubility(
     range=(602, 1069),
 )
 
-yamanaka_solubility = (
-    Solubility(  # TODO: get these values from our own fitting see issue #65
-        units="m-3 Pa-1/2",
-        pre_exp=7.7e-6 * htm.avogadro_nb / ZIRCONIUM_MOLAR_VOLUME,
-        act_energy=c.kJ_per_mol_to_eV(-53.5),
-        range=(873, 1048),
-        source="yamanaka_effect_1989",
-        isotope="H",
-    )
+yamanaka_solubility_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/yamanaka_1989/solubility.csv",
+    delimiter=",",
+)
+
+yamanaka_solubility = Solubility(
+    units="m-3 Pa-1/2",
+    data_T=1e4 / yamanaka_solubility_data[:, 0],
+    data_y=np.exp(yamanaka_solubility_data[:, 1])
+    * htm.avogadro_nb
+    / ZIRCONIUM_MOLAR_VOLUME,
+    source="yamanaka_effect_1989",
+    isotope="H",
 )
 
 zirconium_diffusivities = [kearns_diffusivity, hsu_diffusivity]
