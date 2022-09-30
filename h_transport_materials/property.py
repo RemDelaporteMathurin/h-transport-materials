@@ -73,7 +73,6 @@ class Property:
         bibdata = {self.bibsource.key: self.bibsource}
         return BibliographyData(bibdata)
 
-
     @property
     def nb_citations(self):
         # if nb_citations doesn't already exist, compute it
@@ -81,12 +80,12 @@ class Property:
             if self.bibsource is None:
                 self.nb_citations = 0
             elif "doi" in self.bibsource.fields:
-                doi = self.bibsource.fields['doi']
+                doi = self.bibsource.fields["doi"]
                 self.nb_citations = get_nb_citations(doi)
             else:
                 self.nb_citations = 0
         return self._nb_citations
-    
+
     @nb_citations.setter
     def nb_citations(self, value):
         self._nb_citations = value
@@ -176,9 +175,12 @@ class ArrheniusProperty(Property):
         if not isinstance(value, (list, np.ndarray)):
             raise TypeError("data_T accepts list or np.ndarray")
         elif isinstance(value, list):
-            self._data_T = np.array(value)
+            value_as_array = np.array(value)
+            self._data_T = value_as_array[
+                ~np.isnan(value_as_array)
+            ]  # remove nan values
         else:
-            self._data_T = value
+            self._data_T = value[~np.isnan(value)]
 
     @property
     def data_y(self):
@@ -192,9 +194,12 @@ class ArrheniusProperty(Property):
         if not isinstance(value, (list, np.ndarray)):
             raise TypeError("data_y accepts list or np.ndarray")
         elif isinstance(value, list):
-            self._data_y = np.array(value)
+            value_as_array = np.array(value)
+            self._data_y = value_as_array[
+                ~np.isnan(value_as_array)
+            ]  # remove nan values
         else:
-            self._data_y = value
+            self._data_y = value[~np.isnan(value)]
 
     def fit(self):
         self.pre_exp, self.act_energy = fit_arhenius(self.data_y, self.data_T)

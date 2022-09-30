@@ -75,3 +75,23 @@ def test_fit_creates_temp_range():
     )
 
     assert my_prop.range == (300, 500)
+
+
+@pytest.mark.parametrize("data", [[1, 2, 3, np.nan], np.array([1, 2, 3, np.nan])])
+def test_data_T_removes_nan(data):
+    """Checks that nan values are removed when assigned in data_T"""
+    my_prop = htm.ArrheniusProperty(
+        data_T=data,
+        data_y=data,
+    )
+    assert np.count_nonzero(np.isnan(my_prop.data_T)) == 0
+
+
+@pytest.mark.parametrize("data", [[1, 2, 3, np.nan], np.array([1, 2, 3, np.nan])])
+def test_data_y_removes_nan(data):
+    """Checks that nan values are removed when assigned in data_y"""
+    my_prop = htm.ArrheniusProperty(
+        data_T=data,
+        data_y=data,
+    )
+    assert np.count_nonzero(np.isnan(my_prop.data_y)) == 0
