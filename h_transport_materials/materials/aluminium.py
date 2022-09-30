@@ -23,7 +23,7 @@ ransley_solubility = Solubility(
     act_energy=c.kJ_per_mol_to_eV(39.7),
     range=(723, 873),
     author="ransley",
-    year="1948",
+    year=1948,
     source="Ransley, C.E., Neufeld, H., 1948. J. Inst. Met. 74, 599–620",
 )
 
