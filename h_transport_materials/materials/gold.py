@@ -14,6 +14,7 @@ eichenauer_diffusivity = ArrheniusProperty(
     act_energy=c.kJ_per_mol_to_eV(23.6),
     range=(773, 1273),
     source="eichenauer_messung_1962",
+    isotope="H",
 )
 
 
@@ -24,6 +25,7 @@ shimada_solubility = Solubility(
     act_energy=c.kJ_per_mol_to_eV(99.4),
     range=(773, 873),
     source="shimada_608_2020",
+    isotope="H",
 )
 
 gold_diffusivities = [eichenauer_diffusivity]

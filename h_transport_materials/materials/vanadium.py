@@ -30,8 +30,9 @@ veleckis_solubility = Solubility(
 schober_diffusivity = ArrheniusProperty(
     pre_exp=5.6e-8,
     act_energy=c.kJ_per_mol_to_eV(9.1),
-    range=(-150, 200),
+    range=(-150 + 273.15, 200 + 273.15),
     source="schober_h_1990",
+    isotope="H",
 )  # TODO get data from experimental points, see issue #64
 
 reiter_solubility = Solubility(
@@ -39,6 +40,7 @@ reiter_solubility = Solubility(
     pre_exp=2.1e-6 * htm.avogadro_nb / VANADIUM_MOLAR_VOLUME,
     act_energy=c.kJ_per_mol_to_eV(-32.2),
     source="reiter_compilation_1996",
+    isotope="H",
 )
 
 vanadium_diffusivities = [volk_diffusivity]

@@ -17,6 +17,7 @@ young_diffusivity = ArrheniusProperty(
 )
 
 ransley_solubility = Solubility(
+    isotope="H",
     units="m-3 Pa-1/2",
     pre_exp=2.32e-2,
     act_energy=c.kJ_per_mol_to_eV(39.7),

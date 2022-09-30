@@ -42,6 +42,7 @@ yamanaka_solubility = (
         act_energy=c.kJ_per_mol_to_eV(-53.5),
         range=(873, 1048),
         source="yamanaka_effect_1989",
+        isotope="H",
     )
 )
 

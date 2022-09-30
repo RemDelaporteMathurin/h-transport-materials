@@ -18,24 +18,21 @@ alire_diffusivity_data = np.genfromtxt(
 alire_diffusivity_data_T = 1 / alire_diffusivity_data[:, 0]
 alire_diffusivity_data_y = alire_diffusivity_data[:, 1] * 1e-4  # from cm2 to m2
 
+# NOTE: in Shimada 2020, there is an error in Table 1 Lithium (lq.) line E_D column it should be 105.0 kJ/mol
 alire_diffusivity = ArrheniusProperty(
     data_T=alire_diffusivity_data_T,
     data_y=alire_diffusivity_data_y,
     range=(898, 1178),
-    name="Alire (1976)",
     isotope="H",
-    author="alire",
-    year=1976,
+    source="alire_transport_1976",
 )
-# NOTE: in Shimada 2020, there is an error in Table 1 Lithium (lq.) line E_D column it should be 105.0 kJ/mol
 
 veleckis_solubility = Solubility(
     pre_exp=atmn_to_Pan(np.exp(-6.498), n=-0.5) * avogadro_nb / LITHIUM_MOLAR_VOLUME,
     # pre_exp=1.75e-1 * avogadro_nb,
     act_energy=-6182 * k_B,
     range=(710 + 273.15, 903 + 273.15),
-    year=1974,
-    author="veleckis",
+    source="veleckis_lithium-lithium_1974",
     isotope="H",
     units="m-3 Pa-1/2",
 )
