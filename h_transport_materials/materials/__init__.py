@@ -19,3 +19,6 @@ from .palladium import palladium_diffusivities, palladium_solubilities
 from .silver import silver_diffusivities, silver_solubilities
 from .tantalum import tantalum_diffusivities, tantalum_solubilities
 from .gold import gold_diffusivities, gold_solubilities
+
+
+from .rafm_steel import rafm_steel_diffusivities, rafm_steel_solubilities
