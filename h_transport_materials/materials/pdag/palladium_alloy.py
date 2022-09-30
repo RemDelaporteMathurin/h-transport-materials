@@ -57,7 +57,7 @@ palladium_alloy_diffusivities = [serra_diffusivity_h, serra_diffusivity_d]
 palladium_alloy_solubilities = [serra_solubility_h, serra_solubility_d]
 
 for prop in palladium_alloy_diffusivities + palladium_alloy_solubilities:
-    prop.material = "PdAg"
+    prop.material = "pdag"
 
 diffusivities.properties += palladium_alloy_diffusivities
 solubilities.properties += palladium_alloy_solubilities
