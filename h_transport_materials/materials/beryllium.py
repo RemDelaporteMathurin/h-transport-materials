@@ -12,7 +12,7 @@ import numpy as np
 abramov_diffusivity = ArrheniusProperty(
     pre_exp=8.0e-9,
     act_energy=c.kJ_per_mol_to_eV(35.1),
-    range=(1100, 2400),
+    range=(620, 775),
     isotope="D",
     source="abramov_deuterium_1990",
 )
