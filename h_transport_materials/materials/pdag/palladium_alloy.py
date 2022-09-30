@@ -43,7 +43,7 @@ serra_solubility_data = np.genfromtxt(
 serra_solubility_h = Solubility(
     units="m-3 Pa-1/2",
     data_T=1000 / serra_solubility_data["hydrogenX"],
-    data_y=serra_solubility_data["hydrogenY"],
+    data_y=serra_solubility_data["hydrogenY"] * htm.avogadro_nb,
     isotope="H",
     source="serra_hydrogen_1998-1",
 )
@@ -56,7 +56,8 @@ serra_solubility_d = Solubility(
     ],
     data_y=serra_solubility_data["deuteriumY"][
         ~np.isnan(serra_solubility_data["deuteriumY"])
-    ],
+    ]
+    * htm.avogadro_nb,
     isotope="D",
     source="serra_hydrogen_1998-1",
 )
