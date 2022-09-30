@@ -101,12 +101,11 @@ serra_diffusivity_d = ArrheniusProperty(
 
 # solubility
 data_solubility_serra = np.genfromtxt(
-    str(Path(__file__).parent) + "/serra_solubility_1998.csv",
-    delimiter=",",
-    dtype=str,
+    str(Path(__file__).parent) + "/serra_solubility_1998.csv", delimiter=","
 )
-data_solubility_serra_h = data_solubility_serra[2:, :2][:-1].astype(float)
-data_solubility_serra_d = data_solubility_serra[2:, 2:].astype(float)
+
+data_solubility_serra_h = data_solubility_serra[2:, :2]
+data_solubility_serra_d = data_solubility_serra[2:, 2:]
 
 serra_solubility_h = Solubility(
     data_T=1000 / data_solubility_serra_h[:, 0],

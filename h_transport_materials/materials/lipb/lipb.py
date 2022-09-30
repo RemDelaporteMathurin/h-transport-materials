@@ -11,7 +11,7 @@ molar_mass_li = 0.06941  # kg/mol
 molar_mass_Pb = 0.2072  # kg/mol
 rho_lipb = 10163.197  # kg/m3  at 300K
 
-
+# TODO remove this since it's in the conversion module
 def atm05_to_pa05(P):
     """Converts values in atm^0.5 to Pa^0.5
 
@@ -168,8 +168,8 @@ reiter_difusivity_data_D_T = reiter_difusivity_data_D[:, 0]  # 1000/K
 reiter_difusivity_data_D_T = 1000 / reiter_difusivity_data_D_T  # K
 
 reiter_diffusivity_d = ArrheniusProperty(
-    data_T=reiter_difusivity_data_D_T[np.isfinite(reiter_difusivity_data_D_T)],
-    data_y=reiter_difusivity_data_D[:, 1][np.isfinite(reiter_difusivity_data_D[:, 1])],
+    data_T=reiter_difusivity_data_D_T,
+    data_y=reiter_difusivity_data_D[:, 1],
     range=(508, 700),
     source="reiter_solubility_1991",
     name="D Reiter (1991)",
