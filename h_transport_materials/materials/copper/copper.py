@@ -58,7 +58,7 @@ katz_diffusivity_copper_h = ArrheniusProperty(
 )
 
 
-data_diffusivity_katz_d = data_diffusivity_katz[2:, 2:4][:-2].astype(float)
+data_diffusivity_katz_d = data_diffusivity_katz[2:, 2:4].astype(float)
 katz_diffusivity_copper_d = ArrheniusProperty(
     data_T=1000 / data_diffusivity_katz_d[:, 0],
     data_y=data_diffusivity_katz_d[:, 1] * 1e-4,
@@ -68,7 +68,7 @@ katz_diffusivity_copper_d = ArrheniusProperty(
 )
 
 
-data_diffusivity_katz_t = data_diffusivity_katz[2:, 4:][:-2].astype(float)
+data_diffusivity_katz_t = data_diffusivity_katz[2:, 4:].astype(float)
 katz_diffusivity_copper_t = ArrheniusProperty(
     data_T=1000 / data_diffusivity_katz_t[:, 0],
     data_y=data_diffusivity_katz_t[:, 1] * 1e-4,
