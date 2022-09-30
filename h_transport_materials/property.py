@@ -1,3 +1,4 @@
+from typing import Iterable
 import numpy as np
 from crossref.restful import Works, Etiquette
 from pybtex.database import BibliographyData, parse_string
@@ -73,6 +74,22 @@ class Property:
         bibdata = {self.bibsource.key: self.bibsource}
         return BibliographyData(bibdata)
 
+    @property
+    def range(self):
+        return self._range
+
+    @range.setter
+    def range(self, value):
+        if value:
+            if not isinstance(value, Iterable):
+                raise TypeError("range should be an iterable containing two values")
+            if len(value) != 2:
+                raise TypeError("range should be an iterable containing two values")
+
+            if value[0] <= 0 or value[1] <= 0:
+                raise ValueError("temperature range must be stricly positive (Kelvin)")
+
+        self._range = value
 
     @property
     def nb_citations(self):
@@ -81,12 +98,12 @@ class Property:
             if self.bibsource is None:
                 self.nb_citations = 0
             elif "doi" in self.bibsource.fields:
-                doi = self.bibsource.fields['doi']
+                doi = self.bibsource.fields["doi"]
                 self.nb_citations = get_nb_citations(doi)
             else:
                 self.nb_citations = 0
         return self._nb_citations
-    
+
     @nb_citations.setter
     def nb_citations(self, value):
         self._nb_citations = value

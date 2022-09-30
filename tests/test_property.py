@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 import h_transport_materials as htm
 
 from pybtex.database import BibliographyData
@@ -67,8 +68,15 @@ def test_nb_citations():
     my_prop = htm.Property(source=source_bib_from_file)
     assert my_prop.nb_citations > 0
 
+
 def test_nb_citations_no_citations_with_unknown_source():
     my_prop = htm.Property(source="coucou")
 
     assert my_prop.nb_citations == 0
 
+
+def test_range_cannot_be_negative():
+    with pytest.raises(ValueError, match="range must be stricly positive"):
+        htm.Property(range=(-1, 2))
+    with pytest.raises(ValueError, match="range must be stricly positive"):
+        htm.Property(range=(0, 2))
