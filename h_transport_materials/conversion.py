@@ -80,6 +80,10 @@ def cmHg_to_Pa(P):
     return 1333.22 * P
 
 
+def cmHgn_to_Pan(P, n):
+    return 1333.22**n * P
+
+
 def ccSTP_to_mol(V):
     """Converts a volume in cc (STP) (aka cubic centimetre) to mol
 
