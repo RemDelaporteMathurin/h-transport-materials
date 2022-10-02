@@ -6,7 +6,9 @@ from h_transport_materials import (
     solubilities,
 )
 import h_transport_materials.conversion as c
+import numpy as np
 
+GOLD_MOLAR_VOLUME = 1.02e-5  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/gold
 
 # TODO fit it ourselves  https://www.degruyter.com/document/doi/10.1515/zna-1962-0415/html
 eichenauer_diffusivity = ArrheniusProperty(
@@ -28,9 +30,42 @@ shimada_solubility = Solubility(
     isotope="H",
 )
 
+data_T_mclellan = np.array(
+    [
+        1050.0,
+        997.0,
+        948.0,
+        939.0,
+        910.0,
+        878.0,
+        838.0,
+        805.0,
+        793.0,
+        777.0,
+        735.0,
+        693.0,
+    ]
+)  # degC Table1
+data_T_mclellan += 273.15  # in Kelvin
+
+data_y_mclellan = (
+    np.array([2.86, 2.51, 2.23, 1.93, 1.96, 1.96, 1.66, 1.66, 1.66, 1.30, 1.27, 1.06])
+    * 1e-6
+)  # in at.fr. Table 1
+data_y_mclellan *= htm.avogadro_nb / GOLD_MOLAR_VOLUME  # in H m-3 Pa-1/2
+
+mclellan_solubility = Solubility(
+    data_T=data_T_mclellan,
+    data_y=data_y_mclellan,
+    units="m-3 Pa-1/2",
+    source="mclellan_solid_1973",
+    isotope="H",
+)
+
+
 gold_diffusivities = [eichenauer_diffusivity]
 
-gold_solubilities = [shimada_solubility]
+gold_solubilities = [shimada_solubility, mclellan_solubility]
 
 for prop in gold_diffusivities + gold_solubilities:
     prop.material = "gold"
