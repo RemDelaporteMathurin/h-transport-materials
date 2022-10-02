@@ -74,3 +74,20 @@ def Torr_to_Pa(P):
 
 def Pa_to_Torr(P):
     return P / 133.322
+
+
+def cmHg_to_Pa(P):
+    return 1333.22 * P
+
+
+def ccSTP_to_mol(V):
+    """Converts a volume in cc (STP) (aka cubic centimetre) to mol
+
+    Args:
+        V (float): The volume in cc STP
+
+    Returns:
+        float: the number of moles (mol)
+    """
+
+    return 4.4032e-5 * V
