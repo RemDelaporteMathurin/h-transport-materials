@@ -26,8 +26,8 @@ tahara_diffusivity_H = ArrheniusProperty(
 )
 
 tahara_diffusivity_D = ArrheniusProperty(
-    pre_exp=4.28e-8,  # TODO
-    act_energy=c.kJ_per_mol_to_eV(6.47),  # TODO
+    pre_exp=4.28e-8,
+    act_energy=c.kJ_per_mol_to_eV(6.47),
     isotope="D",
     range=(500, 1000),
     source="tahara_measurements_1985",
