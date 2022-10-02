@@ -6,6 +6,9 @@ from h_transport_materials import (
     solubilities,
 )
 import h_transport_materials.conversion as c
+import numpy as np
+
+SILVER_MOLAR_VOLUME = 1.03e-5  # m3/mol  https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/silver
 
 katsuta_diffusivity = ArrheniusProperty(
     pre_exp=8.55e-7,
@@ -16,16 +19,25 @@ katsuta_diffusivity = ArrheniusProperty(
 )
 
 
-# TODO try and fit this ourself
+data_T_mclellan = np.array(
+    [941.0, 921.0, 881.0, 857.0, 834.0, 810.0, 750.0, 727.0, 703.0]
+)  # degC Table1
+data_T_mclellan = data_T_mclellan + 273.15  # in Kelvin
+
+data_y_mclellan = (
+    np.array([6.17, 5.94, 4.24, 3.90, 3.15, 3.21, 2.25, 1.83, 1.51]) * 1e-6
+)  # in at.fr Pa-1/2
+data_y_mclellan *= htm.avogadro_nb / SILVER_MOLAR_VOLUME  # in m-3 Pa-1/2
+
+
+# NOTE: there is likely a mistake in Shimada's 2020 Review
 mclellan_solubility = Solubility(
+    data_T=data_T_mclellan,
+    data_y=data_y_mclellan,
     units="m-3 Pa-1/2",
-    pre_exp=2.6e-1 * htm.avogadro_nb,
-    act_energy=c.kJ_per_mol_to_eV(56.7),
-    range=(967, 1214),
     source="mclellan_solid_1973",
     isotope="H",
 )
-
 
 silver_diffusivities = [katsuta_diffusivity]
 
