@@ -89,5 +89,14 @@ def ccSTP_to_mol(V):
     Returns:
         float: the number of moles (mol)
     """
+    # STP pressure, temperature
+    P = 101.35e3  # Pa
+    T = 273.15  # K
 
-    return 4.4032e-5 * V
+    R = htm.Rg
+
+    V_m3 = V * 1e-6  # m3
+
+    n = P * V_m3 / (R * T)  # mol
+
+    return n
