@@ -1,9 +1,10 @@
-from h_transport_materials import k_B, Rg, diffusivities, solubilities
+from h_transport_materials import k_B, Rg, avogadro_nb, diffusivities, solubilities
 from h_transport_materials.property import ArrheniusProperty, Solubility
 from h_transport_materials.materials import Material
 from pathlib import Path
 import numpy as np
 
+COPPER_MOLAR_VOLUME = 7.11e-6  # m3/mol  https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/copper
 
 cited_in_database_for_ITER = "cited in Assessment of Database for Interaction of Tritium with ITER Plasma Facing Materials"
 
@@ -202,6 +203,56 @@ wampler_solubility_copper_h = Solubility(
     units="m-3 Pa-1/2",
 )
 
+data_T_mclellan = np.array(
+    [
+        1027.0,
+        1005.0,
+        939.0,
+        911.0,
+        871.0,
+        846.0,
+        809.0,
+        778.0,
+        755.0,
+        723.0,
+        659.0,
+        609.0,
+        594.0,
+    ]
+)  # in degC (see Table 1)
+data_T_mclellan += 273.15  # in K
+
+data_y_mclellan = (
+    np.array(
+        [
+            7.20,
+            7.17,
+            4.88,
+            4.21,
+            3.55,
+            3.10,
+            2.33,
+            2.33,
+            1.90,
+            1.54,
+            0.931,
+            0.698,
+            0.552,
+        ]
+    )
+    * 1e-5
+)  # in at.fr Pa-1/2 see Table 1
+data_y_mclellan *= avogadro_nb / COPPER_MOLAR_VOLUME  # in H m-3 Pa-1/2
+
+
+mclellan_solubility = Solubility(
+    data_T=data_T_mclellan,
+    data_y=data_y_mclellan,
+    units="m-3 Pa-1/2",
+    isotope="H",
+    source="mclellan_solid_1973",
+)
+
 
 copper_diffusivities = [
     reiter_diffusivity_copper,
@@ -225,6 +276,7 @@ copper_solubilities = [
     thomas_solubility_copper_h,
     wampler_solubility_copper_h,
     eichenauer_solubility_copper_h,
+    mclellan_solubility,
 ]
 
 for prop in copper_diffusivities + copper_solubilities:

@@ -29,15 +29,15 @@ def kcal_per_mol_to_eV(E):
 
 # PRESSURE
 
-atm_to_Pa_factor = 101325
+atm_to_Pa_factor = 101325  # Pa/atm
 
 
 def atm_to_Pa(P):
-    return atm_to_Pa_factor * P
+    return atmn_to_Pan(P, n=1)
 
 
 def Pa_to_atm(P):
-    return 1 / atm_to_Pa_factor * P
+    return Pan_to_atmn(P, n=1)
 
 
 def atmn_to_Pan(P, n):
@@ -54,10 +54,6 @@ def atmn_to_Pan(P, n):
 
 def Pan_to_atmn(P, n):
     return P / (atm_to_Pa_factor**n)
-
-
-def per_atm05_to_per_pa05(P):
-    return
 
 
 def bar_to_Pa(P):
@@ -80,8 +76,13 @@ def cmHg_to_Pa(P):
     return 1333.22 * P
 
 
+def cmHgn_to_Pan(P, n):
+    return 1333.22**n * P
+
+
 def ccSTP_to_mol(V):
     """Converts a volume in cc (STP) (aka cubic centimetre) to mol
+    assuming a perfect gas law PV = nRT
 
     Args:
         V (float): The volume in cc STP
