@@ -16,10 +16,12 @@ causey_diffusivity = ArrheniusProperty(
     isotope="H",
 )
 
+# Equation 5 of Atsumi's paper
 atsumi_diffusivity = ArrheniusProperty(
-    pre_exp=0.93e-4,
-    act_energy=2.8,
-    isotope="H",
+    pre_exp=1.69 * 1e-4,
+    act_energy=c.kJ_per_mol_to_eV(251),
+    range=(500 + 273.15, 900 + 273.15),
+    isotope="D",
     source="atsumi_absorption_1988",
 )
 
