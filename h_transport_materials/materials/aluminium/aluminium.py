@@ -6,11 +6,19 @@ from h_transport_materials import (
     solubilities,
 )
 import h_transport_materials.conversion as c
+from pathlib import Path
+import numpy as np
 
+
+# Fig 6 of Young's paper
+data_diffusivity_young = np.genfromtxt(
+    str(Path(__file__).parent) + "/young_diffusivity.csv",
+    delimiter=",",
+)
 
 young_diffusivity = ArrheniusProperty(
-    pre_exp=1.75e-8,
-    act_energy=c.kJ_per_mol_to_eV(16.2),
+    data_T=1e3 / data_diffusivity_young[:, 0],
+    data_y=np.exp(data_diffusivity_young[:, 1]) * 1e-4,  # cm2 to m2
     range=(298, 873),
     isotope="H",
     source="young_diffusion_1998",
