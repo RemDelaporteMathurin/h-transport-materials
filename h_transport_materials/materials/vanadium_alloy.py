@@ -30,7 +30,7 @@ vanadium_alloy_diffusivities = [hashizume_diffusivity]
 vanadium_alloy_solubilities = [klepikov_solubility]
 
 for prop in vanadium_alloy_diffusivities + vanadium_alloy_solubilities:
-    prop.material = "V4Cr4Ti"
+    prop.material = "v4cr4ti"
 
 diffusivities.properties += vanadium_alloy_diffusivities
 solubilities.properties += vanadium_alloy_solubilities
