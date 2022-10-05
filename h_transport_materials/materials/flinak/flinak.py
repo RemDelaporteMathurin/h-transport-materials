@@ -14,7 +14,7 @@ fukada_diffusivity_h = ArrheniusProperty(
     data_T=1 / data_fukada[:-1, 0],
     data_y=data_fukada[:-1, 1],
     source="fukada_hydrogen_2006",
-    isotope="h",
+    isotope="H",
 )
 
 
@@ -32,7 +32,7 @@ fukada_solubility_h = Solubility(
     data_T=1 / data_fukada_S[:, 0],
     data_y=data_y_solubility_fukada,
     source="fukada_hydrogen_2006",
-    isotope="h",
+    isotope="H",
     units="m-3 Pa-1",
 )
 
@@ -46,7 +46,7 @@ nakamura_diffusivity_h = ArrheniusProperty(
     data_T=1 / data_nakamura_D[:, 0],
     data_y=data_nakamura_D[:, 1],
     source="nakamura_hydrogen_2015",
-    isotope="h",
+    isotope="H",
 )
 
 data_nakamura_S = np.genfromtxt(
@@ -57,7 +57,7 @@ nakamura_solubility_h = Solubility(
     data_T=1 / data_nakamura_S[:, 0],
     data_y=data_nakamura_S[:, 1] * avogadro_nb,
     source="nakamura_hydrogen_2015",
-    isotope="h",
+    isotope="H",
     units="m-3 Pa-1",
 )
 
@@ -70,7 +70,7 @@ lam_diffusivity_t = ArrheniusProperty(
     data_T=1 / data_lam[:, 0],
     data_y=data_lam[:, 1],
     source="lam_impact_2021",
-    isotope="t",
+    isotope="T",
 )
 
 # T ions
@@ -82,7 +82,7 @@ lam_diffusivity_t_ions = ArrheniusProperty(
     data_T=1 / data_lam_t_ions[:, 0],
     data_y=data_lam_t_ions[:, 1],
     source="lam_impact_2021",
-    isotope="t",
+    isotope="T",
 )
 
 # Zeng 2019
@@ -95,7 +95,7 @@ zeng_diffusivity_h_2019 = ArrheniusProperty(
     data_T=1 / data_zeng[:, 0],
     data_y=data_zeng[:, 1],
     source="zeng_behavior_2019",
-    isotope="h",
+    isotope="H",
 )
 
 data_zeng_S = np.genfromtxt(
@@ -108,7 +108,7 @@ zeng_solubility_h_2019 = Solubility(
     data_T=1 / data_zeng_S[:, 0],
     data_y=data_y_zeng_S,
     source="zeng_behavior_2019",
-    isotope="h",
+    isotope="H",
     units="m-3 Pa-1",
 )
 
@@ -127,7 +127,7 @@ zeng_diffusivity_h_2014 = ArrheniusProperty(
     data_T=data_T_zeng_D,
     data_y=data_zeng_2014[:, 1],
     source="zeng_apparatus_2014",
-    isotope="h",
+    isotope="H",
 )
 
 data_zeng_2014_S = np.genfromtxt(
@@ -144,7 +144,7 @@ zeng_solubility_h_2014 = Solubility(
     data_T=data_T_zeng_S,
     data_y=data_y_zeng_S,
     source="zeng_apparatus_2014",
-    isotope="h",
+    isotope="H",
     units="m-3 Pa-1",
 )
 
