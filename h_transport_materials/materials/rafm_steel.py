@@ -141,7 +141,7 @@ esteban_solubility_d = htm.Solubility(
 
 esteban_diffusivity_t = htm.ArrheniusProperty(  # extrapolation
     pre_exp=4.166e-8,
-    act_energy=c.kJ_per_mol_to_eV(12027),
+    act_energy=c.J_per_mol_to_eV(12027),
     range=(423, 892),
     isotope="T",
     source="esteban_tritium_2000",
@@ -150,7 +150,7 @@ esteban_diffusivity_t = htm.ArrheniusProperty(  # extrapolation
 esteban_solubility_t = htm.Solubility(  # extrapolation
     units="m-3 Pa-1/2",
     pre_exp=0.271 * htm.avogadro_nb,
-    act_energy=c.kJ_per_mol_to_eV(27905),
+    act_energy=c.J_per_mol_to_eV(27905),
     range=(423, 892),
     isotope="T",
     source="esteban_tritium_2000",
