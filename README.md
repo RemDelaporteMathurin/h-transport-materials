@@ -1,5 +1,5 @@
 # H-transport-materials
-![zenodo](https://zenodo.org/badge/doi/10.5281/zenodo.7057854.svg)
+[![DOI](https://zenodo.org/badge/488195123.svg)](https://zenodo.org/badge/latestdoi/488195123)
 ![CI](https://github.com/RemDelaporteMathurin/h_transport_materials/actions/workflows/ci.yml/badge.svg)
 [![codecov](https://codecov.io/github/RemDelaporteMathurin/h-transport-materials/branch/main/graph/badge.svg?token=zroa7Y8If6)](https://codecov.io/github/RemDelaporteMathurin/h-transport-materials)
 
