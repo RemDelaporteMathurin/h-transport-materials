@@ -17,15 +17,7 @@ body:
       placeholder: ex. email@example.com
     validations:
       required: false
-  # - type: textarea
-  #   id: what-happened
-  #   attributes:
-  #     label: What happened?
-  #     description: Also tell us, what did you expect to happen?
-  #     placeholder: Tell us what you see!
-  #     value: "A bug happened!"
-  #   validations:
-  #     required: true
+
   - type: dropdown
     id: type_of_prop
     attributes:
@@ -40,54 +32,56 @@ body:
     validations:
       required: true
 
-  - type: textarea
+  - type: input
     id: material
     attributes:
       label: Material
       description: Please fill in the material
       render: shell
+      required: true
 
-  - type: textarea
+  - type: input
     id: pre_exp
     attributes:
       label: Pre-exponential factor
-      description: Please fill in the pre-exponential factor
+      description: Please fill in the pre-exponential factor (with units)
       render: shell
+      required: true
 
-  - type: textarea
+  - type: input
     id: act_energy
     attributes:
       label: Activation energy
-      description: Please fill in the activation energy
+      description: Please fill in the activation energy (with units)
       render: shell
+      required: true
 
-  - type: textarea
+  - type: input
     id: range
     attributes:
       label: Temperature range
-      description: Please fill in the temperature range
+      description: Please fill in the temperature range (with units)
       render: shell
+      required: true
 
-  - type: textarea
+  - type: dropdown
     id: isotope
     attributes:
       label: Isotope
-      description: Please fill in the isotope (H, D, T)
-      render: shell
+      description: Please fill in the isotope
+      options:
+        - H
+        - D
+        - T
+      required: true
 
-  - type: textarea
+  - type: input
     id: source
     attributes:
       label: Reference
       description: Please fill in the reference (DOI)
       render: shell
-
-  - type: textarea
-    id: additional_info
-    attributes:
-      label: Additional information
-      description: Please add here any relevant information you would like to share with us!
-      render: shell
+      required: true
 
   - type: checkboxes
     id: terms
@@ -97,3 +91,11 @@ body:
       options:
         - label: I have checked this property isn't already in HTM
           required: true
+        - label: The reference gives experimental points
+
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: Additional information
+      description: Please add here any relevant information you would like to share with us!
+      render: shell
