@@ -73,6 +73,7 @@ body:
         - H
         - D
         - T
+    validations:
       required: true
 
   - type: input
