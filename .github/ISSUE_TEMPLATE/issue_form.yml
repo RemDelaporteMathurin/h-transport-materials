@@ -1,0 +1,99 @@
+name: Property suggestion
+description: Suggest a new property
+title: ""
+labels: []
+# assignees:
+#   - octocat
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this property suggestion form!
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  # - type: textarea
+  #   id: what-happened
+  #   attributes:
+  #     label: What happened?
+  #     description: Also tell us, what did you expect to happen?
+  #     placeholder: Tell us what you see!
+  #     value: "A bug happened!"
+  #   validations:
+  #     required: true
+  - type: dropdown
+    id: type_of_prop
+    attributes:
+      label: Property
+      description: What kind of property are you suggesting?
+      options:
+        - Diffusivity
+        - Solubility
+        - Permeability
+        - Recombination coefficient
+        - Dissociation coefficient
+    validations:
+      required: true
+
+  - type: textarea
+    id: material
+    attributes:
+      label: Material
+      description: Please fill in the material
+      render: shell
+
+  - type: textarea
+    id: pre_exp
+    attributes:
+      label: Pre-exponential factor
+      description: Please fill in the pre-exponential factor
+      render: shell
+
+  - type: textarea
+    id: act_energy
+    attributes:
+      label: Activation energy
+      description: Please fill in the activation energy
+      render: shell
+
+  - type: textarea
+    id: range
+    attributes:
+      label: Temperature range
+      description: Please fill in the temperature range
+      render: shell
+
+  - type: textarea
+    id: isotope
+    attributes:
+      label: Isotope
+      description: Please fill in the isotope (H, D, T)
+      render: shell
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Reference
+      description: Please fill in the reference (DOI)
+      render: shell
+
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: Additional information
+      description: Please add here any relevant information you would like to share with us!
+      render: shell
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Already exists
+      description: Have you checked this is a new property?
+      options:
+        - label: I have checked this property isn't already in HTM
+          required: true
