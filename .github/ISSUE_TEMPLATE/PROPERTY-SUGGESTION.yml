@@ -1,7 +1,7 @@
 name: Property suggestion
 description: Suggest a new property
-title: ""
-labels: []
+title: "Property suggestion: "
+# labels: []
 # assignees:
 #   - octocat
 body:
