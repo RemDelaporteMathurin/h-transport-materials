@@ -37,7 +37,7 @@ body:
     attributes:
       label: Material
       description: Please fill in the material
-      render: shell
+    validations:
       required: true
 
   - type: input
@@ -45,7 +45,7 @@ body:
     attributes:
       label: Pre-exponential factor
       description: Please fill in the pre-exponential factor (with units)
-      render: shell
+    validations:
       required: true
 
   - type: input
@@ -53,7 +53,7 @@ body:
     attributes:
       label: Activation energy
       description: Please fill in the activation energy (with units)
-      render: shell
+    validations:
       required: true
 
   - type: input
@@ -61,7 +61,7 @@ body:
     attributes:
       label: Temperature range
       description: Please fill in the temperature range (with units)
-      render: shell
+    validations:
       required: true
 
   - type: dropdown
@@ -80,7 +80,7 @@ body:
     attributes:
       label: Reference
       description: Please fill in the reference (DOI)
-      render: shell
+    validations:
       required: true
 
   - type: checkboxes
