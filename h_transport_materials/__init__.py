@@ -27,6 +27,9 @@ from .properties_group import PropertiesGroup
 
 diffusivities = PropertiesGroup()
 solubilities = PropertiesGroup()
+permeabilities = PropertiesGroup()
+recombination_coeffs = PropertiesGroup()
+dissociation_coeffs = PropertiesGroup()
 from .materials import *
 
 from . import conversion
