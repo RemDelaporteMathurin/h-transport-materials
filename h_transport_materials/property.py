@@ -229,14 +229,18 @@ class ArrheniusProperty(Property):
 
 
 class Solubility(ArrheniusProperty):
+    """Solubility class
+
+    Args:
+        units (str): units of the solubility "m-3 Pa-1/2" or "m-3 Pa-1".
+        S_0 (float, optional): pre-exponential factor. Defaults to None.
+        E_S (float, optional): activation energy (eV). Defaults to None.
+    """
+
     def __init__(
         self, units: str, S_0: float = None, E_S: float = None, **kwargs
     ) -> None:
-        """Inits Solubility
 
-        Args:
-            units (str): units of the solubility "m-3 Pa-1/2" or "m-3 Pa-1".
-        """
         super().__init__(pre_exp=S_0, act_energy=E_S, **kwargs)
         self.units = units
 
@@ -255,11 +259,19 @@ class Solubility(ArrheniusProperty):
 
 
 class Diffusivity(ArrheniusProperty):
+    """Diffusivity class
+
+    Args:
+        D_0 (float, optional): pre-exponential factor (m2/s). Defaults to None.
+        E_D (float, optional): activation energy (eV). Defaults to None.
+    """
     def __init__(self, D_0: float = None, E_D: float = None, **kwargs) -> None:
         super().__init__(pre_exp=D_0, act_energy=E_D, **kwargs)
 
 
 class Permeability(ArrheniusProperty):
+    """Permeability class
+    """
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
