@@ -26,8 +26,7 @@ import matplotlib.pyplot as plt
 # filter only tungsten and H
 diffusivities = htm.diffusivities.filter(material="tungsten").filter(isotope="h")
 
-for D in diffusivities:
-    htm.plotting.plot(D)
+htm.plotting.plot(diffusivities)
 
 
 plt.yscale("log")
