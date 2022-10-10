@@ -265,13 +265,28 @@ class Diffusivity(ArrheniusProperty):
         D_0 (float, optional): pre-exponential factor (m2/s). Defaults to None.
         E_D (float, optional): activation energy (eV). Defaults to None.
     """
+
     def __init__(self, D_0: float = None, E_D: float = None, **kwargs) -> None:
         super().__init__(pre_exp=D_0, act_energy=E_D, **kwargs)
 
 
 class Permeability(ArrheniusProperty):
-    """Permeability class
-    """
+    """Permeability class"""
+
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+
+
+class RecombinationCoeff(ArrheniusProperty):
+    """RecombinationCoeff class"""
+
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+
+
+class DissociationCoeff(ArrheniusProperty):
+    """DissociationCoeff class"""
+
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
