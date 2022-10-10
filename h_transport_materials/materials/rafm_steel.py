@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -9,9 +9,9 @@ import h_transport_materials.conversion as c
 
 
 # NOTE: value obtained from a average estimate from several authors
-causey_diffusivity = ArrheniusProperty(
-    pre_exp=1.00e-7,
-    act_energy=c.kJ_per_mol_to_eV(13.2),
+causey_diffusivity = Diffusivity(
+    D_0=1.00e-7,
+    E_D=c.kJ_per_mol_to_eV(13.2),
     range=(300, 973),
     source="causey_416_2012",
     isotope="H",
@@ -28,9 +28,9 @@ causey_solubility = Solubility(
 )
 
 # NOTE: heat-treated reference cast l.4914 martensitic steel
-forcey_diffusivity = htm.ArrheniusProperty(
-    pre_exp=7.17e-8,
-    act_energy=c.J_per_mol_to_eV(13490),
+forcey_diffusivity = htm.Diffusivity(
+    D_0=7.17e-8,
+    E_D=c.J_per_mol_to_eV(13490),
     range=(250 + 273.15, 600 + 273.15),
     isotope="H",
     source="forcey_hydrogen_1988",
@@ -47,9 +47,9 @@ forcey_solubility = htm.Solubility(
 
 # TODO fit this ourselves
 # NOTE F82H
-serra_diffusivity_f82h = htm.ArrheniusProperty(
-    pre_exp=1.07e-7,
-    act_energy=c.J_per_mol_to_eV(13950),
+serra_diffusivity_f82h = htm.Diffusivity(
+    D_0=1.07e-7,
+    E_D=c.J_per_mol_to_eV(13950),
     range=(373, 743),
     source="serra_influence_1997",
     isotope="D",
@@ -66,9 +66,9 @@ serra_solubility_f82h = htm.Solubility(
 
 # NOTE Batman steel
 # TODO fit this ourselves
-serra_diffusivity_batman = htm.ArrheniusProperty(
-    pre_exp=1.9e-7,
-    act_energy=c.J_per_mol_to_eV(15190),
+serra_diffusivity_batman = htm.Diffusivity(
+    D_0=1.9e-7,
+    E_D=c.J_per_mol_to_eV(15190),
     range=(373, 743),
     source="serra_influence_1997",
     isotope="D",
@@ -84,9 +84,9 @@ serra_solubility_batman = htm.Solubility(
 
 # NOTE: F82H
 # TODO: try and fit this ourselves (Figures 10 and 11)
-pisarev_diffusivity = htm.ArrheniusProperty(
-    pre_exp=8.6e-4 * 1e-4,  # cm2 to m2
-    act_energy=0.075,
+pisarev_diffusivity = htm.Diffusivity(
+    D_0=8.6e-4 * 1e-4,  # cm2 to m2
+    E_D=0.075,
     range=(573, 873),
     isotope="D",
     source="pisarev_surface_2001",
@@ -104,9 +104,9 @@ pisarev_solubility = htm.Solubility(
 
 # NOTE: esteban_tritium_2000 is OPTIFER-IVb
 # TODO: fit this ourselves from the paper
-esteban_diffusivity_h = htm.ArrheniusProperty(
-    pre_exp=5.489e-8,
-    act_energy=c.J_per_mol_to_eV(10574),
+esteban_diffusivity_h = htm.Diffusivity(
+    D_0=5.489e-8,
+    E_D=c.J_per_mol_to_eV(10574),
     range=(423, 892),
     isotope="H",
     source="esteban_tritium_2000",
@@ -121,9 +121,9 @@ esteban_solubility_h = htm.Solubility(
     source="esteban_tritium_2000",
 )
 
-esteban_diffusivity_d = htm.ArrheniusProperty(
-    pre_exp=4.613e-8,
-    act_energy=c.J_per_mol_to_eV(11321),
+esteban_diffusivity_d = htm.Diffusivity(
+    D_0=4.613e-8,
+    E_D=c.J_per_mol_to_eV(11321),
     range=(423, 892),
     isotope="D",
     source="esteban_tritium_2000",
@@ -139,9 +139,9 @@ esteban_solubility_d = htm.Solubility(
 )
 
 
-esteban_diffusivity_t = htm.ArrheniusProperty(  # extrapolation
-    pre_exp=4.166e-8,
-    act_energy=c.J_per_mol_to_eV(12027),
+esteban_diffusivity_t = htm.Diffusivity(  # extrapolation
+    D_0=4.166e-8,
+    E_D=c.J_per_mol_to_eV(12027),
     range=(423, 892),
     isotope="T",
     source="esteban_tritium_2000",
@@ -160,17 +160,17 @@ esteban_solubility_t = htm.Solubility(  # extrapolation
 # TODO fit the data ourselves (Fig 5 and )
 # TODO: Dolinski gives permeability and diffusivities, should we compute solubility ourselves?
 
-dolinski_diffusivity_d = htm.ArrheniusProperty(
-    pre_exp=6.6e-7,
-    act_energy=c.kJ_per_mol_to_eV(29),
+dolinski_diffusivity_d = htm.Diffusivity(
+    D_0=6.6e-7,
+    E_D=c.kJ_per_mol_to_eV(29),
     range=(520, 900),
     isotope="D",
     source="dolinski_heavy_2000",
 )
 
-dolinski_diffusivity_t = htm.ArrheniusProperty(
-    pre_exp=5.0e-7,
-    act_energy=c.kJ_per_mol_to_eV(29),
+dolinski_diffusivity_t = htm.Diffusivity(
+    D_0=5.0e-7,
+    E_D=c.kJ_per_mol_to_eV(29),
     range=(520, 900),
     isotope="T",
     source="dolinski_heavy_2000",
@@ -179,9 +179,9 @@ dolinski_diffusivity_t = htm.ArrheniusProperty(
 
 # NOTE: F85H steel
 # TODO: fit this ourselves Figures 2, 3
-kulsartov_diffusivity_h = htm.ArrheniusProperty(
-    pre_exp=2.8e-8,
-    act_energy=c.kJ_per_mol_to_eV(8.0),
+kulsartov_diffusivity_h = htm.Diffusivity(
+    D_0=2.8e-8,
+    E_D=c.kJ_per_mol_to_eV(8.0),
     range=(400 + 273.15, 600 + 273.15),
     isotope="H",
     source="kulsartov_investigation_2006",
@@ -197,9 +197,9 @@ kulsartov_solubility_h = htm.Solubility(
 )
 
 
-kulsartov_diffusivity_d = htm.ArrheniusProperty(
-    pre_exp=2.3e-8,
-    act_energy=c.kJ_per_mol_to_eV(7.8),
+kulsartov_diffusivity_d = htm.Diffusivity(
+    D_0=2.3e-8,
+    E_D=c.kJ_per_mol_to_eV(7.8),
     range=(400 + 273.15, 600 + 273.15),
     isotope="D",
     source="kulsartov_investigation_2006",

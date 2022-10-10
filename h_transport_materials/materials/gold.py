@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -11,9 +11,9 @@ import numpy as np
 GOLD_MOLAR_VOLUME = 1.02e-5  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/gold
 
 # TODO fit it ourselves  https://www.degruyter.com/document/doi/10.1515/zna-1962-0415/html
-eichenauer_diffusivity = ArrheniusProperty(
-    pre_exp=5.60e-8,
-    act_energy=c.kJ_per_mol_to_eV(23.6),
+eichenauer_diffusivity = Diffusivity(
+    D_0=5.60e-8,
+    E_D=c.kJ_per_mol_to_eV(23.6),
     range=(773, 1273),
     source="eichenauer_messung_1962",
     isotope="H",

@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -9,9 +9,9 @@ import h_transport_materials.conversion as c
 
 
 # NOTE: sample No. 1.2 Material 1.4876 (second line of Table 2 in Schmidt's paper)
-schmidt_diffusivity = ArrheniusProperty(
-    pre_exp=9.7e-3 * 1e-4,  # NOTE: in Shimada 2020 review, the pre_exp factor is wrong
-    act_energy=c.kJ_per_mol_to_eV(56.4),
+schmidt_diffusivity = Diffusivity(
+    D_0=9.7e-3 * 1e-4,  # NOTE: in Shimada 2020 review, the pre_exp factor is wrong
+    E_D=c.kJ_per_mol_to_eV(56.4),
     range=(1023, 1223),
     isotope="H",
     source="schmidt_studies_1985",

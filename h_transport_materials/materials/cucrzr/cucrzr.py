@@ -1,39 +1,39 @@
 from h_transport_materials import k_B, Rg, avogadro_nb, diffusivities, solubilities
 from h_transport_materials.materials import Material
-from h_transport_materials.property import ArrheniusProperty, Solubility
+from h_transport_materials.property import Diffusivity, Solubility
 
 from pathlib import Path
 import numpy as np
 
 
-anderl_recombination = ArrheniusProperty(
-    pre_exp=2.9e-14,
-    act_energy=1.92,
+anderl_recombination = Diffusivity(
+    D_0=2.9e-14,
+    E_D=1.92,
     source="anderl_deuterium_1999",
     name="Anderl (1999)",
     isotope="D",
 )
 
 # these are the equations given in Serra 1998 but some are wrong (not in agreement with the plotted data)
-serra_diffusivity_h_eq = ArrheniusProperty(
-    pre_exp=5.7e-7,
-    act_energy=41220 * k_B / Rg,
+serra_diffusivity_h_eq = Diffusivity(
+    D_0=5.7e-7,
+    E_D=41220 * k_B / Rg,
     range=(553, 773),
     source="serra_hydrogen_1998",
     name="H Serra (1998)",
     isotope="H",
 )
-serra_diffusivity_d_eq = ArrheniusProperty(
-    pre_exp=4.8e-7,
-    act_energy=40370 * k_B / Rg,
+serra_diffusivity_d_eq = Diffusivity(
+    D_0=4.8e-7,
+    E_D=40370 * k_B / Rg,
     range=(553, 773),
     source="serra_hydrogen_1998",
     name="D Serra (1998)",
     isotope="D",
 )
-serra_diffusivity_T_eq = ArrheniusProperty(
-    pre_exp=3.07e-7,
-    act_energy=39120 * k_B / Rg,
+serra_diffusivity_T_eq = Diffusivity(
+    D_0=3.07e-7,
+    E_D=39120 * k_B / Rg,
     range=(553, 773),
     source="serra_hydrogen_1998",
     name="T Serra (1998)",
@@ -81,7 +81,7 @@ data_diffusivity_serra_h = data_diffusivity_serra[2:, :2].astype(float)
 data_diffusivity_serra_d = data_diffusivity_serra[2:, 2:].astype(float)
 
 
-serra_diffusivity_h = ArrheniusProperty(
+serra_diffusivity_h = Diffusivity(
     data_T=1000 / data_diffusivity_serra_h[:, 0],
     data_y=data_diffusivity_serra_h[:, 1],
     range=(553, 773),
@@ -90,7 +90,7 @@ serra_diffusivity_h = ArrheniusProperty(
     isotope="H",
 )
 
-serra_diffusivity_d = ArrheniusProperty(
+serra_diffusivity_d = Diffusivity(
     data_T=1000 / data_diffusivity_serra_d[:, 0],
     data_y=data_diffusivity_serra_d[:, 1],
     range=(553, 773),
@@ -127,9 +127,9 @@ serra_solubility_d = Solubility(
     units="m-3 Pa-1/2",
 )
 
-serra_diffusivity_iter = ArrheniusProperty(
-    pre_exp=3.92e-7,
-    act_energy=0.418,
+serra_diffusivity_iter = Diffusivity(
+    D_0=3.92e-7,
+    E_D=0.418,
     range=(553, 773),
     source="serra_hydrogen_1998",
     name="T Serra acc. ITER (1998)",
@@ -139,7 +139,7 @@ serra_diffusivity_iter = ArrheniusProperty(
 cucrzr = Material(D=serra_diffusivity_h, S=serra_solubility_h, name="cucrzr")
 
 # ################# Noh 2016 #############################
-nog_diffusivity_cucrzr_t = ArrheniusProperty(
+nog_diffusivity_cucrzr_t = Diffusivity(
     5.05e-4,
     0.964,
     range=(573, 873),
@@ -169,9 +169,9 @@ nog_solubility_cucrzr_t_2 = Solubility(
 )
 
 # ################# Anderl 1999 #############################
-anderl_diffusivity_cucrzr_d = ArrheniusProperty(
-    pre_exp=2.0e-2,
-    act_energy=1.2,
+anderl_diffusivity_cucrzr_d = Diffusivity(
+    D_0=2.0e-2,
+    E_D=1.2,
     range=(700, 800),
     source="anderl_deuterium_1999",
     name="D Anderl (1999)",
@@ -179,7 +179,7 @@ anderl_diffusivity_cucrzr_d = ArrheniusProperty(
 )
 
 # ################# Penalva 1999 #############################
-penalva_diffusivity_cucrzr_h = ArrheniusProperty(
+penalva_diffusivity_cucrzr_h = Diffusivity(
     3.55e-5,
     65.5e3 * k_B / Rg,
     range=(593, 773),

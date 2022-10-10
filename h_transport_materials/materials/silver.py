@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -10,9 +10,9 @@ import numpy as np
 
 SILVER_MOLAR_VOLUME = 1.03e-5  # m3/mol  https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/silver
 
-katsuta_diffusivity = ArrheniusProperty(
-    pre_exp=8.55e-7,
-    act_energy=3.62e3 * htm.k_B,
+katsuta_diffusivity = Diffusivity(
+    D_0=8.55e-7,
+    E_D=3.62e3 * htm.k_B,
     range=(947, 1123),
     source="katsuta_diffusivity_1979",
     isotope="H",

@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -15,14 +15,14 @@ serra_diffusivity_data = np.genfromtxt(
     names=True,
 )
 
-serra_diffusivity_h = ArrheniusProperty(
+serra_diffusivity_h = Diffusivity(
     data_T=1000 / serra_diffusivity_data["hydrogenX"],
     data_y=serra_diffusivity_data["hydrogenY"],
     isotope="H",
     source="serra_hydrogen_1998-1",
 )
 
-serra_diffusivity_d = ArrheniusProperty(
+serra_diffusivity_d = Diffusivity(
     data_T=1000 / serra_diffusivity_data["deuteriumX"],
     data_y=serra_diffusivity_data["deuteriumY"],
     isotope="D",

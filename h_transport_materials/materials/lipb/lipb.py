@@ -1,5 +1,5 @@
 from h_transport_materials import diffusivities, solubilities
-from h_transport_materials.property import ArrheniusProperty, Solubility
+from h_transport_materials.property import Diffusivity, Solubility
 from h_transport_materials import k_B, Rg, avogadro_nb
 from pathlib import Path
 
@@ -91,9 +91,9 @@ katsuta_solubility = Solubility(
 )
 
 
-fauvet_diffusivity = ArrheniusProperty(
-    pre_exp=1.5e-09,
-    act_energy=0,
+fauvet_diffusivity = Diffusivity(
+    D_0=1.5e-09,
+    E_D=0,
     range=(722, 724),  # TODO should be 723 link to issue #37
     source="fauvet_hydrogen_1988",
     name="H Fauvet (1988)",
@@ -153,7 +153,7 @@ reiter_difusivity_data_H = reiter_diffusivity_data[2:, 2:]
 reiter_difusivity_data_H_T = reiter_difusivity_data_H[:, 0]  # 1000/K
 reiter_difusivity_data_H_T = 1000 / reiter_difusivity_data_H_T  # K
 
-reiter_diffusivity_h = ArrheniusProperty(
+reiter_diffusivity_h = Diffusivity(
     data_T=reiter_difusivity_data_H_T,
     data_y=reiter_difusivity_data_H[:, 1],
     range=(508, 700),
@@ -167,7 +167,7 @@ reiter_difusivity_data_D = reiter_diffusivity_data[2:, :2]
 reiter_difusivity_data_D_T = reiter_difusivity_data_D[:, 0]  # 1000/K
 reiter_difusivity_data_D_T = 1000 / reiter_difusivity_data_D_T  # K
 
-reiter_diffusivity_d = ArrheniusProperty(
+reiter_diffusivity_d = Diffusivity(
     data_T=reiter_difusivity_data_D_T,
     data_y=reiter_difusivity_data_D[:, 1],
     range=(508, 700),
@@ -247,7 +247,7 @@ aiello_solubility = Solubility(
 )
 
 
-shibuya_diffusivity = ArrheniusProperty(
+shibuya_diffusivity = Diffusivity(
     data_T=np.array([300, 400, 500]) + 273.15,
     data_y=np.array([6.6e-6, 7.8e-6, 9.5e-6]) * 1e-4,
     source="shibuya_isothermal_1987",
@@ -255,9 +255,9 @@ shibuya_diffusivity = ArrheniusProperty(
     isotope="T",
 )
 
-terai_diffusivity = ArrheniusProperty(
-    pre_exp=2.50e-07,
-    act_energy=27000 * k_B / Rg,
+terai_diffusivity = Diffusivity(
+    D_0=2.50e-07,
+    E_D=27000 * k_B / Rg,
     range=(573, 973),
     source="terai_diffusion_1992",
     name="T Terai (1987)",

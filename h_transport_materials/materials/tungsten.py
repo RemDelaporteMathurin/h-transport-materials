@@ -1,12 +1,12 @@
 from h_transport_materials.materials import Material
 from h_transport_materials import diffusivities, solubilities
-from h_transport_materials.property import ArrheniusProperty, Solubility
+from h_transport_materials.property import Diffusivity, Solubility
 from h_transport_materials import k_B, Rg, avogadro_nb
 
 frauenfelder_src = "frauenfelder_solution_1969"
-frauenfelder_diffusivity = ArrheniusProperty(
-    pre_exp=2.4e-7,
-    act_energy=0.39,
+frauenfelder_diffusivity = Diffusivity(
+    D_0=2.4e-7,
+    E_D=0.39,
     range=(1100, 2400),
     source=frauenfelder_src,
     name="Frauenfelder (1969)",
@@ -24,9 +24,9 @@ frauenfelder_solubility = Solubility(
 
 
 liu_src = "liu_hydrogen_2014"
-liu_diffusivity_tungsten = ArrheniusProperty(
-    pre_exp=5.13e-8,
-    act_energy=0.21,
+liu_diffusivity_tungsten = Diffusivity(
+    D_0=5.13e-8,
+    E_D=0.21,
     range=(200, 3000),
     source=liu_src,
     name="H Liu (2014)",
@@ -35,35 +35,35 @@ liu_diffusivity_tungsten = ArrheniusProperty(
 
 
 heinola_src = "heinola_diffusion_2010"
-heinola_diffusivity_tungsten = ArrheniusProperty(
-    pre_exp=5.2e-8,
-    act_energy=0.21,
+heinola_diffusivity_tungsten = Diffusivity(
+    D_0=5.2e-8,
+    E_D=0.21,
     source=heinola_src,
     name="H Heinola (2010)",
     isotope="H",
 )
 
 johnson_src = "johnson_hydrogen_2010"
-johnson_diffusivity_tungsten_h = ArrheniusProperty(
-    pre_exp=6.32e-7,
-    act_energy=0.39,
+johnson_diffusivity_tungsten_h = Diffusivity(
+    D_0=6.32e-7,
+    E_D=0.39,
     source=johnson_src,
     name="H Johnson (2010)",
     isotope="H",
 )
 
-johnson_diffusivity_tungsten_t = ArrheniusProperty(
-    pre_exp=5.16e-7,
-    act_energy=0.40,
+johnson_diffusivity_tungsten_t = Diffusivity(
+    D_0=5.16e-7,
+    E_D=0.40,
     source=johnson_src,
     name="T Johnson (2010)",
     isotope="T",
 )
 
 
-moore_diffusivity_tungsten_t = ArrheniusProperty(
-    pre_exp=7.2e-8,
-    act_energy=173.7e3 * k_B / Rg,
+moore_diffusivity_tungsten_t = Diffusivity(
+    D_0=7.2e-8,
+    E_D=173.7e3 * k_B / Rg,
     range=(1510, 1902),
     source="moore_adsorptiondesorption_1964",
     name="T Moore (1964)",
@@ -71,18 +71,18 @@ moore_diffusivity_tungsten_t = ArrheniusProperty(
 )
 
 
-zakharov_diffusivity_tungsten_h = ArrheniusProperty(
-    pre_exp=6.0e-4,
-    act_energy=103.4e3 * k_B / Rg,
+zakharov_diffusivity_tungsten_h = Diffusivity(
+    D_0=6.0e-4,
+    E_D=103.4e3 * k_B / Rg,
     range=(400, 1200),
     source="zakharov_hydrogen_1975",
     name="H Zakharov (1973)",
     isotope="H",
 )
 
-ryabchikov_diffusivity_tungsten_h = ArrheniusProperty(
-    pre_exp=8.1e-6,
-    act_energy=82.9e3 * k_B / Rg,
+ryabchikov_diffusivity_tungsten_h = Diffusivity(
+    D_0=8.1e-6,
+    E_D=82.9e3 * k_B / Rg,
     range=(1055, 1570),
     source="ryabchikov_notitle_1964",
     name="H Ryabchikov (1964)",
@@ -90,27 +90,27 @@ ryabchikov_diffusivity_tungsten_h = ArrheniusProperty(
 )
 
 esteban_src = "esteban_hydrogen_2001"
-esteban_diffusivity_tungsten_h = ArrheniusProperty(
-    pre_exp=5.68e-10,
-    act_energy=9.3e3 * k_B / Rg,
+esteban_diffusivity_tungsten_h = Diffusivity(
+    D_0=5.68e-10,
+    E_D=9.3e3 * k_B / Rg,
     range=(673, 1073),
     source=esteban_src,
     name="H Esteban (2001)",
     isotope="H",
 )
 
-esteban_diffusivity_tungsten_d = ArrheniusProperty(
-    pre_exp=5.49e-10,
-    act_energy=10e3 * k_B / Rg,
+esteban_diffusivity_tungsten_d = Diffusivity(
+    D_0=5.49e-10,
+    E_D=10e3 * k_B / Rg,
     range=(673, 1073),
     source=esteban_src,
     name="D Esteban (2001)",
     isotope="D",
 )
 
-esteban_diffusivity_tungsten_t = ArrheniusProperty(
-    pre_exp=5.34e-10,
-    act_energy=11.2e3 * k_B / Rg,
+esteban_diffusivity_tungsten_t = Diffusivity(
+    D_0=5.34e-10,
+    E_D=11.2e3 * k_B / Rg,
     range=(673, 1073),
     source=esteban_src,
     name="T Esteban (2001)",
@@ -149,26 +149,26 @@ esteban_solubility_tungsten_t = Solubility(
 )
 
 holzner_src = "holzner_solute_2020"
-holzner_diffusivity_tungsten_h = ArrheniusProperty(
-    pre_exp=2.06e-3 * 1e-4,
-    act_energy=0.28,
+holzner_diffusivity_tungsten_h = Diffusivity(
+    D_0=2.06e-3 * 1e-4,
+    E_D=0.28,
     range=(1600, 2600),
     source=holzner_src,
     name="H Holzner (2020)",
     isotope="H",
 )
-holzner_diffusivity_tungsten_d = ArrheniusProperty(
-    pre_exp=1.60e-3 * 1e-4,
-    act_energy=0.28,
+holzner_diffusivity_tungsten_d = Diffusivity(
+    D_0=1.60e-3 * 1e-4,
+    E_D=0.28,
     range=(1600, 2600),
     source=holzner_src,
     name="D Holzner (2020)",
     isotope="D",
 )
 
-fernandez_diffusivity_tungsten_h = ArrheniusProperty(
-    pre_exp=1.93e-7,
-    act_energy=0.20,
+fernandez_diffusivity_tungsten_h = Diffusivity(
+    D_0=1.93e-7,
+    E_D=0.20,
     range=(300, 1200),
     name="H Fernandez (2015)",
     source="fernandez_hydrogen_2015",

@@ -1,15 +1,15 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
 )
 import h_transport_materials.conversion as c
 
-kishimoto_diffusivity = ArrheniusProperty(
-    pre_exp=4.90e-7,
-    act_energy=0.44,
+kishimoto_diffusivity = Diffusivity(
+    D_0=4.90e-7,
+    E_D=0.44,
     isotope="H",
     range=(873, 1173),
     source="kishimoto_hydrogen_1985",

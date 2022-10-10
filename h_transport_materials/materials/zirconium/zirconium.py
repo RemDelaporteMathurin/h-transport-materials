@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -13,17 +13,17 @@ from pathlib import Path
 
 ZIRCONIUM_MOLAR_VOLUME = 1.4e-5  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/zirconium
 
-kearns_diffusivity = ArrheniusProperty(
-    pre_exp=7.73e-3 * 1e-4,
-    act_energy=c.kcal_per_mol_to_eV(10.830),
+kearns_diffusivity = Diffusivity(
+    D_0=7.73e-3 * 1e-4,
+    E_D=c.kcal_per_mol_to_eV(10.830),
     range=(548, 973),
     isotope="H",
     source="kearns_diffusion_1972",
 )
 
-hsu_diffusivity = ArrheniusProperty(
-    pre_exp=2.7e-8,
-    act_energy=c.kJ_per_mol_to_eV(24.9),
+hsu_diffusivity = Diffusivity(
+    D_0=2.7e-8,
+    E_D=c.kJ_per_mol_to_eV(24.9),
     isotope="T",
     source="hsu_palladium-catalyzed_1986",
 )

@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -9,17 +9,17 @@ import h_transport_materials.conversion as c
 
 import numpy as np
 
-tanabe_diffusivity = ArrheniusProperty(
-    pre_exp=4.00e-8,
-    act_energy=c.kJ_per_mol_to_eV(22.3),
+tanabe_diffusivity = Diffusivity(
+    D_0=4.00e-8,
+    E_D=c.kJ_per_mol_to_eV(22.3),
     isotope="H",
     range=(500, 1100),
     source="tanabe_hydrogen_1992",
 )
 
-katsuta_diffusivity = ArrheniusProperty(
-    pre_exp=np.exp(-17.547),
-    act_energy=1.266e3 * htm.k_B,
+katsuta_diffusivity = Diffusivity(
+    D_0=np.exp(-17.547),
+    E_D=1.266e3 * htm.k_B,
     isotope="H",
     range=(833, 1193),
     source="katsuta_diffusivity_1982",

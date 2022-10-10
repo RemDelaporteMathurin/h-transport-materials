@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -8,9 +8,9 @@ from h_transport_materials import (
 import h_transport_materials.conversion as c
 
 
-volkl_diffusivity = ArrheniusProperty(
-    pre_exp=4.40e-8,
-    act_energy=c.kJ_per_mol_to_eV(13.5),
+volkl_diffusivity = Diffusivity(
+    D_0=4.40e-8,
+    E_D=c.kJ_per_mol_to_eV(13.5),
     range=(253, 573),
     isotope="H",
     source="volkl_5_1975",

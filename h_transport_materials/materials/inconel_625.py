@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -8,17 +8,17 @@ from h_transport_materials import (
 import h_transport_materials.conversion as c
 
 
-gervasini_diffusivity_H = ArrheniusProperty(
-    pre_exp=1.75e-6,
-    act_energy=c.kJ_per_mol_to_eV(52.6),
+gervasini_diffusivity_H = Diffusivity(
+    D_0=1.75e-6,
+    E_D=c.kJ_per_mol_to_eV(52.6),
     isotope="H",
     range=(650, 900),
     source="gervasini_solubility_1984",
 )
 
-gervasini_diffusivity_D = ArrheniusProperty(
-    pre_exp=2.39e-6,
-    act_energy=c.kJ_per_mol_to_eV(57.2),
+gervasini_diffusivity_D = Diffusivity(
+    D_0=2.39e-6,
+    E_D=c.kJ_per_mol_to_eV(57.2),
     isotope="D",
     range=(650, 900),
     source="gervasini_solubility_1984",

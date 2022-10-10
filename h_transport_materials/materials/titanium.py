@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -10,9 +10,9 @@ import h_transport_materials.conversion as c
 
 TITANIUM_MOLAR_VOLUME = 1.05e-5  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/titanium
 
-reiter_diffusivity = ArrheniusProperty(
-    pre_exp=6.9e-7,
-    act_energy=c.kJ_per_mol_to_eV(49.1),
+reiter_diffusivity = Diffusivity(
+    D_0=6.9e-7,
+    E_D=c.kJ_per_mol_to_eV(49.1),
     source="reiter_compilation_1996",
     isotope="T",
     range=(873, 1123),

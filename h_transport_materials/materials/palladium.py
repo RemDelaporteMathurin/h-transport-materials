@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -14,9 +14,9 @@ PALLADIUM_VOLUMIC_DENSITY = (
     8.32e-8  # m3/g  https://www.aqua-calc.com/calculate/weight-to-volume/palladium
 )
 
-volkl_diffusivity = ArrheniusProperty(
-    pre_exp=2.90e-7,
-    act_energy=c.kJ_per_mol_to_eV(22.2),
+volkl_diffusivity = Diffusivity(
+    D_0=2.90e-7,
+    E_D=c.kJ_per_mol_to_eV(22.2),
     range=(223, 873),
     source="volkl_5_1975",
     isotope="H",

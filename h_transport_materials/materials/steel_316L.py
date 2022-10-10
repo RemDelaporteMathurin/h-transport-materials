@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -10,9 +10,9 @@ from h_transport_materials.materials.iron import IRON_MOLAR_VOLUME
 
 
 # NOTE: this is an average of 10 papers on diffusivity from Reiter compilation review
-reiter_diffusivity = ArrheniusProperty(
-    pre_exp=3.70e-7,
-    act_energy=c.kJ_per_mol_to_eV(51.9),
+reiter_diffusivity = Diffusivity(
+    D_0=3.70e-7,
+    E_D=c.kJ_per_mol_to_eV(51.9),
     range=(500, 1200),
     isotope="H",
     source="reiter_compilation_1996",

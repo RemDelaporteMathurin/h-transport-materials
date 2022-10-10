@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -9,17 +9,17 @@ import h_transport_materials.conversion as c
 
 NIOBIUM_MOLAR_VOLUME = 1.08e-8  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/niobium
 
-volkl_diffusivity = ArrheniusProperty(
-    pre_exp=5.00e-8,
-    act_energy=c.kJ_per_mol_to_eV(10.2),
+volkl_diffusivity = Diffusivity(
+    D_0=5.00e-8,
+    E_D=c.kJ_per_mol_to_eV(10.2),
     range=(273, 773),
     source="volkl_5_1975",
     isotope="H",
 )
 
-schober_diffusivity = ArrheniusProperty(
-    pre_exp=4.4e-8,
-    act_energy=c.kJ_per_mol_to_eV(12.8),
+schober_diffusivity = Diffusivity(
+    D_0=4.4e-8,
+    E_D=c.kJ_per_mol_to_eV(12.8),
     source="schober_h_1990",
     isotope="H",
 )

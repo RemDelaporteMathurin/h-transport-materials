@@ -1,5 +1,5 @@
 from h_transport_materials import k_B, avogadro_nb, Rg, diffusivities, solubilities
-from h_transport_materials.property import ArrheniusProperty, Solubility
+from h_transport_materials.property import Diffusivity, Solubility
 from pathlib import Path
 import numpy as np
 
@@ -10,7 +10,7 @@ data_fukada = np.genfromtxt(
     delimiter=";",
 )
 
-fukada_diffusivity_h = ArrheniusProperty(
+fukada_diffusivity_h = Diffusivity(
     data_T=1 / data_fukada[:-1, 0],
     data_y=data_fukada[:-1, 1],
     source="fukada_hydrogen_2006",
@@ -42,7 +42,7 @@ data_nakamura_D = np.genfromtxt(
     delimiter=";",
 )
 
-nakamura_diffusivity_h = ArrheniusProperty(
+nakamura_diffusivity_h = Diffusivity(
     data_T=1 / data_nakamura_D[:, 0],
     data_y=data_nakamura_D[:, 1],
     source="nakamura_hydrogen_2015",
@@ -66,7 +66,7 @@ data_lam = np.genfromtxt(
     str(Path(__file__).parent) + "/lam_2020/data_lam_2020_t.csv", delimiter=";"
 )
 
-lam_diffusivity_t = ArrheniusProperty(
+lam_diffusivity_t = Diffusivity(
     data_T=1 / data_lam[:, 0],
     data_y=data_lam[:, 1],
     source="lam_impact_2021",
@@ -78,7 +78,7 @@ data_lam_t_ions = np.genfromtxt(
     str(Path(__file__).parent) + "/lam_2020/data_lam_2020_t_ions.csv", delimiter=";"
 )
 
-lam_diffusivity_t_ions = ArrheniusProperty(
+lam_diffusivity_t_ions = Diffusivity(
     data_T=1 / data_lam_t_ions[:, 0],
     data_y=data_lam_t_ions[:, 1],
     source="lam_impact_2021",
@@ -91,7 +91,7 @@ data_zeng = np.genfromtxt(
     delimiter=";",
 )
 
-zeng_diffusivity_h_2019 = ArrheniusProperty(
+zeng_diffusivity_h_2019 = Diffusivity(
     data_T=1 / data_zeng[:, 0],
     data_y=data_zeng[:, 1],
     source="zeng_behavior_2019",
@@ -123,7 +123,7 @@ data_zeng_2014 = np.genfromtxt(
 data_T_zeng_D = data_zeng_2014[:, 0]  # in °C
 data_T_zeng_D += 273.15  # in K-1
 
-zeng_diffusivity_h_2014 = ArrheniusProperty(
+zeng_diffusivity_h_2014 = Diffusivity(
     data_T=data_T_zeng_D,
     data_y=data_zeng_2014[:, 1],
     source="zeng_apparatus_2014",

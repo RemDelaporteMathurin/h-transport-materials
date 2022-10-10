@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -9,9 +9,9 @@ import h_transport_materials.conversion as c
 
 
 # NOTE: best fit for 4 different austenitic steels
-perng_diffusivity = ArrheniusProperty(
-    pre_exp=2.01e-7,
-    act_energy=c.kJ_per_mol_to_eV(49.3),
+perng_diffusivity = Diffusivity(
+    D_0=2.01e-7,
+    E_D=c.kJ_per_mol_to_eV(49.3),
     range=(373, 623),
     source="perng_effects_1986",
     isotope="H",

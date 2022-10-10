@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import (
-    ArrheniusProperty,
+    Diffusivity,
     Solubility,
     diffusivities,
     solubilities,
@@ -9,9 +9,9 @@ import h_transport_materials.conversion as c
 
 import numpy as np
 
-abramov_diffusivity = ArrheniusProperty(
-    pre_exp=8.0e-9,
-    act_energy=c.kJ_per_mol_to_eV(35.1),
+abramov_diffusivity = Diffusivity(
+    D_0=8.0e-9,
+    E_D=c.kJ_per_mol_to_eV(35.1),
     range=(620, 775),
     isotope="D",
     source="abramov_deuterium_1990",
@@ -30,10 +30,10 @@ shapovalov_solubility = Solubility(
     year=1988,
 )
 
-jones_diffusivity = ArrheniusProperty(
+jones_diffusivity = Diffusivity(
     isotope="T",
-    pre_exp=np.exp(-6.53) * 1e-4,
-    act_energy=965 * htm.k_B,
+    D_0=np.exp(-6.53) * 1e-4,
+    E_D=965 * htm.k_B,
     range=(400, 900),
     source="jones_hydrogen_1967",
 )
