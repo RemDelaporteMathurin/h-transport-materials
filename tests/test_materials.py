@@ -14,4 +14,4 @@ def test_units_wrong_value(material):
     """
     filtered_group = htm.database.filter(material=material)
 
-    assert len(filtered_group.properties) > 0
+    assert len(filtered_group) > 0

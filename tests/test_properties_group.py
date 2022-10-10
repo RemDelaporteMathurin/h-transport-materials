@@ -6,11 +6,11 @@ from pybtex.database import BibliographyData
 
 def test_iterable():
     """Checks that PropertiesGroup can be iterated through"""
-    my_group = htm.PropertiesGroup()
-    my_group.properties = [htm.Property() for _ in range(10)]
+    my_group = htm.PropertiesGroup(htm.Property() for _ in range(10))
+    # my_group.properties = [htm.Property() for _ in range(10)]
 
-    for i in range(len(my_group.properties)):
-        assert my_group[i] == my_group.properties[i]
+    for prop in my_group:
+        assert isinstance(prop, htm.Property)
 
 
 def test_filter_author_lower_case():
@@ -19,8 +19,7 @@ def test_filter_author_lower_case():
 
     my_prop = htm.Property(author="ReM")
 
-    my_group = htm.PropertiesGroup()
-    my_group.properties = [my_prop]
+    my_group = htm.PropertiesGroup([my_prop])
 
     filtered_group = my_group.filter(author="rem")
 
@@ -33,8 +32,7 @@ def test_filter_isotope_lower_case():
 
     my_prop = htm.Property(isotope="H")
 
-    my_group = htm.PropertiesGroup()
-    my_group.properties = [my_prop]
+    my_group = htm.PropertiesGroup([my_prop])
 
     filtered_group = my_group.filter(isotope="h")
 
@@ -68,7 +66,7 @@ def test_mean(mean_D_0, mean_E_D):
 
     # create properties with noise
     for i in range(nb_props):
-        my_group.properties.append(
+        my_group.append(
             htm.ArrheniusProperty(
                 pre_exp=mean_D_0 + noise_D_0[i],
                 act_energy=mean_E_D + noise_E_D[i],
@@ -92,11 +90,12 @@ def test_bibdata():
     }
     """
 
-    my_group = htm.PropertiesGroup()
-    my_group.properties = [
-        htm.Property(material="my_mat", source=source_bib),
-        htm.Property(material="my_mat", source="source"),
-    ]
+    my_group = htm.PropertiesGroup(
+        [
+            htm.Property(material="my_mat", source=source_bib),
+            htm.Property(material="my_mat", source="source"),
+        ]
+    )
 
     assert isinstance(my_group.bibdata, BibliographyData)
 
@@ -110,9 +109,10 @@ def test_export_bib():
     }
     """
 
-    my_group = htm.PropertiesGroup()
-    my_group.properties = [
-        htm.Property(material="my_mat", source=source_bib),
-        htm.Property(material="my_mat", source="source"),
-    ]
+    my_group = htm.PropertiesGroup(
+        [
+            htm.Property(material="my_mat", source=source_bib),
+            htm.Property(material="my_mat", source="source"),
+        ]
+    )
     my_group.export_bib("out.bib")
