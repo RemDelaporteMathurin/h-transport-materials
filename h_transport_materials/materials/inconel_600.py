@@ -25,4 +25,4 @@ properties = [kishimoto_diffusivity, kishimoto_solubility]
 for prop in properties:
     prop.material = "inconel_600"
 
-htm.database.properties += properties
+htm.database += properties

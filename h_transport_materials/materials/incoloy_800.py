@@ -30,4 +30,4 @@ properties = [schmidt_diffusivity, schmidt_solubility]
 for prop in properties:
     prop.material = "incoloy_800"
 
-htm.database.properties += properties
+htm.database += properties

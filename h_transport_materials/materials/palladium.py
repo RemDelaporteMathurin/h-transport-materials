@@ -261,4 +261,4 @@ properties = [volkl_diffusivity, favreau_solubility_t, favreau_solubility_h]
 for prop in properties:
     prop.material = "palladium"
 
-htm.database.properties += properties
+htm.database += properties

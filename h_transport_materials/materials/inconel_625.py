@@ -34,4 +34,4 @@ properties = [gervasini_diffusivity_H, gervasini_diffusivity_D, gervasini_solubi
 for prop in properties:
     prop.material = "inconel_625"
 
-htm.database.properties += properties
+htm.database += properties

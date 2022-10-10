@@ -40,23 +40,22 @@ database = PropertiesGroup()
 
 from .materials import *
 
-diffusivities = PropertiesGroup()
-diffusivities.properties = [prop for prop in database if isinstance(prop, Diffusivity)]
+diffusivities = PropertiesGroup(
+    prop for prop in database if isinstance(prop, Diffusivity)
+)
 
-solubilities = PropertiesGroup()
-solubilities.properties = [prop for prop in database if isinstance(prop, Solubility)]
+solubilities = PropertiesGroup(
+    prop for prop in database if isinstance(prop, Solubility)
+)
 
-permeabilities = PropertiesGroup()
-permeabilities.properties = [
+permeabilities = PropertiesGroup(
     prop for prop in database if isinstance(prop, Permeability)
-]
+)
 
-recombination_coeffs = PropertiesGroup()
-recombination_coeffs.properties = [
+recombination_coeffs = PropertiesGroup(
     prop for prop in database if isinstance(prop, RecombinationCoeff)
-]
+)
 
-dissociation_coeffs = PropertiesGroup()
-dissociation_coeffs.properties = [
+dissociation_coeffs = PropertiesGroup(
     prop for prop in database if isinstance(prop, DissociationCoeff)
-]
+)

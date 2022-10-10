@@ -34,4 +34,4 @@ properties = [young_diffusivity, ransley_solubility]
 for prop in properties:
     prop.material = "aluminium"
 
-htm.database.properties += properties
+htm.database += properties

@@ -26,4 +26,4 @@ properties = [perng_diffusivity, perng_solubility]
 for prop in properties:
     prop.material = "300_series_steel"
 
-htm.database.properties += properties
+htm.database += properties

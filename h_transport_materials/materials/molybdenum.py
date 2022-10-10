@@ -47,4 +47,4 @@ properties = [
 for prop in properties:
     prop.material = "molybdenum"
 
-htm.database.properties += properties
+htm.database += properties

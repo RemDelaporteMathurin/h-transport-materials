@@ -237,4 +237,4 @@ properties = [
 for prop in properties:
     prop.material = "rafm_steel"
 
-htm.database.properties += properties
+htm.database += properties

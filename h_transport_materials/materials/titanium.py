@@ -27,4 +27,4 @@ properties = [reiter_diffusivity, reiter_solubility]
 for prop in properties:
     prop.material = "titanium"
 
-htm.database.properties += properties
+htm.database += properties

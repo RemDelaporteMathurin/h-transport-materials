@@ -25,4 +25,4 @@ properties = [volkl_diffusivity, veleckis_solubility]
 for prop in properties:
     prop.material = "tantalum"
 
-htm.database.properties += properties
+htm.database += properties
