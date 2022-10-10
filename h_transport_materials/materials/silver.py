@@ -39,4 +39,4 @@ properties = [katsuta_diffusivity, mclellan_solubility]
 for prop in properties:
     prop.material = "silver"
 
-htm.database.properties += properties
+htm.database += properties

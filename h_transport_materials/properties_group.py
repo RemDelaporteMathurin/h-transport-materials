@@ -4,20 +4,14 @@ from pybtex.database import BibliographyData, Entry
 from h_transport_materials.fitting import fit_arhenius
 
 
-class PropertiesGroup:
-    def __init__(self) -> None:
-        self.properties = []
-
-    def __getitem__(self, item):
-        return self.properties[item]
-
+class PropertiesGroup(list):
     @property
     def bibdata(self):
         bibdata = {}
 
-        for prop in self.properties:
+        for prop in self:
             if prop.bibsource is None:
-                print('{} is not a bibsource'.format(prop.source))
+                print("{} is not a bibsource".format(prop.source))
                 continue
             key = prop.bibsource.key
             bibdata[key] = prop.bibsource
@@ -48,10 +42,10 @@ class PropertiesGroup:
         Returns:
             PropertiesGroup: the resulting properties
         """
-        list_of_filtered_props = []
+        filtered_props = PropertiesGroup()
 
         # iterate through properties
-        for prop in self.properties:
+        for prop in self:
             match = True
             for attr, value in kwargs.items():
                 prop_attr = getattr(prop, attr)
@@ -68,13 +62,9 @@ class PropertiesGroup:
 
             # append the property to the filtered list
             if (match and not exclude) or (not match and exclude):
-                list_of_filtered_props.append(prop)
+                filtered_props.append(prop)
 
-        # create a new PropertiesGroup object
-        filtered_group = PropertiesGroup()
-        filtered_group.properties = list_of_filtered_props
-
-        return filtered_group
+        return filtered_props
 
     def mean(self, samples_per_line=5, default_range=(300, 1200)):
         """Fits all the data and returns the mean pre-exponential
@@ -94,7 +84,7 @@ class PropertiesGroup:
         data_y = np.array([])
 
         # add data points
-        for prop in self.properties:
+        for prop in self:
             # if the property has data points, use them
             if prop.data_T is not None:
                 prop_T = prop.data_T

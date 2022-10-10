@@ -282,10 +282,10 @@ properties = [
     wampler_solubility_copper_h,
     eichenauer_solubility_copper_h,
     mclellan_solubility,
-    anderl_recombination
+    anderl_recombination,
 ]
 
 for prop in properties:
     prop.material = "copper"
 
-htm.database.properties += properties
+htm.database += properties

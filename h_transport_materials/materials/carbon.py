@@ -33,4 +33,5 @@ properties = [causey_diffusivity, atsumi_diffusivity, atsumi_solubility]
 for prop in properties:
     prop.material = "carbon"
 
-htm.database.properties += properties
+htm.database += properties
+
