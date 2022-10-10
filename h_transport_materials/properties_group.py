@@ -1,5 +1,5 @@
 import numpy as np
-from pybtex.database import BibliographyData, Entry
+from pybtex.database import BibliographyData
 
 from h_transport_materials.fitting import fit_arhenius
 
