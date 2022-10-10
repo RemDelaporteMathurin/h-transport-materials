@@ -1,6 +1,6 @@
 from h_transport_materials import k_B, Rg, avogadro_nb
 import h_transport_materials as htm
-from h_transport_materials.property import Diffusivity, Solubility
+from h_transport_materials.property import Diffusivity, RecombinationCoeff, Solubility
 from h_transport_materials.materials import Material
 from pathlib import Path
 import numpy as np
@@ -254,6 +254,13 @@ mclellan_solubility = Solubility(
     source="mclellan_solid_1973",
 )
 
+anderl_recombination = RecombinationCoeff(
+    pre_exp=9.1e-18,
+    act_energy=0.99,
+    isotope="D",
+    source="anderl_deuterium_1999",
+)
+
 
 properties = [
     reiter_diffusivity_copper,
@@ -275,6 +282,7 @@ properties = [
     wampler_solubility_copper_h,
     eichenauer_solubility_copper_h,
     mclellan_solubility,
+    anderl_recombination
 ]
 
 for prop in properties:

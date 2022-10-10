@@ -1,6 +1,11 @@
 import h_transport_materials as htm
 
 
+def test_that_groups_are_not_empty():
+    for group in [htm.diffusivities, htm.solubilities, htm.recombination_coeffs]:
+        assert len(group.properties) > 0
+
+
 def test_all_solubilities_are_solubility():
     for sol in htm.solubilities:
         assert isinstance(sol, htm.Solubility)
