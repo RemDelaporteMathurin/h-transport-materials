@@ -7,10 +7,18 @@ from pybtex.database import BibliographyData
 def test_iterable():
     """Checks that PropertiesGroup can be iterated through"""
     my_group = htm.PropertiesGroup(htm.Property() for _ in range(10))
-    # my_group.properties = [htm.Property() for _ in range(10)]
 
     for prop in my_group:
         assert isinstance(prop, htm.Property)
+
+
+def test_adding_two_groups():
+    """Checks two groups can be added"""
+    my_group1 = htm.PropertiesGroup(htm.Property() for _ in range(10))
+    my_group2 = htm.PropertiesGroup(htm.Property() for _ in range(10))
+
+    sum_of_groups = my_group1 + my_group2
+    assert len(sum_of_groups) == len(my_group1) + len(my_group2)
 
 
 def test_filter_author_lower_case():
