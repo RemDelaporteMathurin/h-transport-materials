@@ -18,6 +18,7 @@ robertson_diffusivity = Diffusivity(
     range=(273, 1673),
     source="W.M.Robertson: Zeitschrift für Metallkunde, 1973, 64[6], 436-43",
     author="Robertson",
+    isotope="H",
     year=1973,
 )
 
@@ -53,6 +54,7 @@ robertson_solubility = Solubility(
     source="W.M.Robertson: Zeitschrift für Metallkunde, 1973, 64[6], 436-43",
     author="Robertson",
     year=1973,
+    isotope="H",
 )
 
 
