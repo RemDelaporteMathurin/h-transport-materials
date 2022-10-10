@@ -1,4 +1,3 @@
-from multiprocessing.dummy import Array
 from typing import Iterable
 import numpy as np
 from crossref.restful import Works, Etiquette
