@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 
@@ -26,12 +21,9 @@ reiter_solubility = Solubility(
     source="reiter_compilation_1996",
 )
 
-titanium_diffusivities = [reiter_diffusivity]
+properties = [reiter_diffusivity, reiter_solubility]
 
-titanium_solubilities = [reiter_solubility]
-
-for prop in titanium_diffusivities + titanium_solubilities:
+for prop in properties:
     prop.material = "titanium"
 
-diffusivities.properties += titanium_diffusivities
-solubilities.properties += titanium_solubilities
+htm.database.properties += properties

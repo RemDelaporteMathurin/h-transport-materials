@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 
@@ -24,12 +19,13 @@ klepikov_solubility = Solubility(
     source="klepikov_hydrogen_2000",
 )
 
-vanadium_alloy_diffusivities = [hashizume_diffusivity]
+vanadium_alloy_diffusivities = []
 
-vanadium_alloy_solubilities = [klepikov_solubility]
+vanadium_alloy_solubilities = []
 
-for prop in vanadium_alloy_diffusivities + vanadium_alloy_solubilities:
+properties = [hashizume_diffusivity, klepikov_solubility]
+
+for prop in properties:
     prop.material = "v4cr4ti"
 
-diffusivities.properties += vanadium_alloy_diffusivities
-solubilities.properties += vanadium_alloy_solubilities
+htm.database.properties += properties

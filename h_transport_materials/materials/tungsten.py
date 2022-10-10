@@ -1,5 +1,4 @@
-from h_transport_materials.materials import Material
-from h_transport_materials import diffusivities, solubilities
+import h_transport_materials as htm
 from h_transport_materials.property import Diffusivity, Solubility
 from h_transport_materials import k_B, Rg, avogadro_nb
 
@@ -175,7 +174,7 @@ fernandez_diffusivity_tungsten_h = Diffusivity(
     isotope="H",
 )
 
-tungsten_diffusivities = [
+properties = [
     frauenfelder_diffusivity,
     liu_diffusivity_tungsten,
     heinola_diffusivity_tungsten,
@@ -190,21 +189,13 @@ tungsten_diffusivities = [
     holzner_diffusivity_tungsten_h,
     holzner_diffusivity_tungsten_d,
     fernandez_diffusivity_tungsten_h,
-]
-
-tungsten_solubilities = [
     frauenfelder_solubility,
     esteban_solubility_tungsten_h,
     esteban_solubility_tungsten_d,
     esteban_solubility_tungsten_t,
 ]
 
-for prop in tungsten_diffusivities + tungsten_solubilities:
+for prop in properties:
     prop.material = "tungsten"
 
-diffusivities.properties += tungsten_diffusivities
-solubilities.properties += tungsten_solubilities
-
-# tungsten = Material(
-#     D=frauenfelder_diffusivity, S=frauenfelder_solubility, name="tungsten"
-# )
+htm.database.properties += properties

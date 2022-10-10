@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 from h_transport_materials.materials.iron import IRON_MOLAR_VOLUME
 
@@ -29,12 +24,9 @@ reiter_solubility = Solubility(
 )
 
 
-steel_316L_diffusivities = [reiter_diffusivity]
+properties = [reiter_diffusivity, reiter_solubility]
 
-steel_316L_solubilities = [reiter_solubility]
-
-for prop in steel_316L_diffusivities + steel_316L_solubilities:
+for prop in properties:
     prop.material = "steel_316l"
 
-diffusivities.properties += steel_316L_diffusivities
-solubilities.properties += steel_316L_solubilities
+htm.database.properties += properties

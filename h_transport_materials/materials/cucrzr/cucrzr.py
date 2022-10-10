@@ -1,4 +1,5 @@
-from h_transport_materials import k_B, Rg, avogadro_nb, diffusivities, solubilities
+from h_transport_materials import k_B, Rg, avogadro_nb
+import h_transport_materials as htm
 from h_transport_materials.materials import Material
 from h_transport_materials.property import Diffusivity, Solubility
 
@@ -198,7 +199,7 @@ penalva_solubility_cucrzr_h = Solubility(
     units="m-3 Pa-1/2",
 )
 
-cucrzr_diffusivities = [
+properties = [
     serra_diffusivity_h_eq,
     serra_diffusivity_d_eq,
     serra_diffusivity_T_eq,
@@ -208,9 +209,6 @@ cucrzr_diffusivities = [
     nog_diffusivity_cucrzr_t,
     anderl_diffusivity_cucrzr_d,
     penalva_diffusivity_cucrzr_h,
-]
-
-cucrzr_solubilities = [
     serra_solubility_h_eq,
     serra_solubility_d_eq,
     serra_solubility_t_eq,
@@ -221,8 +219,7 @@ cucrzr_solubilities = [
     penalva_solubility_cucrzr_h,
 ]
 
-for prop in cucrzr_diffusivities + cucrzr_solubilities:
+for prop in properties:
     prop.material = "cucrzr"
 
-diffusivities.properties += cucrzr_diffusivities
-solubilities.properties += cucrzr_solubilities
+htm.database.properties += properties

@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 from pathlib import Path
 import numpy as np
@@ -52,12 +47,14 @@ serra_solubility_d = Solubility(
 )
 
 
-palladium_alloy_diffusivities = [serra_diffusivity_h, serra_diffusivity_d]
+properties = [
+    serra_diffusivity_h,
+    serra_diffusivity_d,
+    serra_solubility_h,
+    serra_solubility_d,
+]
 
-palladium_alloy_solubilities = [serra_solubility_h, serra_solubility_d]
-
-for prop in palladium_alloy_diffusivities + palladium_alloy_solubilities:
+for prop in properties:
     prop.material = "pdag"
 
-diffusivities.properties += palladium_alloy_diffusivities
-solubilities.properties += palladium_alloy_solubilities
+htm.database.properties += properties

@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 import numpy as np
 
@@ -39,12 +34,9 @@ mclellan_solubility = Solubility(
     isotope="H",
 )
 
-silver_diffusivities = [katsuta_diffusivity]
+properties = [katsuta_diffusivity, mclellan_solubility]
 
-silver_solubilities = [mclellan_solubility]
-
-for prop in silver_diffusivities + silver_solubilities:
+for prop in properties:
     prop.material = "silver"
 
-diffusivities.properties += silver_diffusivities
-solubilities.properties += silver_solubilities
+htm.database.properties += properties

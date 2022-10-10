@@ -1,1 +1,1 @@
-from .cucrzr import cucrzr_diffusivities, cucrzr_solubilities
+from . import cucrzr

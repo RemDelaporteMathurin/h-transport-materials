@@ -1,4 +1,4 @@
-from h_transport_materials import diffusivities, solubilities
+import h_transport_materials as htm
 from h_transport_materials.property import Diffusivity, Solubility
 from h_transport_materials import k_B, Rg, avogadro_nb
 from pathlib import Path
@@ -275,15 +275,12 @@ alberro_solubility = Solubility(
 )
 
 
-lipb_diffusivities = [
+properties = [
     fauvet_diffusivity,
     reiter_diffusivity_h,
     reiter_diffusivity_d,
     shibuya_diffusivity,
     terai_diffusivity,
-]
-
-lipb_solubilities = [
     wu_solubility,
     chan_solubility,
     katsuta_solubility,
@@ -296,8 +293,7 @@ lipb_solubilities = [
     alberro_solubility,
 ]
 
-for prop in lipb_diffusivities + lipb_solubilities:
+for prop in properties:
     prop.material = "lipb"
 
-diffusivities.properties += lipb_diffusivities
-solubilities.properties += lipb_solubilities
+htm.database.properties += properties

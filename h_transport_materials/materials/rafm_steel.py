@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 
@@ -214,7 +209,7 @@ kulsartov_solubility_d = htm.Solubility(
 )
 
 
-rafm_steel_diffusivities = [
+properties = [
     causey_diffusivity,
     forcey_diffusivity,
     pisarev_diffusivity,
@@ -227,9 +222,6 @@ rafm_steel_diffusivities = [
     kulsartov_diffusivity_d,
     serra_diffusivity_f82h,
     serra_diffusivity_batman,
-]
-
-rafm_steel_solubilities = [
     causey_solubility,
     forcey_solubility,
     pisarev_solubility,
@@ -242,8 +234,7 @@ rafm_steel_solubilities = [
     serra_solubility_batman,
 ]
 
-for prop in rafm_steel_diffusivities + rafm_steel_solubilities:
+for prop in properties:
     prop.material = "rafm_steel"
 
-diffusivities.properties += rafm_steel_diffusivities
-solubilities.properties += rafm_steel_solubilities
+htm.database.properties += properties

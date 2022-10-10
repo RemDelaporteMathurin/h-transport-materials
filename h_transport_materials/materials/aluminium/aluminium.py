@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 from pathlib import Path
 import numpy as np
@@ -34,13 +29,9 @@ ransley_solubility = Solubility(
     source="Ransley, C.E., Neufeld, H., 1948. J. Inst. Met. 74, 599–620",
 )
 
+properties = [young_diffusivity, ransley_solubility]
 
-aluminium_diffusivities = [young_diffusivity]
-
-aluminium_solubilities = [ransley_solubility]
-
-for prop in aluminium_diffusivities + aluminium_solubilities:
+for prop in properties:
     prop.material = "aluminium"
 
-diffusivities.properties += aluminium_diffusivities
-solubilities.properties += aluminium_solubilities
+htm.database.properties += properties

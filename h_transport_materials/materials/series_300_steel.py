@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 
@@ -26,12 +21,9 @@ perng_solubility = Solubility(
     source="perng_effects_1986",
 )
 
-series_300_steel_diffusivities = [perng_diffusivity]
+properties = [perng_diffusivity, perng_solubility]
 
-series_300_steel_solubilities = [perng_solubility]
-
-for prop in series_300_steel_diffusivities + series_300_steel_solubilities:
+for prop in properties:
     prop.material = "300_series_steel"
 
-diffusivities.properties += series_300_steel_diffusivities
-solubilities.properties += series_300_steel_solubilities
+htm.database.properties += properties

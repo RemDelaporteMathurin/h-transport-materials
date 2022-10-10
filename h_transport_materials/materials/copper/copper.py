@@ -1,4 +1,5 @@
-from h_transport_materials import k_B, Rg, avogadro_nb, diffusivities, solubilities
+from h_transport_materials import k_B, Rg, avogadro_nb
+import h_transport_materials as htm
 from h_transport_materials.property import Diffusivity, Solubility
 from h_transport_materials.materials import Material
 from pathlib import Path
@@ -254,7 +255,7 @@ mclellan_solubility = Solubility(
 )
 
 
-copper_diffusivities = [
+properties = [
     reiter_diffusivity_copper,
     magnusson_diffusivity_copper,
     katz_diffusivity_copper_h,
@@ -268,9 +269,6 @@ copper_diffusivities = [
     anderl_diffusivity_copper_d_1999,
     sakamoto_diffusivity_copper_h,
     otsuka_diffusivity_copper_t,
-]
-
-copper_solubilities = [
     reiter_solubility_copper,
     eichenauer_solubility_copper_d,
     thomas_solubility_copper_h,
@@ -279,8 +277,7 @@ copper_solubilities = [
     mclellan_solubility,
 ]
 
-for prop in copper_diffusivities + copper_solubilities:
+for prop in properties:
     prop.material = "copper"
 
-diffusivities.properties += copper_diffusivities
-solubilities.properties += copper_solubilities
+htm.database.properties += properties

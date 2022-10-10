@@ -1,4 +1,5 @@
-from h_transport_materials import k_B, avogadro_nb, Rg, diffusivities, solubilities
+from h_transport_materials import k_B, avogadro_nb, Rg
+import h_transport_materials as htm
 from h_transport_materials.property import Diffusivity, Solubility
 from pathlib import Path
 import numpy as np
@@ -148,24 +149,20 @@ zeng_solubility_h_2014 = Solubility(
     units="m-3 Pa-1",
 )
 
-flinak_diffusivities = [
+properties = [
     fukada_diffusivity_h,
     nakamura_diffusivity_h,
     lam_diffusivity_t,
     lam_diffusivity_t_ions,
     zeng_diffusivity_h_2014,
     zeng_diffusivity_h_2019,
-]
-
-flinak_solubilities = [
     nakamura_solubility_h,
     fukada_solubility_h,
     zeng_solubility_h_2019,
     zeng_solubility_h_2014,
 ]
 
-for prop in flinak_diffusivities + flinak_solubilities:
+for prop in properties:
     prop.material = "flinak"
 
-diffusivities.properties += flinak_diffusivities
-solubilities.properties += flinak_solubilities
+htm.database.properties += properties

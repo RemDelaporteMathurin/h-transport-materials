@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 NIOBIUM_MOLAR_VOLUME = 1.08e-8  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/niobium
@@ -41,12 +36,14 @@ reiter_solubility = Solubility(
     isotope="H",
 )
 
-niobium_diffusivities = [volkl_diffusivity, schober_diffusivity]
+properties = [
+    volkl_diffusivity,
+    schober_diffusivity,
+    veleckis_solubility,
+    reiter_solubility,
+]
 
-niobium_solubilities = [veleckis_solubility, reiter_solubility]
-
-for prop in niobium_diffusivities + niobium_solubilities:
+for prop in properties:
     prop.material = "niobium"
 
-diffusivities.properties += niobium_diffusivities
-solubilities.properties += niobium_solubilities
+htm.database.properties += properties

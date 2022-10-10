@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 
@@ -34,12 +29,9 @@ gervasini_solubility = Solubility(
     isotope="H",
 )
 
-inconel_625_diffusivities = [gervasini_diffusivity_H, gervasini_diffusivity_D]
+properties = [gervasini_diffusivity_H, gervasini_diffusivity_D, gervasini_solubility]
 
-inconel_625_solubilities = [gervasini_solubility]
-
-for prop in inconel_625_diffusivities + inconel_625_solubilities:
+for prop in properties:
     prop.material = "inconel_625"
 
-diffusivities.properties += inconel_625_diffusivities
-solubilities.properties += inconel_625_solubilities
+htm.database.properties += properties

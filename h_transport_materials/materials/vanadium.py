@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 VANADIUM_MOLAR_VOLUME = 8.34e-6  # m3/mol  https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/vanadium
@@ -43,12 +38,9 @@ reiter_solubility = Solubility(
     isotope="H",
 )
 
-vanadium_diffusivities = [volk_diffusivity]
+properties = [volk_diffusivity, veleckis_solubility]
 
-vanadium_solubilities = [veleckis_solubility]
-
-for prop in vanadium_diffusivities + vanadium_solubilities:
+for prop in properties:
     prop.material = "vanadium"
 
-diffusivities.properties += vanadium_diffusivities
-solubilities.properties += vanadium_solubilities
+htm.database.properties += properties

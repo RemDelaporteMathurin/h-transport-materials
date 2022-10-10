@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 NI_MOLAR_VOLUME = 6.59e-6  # m3/mol  https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/nickel
@@ -71,18 +66,17 @@ louthan_solubility = Solubility(
 )
 
 
-nickel_diffusivities = [
+properties = [
     volkl_diffusivity,
     robertson_diffusivity,
     louthan_diffusivity_H,
     louthan_diffusivity_D,
     louthan_diffusivity_T,
+    robertson_solubility,
+    louthan_solubility,
 ]
 
-nickel_solubilities = [robertson_solubility, louthan_solubility]
-
-for prop in nickel_diffusivities + nickel_solubilities:
+for prop in properties:
     prop.material = "nickel"
 
-diffusivities.properties += nickel_diffusivities
-solubilities.properties += nickel_solubilities
+htm.database.properties += properties

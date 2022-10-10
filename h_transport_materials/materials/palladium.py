@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 import numpy as np
@@ -261,12 +256,9 @@ favreau_solubility_h = Solubility(
 # print(favreau_solubility_t.E_S)
 # print(c.kJ_per_mol_to_eV(-8.4))
 
-palladium_diffusivities = [volkl_diffusivity]
+properties = [volkl_diffusivity, favreau_solubility_t, favreau_solubility_h]
 
-palladium_solubilities = [favreau_solubility_t, favreau_solubility_h]
-
-for prop in palladium_diffusivities + palladium_solubilities:
+for prop in properties:
     prop.material = "palladium"
 
-diffusivities.properties += palladium_diffusivities
-solubilities.properties += palladium_solubilities
+htm.database.properties += properties

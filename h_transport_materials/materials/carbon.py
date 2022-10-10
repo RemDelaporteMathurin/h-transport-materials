@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 
@@ -33,12 +28,9 @@ atsumi_solubility = Solubility(
     isotope="H",
 )
 
-carbon_diffusivities = [causey_diffusivity, atsumi_diffusivity]
+properties = [causey_diffusivity, atsumi_diffusivity, atsumi_solubility]
 
-carbon_solubilities = [atsumi_solubility]
-
-for prop in carbon_diffusivities + carbon_solubilities:
+for prop in properties:
     prop.material = "carbon"
 
-diffusivities.properties += carbon_diffusivities
-solubilities.properties += carbon_solubilities
+htm.database.properties += properties

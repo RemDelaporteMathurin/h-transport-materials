@@ -1,6 +1,6 @@
 from h_transport_materials.property import Diffusivity, Solubility
+import h_transport_materials as htm
 from h_transport_materials import k_B, Rg, avogadro_nb
-from h_transport_materials import diffusivities, solubilities
 from h_transport_materials.conversion import kJ_per_mol_to_eV, atmn_to_Pan
 
 from pathlib import Path
@@ -37,12 +37,9 @@ veleckis_solubility = Solubility(
     units="m-3 Pa-1/2",
 )
 
-lithium_diffusivities = [alire_diffusivity]
+properties = [alire_diffusivity, veleckis_solubility]
 
-lithium_solubilities = [veleckis_solubility]
-
-for prop in lithium_diffusivities + lithium_solubilities:
+for prop in properties:
     prop.material = "lithium"
 
-diffusivities.properties += lithium_diffusivities
-solubilities.properties += lithium_solubilities
+htm.database.properties += properties

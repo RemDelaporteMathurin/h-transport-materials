@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 kishimoto_diffusivity = Diffusivity(
@@ -25,12 +20,9 @@ kishimoto_solubility = Solubility(
     source="kishimoto_hydrogen_1985",
 )
 
-inconel_600_diffusivities = [kishimoto_diffusivity]
+properties = [kishimoto_diffusivity, kishimoto_solubility]
 
-inconel_600_solubilities = [kishimoto_solubility]
-
-for prop in inconel_600_diffusivities + inconel_600_solubilities:
+for prop in properties:
     prop.material = "inconel_600"
 
-diffusivities.properties += inconel_600_diffusivities
-solubilities.properties += inconel_600_solubilities
+htm.database.properties += properties

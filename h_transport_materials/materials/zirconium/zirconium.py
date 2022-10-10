@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 import numpy as np
@@ -54,12 +49,14 @@ yamanaka_solubility = Solubility(
     isotope="H",
 )
 
-zirconium_diffusivities = [kearns_diffusivity, hsu_diffusivity]
+properties = [
+    kearns_diffusivity,
+    hsu_diffusivity,
+    kearns_solubility,
+    yamanaka_solubility,
+]
 
-zirconium_solubilities = [kearns_solubility, yamanaka_solubility]
-
-for prop in zirconium_diffusivities + zirconium_solubilities:
+for prop in properties:
     prop.material = "zirconium"
 
-diffusivities.properties += zirconium_diffusivities
-solubilities.properties += zirconium_solubilities
+htm.database.properties += properties

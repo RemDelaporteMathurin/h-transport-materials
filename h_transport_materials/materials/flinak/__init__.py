@@ -1,1 +1,1 @@
-from .flinak import flinak_diffusivities, flinak_solubilities
+from . import flinak

@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 import numpy as np
@@ -40,12 +35,9 @@ jones_diffusivity = Diffusivity(
 
 # NOTE: Jones also gives a solubility but the units are weird
 
-beryllium_diffusivities = [abramov_diffusivity, jones_diffusivity]
+properties = [shapovalov_solubility, abramov_diffusivity, jones_diffusivity]
 
-beryllium_solubilities = [shapovalov_solubility]
-
-for prop in beryllium_diffusivities + beryllium_solubilities:
+for prop in properties:
     prop.material = "beryllium"
 
-diffusivities.properties += beryllium_diffusivities
-solubilities.properties += beryllium_solubilities
+htm.database.properties += properties

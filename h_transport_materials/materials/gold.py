@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 import numpy as np
 
@@ -63,12 +58,9 @@ mclellan_solubility = Solubility(
 )
 
 
-gold_diffusivities = [eichenauer_diffusivity]
+properties = [eichenauer_diffusivity, shimada_solubility, mclellan_solubility]
 
-gold_solubilities = [shimada_solubility, mclellan_solubility]
-
-for prop in gold_diffusivities + gold_solubilities:
+for prop in properties:
     prop.material = "gold"
 
-diffusivities.properties += gold_diffusivities
-solubilities.properties += gold_solubilities
+htm.database.properties += properties

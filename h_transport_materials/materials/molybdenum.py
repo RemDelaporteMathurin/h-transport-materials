@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    Diffusivity,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 import numpy as np
@@ -42,12 +37,14 @@ katsuta_solubility = Solubility(
     source="katsuta_diffusivity_1982",
 )
 
-molybdenum_diffusivities = [tanabe_diffusivity, katsuta_diffusivity]
+properties = [
+    tanabe_diffusivity,
+    katsuta_diffusivity,
+    tanabe_solubility,
+    katsuta_solubility,
+]
 
-molybdenum_solubilities = [tanabe_solubility, katsuta_solubility]
-
-for prop in molybdenum_diffusivities + molybdenum_solubilities:
+for prop in properties:
     prop.material = "molybdenum"
 
-diffusivities.properties += molybdenum_diffusivities
-solubilities.properties += molybdenum_solubilities
+htm.database.properties += properties
