@@ -1,17 +1,11 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    ArrheniusProperty,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 
-hashizume_diffusivity = ArrheniusProperty(
-    pre_exp=7.50e-4
-    * 1e-4,  # NOTE: there is a conversion mistake in Shimada 2020 review
-    act_energy=0.13,
+hashizume_diffusivity = Diffusivity(
+    D_0=7.50e-4 * 1e-4,  # NOTE: there is a conversion mistake in Shimada 2020 review
+    E_D=0.13,
     range=(373, 573),
     isotope="T",
     source="hashizume_diffusional_2007",
@@ -25,12 +19,13 @@ klepikov_solubility = Solubility(
     source="klepikov_hydrogen_2000",
 )
 
-vanadium_alloy_diffusivities = [hashizume_diffusivity]
+vanadium_alloy_diffusivities = []
 
-vanadium_alloy_solubilities = [klepikov_solubility]
+vanadium_alloy_solubilities = []
 
-for prop in vanadium_alloy_diffusivities + vanadium_alloy_solubilities:
+properties = [hashizume_diffusivity, klepikov_solubility]
+
+for prop in properties:
     prop.material = "v4cr4ti"
 
-diffusivities.properties += vanadium_alloy_diffusivities
-solubilities.properties += vanadium_alloy_solubilities
+htm.database.properties += properties

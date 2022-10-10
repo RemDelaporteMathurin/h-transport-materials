@@ -22,16 +22,41 @@ from pathlib import Path
 
 bib_database = parse_file(str(Path(__file__).parent) + "/references.bib")
 
-from .property import Property, ArrheniusProperty, Solubility
+from .property import (
+    Property,
+    ArrheniusProperty,
+    Solubility,
+    Diffusivity,
+    Permeability,
+    RecombinationCoeff,
+    DissociationCoeff,
+)
 from .properties_group import PropertiesGroup
-
-diffusivities = PropertiesGroup()
-solubilities = PropertiesGroup()
-permeabilities = PropertiesGroup()
-recombination_coeffs = PropertiesGroup()
-dissociation_coeffs = PropertiesGroup()
-from .materials import *
-
 from . import conversion
 from . import fitting
 from . import plotting
+
+database = PropertiesGroup()
+
+from .materials import *
+
+diffusivities = PropertiesGroup()
+diffusivities.properties = [prop for prop in database if isinstance(prop, Diffusivity)]
+
+solubilities = PropertiesGroup()
+solubilities.properties = [prop for prop in database if isinstance(prop, Solubility)]
+
+permeabilities = PropertiesGroup()
+permeabilities.properties = [
+    prop for prop in database if isinstance(prop, Permeability)
+]
+
+recombination_coeffs = PropertiesGroup()
+recombination_coeffs.properties = [
+    prop for prop in database if isinstance(prop, RecombinationCoeff)
+]
+
+dissociation_coeffs = PropertiesGroup()
+dissociation_coeffs.properties = [
+    prop for prop in database if isinstance(prop, DissociationCoeff)
+]

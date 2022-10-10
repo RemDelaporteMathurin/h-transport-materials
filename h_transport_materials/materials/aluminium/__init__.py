@@ -1,1 +1,1 @@
-from .aluminium import aluminium_diffusivities, aluminium_solubilities
+from . import aluminium

@@ -1,10 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import (
-    ArrheniusProperty,
-    Solubility,
-    diffusivities,
-    solubilities,
-)
+from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 import numpy as np
@@ -14,9 +9,9 @@ PALLADIUM_VOLUMIC_DENSITY = (
     8.32e-8  # m3/g  https://www.aqua-calc.com/calculate/weight-to-volume/palladium
 )
 
-volkl_diffusivity = ArrheniusProperty(
-    pre_exp=2.90e-7,
-    act_energy=c.kJ_per_mol_to_eV(22.2),
+volkl_diffusivity = Diffusivity(
+    D_0=2.90e-7,
+    E_D=c.kJ_per_mol_to_eV(22.2),
     range=(223, 873),
     source="volkl_5_1975",
     isotope="H",
@@ -91,8 +86,8 @@ favreau_solubility_t = Solubility(
     units="m-3 Pa-1/2",
     data_T=favreau_data_T,
     data_y=favreau_data_y,
-    # pre_exp=4.45e-1 * htm.avogadro_nb,
-    # act_energy=c.kJ_per_mol_to_eV(-8.4),
+    # S_0=4.45e-1 * htm.avogadro_nb,
+    # E_S=c.kJ_per_mol_to_eV(-8.4),
     source="favreau_solubility_1954",
     isotope="T",
 )
@@ -255,18 +250,15 @@ favreau_solubility_h = Solubility(
     isotope="H",
 )
 
-# print(favreau_solubility_t.pre_exp)
+# print(favreau_solubility_t.S_0)
 # print(4.45e-1 * htm.avogadro_nb)
 
-# print(favreau_solubility_t.act_energy)
+# print(favreau_solubility_t.E_S)
 # print(c.kJ_per_mol_to_eV(-8.4))
 
-palladium_diffusivities = [volkl_diffusivity]
+properties = [volkl_diffusivity, favreau_solubility_t, favreau_solubility_h]
 
-palladium_solubilities = [favreau_solubility_t, favreau_solubility_h]
-
-for prop in palladium_diffusivities + palladium_solubilities:
+for prop in properties:
     prop.material = "palladium"
 
-diffusivities.properties += palladium_diffusivities
-solubilities.properties += palladium_solubilities
+htm.database.properties += properties

@@ -1,1 +1,1 @@
-from .zirconium import zirconium_diffusivities, zirconium_solubilities
+from . import zirconium
