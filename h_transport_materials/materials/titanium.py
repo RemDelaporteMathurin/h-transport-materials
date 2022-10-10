@@ -18,6 +18,7 @@ reiter_solubility = Solubility(
     S_0=1.06e-5 * htm.avogadro_nb / TITANIUM_MOLAR_VOLUME,
     E_S=c.kJ_per_mol_to_eV(-42.7),
     range=(873, 1123),
+    isotope="T",
     source="reiter_compilation_1996",
 )
 
