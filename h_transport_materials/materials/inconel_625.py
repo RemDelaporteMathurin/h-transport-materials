@@ -27,8 +27,8 @@ gervasini_diffusivity_D = Diffusivity(
 # NOTE: the value of the pre-exp factor conversion was taken from Shimada 2020
 gervasini_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=2.09e-1 * htm.avogadro_nb,
-    act_energy=c.kJ_per_mol_to_eV(10.52),
+    S_0=2.09e-1 * htm.avogadro_nb,
+    E_S=c.kJ_per_mol_to_eV(10.52),
     range=(650, 900),
     source="gervasini_solubility_1984",
     isotope="H",

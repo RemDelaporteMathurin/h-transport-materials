@@ -23,8 +23,8 @@ eichenauer_diffusivity = Diffusivity(
 # NOTE: this was computed from the permeability of Caskey and Derrick and the diffusivity of Eichenauer
 shimada_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=7.8e1 * htm.avogadro_nb,
-    act_energy=c.kJ_per_mol_to_eV(99.4),
+    S_0=7.8e1 * htm.avogadro_nb,
+    E_S=c.kJ_per_mol_to_eV(99.4),
     range=(773, 873),
     source="shimada_608_2020",
     isotope="H",

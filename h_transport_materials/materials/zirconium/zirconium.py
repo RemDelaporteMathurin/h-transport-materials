@@ -30,8 +30,8 @@ hsu_diffusivity = Diffusivity(
 
 kearns_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=4.30e-1 * htm.avogadro_nb,
-    act_energy=c.kJ_per_mol_to_eV(-49.5),  # TODO: this was found in Shimada 2020 review
+    S_0=4.30e-1 * htm.avogadro_nb,
+    E_S=c.kJ_per_mol_to_eV(-49.5),  # TODO: this was found in Shimada 2020 review
     # "Tritium Transport in Fusion Reactor Materials" however, I can't
     # find this activation energy in Kearns paper
     isotope="H",

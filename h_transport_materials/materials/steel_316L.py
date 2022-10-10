@@ -21,8 +21,8 @@ reiter_diffusivity = Diffusivity(
 # NOTE: this is an average of 5 papers on diffusivity from Reiter compilation review
 reiter_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=5.8e-6 * htm.avogadro_nb / IRON_MOLAR_VOLUME,
-    act_energy=c.kJ_per_mol_to_eV(13.1),
+    S_0=5.8e-6 * htm.avogadro_nb / IRON_MOLAR_VOLUME,
+    E_S=c.kJ_per_mol_to_eV(13.1),
     range=(500, 1200),
     isotope="H",
     source="reiter_compilation_1996",

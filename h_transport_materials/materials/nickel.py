@@ -52,8 +52,8 @@ louthan_diffusivity_T = Diffusivity(
 
 robertson_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=5.52e-6 * htm.avogadro_nb / NI_MOLAR_VOLUME,
-    act_energy=c.kJ_per_mol_to_eV(12.5),
+    S_0=5.52e-6 * htm.avogadro_nb / NI_MOLAR_VOLUME,
+    E_S=c.kJ_per_mol_to_eV(12.5),
     range=(273, 1673),
     source="W.M.Robertson: Zeitschrift für Metallkunde, 1973, 64[6], 436-43",
     author="Robertson",
@@ -63,8 +63,8 @@ robertson_solubility = Solubility(
 
 louthan_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=5.5e-1 * htm.avogadro_nb,
-    act_energy=c.kJ_per_mol_to_eV(15.8),
+    S_0=5.5e-1 * htm.avogadro_nb,
+    E_S=c.kJ_per_mol_to_eV(15.8),
     range=(300, 500),
     isotope="H",
     source="louthan_hydrogen_1975",

@@ -20,8 +20,8 @@ perng_diffusivity = Diffusivity(
 perng_solubility = Solubility(
     units="m-3 Pa-1/2",
     range=(373, 623),
-    pre_exp=2.70e-1 * htm.avogadro_nb,
-    act_energy=c.kJ_per_mol_to_eV(6.9),
+    S_0=2.70e-1 * htm.avogadro_nb,
+    E_S=c.kJ_per_mol_to_eV(6.9),
     isotope="H",
     source="perng_effects_1986",
 )

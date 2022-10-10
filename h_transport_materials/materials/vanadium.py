@@ -21,8 +21,8 @@ veleckis_solubility = Solubility(
     units="m-3 Pa-1/2",
     isotope="H",
     range=(519, 827),
-    pre_exp=1.38e-1 * htm.avogadro_nb,
-    act_energy=c.kJ_per_mol_to_eV(-29.0),
+    S_0=1.38e-1 * htm.avogadro_nb,
+    E_S=c.kJ_per_mol_to_eV(-29.0),
     source="veleckis_thermodynamic_1969",
 )
 
@@ -37,8 +37,8 @@ schober_diffusivity = Diffusivity(
 
 reiter_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=2.1e-6 * htm.avogadro_nb / VANADIUM_MOLAR_VOLUME,
-    act_energy=c.kJ_per_mol_to_eV(-32.2),
+    S_0=2.1e-6 * htm.avogadro_nb / VANADIUM_MOLAR_VOLUME,
+    E_S=c.kJ_per_mol_to_eV(-32.2),
     source="reiter_compilation_1996",
     isotope="H",
 )

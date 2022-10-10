@@ -27,8 +27,8 @@ katsuta_diffusivity = Diffusivity(
 
 tanabe_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=3.3 * htm.avogadro_nb,
-    act_energy=c.kJ_per_mol_to_eV(37.4),
+    S_0=3.3 * htm.avogadro_nb,
+    E_S=c.kJ_per_mol_to_eV(37.4),
     range=(500, 1100),
     isotope="H",
     source="tanabe_hydrogen_1992",
@@ -36,8 +36,8 @@ tanabe_solubility = Solubility(
 
 katsuta_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=np.exp(8.703) * htm.avogadro_nb,
-    act_energy=7.863e3 * htm.k_B,
+    S_0=np.exp(8.703) * htm.avogadro_nb,
+    E_S=7.863e3 * htm.k_B,
     isotope="H",
     source="katsuta_diffusivity_1982",
 )

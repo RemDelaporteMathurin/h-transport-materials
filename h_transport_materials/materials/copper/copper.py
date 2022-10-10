@@ -19,8 +19,8 @@ reiter_diffusivity_copper = Diffusivity(
     isotope="T",
 )
 reiter_solubility_copper = Solubility(
-    pre_exp=3.14e24,
-    act_energy=0.57,
+    S_0=3.14e24,
+    E_S=0.57,
     range=(470, 1200),
     source="reiter_compilation_1996",
     name="T Reiter (1996)",
@@ -89,8 +89,8 @@ eichenauer_diffusivity_copper_h = Diffusivity(
 )
 
 eichenauer_solubility_copper_h = Solubility(
-    pre_exp=4.9e23,
-    act_energy=0.37,
+    S_0=4.9e23,
+    E_S=0.37,
     range=(700, 920),
     source="eichenauer_notitle_1957",
     name="H Eichenauer (1957)",
@@ -130,8 +130,8 @@ eichenauer_diffusivity_copper_d = Diffusivity(
 )
 
 eichenauer_solubility_copper_d = Solubility(
-    pre_exp=3.19e24,
-    act_energy=0.41,
+    S_0=3.19e24,
+    E_S=0.41,
     range=(703, 913),
     source="eichenauer_notitle_1965",
     name="D Eichenauer (1965)",
@@ -183,8 +183,8 @@ otsuka_diffusivity_copper_t = Diffusivity(
 
 # ################# Thomas 1967 #############################
 thomas_solubility_copper_h = Solubility(
-    pre_exp=1.90e24,
-    act_energy=0.51,
+    S_0=1.90e24,
+    E_S=0.51,
     range=(770, 1320),
     source="thomas_solubility_1967",
     name="H Thomas (1967)",
@@ -194,8 +194,8 @@ thomas_solubility_copper_h = Solubility(
 
 # ################# Wampler 1976 #############################
 wampler_solubility_copper_h = Solubility(
-    pre_exp=1.07e24,
-    act_energy=0.44,
+    S_0=1.07e24,
+    E_S=0.44,
     range=(770, 1070),
     source="wampler_precipitation_1976",
     name="H Wampler (1976)",

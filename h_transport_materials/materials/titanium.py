@@ -20,8 +20,8 @@ reiter_diffusivity = Diffusivity(
 
 reiter_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=1.06e-5 * htm.avogadro_nb / TITANIUM_MOLAR_VOLUME,
-    act_energy=c.kJ_per_mol_to_eV(-42.7),
+    S_0=1.06e-5 * htm.avogadro_nb / TITANIUM_MOLAR_VOLUME,
+    E_S=c.kJ_per_mol_to_eV(-42.7),
     range=(873, 1123),
     source="reiter_compilation_1996",
 )

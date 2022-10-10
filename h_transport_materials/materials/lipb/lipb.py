@@ -52,8 +52,8 @@ def atom_density_lipb(nb_li: int, nb_pb: int):
 
 
 wu_solubility = Solubility(
-    pre_exp=6.33e-07 * atom_density_lipb(nb_li=17, nb_pb=83),
-    act_energy=0,
+    S_0=6.33e-07 * atom_density_lipb(nb_li=17, nb_pb=83),
+    E_S=0,
     range=(850, 1040),
     source="wu_solubility_1983",
     name="D Wu (1983)",
@@ -65,8 +65,8 @@ wu_solubility = Solubility(
 # extrapolated to Pb-17Li
 chan_src = "Y.C. Chan, E.Veleckis, DOI:10.1016/0022-3115(84)90198-3"
 chan_solubility = Solubility(
-    pre_exp=4.7e-07 * atom_density_lipb(nb_li=17, nb_pb=1),
-    act_energy=9000 * k_B / Rg,
+    S_0=4.7e-07 * atom_density_lipb(nb_li=17, nb_pb=1),
+    E_S=9000 * k_B / Rg,
     range=(573, 773),
     source="chan_thermodynamic_1984",
     name="H Chan (1984)",
@@ -75,14 +75,14 @@ chan_solubility = Solubility(
 )
 
 
-pre_exp_katsuta = 2.9e3  # atm^0.5  / at.fr.
-pre_exp_katsuta = atm05_to_pa05(pre_exp_katsuta)  # Pa^0.5 / at.fr.
-pre_exp_katsuta = 1 / pre_exp_katsuta  # at.fr. / Pa^0.5
-pre_exp_katsuta *= atom_density_lipb(nb_li=17, nb_pb=83)
+S_0_katsuta = 2.9e3  # atm^0.5  / at.fr.
+S_0_katsuta = atm05_to_pa05(S_0_katsuta)  # Pa^0.5 / at.fr.
+S_0_katsuta = 1 / S_0_katsuta  # at.fr. / Pa^0.5
+S_0_katsuta *= atom_density_lipb(nb_li=17, nb_pb=83)
 
 katsuta_solubility = Solubility(
-    pre_exp=pre_exp_katsuta,
-    act_energy=0,
+    S_0=S_0_katsuta,
+    E_S=0,
     range=(573, 723),
     source="katsuta_hydrogen_1985",
     name="H Katsuta (1985)",
@@ -100,8 +100,8 @@ fauvet_diffusivity = Diffusivity(
     isotope="H",
 )
 fauvet_solubility = Solubility(
-    pre_exp=2.7e-08 * atom_density_lipb(nb_li=17, nb_pb=83),
-    act_energy=0,
+    S_0=2.7e-08 * atom_density_lipb(nb_li=17, nb_pb=83),
+    E_S=0,
     range=(722, 724),  # TODO should be 723 link to issue #37
     source="fauvet_hydrogen_1988",
     name="H Fauvet (1988)",
@@ -217,8 +217,8 @@ reiter_solubility_d = Solubility(
 )
 
 reiter_solubility_t = Solubility(
-    pre_exp=2.32e-08 * atom_density_lipb(nb_li=17, nb_pb=1),
-    act_energy=1350 * k_B / Rg,
+    S_0=2.32e-08 * atom_density_lipb(nb_li=17, nb_pb=1),
+    E_S=1350 * k_B / Rg,
     range=(508, 700),
     source="reiter_solubility_1991",
     name="T Reiter (1991)",
@@ -265,8 +265,8 @@ terai_diffusivity = Diffusivity(
 )
 
 alberro_solubility = Solubility(
-    pre_exp=8.64e-3 * avogadro_nb,
-    act_energy=9000 * k_B / Rg,
+    S_0=8.64e-3 * avogadro_nb,
+    E_S=9000 * k_B / Rg,
     range=(523, 922),
     source="alberro_experimental_2015",
     name="H Alberro (2015)",

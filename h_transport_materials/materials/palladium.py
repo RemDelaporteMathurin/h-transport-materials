@@ -91,8 +91,8 @@ favreau_solubility_t = Solubility(
     units="m-3 Pa-1/2",
     data_T=favreau_data_T,
     data_y=favreau_data_y,
-    # pre_exp=4.45e-1 * htm.avogadro_nb,
-    # act_energy=c.kJ_per_mol_to_eV(-8.4),
+    # S_0=4.45e-1 * htm.avogadro_nb,
+    # E_S=c.kJ_per_mol_to_eV(-8.4),
     source="favreau_solubility_1954",
     isotope="T",
 )
@@ -255,10 +255,10 @@ favreau_solubility_h = Solubility(
     isotope="H",
 )
 
-# print(favreau_solubility_t.pre_exp)
+# print(favreau_solubility_t.S_0)
 # print(4.45e-1 * htm.avogadro_nb)
 
-# print(favreau_solubility_t.act_energy)
+# print(favreau_solubility_t.E_S)
 # print(c.kJ_per_mol_to_eV(-8.4))
 
 palladium_diffusivities = [volkl_diffusivity]

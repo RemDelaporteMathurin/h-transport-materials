@@ -27,8 +27,8 @@ atsumi_diffusivity = Diffusivity(
 
 atsumi_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=1.9e-1 * htm.avogadro_nb,
-    act_energy=c.kJ_per_mol_to_eV(-19.2),
+    S_0=1.9e-1 * htm.avogadro_nb,
+    E_S=c.kJ_per_mol_to_eV(-19.2),
     source="atsumi_absorption_1988",
     isotope="H",
 )

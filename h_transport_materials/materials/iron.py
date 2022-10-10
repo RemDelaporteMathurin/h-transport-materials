@@ -35,8 +35,8 @@ tahara_diffusivity_D = Diffusivity(
 
 eichenauer_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=4.90e-6 / IRON_MOLAR_VOLUME * htm.avogadro_nb,
-    act_energy=c.kJ_per_mol_to_eV(24.3),
+    S_0=4.90e-6 / IRON_MOLAR_VOLUME * htm.avogadro_nb,
+    E_S=c.kJ_per_mol_to_eV(24.3),
     range=(473, 1183),
     isotope="H",
     source="eichenauer_diffusion_1958",

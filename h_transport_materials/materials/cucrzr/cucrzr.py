@@ -41,8 +41,8 @@ serra_diffusivity_T_eq = Diffusivity(
 )
 
 serra_solubility_h_eq = Solubility(
-    pre_exp=0.9 * avogadro_nb,
-    act_energy=38580 * k_B / Rg,
+    S_0=0.9 * avogadro_nb,
+    E_S=38580 * k_B / Rg,
     range=(553, 773),
     source="serra_hydrogen_1998",
     name="H Serra (1998)",
@@ -50,8 +50,8 @@ serra_solubility_h_eq = Solubility(
     units="m-3 Pa-1/2",
 )
 serra_solubility_d_eq = Solubility(
-    pre_exp=0.71 * avogadro_nb,
-    act_energy=37380 * k_B / Rg,
+    S_0=0.71 * avogadro_nb,
+    E_S=37380 * k_B / Rg,
     range=(553, 773),
     source="serra_hydrogen_1998",
     name="D Serra (1998)",
@@ -59,8 +59,8 @@ serra_solubility_d_eq = Solubility(
     units="m-3 Pa-1/2",
 )
 serra_solubility_t_eq = Solubility(
-    pre_exp=0.84 * avogadro_nb,
-    act_energy=38540 * k_B / Rg,
+    S_0=0.84 * avogadro_nb,
+    E_S=38540 * k_B / Rg,
     range=(553, 773),
     source="serra_hydrogen_1998",
     name="T Serra (1998)",
@@ -149,8 +149,8 @@ nog_diffusivity_cucrzr_t = Diffusivity(
 )
 
 nog_solubility_cucrzr_t_1 = Solubility(
-    pre_exp=7.83e20,
-    act_energy=0.0715,
+    S_0=7.83e20,
+    E_S=0.0715,
     range=(573, 873),
     source="noh_hydrogen-isotope_2016",
     name="T Noh (2016)",
@@ -159,8 +159,8 @@ nog_solubility_cucrzr_t_1 = Solubility(
 )
 
 nog_solubility_cucrzr_t_2 = Solubility(
-    pre_exp=5.42e23,
-    act_energy=0.4,
+    S_0=5.42e23,
+    E_S=0.4,
     range=(573, 873),
     source="noh_hydrogen-isotope_2016",
     name="T Noh (2016)",
@@ -189,8 +189,8 @@ penalva_diffusivity_cucrzr_h = Diffusivity(
 )
 
 penalva_solubility_cucrzr_h = Solubility(
-    pre_exp=6.71e-3 * avogadro_nb,
-    act_energy=8.4e3 * k_B / Rg,
+    S_0=6.71e-3 * avogadro_nb,
+    E_S=8.4e3 * k_B / Rg,
     range=(593, 773),
     source="penalva_interaction_2012",
     name="D Penalva (1999)",

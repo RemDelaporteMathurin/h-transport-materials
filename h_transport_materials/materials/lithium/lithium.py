@@ -28,9 +28,9 @@ alire_diffusivity = Diffusivity(
 )
 
 veleckis_solubility = Solubility(
-    pre_exp=atmn_to_Pan(np.exp(-6.498), n=-0.5) * avogadro_nb / LITHIUM_MOLAR_VOLUME,
-    # pre_exp=1.75e-1 * avogadro_nb,
-    act_energy=-6182 * k_B,
+    S_0=atmn_to_Pan(np.exp(-6.498), n=-0.5) * avogadro_nb / LITHIUM_MOLAR_VOLUME,
+    # S_0=1.75e-1 * avogadro_nb,
+    E_S=-6182 * k_B,
     range=(710 + 273.15, 903 + 273.15),
     source="veleckis_lithium-lithium_1974",
     isotope="H",

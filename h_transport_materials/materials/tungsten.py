@@ -13,8 +13,8 @@ frauenfelder_diffusivity = Diffusivity(
     isotope="H",
 )
 frauenfelder_solubility = Solubility(
-    pre_exp=1.87e24,
-    act_energy=1.04,
+    S_0=1.87e24,
+    E_S=1.04,
     range=(1100, 2400),
     source=frauenfelder_src,
     name="Frauenfelder (1969)",
@@ -119,8 +119,8 @@ esteban_diffusivity_tungsten_t = Diffusivity(
 
 
 esteban_solubility_tungsten_h = Solubility(
-    pre_exp=2.9e-2 * avogadro_nb,
-    act_energy=26.9e3 * k_B / Rg,
+    S_0=2.9e-2 * avogadro_nb,
+    E_S=26.9e3 * k_B / Rg,
     range=(673, 1073),
     source=esteban_src,
     name="H Esteban (2001)",
@@ -129,8 +129,8 @@ esteban_solubility_tungsten_h = Solubility(
 )
 
 esteban_solubility_tungsten_d = Solubility(
-    pre_exp=0.75e-2 * avogadro_nb,
-    act_energy=28.7e3 * k_B / Rg,
+    S_0=0.75e-2 * avogadro_nb,
+    E_S=28.7e3 * k_B / Rg,
     range=(673, 1073),
     source=esteban_src,
     name="D Esteban (2001)",
@@ -139,8 +139,8 @@ esteban_solubility_tungsten_d = Solubility(
 )
 
 esteban_solubility_tungsten_t = Solubility(
-    pre_exp=2.25e-2 * avogadro_nb,
-    act_energy=27.8e3 * k_B / Rg,
+    S_0=2.25e-2 * avogadro_nb,
+    E_S=27.8e3 * k_B / Rg,
     range=(673, 1073),
     source=esteban_src,
     name="T Esteban (2001)",

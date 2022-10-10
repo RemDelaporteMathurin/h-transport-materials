@@ -229,13 +229,15 @@ class ArrheniusProperty(Property):
 
 
 class Solubility(ArrheniusProperty):
-    def __init__(self, units: str, **kwargs) -> None:
+    def __init__(
+        self, units: str, S_0: float = None, E_S: float = None, **kwargs
+    ) -> None:
         """Inits Solubility
 
         Args:
             units (str): units of the solubility "m-3 Pa-1/2" or "m-3 Pa-1".
         """
-        super().__init__(**kwargs)
+        super().__init__(pre_exp=S_0, act_energy=E_S, **kwargs)
         self.units = units
 
     @property

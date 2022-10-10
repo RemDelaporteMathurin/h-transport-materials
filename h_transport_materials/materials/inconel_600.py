@@ -15,11 +15,11 @@ kishimoto_diffusivity = Diffusivity(
     source="kishimoto_hydrogen_1985",
 )
 
-# NOTE: the units for the pre_exponential factor in Kishimoto's paper is weird so took the conversion from Shimada 2020
+# NOTE: the units for the S_0onential factor in Kishimoto's paper is weird so took the conversion from Shimada 2020
 kishimoto_solubility = Solubility(
     units="m-3 Pa-1/2",
-    pre_exp=1.62e-1 * htm.avogadro_nb,
-    act_energy=0.22,
+    S_0=1.62e-1 * htm.avogadro_nb,
+    E_S=0.22,
     isotope="H",
     range=(873, 1173),
     source="kishimoto_hydrogen_1985",
