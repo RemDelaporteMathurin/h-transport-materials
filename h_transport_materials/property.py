@@ -131,7 +131,7 @@ class ArrheniusProperty(Property):
         act_energy: float = None,
         data_T: list = None,
         data_y: list = None,
-        **kwargs
+        **kwargs,
     ) -> None:
         """Inits ArrheniusProperty
         property = pre_exp * exp( - act_energy/(k_B T) )
@@ -150,6 +150,17 @@ class ArrheniusProperty(Property):
         self.data_T = data_T
         self.data_y = data_y
         super().__init__(**kwargs)
+
+    def __str__(self) -> str:
+        val = f"""
+        Author: {self.author.capitalize()}
+        Material: {self.material}
+        Year: {self.year}
+        Isotope: {self.isotope}
+        Pre-exponential factor: {self.pre_exp}
+        Activation energy: {self.act_energy} eV
+        """
+        return val
 
     @property
     def range(self):
@@ -243,6 +254,17 @@ class Solubility(ArrheniusProperty):
         super().__init__(pre_exp=S_0, act_energy=E_S, **kwargs)
         self.units = units
 
+    def __str__(self) -> str:
+        val = f"""
+        Author: {self.author.capitalize()}
+        Material: {self.material}
+        Year: {self.year}
+        Isotope: {self.isotope}
+        Pre-exponential factor: {self.pre_exp} {self.units}
+        Activation energy: {self.act_energy} eV
+        """
+        return val
+
     @property
     def units(self):
         return self._units
@@ -268,12 +290,34 @@ class Diffusivity(ArrheniusProperty):
     def __init__(self, D_0: float = None, E_D: float = None, **kwargs) -> None:
         super().__init__(pre_exp=D_0, act_energy=E_D, **kwargs)
 
+    def __str__(self) -> str:
+        val = f"""
+        Author: {self.author.capitalize()}
+        Material: {self.material}
+        Year: {self.year}
+        Isotope: {self.isotope}
+        Pre-exponential factor: {self.pre_exp} m2/s
+        Activation energy: {self.act_energy} eV
+        """
+        return val
+
 
 class Permeability(ArrheniusProperty):
     """Permeability class"""
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
+
+    def __str__(self) -> str:
+        val = f"""
+        Author: {self.author.capitalize()}
+        Material: {self.material}
+        Year: {self.year}
+        Isotope: {self.isotope}
+        Pre-exponential factor: {self.pre_exp} m-1 Pa-1/2 s-1
+        Activation energy: {self.act_energy} eV
+        """
+        return val
 
 
 class RecombinationCoeff(ArrheniusProperty):
@@ -282,12 +326,34 @@ class RecombinationCoeff(ArrheniusProperty):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
+    def __str__(self) -> str:
+        val = f"""
+        Author: {self.author.capitalize()}
+        Material: {self.material}
+        Year: {self.year}
+        Isotope: {self.isotope}
+        Pre-exponential factor: {self.pre_exp} m4/s
+        Activation energy: {self.act_energy} eV
+        """
+        return val
+
 
 class DissociationCoeff(ArrheniusProperty):
     """DissociationCoeff class"""
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
+
+    def __str__(self) -> str:
+        val = f"""
+        Author: {self.author.capitalize()}
+        Material: {self.material}
+        Year: {self.year}
+        Isotope: {self.isotope}
+        Pre-exponential factor: {self.pre_exp} m-3 Pa-1
+        Activation energy: {self.act_energy} eV
+        """
+        return val
 
 
 def get_nb_citations(doi: str):
