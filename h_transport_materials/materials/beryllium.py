@@ -4,6 +4,8 @@ import h_transport_materials.conversion as c
 
 import numpy as np
 
+from h_transport_materials.property import RecombinationCoeff
+
 abramov_diffusivity = Diffusivity(
     D_0=8.0e-9,
     E_D=c.kJ_per_mol_to_eV(35.1),
@@ -35,7 +37,20 @@ jones_diffusivity = Diffusivity(
 
 # NOTE: Jones also gives a solubility but the units are weird
 
-properties = [shapovalov_solubility, abramov_diffusivity, jones_diffusivity]
+dolan_recombination = RecombinationCoeff(
+    pre_exp=1.46e-29,
+    act_energy=0.214,
+    source="dolan_assessment_1994",
+    isotope="H",
+)
+
+
+properties = [
+    shapovalov_solubility,
+    abramov_diffusivity,
+    jones_diffusivity,
+    dolan_recombination,
+]
 
 for prop in properties:
     prop.material = "beryllium"
