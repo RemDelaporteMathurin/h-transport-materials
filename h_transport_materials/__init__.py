@@ -43,30 +43,19 @@ from .materials import *
 diffusivities = PropertiesGroup(
     prop for prop in database if isinstance(prop, Diffusivity)
 )
-# diffusivities.properties = [prop for prop in database if isinstance(prop, Diffusivity)]
 
 solubilities = PropertiesGroup(
     prop for prop in database if isinstance(prop, Solubility)
 )
-# solubilities.properties = [prop for prop in database if isinstance(prop, Solubility)]
 
 permeabilities = PropertiesGroup(
     prop for prop in database if isinstance(prop, Permeability)
 )
-# permeabilities.properties = [
-#     prop for prop in database if isinstance(prop, Permeability)
-# ]
 
 recombination_coeffs = PropertiesGroup(
     prop for prop in database if isinstance(prop, RecombinationCoeff)
 )
-# recombination_coeffs.properties = [
-#     prop for prop in database if isinstance(prop, RecombinationCoeff)
-# ]
 
 dissociation_coeffs = PropertiesGroup(
     prop for prop in database if isinstance(prop, DissociationCoeff)
 )
-# dissociation_coeffs.properties = [
-#     prop for prop in database if isinstance(prop, DissociationCoeff)
-# ]
