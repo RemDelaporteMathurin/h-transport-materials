@@ -1,5 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials.property import Diffusivity, Solubility
+from h_transport_materials.property import Diffusivity, RecombinationCoeff, Solubility
 from h_transport_materials import k_B, Rg, avogadro_nb
 
 frauenfelder_src = "frauenfelder_solution_1969"
@@ -174,6 +174,13 @@ fernandez_diffusivity_tungsten_h = Diffusivity(
     isotope="H",
 )
 
+anderl_recomb = RecombinationCoeff(
+    pre_exp=3.2e-15,
+    act_energy=1.16,
+    isotope="D",
+    source="anderl_deuterium_1992",
+)
+
 properties = [
     frauenfelder_diffusivity,
     liu_diffusivity_tungsten,
@@ -193,6 +200,7 @@ properties = [
     esteban_solubility_tungsten_h,
     esteban_solubility_tungsten_d,
     esteban_solubility_tungsten_t,
+    anderl_recomb,
 ]
 
 for prop in properties:
