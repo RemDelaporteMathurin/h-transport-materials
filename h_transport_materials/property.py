@@ -1,3 +1,4 @@
+from multiprocessing.dummy import Array
 from typing import Iterable
 import numpy as np
 from crossref.restful import Works, Etiquette
@@ -249,6 +250,16 @@ class Solubility(ArrheniusProperty):
                 "units can only accept {} or {}".format(*acceptable_values)
             )
         self._units = value
+
+
+class Diffusivity(ArrheniusProperty):
+    def __init__(self, D_0: float = None, E_D: float = None, **kwargs) -> None:
+        super().__init__(pre_exp=D_0, act_energy=E_D, **kwargs)
+
+
+class Permeability(ArrheniusProperty):
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
 
 
 def get_nb_citations(doi: str):

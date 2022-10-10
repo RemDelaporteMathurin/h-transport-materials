@@ -22,7 +22,7 @@ from pathlib import Path
 
 bib_database = parse_file(str(Path(__file__).parent) + "/references.bib")
 
-from .property import Property, ArrheniusProperty, Solubility
+from .property import Property, ArrheniusProperty, Solubility, Diffusivity, Permeability
 from .properties_group import PropertiesGroup
 
 diffusivities = PropertiesGroup()
