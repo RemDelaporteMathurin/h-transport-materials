@@ -1,7 +1,7 @@
 from h_transport_materials import k_B, Rg, avogadro_nb
 import h_transport_materials as htm
 from h_transport_materials.materials import Material
-from h_transport_materials.property import Diffusivity, Solubility
+from h_transport_materials.property import Diffusivity, RecombinationCoeff, Solubility
 
 from pathlib import Path
 import numpy as np
@@ -199,6 +199,13 @@ penalva_solubility_cucrzr_h = Solubility(
     units="m-3 Pa-1/2",
 )
 
+anderl_recombination = RecombinationCoeff(
+    pre_exp=2.9e-14,
+    act_energy=1.92,
+    isotope="D",
+    source="anderl_deuterium_1999",
+)
+
 properties = [
     serra_diffusivity_h_eq,
     serra_diffusivity_d_eq,
@@ -217,6 +224,7 @@ properties = [
     nog_solubility_cucrzr_t_1,
     nog_solubility_cucrzr_t_2,
     penalva_solubility_cucrzr_h,
+    anderl_recombination,
 ]
 
 for prop in properties:
