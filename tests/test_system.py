@@ -1,12 +1,5 @@
 import h_transport_materials as htm
 
-ALL_PROPS = (
-    htm.diffusivities.properties
-    + htm.solubilities.properties
-    + htm.recombination_coeffs.properties
-    + htm.dissociation_coeffs.properties
-)
-
 
 def test_all_solubilities_are_solubility():
     for sol in htm.solubilities:
@@ -29,7 +22,7 @@ def test_all_dissociations_are_dissociationncoeff():
 
 
 def test_all_properties_have_required_attributes():
-    for prop in ALL_PROPS:
+    for prop in htm.database:
         assert prop.material
         assert isinstance(prop.pre_exp, (float, int))
         assert isinstance(prop.act_energy, (float, int))
@@ -37,7 +30,7 @@ def test_all_properties_have_required_attributes():
 
 
 def test_all_properties_have_references():
-    for prop in ALL_PROPS:
+    for prop in htm.database:
         assert prop.author
         assert prop.year
         assert prop.source
