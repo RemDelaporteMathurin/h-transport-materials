@@ -116,7 +116,6 @@ class PropertiesGroup(list):
         self.bibdata.to_file(filename)
 
     def export_to_json(self, filename: str):
-        data = []
         keys = [
             "material",
             "pre_exp",
@@ -125,10 +124,14 @@ class PropertiesGroup(list):
             "author",
             "source",
             "range",
+            "doi",
+            "units",
         ]
-        # TODO if has doi, add it to JSON
+
+        data = []
         for prop in self:
-            prop_dict = {key: getattr(prop, key) for key in keys}
+
+            prop_dict = {key: getattr(prop, key) for key in keys if hasattr(prop, key)}
             data.append(prop_dict)
 
         with open(filename, "w") as outfile:
