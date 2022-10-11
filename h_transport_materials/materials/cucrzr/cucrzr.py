@@ -1,6 +1,5 @@
 from h_transport_materials import k_B, Rg, avogadro_nb
 import h_transport_materials as htm
-from h_transport_materials.materials import Material
 from h_transport_materials.property import Diffusivity, RecombinationCoeff, Solubility
 
 from pathlib import Path
@@ -15,63 +14,6 @@ anderl_recombination = Diffusivity(
     isotope="D",
 )
 
-# these are the equations given in Serra 1998 but some are wrong (not in agreement with the plotted data)
-serra_diffusivity_h_eq = Diffusivity(
-    D_0=5.7e-7,
-    E_D=41220 * k_B / Rg,
-    range=(553, 773),
-    source="serra_hydrogen_1998",
-    name="H Serra (1998)",
-    isotope="H",
-)
-serra_diffusivity_d_eq = Diffusivity(
-    D_0=4.8e-7,
-    E_D=40370 * k_B / Rg,
-    range=(553, 773),
-    source="serra_hydrogen_1998",
-    name="D Serra (1998)",
-    isotope="D",
-)
-serra_diffusivity_T_eq = Diffusivity(
-    D_0=3.07e-7,
-    E_D=39120 * k_B / Rg,
-    range=(553, 773),
-    source="serra_hydrogen_1998",
-    name="T Serra (1998)",
-    isotope="T",
-)
-
-serra_solubility_h_eq = Solubility(
-    S_0=0.9 * avogadro_nb,
-    E_S=38580 * k_B / Rg,
-    range=(553, 773),
-    source="serra_hydrogen_1998",
-    name="H Serra (1998)",
-    isotope="H",
-    units="m-3 Pa-1/2",
-)
-serra_solubility_d_eq = Solubility(
-    S_0=0.71 * avogadro_nb,
-    E_S=37380 * k_B / Rg,
-    range=(553, 773),
-    source="serra_hydrogen_1998",
-    name="D Serra (1998)",
-    isotope="D",
-    units="m-3 Pa-1/2",
-)
-serra_solubility_t_eq = Solubility(
-    S_0=0.84 * avogadro_nb,
-    E_S=38540 * k_B / Rg,
-    range=(553, 773),
-    source="serra_hydrogen_1998",
-    name="T Serra (1998)",
-    isotope="T",
-    units="m-3 Pa-1/2",
-)
-
-
-# these are the fitted values from the experimental points in Serra 1998
-
 # diffusivity
 data_diffusivity_serra = np.genfromtxt(
     str(Path(__file__).parent) + "/serra_diffusivity_1998.csv",
@@ -82,21 +24,25 @@ data_diffusivity_serra_h = data_diffusivity_serra[2:, :2].astype(float)
 data_diffusivity_serra_d = data_diffusivity_serra[2:, 2:].astype(float)
 
 
+# NOTE Serra equation doesn't match the experimental points on their graph
+# Serra gives D_0=5.7e-7 m2/s and E_D = 41220 J/mol
+# ITER also gives a diffusivity but they adapted it from the wrong equations...
 serra_diffusivity_h = Diffusivity(
     data_T=1000 / data_diffusivity_serra_h[:, 0],
     data_y=data_diffusivity_serra_h[:, 1],
     range=(553, 773),
     source="serra_hydrogen_1998",
-    name="H Serra (1998) (refitted)",
     isotope="H",
 )
 
+# NOTE Serra equation doesn't match the experimental points on their graph
+# Serra gives D_0=4.8e-7 m2/s and E_D = 40370 J/mol
+# ITER also gives a diffusivity but they adapted it from the wrong equations...
 serra_diffusivity_d = Diffusivity(
     data_T=1000 / data_diffusivity_serra_d[:, 0],
     data_y=data_diffusivity_serra_d[:, 1],
     range=(553, 773),
     source="serra_hydrogen_1998",
-    name="D Serra (1998) (refitted)",
     isotope="D",
 )
 
@@ -113,7 +59,6 @@ serra_solubility_h = Solubility(
     data_y=data_solubility_serra_h[:, 1] * avogadro_nb,
     range=(553, 773),
     source="serra_hydrogen_1998",
-    name="H Serra (1998) (refitted)",
     isotope="H",
     units="m-3 Pa-1/2",
 )
@@ -123,22 +68,9 @@ serra_solubility_d = Solubility(
     data_y=data_solubility_serra_d[:, 1] * avogadro_nb,
     range=(553, 773),
     source="serra_hydrogen_1998",
-    name="D Serra (1998) (refitted)",
     isotope="D",
     units="m-3 Pa-1/2",
 )
-
-serra_diffusivity_iter = Diffusivity(
-    D_0=3.92e-7,
-    E_D=0.418,
-    range=(553, 773),
-    source="serra_hydrogen_1998",
-    name="T Serra acc. ITER (1998)",
-    isotope="T",
-)
-
-cucrzr = Material(D=serra_diffusivity_h, S=serra_solubility_h, name="cucrzr")
-
 # ################# Noh 2016 #############################
 nog_diffusivity_cucrzr_t = Diffusivity(
     5.05e-4,
@@ -207,18 +139,11 @@ anderl_recombination = RecombinationCoeff(
 )
 
 properties = [
-    serra_diffusivity_h_eq,
-    serra_diffusivity_d_eq,
-    serra_diffusivity_T_eq,
     serra_diffusivity_h,
     serra_diffusivity_d,
-    serra_diffusivity_iter,
     nog_diffusivity_cucrzr_t,
     anderl_diffusivity_cucrzr_d,
     penalva_diffusivity_cucrzr_h,
-    serra_solubility_h_eq,
-    serra_solubility_d_eq,
-    serra_solubility_t_eq,
     serra_solubility_h,
     serra_solubility_d,
     nog_solubility_cucrzr_t_1,
