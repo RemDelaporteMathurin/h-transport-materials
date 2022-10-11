@@ -1,14 +1,14 @@
-from enum import auto
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy.typing import ArrayLike
-from h_transport_materials import Property
+from h_transport_materials import Property, PropertiesGroup
 import math
 import matplotlib as mpl
+from typing import Union
 
 
 def plot(
-    prop: Property,
+    prop: Union[Property, PropertiesGroup],
     T_bounds=(300, 1200),
     inverse_temperature=True,
     auto_label=True,
@@ -17,7 +17,8 @@ def plot(
     """Plots a Property object on a temperature plot
 
     Args:
-        prop (Property): the property to plot
+        prop (Property or PropertiesGroup): the property (or group of properties)
+            to plot.
         T_bounds (tuple, optional): If the property doesn't have
             a temperature range, this range will be used. Defaults
             to (300, 1200).
@@ -30,25 +31,37 @@ def plot(
     Returns:
         matplotlib.lines.Line2D: the Line2D artist
     """
-    if prop.range is None:
-        range = T_bounds
-    else:
-        range = prop.range
-    T = np.linspace(*range, num=50)
-    if inverse_temperature:
-        plt.xlabel("1/T (K$^{-1}$)")
-        x = (1 / T)[::-1]
-        y = prop.value(T)[::-1]
-    else:
-        plt.xlabel("T (K)")
-        x = T
-        y = prop.value(T)
+    if isinstance(prop, Property):
+        if prop.range is None:
+            range = T_bounds
+        else:
+            range = prop.range
+        T = np.linspace(*range, num=50)
+        if inverse_temperature:
+            plt.xlabel("1/T (K$^{-1}$)")
+            x = (1 / T)[::-1]
+            y = prop.value(T)[::-1]
+        else:
+            plt.xlabel("T (K)")
+            x = T
+            y = prop.value(T)
 
-    if auto_label and "label" not in kwargs.keys():
-        label = "{} {} ({})".format(prop.isotope, prop.author.capitalize(), prop.year)
-        kwargs["label"] = label
+        if auto_label and "label" not in kwargs.keys():
+            label = "{} {} ({})".format(
+                prop.isotope, prop.author.capitalize(), prop.year
+            )
+            kwargs["label"] = label
 
-    return plt.plot(x, y, **kwargs)
+        return plt.plot(x, y, **kwargs)
+    elif isinstance(prop, PropertiesGroup):
+        for prop2 in prop:
+            plot(
+                prop2,
+                T_bounds=T_bounds,
+                inverse_temperature=inverse_temperature,
+                auto_label=auto_label,
+                **kwargs
+            )
 
 
 def line_labels(
