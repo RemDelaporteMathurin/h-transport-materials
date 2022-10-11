@@ -92,6 +92,19 @@ class Property:
         self._range = value
 
     @property
+    def doi(self):
+        self._doi = None
+        if self.bibsource:
+            if "doi" in self.bibsource.fields:
+                self._doi = self.bibsource.fields["doi"]
+
+        return self._doi
+
+    @doi.setter
+    def doi(self, value):
+        self._doi = value
+
+    @property
     def nb_citations(self):
         # if nb_citations doesn't already exist, compute it
         if self._nb_citations is None:
