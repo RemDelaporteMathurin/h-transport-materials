@@ -1,4 +1,5 @@
 import numpy as np
+import json
 from pybtex.database import BibliographyData
 
 from h_transport_materials.fitting import fit_arhenius
@@ -113,3 +114,25 @@ class PropertiesGroup(list):
         """
 
         self.bibdata.to_file(filename)
+
+    def export_to_json(self, filename: str):
+        keys = [
+            "material",
+            "pre_exp",
+            "act_energy",
+            "isotope",
+            "author",
+            "source",
+            "range",
+            "doi",
+            "units",
+        ]
+
+        data = []
+        for prop in self:
+
+            prop_dict = {key: getattr(prop, key) for key in keys if hasattr(prop, key)}
+            data.append(prop_dict)
+
+        with open(filename, "w") as outfile:
+            json.dump(data, outfile, indent=4)

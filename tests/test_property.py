@@ -80,3 +80,9 @@ def test_range_cannot_be_negative():
         htm.Property(range=(-1, 2))
     with pytest.raises(ValueError, match="range must be stricly positive"):
         htm.Property(range=(0, 2))
+
+
+def test_has_doi():
+    """Checks that Property has a doi attribute"""
+    prop = htm.Property(source=source_bib_from_file)
+    assert prop.doi
