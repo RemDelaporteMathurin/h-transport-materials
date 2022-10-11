@@ -32,6 +32,7 @@ class Property:
             isotope (str, optional): isotope of the property ("H", "D" or "T").
                 Defaults to None.
             author (str, optional): name of the author. Defaults to "".
+            note (str, optional): additional information. Defaults to None.
         """
 
         self.material = material
