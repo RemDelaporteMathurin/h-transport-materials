@@ -15,7 +15,6 @@ eichenauer_diffusivity = Diffusivity(
 )
 
 
-# NOTE: this was computed from the permeability of Caskey and Derrick and the diffusivity of Eichenauer
 shimada_solubility = Solubility(
     units="m-3 Pa-1/2",
     S_0=7.8e1 * htm.avogadro_nb,
@@ -23,6 +22,7 @@ shimada_solubility = Solubility(
     range=(773, 873),
     source="shimada_608_2020",
     isotope="H",
+    note="this was computed from the permeability of Caskey and Derrick and the diffusivity of Eichenauer",
 )
 
 data_T_mclellan = np.array(

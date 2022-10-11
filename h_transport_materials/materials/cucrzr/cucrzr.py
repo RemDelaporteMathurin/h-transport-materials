@@ -24,26 +24,32 @@ data_diffusivity_serra_h = data_diffusivity_serra[2:, :2].astype(float)
 data_diffusivity_serra_d = data_diffusivity_serra[2:, 2:].astype(float)
 
 
-# NOTE Serra equation doesn't match the experimental points on their graph
-# Serra gives D_0=5.7e-7 m2/s and E_D = 41220 J/mol
-# ITER also gives a diffusivity but they adapted it from the wrong equations...
+note_serra_diffusivity_h = (
+    "Serra equation doesn't match the experimental points on their graph"
+    + "\n Serra gives D_0=5.7e-7 m2/s and E_D = 41220 J/mol \n"
+    + "ITER also gives a diffusivity but they adapted it from the wrong equations..."
+)
 serra_diffusivity_h = Diffusivity(
     data_T=1000 / data_diffusivity_serra_h[:, 0],
     data_y=data_diffusivity_serra_h[:, 1],
     range=(553, 773),
     source="serra_hydrogen_1998",
     isotope="H",
+    note=note_serra_diffusivity_h,
 )
 
-# NOTE Serra equation doesn't match the experimental points on their graph
-# Serra gives D_0=4.8e-7 m2/s and E_D = 40370 J/mol
-# ITER also gives a diffusivity but they adapted it from the wrong equations...
+note_serra_diffusivity_d = (
+    "Serra equation doesn't match the experimental points on their graph"
+    + "\n Serra gives D_0=4.8e-7 m2/s and E_D = 40370 J/mol \n"
+    + "ITER also gives a diffusivity but they adapted it from the wrong equations..."
+)
 serra_diffusivity_d = Diffusivity(
     data_T=1000 / data_diffusivity_serra_d[:, 0],
     data_y=data_diffusivity_serra_d[:, 1],
     range=(553, 773),
     source="serra_hydrogen_1998",
     isotope="D",
+    note=note_serra_diffusivity_d,
 )
 
 # solubility

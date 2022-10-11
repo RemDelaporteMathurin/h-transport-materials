@@ -1,4 +1,5 @@
 import h_transport_materials as htm
+from h_transport_materials.conversion import atmn_to_Pan
 from h_transport_materials.property import Diffusivity, Solubility
 from h_transport_materials import k_B, Rg, avogadro_nb
 from pathlib import Path
@@ -10,18 +11,6 @@ atm_to_Pa = 101325  # Pa/atm
 molar_mass_li = 0.06941  # kg/mol
 molar_mass_Pb = 0.2072  # kg/mol
 rho_lipb = 10163.197  # kg/m3  at 300K
-
-# TODO remove this since it's in the conversion module
-def atm05_to_pa05(P):
-    """Converts values in atm^0.5 to Pa^0.5
-
-    Args:
-        P (float): the sqrt pressure in atm^0.5
-
-    Returns:
-        float: the sqrt pressure in atm^0.5
-    """
-    return P * atm_to_Pa**0.5
 
 
 def molar_mass_lipb(nb_li: int, nb_pb: int):
@@ -62,8 +51,6 @@ wu_solubility = Solubility(
 )
 
 
-# extrapolated to Pb-17Li
-chan_src = "Y.C. Chan, E.Veleckis, DOI:10.1016/0022-3115(84)90198-3"
 chan_solubility = Solubility(
     S_0=4.7e-07 * atom_density_lipb(nb_li=17, nb_pb=1),
     E_S=9000 * k_B / Rg,
@@ -72,11 +59,12 @@ chan_solubility = Solubility(
     name="H Chan (1984)",
     isotope="H",
     units="m-3 Pa-1/2",
+    note="extrapolated to Pb-17Li",
 )
 
 
 S_0_katsuta = 2.9e3  # atm^0.5  / at.fr.
-S_0_katsuta = atm05_to_pa05(S_0_katsuta)  # Pa^0.5 / at.fr.
+S_0_katsuta = atmn_to_Pan(S_0_katsuta, n=0.5)  # Pa^0.5 / at.fr.
 S_0_katsuta = 1 / S_0_katsuta  # at.fr. / Pa^0.5
 S_0_katsuta *= atom_density_lipb(nb_li=17, nb_pb=83)
 
@@ -98,6 +86,7 @@ fauvet_diffusivity = Diffusivity(
     source="fauvet_hydrogen_1988",
     name="H Fauvet (1988)",
     isotope="H",
+    note="Fauvet gives the value for 723 K only",
 )
 fauvet_solubility = Solubility(
     S_0=2.7e-08 * atom_density_lipb(nb_li=17, nb_pb=83),
@@ -107,12 +96,9 @@ fauvet_solubility = Solubility(
     name="H Fauvet (1988)",
     isotope="H",
     units="m-3 Pa-1/2",
+    note="Fauvet gives the value for 723 K only",
 )
 
-
-# in the review of E.Mas de les Valls there's a mistake in the conversion and
-# the activation energy of solubility should be positive
-# We decided to refit Schumacher's data
 
 schumacher_solubility_data = np.genfromtxt(
     str(Path(__file__).parent) + "/schumacher_1990/solubility.csv",
@@ -140,6 +126,9 @@ schumacher_solubility = Solubility(
     name="H Schumacher (1990)",
     isotope="H",
     units="m-3 Pa-1/2",
+    note="in the review of E.Mas de les Valls there's a mistake in the conversion and"
+    + "the activation energy of solubility should be positive"
+    + "We decided to refit Schumacher's data",
 )
 
 
@@ -297,4 +286,3 @@ for prop in properties:
     prop.material = "lipb"
 
 htm.database += properties
-

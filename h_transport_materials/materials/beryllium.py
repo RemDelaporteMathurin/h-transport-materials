@@ -15,7 +15,6 @@ abramov_diffusivity = Diffusivity(
 )
 
 
-# NOTE: couldn't find the original paper so took values from Shimada 2020 review
 shapovalov_solubility = Solubility(
     units="m-3 Pa-1/2",
     isotope="H",
@@ -25,6 +24,7 @@ shapovalov_solubility = Solubility(
     author="shapovalov",
     source="Shapovalov, V.I., Dukel'skii, Y.M., 1988. Izv. Akad. Nauk SSR Met. 5, 201–203",
     year=1988,
+    note="couldn't find the original paper so took values from Shimada 2020 review",
 )
 
 jones_diffusivity = Diffusivity(
@@ -35,13 +35,12 @@ jones_diffusivity = Diffusivity(
     source="jones_hydrogen_1967",
 )
 
-# NOTE: Jones also gives a solubility but the units are weird
-
 dolan_recombination = RecombinationCoeff(
     pre_exp=1.46e-29,
     act_energy=0.214,
     source="dolan_assessment_1994",
     isotope="H",
+    note="Jones also gives a solubility but the units are weird",
 )
 
 
@@ -56,4 +55,3 @@ for prop in properties:
     prop.material = "beryllium"
 
 htm.database += properties
-

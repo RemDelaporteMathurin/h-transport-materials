@@ -21,13 +21,13 @@ veleckis_solubility = Solubility(
     source="veleckis_thermodynamic_1969",
 )
 
-# found in Assessment of Database for Interaction of Tritium with ITER Plasma Facing Materials
 schober_diffusivity = Diffusivity(
     D_0=5.6e-8,
     E_D=c.kJ_per_mol_to_eV(9.1),
     range=(-150 + 273.15, 200 + 273.15),
     source="schober_h_1990",
     isotope="H",
+    note="found in Assessment of Database for Interaction of Tritium with ITER Plasma Facing Materials",
 )  # TODO get data from experimental points, see issue #64
 
 reiter_solubility = Solubility(

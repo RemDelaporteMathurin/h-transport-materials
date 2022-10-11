@@ -19,7 +19,6 @@ gervasini_diffusivity_D = Diffusivity(
     source="gervasini_solubility_1984",
 )
 
-# NOTE: the value of the pre-exp factor conversion was taken from Shimada 2020
 gervasini_solubility = Solubility(
     units="m-3 Pa-1/2",
     S_0=2.09e-1 * htm.avogadro_nb,
@@ -27,6 +26,7 @@ gervasini_solubility = Solubility(
     range=(650, 900),
     source="gervasini_solubility_1984",
     isotope="H",
+    note="the value of the pre-exp factor conversion was taken from Shimada 2020",
 )
 
 properties = [gervasini_diffusivity_H, gervasini_diffusivity_D, gervasini_solubility]

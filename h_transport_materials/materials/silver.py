@@ -25,13 +25,13 @@ data_y_mclellan = (
 data_y_mclellan *= htm.avogadro_nb / SILVER_MOLAR_VOLUME  # in m-3 Pa-1/2
 
 
-# NOTE: there is likely a mistake in Shimada's 2020 Review
 mclellan_solubility = Solubility(
     data_T=data_T_mclellan,
     data_y=data_y_mclellan,
     units="m-3 Pa-1/2",
     source="mclellan_solid_1973",
     isotope="H",
+    note="there is likely a mistake in Shimada's 2020 Review",
 )
 
 properties = [katsuta_diffusivity, mclellan_solubility]
