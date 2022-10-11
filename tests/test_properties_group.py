@@ -130,16 +130,7 @@ def test_export_bib():
 def test_export_to_json():
     # build
 
-    my_group = htm.PropertiesGroup(
-        [
-            htm.ArrheniusProperty(
-                pre_exp=1, act_energy=2, material="my_mat", source="source1"
-            ),
-            htm.ArrheniusProperty(
-                pre_exp=3, act_energy=4, material="my_mat", source="source2"
-            ),
-        ]
-    )
+    my_group = htm.database
 
     # run
 
@@ -152,4 +143,8 @@ def test_export_to_json():
     for prop_file, prop_ref in zip(data_in, my_group):
         for key, val in prop_file.items():
             if hasattr(prop_ref, key):
-                assert getattr(prop_ref, key) == val
+                if isinstance(val, list):
+                    for item1, item2 in zip(val, getattr(prop_ref, key)):
+                        assert item1 == item2
+                else:
+                    assert getattr(prop_ref, key) == val
