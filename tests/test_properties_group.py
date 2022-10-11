@@ -1,5 +1,6 @@
 import h_transport_materials as htm
 import numpy as np
+import json
 import pytest
 from pybtex.database import BibliographyData
 
@@ -124,3 +125,31 @@ def test_export_bib():
         ]
     )
     my_group.export_bib("out.bib")
+
+
+def test_export_to_json():
+    # build
+
+    my_group = htm.PropertiesGroup(
+        [
+            htm.ArrheniusProperty(
+                pre_exp=1, act_energy=2, material="my_mat", source="source1"
+            ),
+            htm.ArrheniusProperty(
+                pre_exp=3, act_energy=4, material="my_mat", source="source2"
+            ),
+        ]
+    )
+
+    # run
+
+    my_group.export_to_json("out.json")
+
+    # test
+    with open("out.json") as json_file:
+        data_in = json.load(json_file)
+
+    for prop_file, prop_ref in zip(data_in, my_group):
+        for key, val in prop_file.items():
+            if hasattr(prop_ref, key):
+                assert getattr(prop_ref, key) == val
