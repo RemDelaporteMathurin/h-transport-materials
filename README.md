@@ -92,8 +92,7 @@ mean_D_0, mean_E_D = tungsten_diffusivities.mean()
 mean_diffusivity = htm.ArrheniusProperty(mean_D_0, mean_E_D)
 
 # plot
-for D in tungsten_diffusivities:
-    htm.plotting.plot(D, alpha=0.5)
+htm.plotting.plot(tungsten_diffusivities, alpha=0.5)
 
 htm.plotting.plot(mean_diffusivity, color="black", linewidth=3)
 
