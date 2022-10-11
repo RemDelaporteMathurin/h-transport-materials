@@ -18,6 +18,7 @@ class Property:
         year: int = None,
         isotope: str = None,
         author: str = "",
+        note: str = None,
     ) -> None:
         """Inits Property
 
@@ -38,6 +39,8 @@ class Property:
         self.name = name
         self.range = range
         self.isotope = isotope
+        self.note = note
+
         self.nb_citations = None
 
         # make bibsource
