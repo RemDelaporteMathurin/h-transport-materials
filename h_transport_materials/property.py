@@ -110,9 +110,8 @@ class Property:
         if self._nb_citations is None:
             if self.bibsource is None:
                 self.nb_citations = 0
-            elif "doi" in self.bibsource.fields:
-                doi = self.bibsource.fields["doi"]
-                self.nb_citations = get_nb_citations(doi)
+            elif self.doi:
+                self.nb_citations = get_nb_citations(self.doi)
             else:
                 self.nb_citations = 0
         return self._nb_citations
