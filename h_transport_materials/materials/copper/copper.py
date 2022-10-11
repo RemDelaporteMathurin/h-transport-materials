@@ -7,8 +7,6 @@ import numpy as np
 
 COPPER_MOLAR_VOLUME = 7.11e-6  # m3/mol  https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/copper
 
-cited_in_database_for_ITER = "cited in Assessment of Database for Interaction of Tritium with ITER Plasma Facing Materials"
-
 # ################# REITER 1996 #############################
 
 reiter_diffusivity_copper = Diffusivity(
@@ -110,7 +108,6 @@ perkins_diffusivity_copper_h = Diffusivity(
 )
 
 # ################# Tanabe 1987 #############################
-# from Assessment of Database for Interaction of Tritium with ITER Plasma Facing Materials
 tanabe_diffusivity_copper_d = Diffusivity(
     6.7e-8,
     0.24,
@@ -118,6 +115,7 @@ tanabe_diffusivity_copper_d = Diffusivity(
     source="tanabe_hydrogen_1987",
     name="D Tanabe (1987)",
     isotope="D",
+    note="from Assessment of Database for Interaction of Tritium with ITER Plasma Facing Materials",
 )
 
 # ################# Eichenauer 1965 #############################

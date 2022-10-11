@@ -250,12 +250,6 @@ favreau_solubility_h = Solubility(
     isotope="H",
 )
 
-# print(favreau_solubility_t.S_0)
-# print(4.45e-1 * htm.avogadro_nb)
-
-# print(favreau_solubility_t.E_S)
-# print(c.kJ_per_mol_to_eV(-8.4))
-
 properties = [volkl_diffusivity, favreau_solubility_t, favreau_solubility_h]
 
 for prop in properties:

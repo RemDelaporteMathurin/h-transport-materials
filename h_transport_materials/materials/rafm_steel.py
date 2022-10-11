@@ -3,16 +3,15 @@ from h_transport_materials import Diffusivity, Solubility
 import h_transport_materials.conversion as c
 
 
-# NOTE: value obtained from a average estimate from several authors
 causey_diffusivity = Diffusivity(
     D_0=1.00e-7,
     E_D=c.kJ_per_mol_to_eV(13.2),
     range=(300, 973),
     source="causey_416_2012",
     isotope="H",
+    note="value obtained from a average estimate from several authors",
 )
 
-# NOTE: value obtained from a average estimate from several authors
 causey_solubility = Solubility(
     units="m-3 Pa-1/2",
     S_0=4.40e-1 * htm.avogadro_nb,
@@ -20,15 +19,16 @@ causey_solubility = Solubility(
     range=(300, 973),
     isotope="H",
     source="causey_416_2012",
+    note="value obtained from a average estimate from several authors",
 )
 
-# NOTE: heat-treated reference cast l.4914 martensitic steel
 forcey_diffusivity = htm.Diffusivity(
     D_0=7.17e-8,
     E_D=c.J_per_mol_to_eV(13490),
     range=(250 + 273.15, 600 + 273.15),
     isotope="H",
     source="forcey_hydrogen_1988",
+    note="heat-treated reference cast l.4914 martensitic steel",
 )
 
 forcey_solubility = htm.Solubility(
@@ -38,10 +38,10 @@ forcey_solubility = htm.Solubility(
     range=(250 + 273.15, 600 + 273.15),
     isotope="H",
     source="forcey_hydrogen_1988",
+    note="heat-treated reference cast l.4914 martensitic steel",
 )
 
 # TODO fit this ourselves
-# NOTE F82H
 serra_diffusivity_f82h = htm.Diffusivity(
     D_0=1.07e-7,
     E_D=c.J_per_mol_to_eV(13950),
@@ -56,10 +56,10 @@ serra_solubility_f82h = htm.Solubility(
     range=(373, 743),
     source="serra_influence_1997",
     isotope="D",
+    note="F82H",
 )
 
 
-# NOTE Batman steel
 # TODO fit this ourselves
 serra_diffusivity_batman = htm.Diffusivity(
     D_0=1.9e-7,
@@ -67,6 +67,7 @@ serra_diffusivity_batman = htm.Diffusivity(
     range=(373, 743),
     source="serra_influence_1997",
     isotope="D",
+    note="Batman steel",
 )
 serra_solubility_batman = htm.Solubility(
     units="m-3 Pa-1/2",
@@ -75,9 +76,9 @@ serra_solubility_batman = htm.Solubility(
     range=(373, 743),
     source="serra_influence_1997",
     isotope="D",
+    note="Batman steel",
 )
 
-# NOTE: F82H
 # TODO: try and fit this ourselves (Figures 10 and 11)
 pisarev_diffusivity = htm.Diffusivity(
     D_0=8.6e-4 * 1e-4,  # cm2 to m2
@@ -85,6 +86,7 @@ pisarev_diffusivity = htm.Diffusivity(
     range=(573, 873),
     isotope="D",
     source="pisarev_surface_2001",
+    note="F82H",
 )
 
 pisarev_solubility = htm.Solubility(
@@ -97,7 +99,6 @@ pisarev_solubility = htm.Solubility(
 )
 
 
-# NOTE: esteban_tritium_2000 is OPTIFER-IVb
 # TODO: fit this ourselves from the paper
 esteban_diffusivity_h = htm.Diffusivity(
     D_0=5.489e-8,
@@ -105,6 +106,7 @@ esteban_diffusivity_h = htm.Diffusivity(
     range=(423, 892),
     isotope="H",
     source="esteban_tritium_2000",
+    note="OPTIFER-IVb",
 )
 
 esteban_solubility_h = htm.Solubility(
@@ -134,24 +136,25 @@ esteban_solubility_d = htm.Solubility(
 )
 
 
-esteban_diffusivity_t = htm.Diffusivity(  # extrapolation
+esteban_diffusivity_t = htm.Diffusivity(
     D_0=4.166e-8,
     E_D=c.J_per_mol_to_eV(12027),
     range=(423, 892),
     isotope="T",
     source="esteban_tritium_2000",
+    note="extrapolation",
 )
 
-esteban_solubility_t = htm.Solubility(  # extrapolation
+esteban_solubility_t = htm.Solubility(
     units="m-3 Pa-1/2",
     S_0=0.271 * htm.avogadro_nb,
     E_S=c.J_per_mol_to_eV(27905),
     range=(423, 892),
     isotope="T",
     source="esteban_tritium_2000",
+    note="extrapolation",
 )
 
-# NOTE: DIN 1.4914 (MANET) steel
 # TODO fit the data ourselves (Fig 5 and )
 # TODO: Dolinski gives permeability and diffusivities, should we compute solubility ourselves?
 
@@ -161,6 +164,7 @@ dolinski_diffusivity_d = htm.Diffusivity(
     range=(520, 900),
     isotope="D",
     source="dolinski_heavy_2000",
+    note="DIN 1.4914 (MANET) steel",
 )
 
 dolinski_diffusivity_t = htm.Diffusivity(
@@ -169,10 +173,10 @@ dolinski_diffusivity_t = htm.Diffusivity(
     range=(520, 900),
     isotope="T",
     source="dolinski_heavy_2000",
+    note="DIN 1.4914 (MANET) steel",
 )
 
 
-# NOTE: F85H steel
 # TODO: fit this ourselves Figures 2, 3
 kulsartov_diffusivity_h = htm.Diffusivity(
     D_0=2.8e-8,
@@ -180,6 +184,7 @@ kulsartov_diffusivity_h = htm.Diffusivity(
     range=(400 + 273.15, 600 + 273.15),
     isotope="H",
     source="kulsartov_investigation_2006",
+    note="F85H steel",
 )
 
 kulsartov_solubility_h = htm.Solubility(

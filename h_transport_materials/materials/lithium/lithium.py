@@ -18,13 +18,13 @@ alire_diffusivity_data = np.genfromtxt(
 alire_diffusivity_data_T = 1 / alire_diffusivity_data[:, 0]
 alire_diffusivity_data_y = alire_diffusivity_data[:, 1] * 1e-4  # from cm2 to m2
 
-# NOTE: in Shimada 2020, there is an error in Table 1 Lithium (lq.) line E_D column it should be 105.0 kJ/mol
 alire_diffusivity = Diffusivity(
     data_T=alire_diffusivity_data_T,
     data_y=alire_diffusivity_data_y,
     range=(898, 1178),
     isotope="H",
     source="alire_transport_1976",
+    note="in Shimada 2020, there is an error in Table 1 Lithium (lq.) line E_D column it should be 105.0 kJ/mol",
 )
 
 veleckis_solubility = Solubility(
