@@ -13,7 +13,7 @@ hashizume_diffusivity = Diffusivity(
 
 klepikov_solubility = Solubility(
     units="m-3 Pa-1/2",
-    data_T=[673, 773, 873, 973, 1073],
+    data_T=[673.0, 773.0, 873.0, 973.0, 1073.0],
     data_y=[1.62e20, 9.84e19, 5.65e19, 4.91e19, 2.94e19],  # taken from Table 2
     isotope="H",
     source="klepikov_hydrogen_2000",
@@ -29,4 +29,3 @@ for prop in properties:
     prop.material = "v4cr4ti"
 
 htm.database += properties
-
