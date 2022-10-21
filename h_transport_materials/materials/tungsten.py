@@ -4,7 +4,7 @@ from h_transport_materials import k_B, Rg, avogadro_nb
 
 frauenfelder_src = "frauenfelder_solution_1969"
 frauenfelder_diffusivity = Diffusivity(
-    D_0=2.4e-7,
+    D_0=4.1e-7,
     E_D=0.39,
     range=(1100, 2400),
     source=frauenfelder_src,
