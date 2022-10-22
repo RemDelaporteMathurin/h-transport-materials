@@ -1,5 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import Diffusivity, Solubility
+from h_transport_materials import Diffusivity, Solubility, Permeability
 import h_transport_materials.conversion as c
 from h_transport_materials.materials.iron import IRON_MOLAR_VOLUME
 
@@ -23,8 +23,20 @@ reiter_solubility = Solubility(
     note="this is an average of 5 papers on diffusivity from Reiter compilation review",
 )
 
+houben_pre_exp = 8e-7  # mol/ (m s mbar^0.5)
+houben_pre_exp *= htm.avogadro_nb  # / (m s mbar^0.5)
+houben_pre_exp *= (1e-3) ** 0.5  # / (m s bar^0.5)
+houben_pre_exp = htm.conversion.barn_to_Pan(houben_pre_exp, -0.5)  # / (m s Pa^0.5)
 
-properties = [reiter_diffusivity, reiter_solubility]
+houben_permeability = Permeability(
+    pre_exp=houben_pre_exp,
+    act_energy=htm.conversion.kJ_per_mol_to_eV(58),
+    source="houben_comparison_2022",
+    isotope="D",
+)
+
+
+properties = [reiter_diffusivity, reiter_solubility, houben_permeability]
 
 for prop in properties:
     prop.material = "steel_316l"
