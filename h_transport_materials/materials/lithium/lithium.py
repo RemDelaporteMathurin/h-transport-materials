@@ -14,12 +14,10 @@ alire_diffusivity_data = np.genfromtxt(
     delimiter=",",
 )
 
-alire_diffusivity_data_T = 1 / alire_diffusivity_data[:, 0]
-alire_diffusivity_data_y = alire_diffusivity_data[:, 1] * 1e-4  # from cm2 to m2
 
 alire_diffusivity = Diffusivity(
-    data_T=alire_diffusivity_data_T,
-    data_y=alire_diffusivity_data_y,
+    data_T=(1 / alire_diffusivity_data[:, 0]) * htm.ureg.K,
+    data_y=alire_diffusivity_data[:, 1] * htm.ureg.cm**2 * htm.ureg.s**-1,
     range=(898, 1178),
     isotope="H",
     source="alire_transport_1976",

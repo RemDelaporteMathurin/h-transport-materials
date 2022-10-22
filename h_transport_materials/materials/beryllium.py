@@ -1,6 +1,5 @@
 import h_transport_materials as htm
 from h_transport_materials import Diffusivity, Solubility
-import h_transport_materials.conversion as c
 
 import numpy as np
 
@@ -18,7 +17,7 @@ abramov_diffusivity = Diffusivity(
 shapovalov_solubility = Solubility(
     units="m-3 Pa-1/2",
     isotope="H",
-    S_0=1.90e-2 * htm.avogadro_nb,
+    S_0=1.90e-2 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=16.8 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(673, 1473),
     author="shapovalov",

@@ -11,7 +11,7 @@ frauenfelder_diffusivity = Diffusivity(
     isotope="H",
 )
 frauenfelder_solubility = Solubility(
-    S_0=1.87e24,
+    S_0=1.87e24 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=1.04 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(1100, 2400),
     source=frauenfelder_src,

@@ -40,10 +40,12 @@ yamanaka_solubility_data = np.genfromtxt(
 
 yamanaka_solubility = Solubility(
     units="m-3 Pa-1/2",
-    data_T=1e4 / yamanaka_solubility_data[:, 0],
+    data_T=1e4 / yamanaka_solubility_data[:, 0] * htm.ureg.K,
     data_y=np.exp(yamanaka_solubility_data[:, 1])
-    * htm.avogadro_nb
-    / ZIRCONIUM_MOLAR_VOLUME,
+    / ZIRCONIUM_MOLAR_VOLUME
+    * htm.ureg.mol
+    * htm.ureg.m**-3
+    * htm.ureg.Pa**-0.5,
     source="yamanaka_effect_1989",
     isotope="H",
 )

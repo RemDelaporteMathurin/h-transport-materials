@@ -25,29 +25,33 @@ shimada_solubility = Solubility(
     note="this was computed from the permeability of Caskey and Derrick and the diffusivity of Eichenauer",
 )
 
-data_T_mclellan = np.array(
-    [
-        1050.0,
-        997.0,
-        948.0,
-        939.0,
-        910.0,
-        878.0,
-        838.0,
-        805.0,
-        793.0,
-        777.0,
-        735.0,
-        693.0,
-    ]
+data_T_mclellan = (
+    np.array(
+        [
+            1050.0,
+            997.0,
+            948.0,
+            939.0,
+            910.0,
+            878.0,
+            838.0,
+            805.0,
+            793.0,
+            777.0,
+            735.0,
+            693.0,
+        ]
+    )
+    * htm.ureg.degC
 )  # degC Table1
-data_T_mclellan += 273.15  # in Kelvin
 
 data_y_mclellan = (
     np.array([2.86, 2.51, 2.23, 1.93, 1.96, 1.96, 1.66, 1.66, 1.66, 1.30, 1.27, 1.06])
     * 1e-6
 )  # in at.fr. Table 1
-data_y_mclellan *= htm.avogadro_nb / GOLD_MOLAR_VOLUME  # in H m-3 Pa-1/2
+data_y_mclellan *= (
+    1 / GOLD_MOLAR_VOLUME * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5
+)
 
 mclellan_solubility = Solubility(
     data_T=data_T_mclellan,
