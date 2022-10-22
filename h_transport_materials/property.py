@@ -236,6 +236,11 @@ class ArrheniusProperty(Property):
         if value is None:
             self._data_T = value
             return
+        if isinstance(value, pint.Quantity):
+            # convert to K
+            value = value.to(ureg.K).magnitude
+        else:
+            warnings.warn(f"no units were given with data_T, assuming {self.units:~}")
         if not isinstance(value, (list, np.ndarray)):
             raise TypeError("data_T accepts list or np.ndarray")
         elif isinstance(value, list):
@@ -255,6 +260,11 @@ class ArrheniusProperty(Property):
         if value is None:
             self._data_y = value
             return
+        if isinstance(value, pint.Quantity):
+            # convert to right units
+            value = value.to(self.units).magnitude
+        else:
+            warnings.warn(f"no units were given with data_y, assuming {self.units:~}")
         if not isinstance(value, (list, np.ndarray)):
             raise TypeError("data_y accepts list or np.ndarray")
         elif isinstance(value, list):
@@ -266,7 +276,11 @@ class ArrheniusProperty(Property):
             self._data_y = value[~np.isnan(value)]
 
     def fit(self):
-        self.pre_exp, self.act_energy = fit_arhenius(self.data_y, self.data_T)
+        pre_exp, act_energy = fit_arhenius(self.data_y, self.data_T)
+        self.pre_exp, self.act_energy = (
+            pre_exp * self.units,
+            act_energy * DEFAULT_ENERGY_UNITS,
+        )
         self.range = (self.data_T.min(), self.data_T.max())
 
     def value(self, T, exp=np.exp):
