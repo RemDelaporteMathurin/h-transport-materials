@@ -1,6 +1,11 @@
 from h_transport_materials import k_B, Rg, avogadro_nb
 import h_transport_materials as htm
-from h_transport_materials.property import Diffusivity, RecombinationCoeff, Solubility
+from h_transport_materials.property import (
+    Diffusivity,
+    RecombinationCoeff,
+    Solubility,
+    Permeability,
+)
 
 from pathlib import Path
 import numpy as np
@@ -144,6 +149,19 @@ anderl_recombination = RecombinationCoeff(
     source="anderl_deuterium_1999",
 )
 
+
+houben_pre_exp = 6e-6  # mol/ (m s mbar^0.5)
+houben_pre_exp *= htm.avogadro_nb  # / (m s mbar^0.5)
+houben_pre_exp *= (1e-3) ** 0.5  # / (m s bar^0.5)
+houben_pre_exp = htm.conversion.barn_to_Pan(houben_pre_exp, -0.5)  # / (m s Pa^0.5)
+
+houben_permeability = Permeability(
+    pre_exp=houben_pre_exp,
+    act_energy=htm.conversion.kJ_per_mol_to_eV(79),
+    source="houben_comparison_2022",
+    isotope="D",
+)
+
 properties = [
     serra_diffusivity_h,
     serra_diffusivity_d,
@@ -156,6 +174,7 @@ properties = [
     nog_solubility_cucrzr_t_2,
     penalva_solubility_cucrzr_h,
     anderl_recombination,
+    houben_permeability,
 ]
 
 for prop in properties:
