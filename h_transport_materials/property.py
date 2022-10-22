@@ -182,6 +182,10 @@ class ArrheniusProperty(Property):
         return val
 
     @property
+    def units(self):
+        return pint.Unit("")
+
+    @property
     def range(self):
         if self._range is None and self.data_T is not None:
             self.fit()
@@ -281,15 +285,22 @@ class Solubility(ArrheniusProperty):
     def __init__(
         self, units: str, S_0: float = None, E_S: float = None, **kwargs
     ) -> None:
+        self.units = units
+        super().__init__(pre_exp=S_0, act_energy=E_S, **kwargs)
 
+    @property
+    def units(self):
+        return self._units
+
+    @units.setter
+    def units(self, value):
         acceptable_units = ["m-3 Pa-1/2", "m-3 Pa-1"]
-        if units == "m-3 Pa-1/2":
-            self.units = ureg.particle * ureg.meter**-3 * ureg.Pa**-0.5
-        elif units == "m-3 Pa-1":
-            self.units = ureg.particle * ureg.meter**-3 * ureg.Pa**-1
+        if value == "m-3 Pa-1/2":
+            self._units = ureg.particle * ureg.meter**-3 * ureg.Pa**-0.5
+        elif value == "m-3 Pa-1":
+            self._units = ureg.particle * ureg.meter**-3 * ureg.Pa**-1
         else:
             raise ValueError("units can only accept {} or {}".format(*acceptable_units))
-        super().__init__(pre_exp=S_0, act_energy=E_S, **kwargs)
 
     def __str__(self) -> str:
         val = f"""
@@ -312,7 +323,6 @@ class Diffusivity(ArrheniusProperty):
     """
 
     def __init__(self, D_0: float = None, E_D: float = None, **kwargs) -> None:
-        self.units = ureg.meter**2 * ureg.second**-1
         super().__init__(pre_exp=D_0, act_energy=E_D, **kwargs)
 
     def __str__(self) -> str:
@@ -326,14 +336,15 @@ class Diffusivity(ArrheniusProperty):
         """
         return val
 
+    @property
+    def units(self):
+        return ureg.meter**2 * ureg.second**-1
+
 
 class Permeability(ArrheniusProperty):
     """Permeability class"""
 
     def __init__(self, **kwargs) -> None:
-        self.units = (
-            ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
-        )
         super().__init__(**kwargs)
 
     def __str__(self) -> str:
@@ -346,13 +357,16 @@ class Permeability(ArrheniusProperty):
         Activation energy: {self.act_energy} eV
         """
         return val
+
+    @property
+    def units(self):
+        return ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
 
 
 class RecombinationCoeff(ArrheniusProperty):
     """RecombinationCoeff class"""
 
     def __init__(self, **kwargs) -> None:
-        self.units = ureg.meter**4 * ureg.second**-1
         super().__init__(**kwargs)
 
     def __str__(self) -> str:
@@ -365,13 +379,16 @@ class RecombinationCoeff(ArrheniusProperty):
         Activation energy: {self.act_energy} eV
         """
         return val
+
+    @property
+    def units(self):
+        return ureg.meter**4 * ureg.second**-1
 
 
 class DissociationCoeff(ArrheniusProperty):
     """DissociationCoeff class"""
 
     def __init__(self, **kwargs) -> None:
-        self.units = ureg.meter**-3 * ureg.Pa**-1
         super().__init__(**kwargs)
 
     def __str__(self) -> str:
@@ -384,6 +401,10 @@ class DissociationCoeff(ArrheniusProperty):
         Activation energy: {self.act_energy} eV
         """
         return val
+
+    @property
+    def units(self):
+        return ureg.meter**-3 * ureg.Pa**-1
 
 
 def get_nb_citations(doi: str):
