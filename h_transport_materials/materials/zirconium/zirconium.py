@@ -24,7 +24,7 @@ hsu_diffusivity = Diffusivity(
 
 kearns_solubility = Solubility(
     units="m-3 Pa-1/2",
-    S_0=4.30e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.atm**-0.5,
+    S_0=4.30e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=-49.5 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="H",
     source="kearns_terminal_1967",
