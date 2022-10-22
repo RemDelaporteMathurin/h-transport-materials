@@ -11,8 +11,10 @@ data_diffusivity_young = np.genfromtxt(
 )
 
 young_diffusivity = Diffusivity(
-    data_T=1e3 / data_diffusivity_young[:, 0],
-    data_y=np.exp(data_diffusivity_young[:, 1]) * 1e-4,  # cm2 to m2
+    data_T=1e3 / data_diffusivity_young[:, 0] * htm.ureg.K,
+    data_y=np.exp(data_diffusivity_young[:, 1])
+    * htm.ureg.cm**2
+    * htm.ureg.s**-1,
     isotope="H",
     source="young_diffusion_1998",
 )

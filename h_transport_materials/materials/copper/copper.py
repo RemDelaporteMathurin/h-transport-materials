@@ -55,8 +55,8 @@ data_diffusivity_katz = np.genfromtxt(
 data_diffusivity_katz_h = data_diffusivity_katz[2:, :2].astype(float)
 
 katz_diffusivity_copper_h = Diffusivity(
-    data_T=1000 / data_diffusivity_katz_h[:, 0],
-    data_y=data_diffusivity_katz_h[:, 1] * 1e-4,
+    data_T=1000 / data_diffusivity_katz_h[:, 0] * htm.ureg.K,
+    data_y=data_diffusivity_katz_h[:, 1] * htm.ureg.cm**2 * htm.ureg.s**-1,
     source=katz_src,
     name="H Katz (1971)",
     isotope="H",
@@ -65,8 +65,8 @@ katz_diffusivity_copper_h = Diffusivity(
 
 data_diffusivity_katz_d = data_diffusivity_katz[2:, 2:4].astype(float)
 katz_diffusivity_copper_d = Diffusivity(
-    data_T=1000 / data_diffusivity_katz_d[:, 0],
-    data_y=data_diffusivity_katz_d[:, 1] * 1e-4,
+    data_T=1000 / data_diffusivity_katz_d[:, 0] * htm.ureg.K,
+    data_y=data_diffusivity_katz_d[:, 1] * htm.ureg.cm**2 * htm.ureg.s**-1,
     source=katz_src,
     name="D Katz (1971)",
     isotope="D",
@@ -75,8 +75,8 @@ katz_diffusivity_copper_d = Diffusivity(
 
 data_diffusivity_katz_t = data_diffusivity_katz[2:, 4:].astype(float)
 katz_diffusivity_copper_t = Diffusivity(
-    data_T=1000 / data_diffusivity_katz_t[:, 0],
-    data_y=data_diffusivity_katz_t[:, 1] * 1e-4,
+    data_T=1000 / data_diffusivity_katz_t[:, 0] * htm.ureg.K,
+    data_y=data_diffusivity_katz_t[:, 1] * htm.ureg.cm**2 * htm.ureg.s**-1,
     source=katz_src,
     name="T Katz (1971)",
     isotope="T",
@@ -207,24 +207,26 @@ wampler_solubility_copper_h = Solubility(
     units="m-3 Pa-1/2",
 )
 
-data_T_mclellan = np.array(
-    [
-        1027.0,
-        1005.0,
-        939.0,
-        911.0,
-        871.0,
-        846.0,
-        809.0,
-        778.0,
-        755.0,
-        723.0,
-        659.0,
-        609.0,
-        594.0,
-    ]
+data_T_mclellan = (
+    np.array(
+        [
+            1027.0,
+            1005.0,
+            939.0,
+            911.0,
+            871.0,
+            846.0,
+            809.0,
+            778.0,
+            755.0,
+            723.0,
+            659.0,
+            609.0,
+            594.0,
+        ]
+    )
+    * htm.ureg.degC
 )  # in degC (see Table 1)
-data_T_mclellan += 273.15  # in K
 
 data_y_mclellan = (
     np.array(
@@ -246,7 +248,9 @@ data_y_mclellan = (
     )
     * 1e-5
 )  # in at.fr Pa-1/2 see Table 1
-data_y_mclellan *= avogadro_nb / COPPER_MOLAR_VOLUME  # in H m-3 Pa-1/2
+data_y_mclellan *= (
+    1 / COPPER_MOLAR_VOLUME * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5
+)  # in mol H m-3 Pa-1/2
 
 
 mclellan_solubility = Solubility(
@@ -258,8 +262,8 @@ mclellan_solubility = Solubility(
 )
 
 anderl_recombination = RecombinationCoeff(
-    pre_exp=9.1e-18,
-    act_energy=0.99,
+    pre_exp=9.1e-18 * htm.ureg.m**4 * htm.ureg.s**-1,
+    act_energy=0.99 * htm.ureg.eV * htm.ureg.particle**-1,
     isotope="D",
     source="anderl_deuterium_1999",
 )

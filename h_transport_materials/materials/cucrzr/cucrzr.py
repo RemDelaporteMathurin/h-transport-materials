@@ -1,4 +1,3 @@
-from h_transport_materials import avogadro_nb
 import h_transport_materials as htm
 from h_transport_materials.property import (
     Diffusivity,
@@ -35,8 +34,8 @@ note_serra_diffusivity_h = (
     + "ITER also gives a diffusivity but they adapted it from the wrong equations..."
 )
 serra_diffusivity_h = Diffusivity(
-    data_T=1000 / data_diffusivity_serra_h[:, 0],
-    data_y=data_diffusivity_serra_h[:, 1],
+    data_T=1000 / data_diffusivity_serra_h[:, 0] * htm.ureg.K,
+    data_y=data_diffusivity_serra_h[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
     range=(553, 773),
     source="serra_hydrogen_1998",
     isotope="H",
@@ -49,8 +48,8 @@ note_serra_diffusivity_d = (
     + "ITER also gives a diffusivity but they adapted it from the wrong equations..."
 )
 serra_diffusivity_d = Diffusivity(
-    data_T=1000 / data_diffusivity_serra_d[:, 0],
-    data_y=data_diffusivity_serra_d[:, 1],
+    data_T=1000 / data_diffusivity_serra_d[:, 0] * htm.ureg.K,
+    data_y=data_diffusivity_serra_d[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
     range=(553, 773),
     source="serra_hydrogen_1998",
     isotope="D",
@@ -66,8 +65,11 @@ data_solubility_serra_h = data_solubility_serra[2:, :2]
 data_solubility_serra_d = data_solubility_serra[2:, 2:]
 
 serra_solubility_h = Solubility(
-    data_T=1000 / data_solubility_serra_h[:, 0],
-    data_y=data_solubility_serra_h[:, 1] * avogadro_nb,
+    data_T=1000 / data_solubility_serra_h[:, 0] * htm.ureg.K,
+    data_y=data_solubility_serra_h[:, 1]
+    * htm.ureg.mol
+    * htm.ureg.m**-3
+    * htm.ureg.Pa**-0.5,
     range=(553, 773),
     source="serra_hydrogen_1998",
     isotope="H",
@@ -75,8 +77,11 @@ serra_solubility_h = Solubility(
 )
 
 serra_solubility_d = Solubility(
-    data_T=1000 / data_solubility_serra_d[:, 0],
-    data_y=data_solubility_serra_d[:, 1] * avogadro_nb,
+    data_T=1000 / data_solubility_serra_d[:, 0] * htm.ureg.K,
+    data_y=data_solubility_serra_d[:, 1]
+    * htm.ureg.mol
+    * htm.ureg.m**-3
+    * htm.ureg.Pa**-0.5,
     range=(553, 773),
     source="serra_hydrogen_1998",
     isotope="D",
