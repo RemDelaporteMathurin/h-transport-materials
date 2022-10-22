@@ -63,6 +63,8 @@ def bar_to_Pa(P):
 def Pa_to_bar(P):
     return P * 1e-5
 
+def barn_to_Pan(P, n):
+    return P * 1e5**n
 
 def Torr_to_Pa(P):
     return P * 133.322
