@@ -6,8 +6,8 @@ import numpy as np
 SILVER_MOLAR_VOLUME = 1.03e-5  # m3/mol  https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/silver
 
 katsuta_diffusivity = Diffusivity(
-    D_0=8.55e-7,
-    E_D=3.62e3 * htm.k_B,
+    D_0=8.55e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=3.62e3 * htm.k_B * htm.ureg.eV * htm.ureg.particle**-1,
     range=(947, 1123),
     source="katsuta_diffusivity_1979",
     isotope="H",

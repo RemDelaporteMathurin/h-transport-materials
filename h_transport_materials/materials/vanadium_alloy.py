@@ -4,8 +4,8 @@ import h_transport_materials.conversion as c
 
 
 hashizume_diffusivity = Diffusivity(
-    D_0=7.50e-4 * 1e-4,
-    E_D=0.13,
+    D_0=7.50e-4 * htm.ureg.cm**2 * htm.ureg.s**-1,
+    E_D=0.13 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(373, 573),
     isotope="T",
     source="hashizume_diffusional_2007",
@@ -20,10 +20,6 @@ klepikov_solubility = Solubility(
     source="klepikov_hydrogen_2000",
     note="taken from Table 2",
 )
-
-vanadium_alloy_diffusivities = []
-
-vanadium_alloy_solubilities = []
 
 properties = [hashizume_diffusivity, klepikov_solubility]
 

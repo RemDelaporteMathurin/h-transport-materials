@@ -1,6 +1,5 @@
 import h_transport_materials as htm
 from h_transport_materials import Diffusivity, Solubility
-import h_transport_materials.conversion as c
 from pathlib import Path
 import numpy as np
 
@@ -21,8 +20,8 @@ young_diffusivity = Diffusivity(
 ransley_solubility = Solubility(
     isotope="H",
     units="m-3 Pa-1/2",
-    S_0=2.32e-2 * htm.avogadro_nb,
-    E_S=c.kJ_per_mol_to_eV(39.7),
+    S_0=2.32e-2 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=39.7 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(723, 873),
     author="ransley",
     year=1948,

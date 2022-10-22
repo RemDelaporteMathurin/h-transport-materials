@@ -5,8 +5,8 @@ from h_transport_materials.materials.iron import IRON_MOLAR_VOLUME
 
 
 reiter_diffusivity = Diffusivity(
-    D_0=3.70e-7,
-    E_D=c.kJ_per_mol_to_eV(51.9),
+    D_0=3.70e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=51.9 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(500, 1200),
     isotope="H",
     source="reiter_compilation_1996",
@@ -15,22 +15,25 @@ reiter_diffusivity = Diffusivity(
 
 reiter_solubility = Solubility(
     units="m-3 Pa-1/2",
-    S_0=5.8e-6 * htm.avogadro_nb / IRON_MOLAR_VOLUME,
-    E_S=c.kJ_per_mol_to_eV(13.1),
+    S_0=5.8e-6
+    / IRON_MOLAR_VOLUME
+    * htm.ureg.mol
+    * htm.ureg.m**-3
+    * htm.ureg.Pa**-0.5,
+    E_S=13.1 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(500, 1200),
     isotope="H",
     source="reiter_compilation_1996",
     note="this is an average of 5 papers on diffusivity from Reiter compilation review",
 )
 
-houben_pre_exp = 8e-7  # mol/ (m s mbar^0.5)
-houben_pre_exp *= htm.avogadro_nb  # / (m s mbar^0.5)
-houben_pre_exp *= (1e-3) ** 0.5  # / (m s bar^0.5)
-houben_pre_exp = htm.conversion.barn_to_Pan(houben_pre_exp, -0.5)  # / (m s Pa^0.5)
-
 houben_permeability = Permeability(
-    pre_exp=houben_pre_exp,
-    act_energy=htm.conversion.kJ_per_mol_to_eV(58),
+    pre_exp=8e-7
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.mbar**-0.5,
+    act_energy=58 * htm.ureg.kJ * htm.ureg.mol**-1,
     source="houben_comparison_2022",
     isotope="D",
 )

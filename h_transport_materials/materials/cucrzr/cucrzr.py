@@ -1,4 +1,4 @@
-from h_transport_materials import k_B, Rg, avogadro_nb
+from h_transport_materials import avogadro_nb
 import h_transport_materials as htm
 from h_transport_materials.property import (
     Diffusivity,
@@ -12,8 +12,8 @@ import numpy as np
 
 
 anderl_recombination = Diffusivity(
-    D_0=2.9e-14,
-    E_D=1.92,
+    D_0=2.9e-14 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=1.92 * htm.ureg.eV * htm.ureg.particle**-1,
     source="anderl_deuterium_1999",
     name="Anderl (1999)",
     isotope="D",
@@ -84,8 +84,8 @@ serra_solubility_d = Solubility(
 )
 # ################# Noh 2016 #############################
 nog_diffusivity_cucrzr_t = Diffusivity(
-    5.05e-4,
-    0.964,
+    5.05e-4 * htm.ureg.m**2 * htm.ureg.s**-1,
+    0.964 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(573, 873),
     source="noh_hydrogen-isotope_2016",
     name="T Noh (2016)",
@@ -93,8 +93,8 @@ nog_diffusivity_cucrzr_t = Diffusivity(
 )
 
 nog_solubility_cucrzr_t_1 = Solubility(
-    S_0=7.83e20,
-    E_S=0.0715,
+    S_0=7.83e20 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=0.0715 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(573, 873),
     source="noh_hydrogen-isotope_2016",
     name="T Noh (2016)",
@@ -103,8 +103,8 @@ nog_solubility_cucrzr_t_1 = Solubility(
 )
 
 nog_solubility_cucrzr_t_2 = Solubility(
-    S_0=5.42e23,
-    E_S=0.4,
+    S_0=5.42e23 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=0.4 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(573, 873),
     source="noh_hydrogen-isotope_2016",
     name="T Noh (2016)",
@@ -114,8 +114,8 @@ nog_solubility_cucrzr_t_2 = Solubility(
 
 # ################# Anderl 1999 #############################
 anderl_diffusivity_cucrzr_d = Diffusivity(
-    D_0=2.0e-2,
-    E_D=1.2,
+    D_0=2.0e-2 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=1.2 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(700, 800),
     source="anderl_deuterium_1999",
     name="D Anderl (1999)",
@@ -124,8 +124,8 @@ anderl_diffusivity_cucrzr_d = Diffusivity(
 
 # ################# Penalva 1999 #############################
 penalva_diffusivity_cucrzr_h = Diffusivity(
-    3.55e-5,
-    65.5e3 * k_B / Rg,
+    3.55e-5 * htm.ureg.m**2 * htm.ureg.s**-1,
+    65.5e3 * htm.ureg.J * htm.ureg.mol**-1,
     range=(593, 773),
     source="penalva_interaction_2012",
     name="D Penalva (1999)",
@@ -133,8 +133,8 @@ penalva_diffusivity_cucrzr_h = Diffusivity(
 )
 
 penalva_solubility_cucrzr_h = Solubility(
-    S_0=6.71e-3 * avogadro_nb,
-    E_S=8.4e3 * k_B / Rg,
+    S_0=6.71e-3 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=8.4e3 * htm.ureg.J * htm.ureg.mol**-1,
     range=(593, 773),
     source="penalva_interaction_2012",
     name="D Penalva (1999)",
@@ -143,21 +143,20 @@ penalva_solubility_cucrzr_h = Solubility(
 )
 
 anderl_recombination = RecombinationCoeff(
-    pre_exp=2.9e-14,
-    act_energy=1.92,
+    pre_exp=2.9e-14 * htm.ureg.meter**4 * htm.ureg.second**-1,
+    act_energy=1.92 * htm.ureg.eV * htm.ureg.particle**-1,
     isotope="D",
     source="anderl_deuterium_1999",
 )
 
 
-houben_pre_exp = 6e-6  # mol/ (m s mbar^0.5)
-houben_pre_exp *= htm.avogadro_nb  # / (m s mbar^0.5)
-houben_pre_exp *= (1e-3) ** 0.5  # / (m s bar^0.5)
-houben_pre_exp = htm.conversion.barn_to_Pan(houben_pre_exp, -0.5)  # / (m s Pa^0.5)
-
 houben_permeability = Permeability(
-    pre_exp=houben_pre_exp,
-    act_energy=htm.conversion.kJ_per_mol_to_eV(79),
+    pre_exp=6e-6
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.mbar**-0.5,
+    act_energy=79 * htm.ureg.kJ * htm.ureg.mol**-1,
     source="houben_comparison_2022",
     isotope="D",
 )

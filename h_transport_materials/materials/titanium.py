@@ -6,8 +6,8 @@ import h_transport_materials.conversion as c
 TITANIUM_MOLAR_VOLUME = 1.05e-5  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/titanium
 
 reiter_diffusivity = Diffusivity(
-    D_0=6.9e-7,
-    E_D=c.kJ_per_mol_to_eV(49.1),
+    D_0=6.9e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=49.1 * htm.ureg.kJ * htm.ureg.mol**-1,
     source="reiter_compilation_1996",
     isotope="T",
     range=(873, 1123),
@@ -15,8 +15,12 @@ reiter_diffusivity = Diffusivity(
 
 reiter_solubility = Solubility(
     units="m-3 Pa-1/2",
-    S_0=1.06e-5 * htm.avogadro_nb / TITANIUM_MOLAR_VOLUME,
-    E_S=c.kJ_per_mol_to_eV(-42.7),
+    S_0=1.06e-5
+    / TITANIUM_MOLAR_VOLUME
+    * htm.ureg.mol
+    * htm.ureg.m**-3
+    * htm.ureg.Pa**-0.5,
+    E_S=-42.7 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(873, 1123),
     isotope="T",
     source="reiter_compilation_1996",

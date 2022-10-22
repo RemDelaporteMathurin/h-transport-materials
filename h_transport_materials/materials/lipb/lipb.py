@@ -41,8 +41,12 @@ def atom_density_lipb(nb_li: int, nb_pb: int):
 
 
 wu_solubility = Solubility(
-    S_0=6.33e-07 * atom_density_lipb(nb_li=17, nb_pb=83),
-    E_S=0,
+    S_0=6.33e-07
+    * atom_density_lipb(nb_li=17, nb_pb=83)
+    * htm.ureg.particle
+    * htm.ureg.m**-3
+    * htm.ureg.Pa**-0.5,
+    E_S=0 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(850, 1040),
     source="wu_solubility_1983",
     name="D Wu (1983)",
@@ -53,7 +57,7 @@ wu_solubility = Solubility(
 
 chan_solubility = Solubility(
     S_0=4.7e-07 * atom_density_lipb(nb_li=17, nb_pb=1),
-    E_S=9000 * k_B / Rg,
+    E_S=9000 * htm.ureg.J * htm.ureg.mol**-1,
     range=(573, 773),
     source="chan_thermodynamic_1984",
     name="H Chan (1984)",
@@ -69,8 +73,8 @@ S_0_katsuta = 1 / S_0_katsuta  # at.fr. / Pa^0.5
 S_0_katsuta *= atom_density_lipb(nb_li=17, nb_pb=83)
 
 katsuta_solubility = Solubility(
-    S_0=S_0_katsuta,
-    E_S=0,
+    S_0=S_0_katsuta * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=0 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(573, 723),
     source="katsuta_hydrogen_1985",
     name="H Katsuta (1985)",
@@ -80,8 +84,8 @@ katsuta_solubility = Solubility(
 
 
 fauvet_diffusivity = Diffusivity(
-    D_0=1.5e-09,
-    E_D=0,
+    D_0=1.5e-09 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=0 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(722, 724),  # TODO should be 723 link to issue #37
     source="fauvet_hydrogen_1988",
     name="H Fauvet (1988)",
@@ -89,8 +93,12 @@ fauvet_diffusivity = Diffusivity(
     note="Fauvet gives the value for 723 K only",
 )
 fauvet_solubility = Solubility(
-    S_0=2.7e-08 * atom_density_lipb(nb_li=17, nb_pb=83),
-    E_S=0,
+    S_0=2.7e-08
+    * atom_density_lipb(nb_li=17, nb_pb=83)
+    * htm.ureg.particle
+    * htm.ureg.m**-3
+    * htm.ureg.Pa**-0.5,
+    E_S=0 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(722, 724),  # TODO should be 723 link to issue #37
     source="fauvet_hydrogen_1988",
     name="H Fauvet (1988)",
@@ -206,8 +214,12 @@ reiter_solubility_d = Solubility(
 )
 
 reiter_solubility_t = Solubility(
-    S_0=2.32e-08 * atom_density_lipb(nb_li=17, nb_pb=1),
-    E_S=1350 * k_B / Rg,
+    S_0=2.32e-08
+    * atom_density_lipb(nb_li=17, nb_pb=1)
+    * htm.ureg.particle
+    * htm.ureg.m**-3
+    * htm.ureg.Pa**-0.5,
+    E_S=1350 * htm.ureg.J * htm.ureg.mol**-1,
     range=(508, 700),
     source="reiter_solubility_1991",
     name="T Reiter (1991)",
@@ -245,8 +257,8 @@ shibuya_diffusivity = Diffusivity(
 )
 
 terai_diffusivity = Diffusivity(
-    D_0=2.50e-07,
-    E_D=27000 * k_B / Rg,
+    D_0=2.50e-07 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=27000 * htm.ureg.J * htm.ureg.mol**-1,
     range=(573, 973),
     source="terai_diffusion_1992",
     name="T Terai (1987)",
@@ -254,8 +266,8 @@ terai_diffusivity = Diffusivity(
 )
 
 alberro_solubility = Solubility(
-    S_0=8.64e-3 * avogadro_nb,
-    E_S=9000 * k_B / Rg,
+    S_0=8.64e-3 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=9000 * htm.ureg.J * htm.ureg.mol**-1,
     range=(523, 922),
     source="alberro_experimental_2015",
     name="H Alberro (2015)",

@@ -1,6 +1,5 @@
 import h_transport_materials as htm
 from h_transport_materials import Diffusivity, Solubility
-import h_transport_materials.conversion as c
 
 import numpy as np
 from pathlib import Path
@@ -9,24 +8,24 @@ from pathlib import Path
 ZIRCONIUM_MOLAR_VOLUME = 1.4e-5  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/zirconium
 
 kearns_diffusivity = Diffusivity(
-    D_0=7.73e-3 * 1e-4,
-    E_D=c.kcal_per_mol_to_eV(10.830),
+    D_0=7.73e-3 * htm.ureg.cm**2 * htm.ureg.s**-1,
+    E_D=10.830 * htm.ureg.kcal * htm.ureg.mol**-1,
     range=(548, 973),
     isotope="H",
     source="kearns_diffusion_1972",
 )
 
 hsu_diffusivity = Diffusivity(
-    D_0=2.7e-8,
-    E_D=c.kJ_per_mol_to_eV(24.9),
+    D_0=2.7e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=24.9 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="T",
     source="hsu_palladium-catalyzed_1986",
 )
 
 kearns_solubility = Solubility(
     units="m-3 Pa-1/2",
-    S_0=4.30e-1 * htm.avogadro_nb,
-    E_S=c.kJ_per_mol_to_eV(-49.5),
+    S_0=4.30e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.atm**-0.5,
+    E_S=-49.5 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="H",
     source="kearns_terminal_1967",
     range=(602, 1069),

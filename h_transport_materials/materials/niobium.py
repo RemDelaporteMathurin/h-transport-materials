@@ -5,24 +5,24 @@ import h_transport_materials.conversion as c
 NIOBIUM_MOLAR_VOLUME = 1.08e-8  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/niobium
 
 volkl_diffusivity = Diffusivity(
-    D_0=5.00e-8,
-    E_D=c.kJ_per_mol_to_eV(10.2),
+    D_0=5.00e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=10.2 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(273, 773),
     source="volkl_5_1975",
     isotope="H",
 )
 
 schober_diffusivity = Diffusivity(
-    D_0=4.4e-8,
-    E_D=c.kJ_per_mol_to_eV(12.8),
+    D_0=4.4e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=12.8 * htm.ureg.kJ * htm.ureg.mol**-1,
     source="schober_h_1990",
     isotope="H",
 )
 
 veleckis_solubility = Solubility(
     units="m-3 Pa-1/2",
-    S_0=1.26e-1 * htm.avogadro_nb,
-    E_S=c.kJ_per_mol_to_eV(-35.3),
+    S_0=1.26e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=-35.3 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(625, 944),
     source="veleckis_thermodynamic_1969",
     isotope="H",
@@ -30,8 +30,12 @@ veleckis_solubility = Solubility(
 
 reiter_solubility = Solubility(
     units="m-3 Pa-1/2",
-    S_0=3.6e-6 * htm.avogadro_nb / NIOBIUM_MOLAR_VOLUME,
-    E_S=c.kJ_per_mol_to_eV(-33.9),
+    S_0=3.6e-6
+    / NIOBIUM_MOLAR_VOLUME
+    * htm.ureg.mol
+    * htm.ureg.m**-3
+    * htm.ureg.Pa**-0.5,
+    E_S=-33.9 * htm.ureg.kJ * htm.ureg.mol**-1,
     source="reiter_compilation_1996",
     isotope="H",
 )

@@ -1,11 +1,10 @@
 import h_transport_materials as htm
 from h_transport_materials import Diffusivity, Solubility
-import h_transport_materials.conversion as c
 
 
 causey_diffusivity = Diffusivity(
-    D_0=1.00e-7,
-    E_D=c.kJ_per_mol_to_eV(13.2),
+    D_0=1.00e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=13.2 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(300, 973),
     source="causey_416_2012",
     isotope="H",
@@ -14,8 +13,8 @@ causey_diffusivity = Diffusivity(
 
 causey_solubility = Solubility(
     units="m-3 Pa-1/2",
-    S_0=4.40e-1 * htm.avogadro_nb,
-    E_S=c.kJ_per_mol_to_eV(28.6),
+    S_0=4.40e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=28.6 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(300, 973),
     isotope="H",
     source="causey_416_2012",
@@ -23,8 +22,8 @@ causey_solubility = Solubility(
 )
 
 forcey_diffusivity = htm.Diffusivity(
-    D_0=7.17e-8,
-    E_D=c.J_per_mol_to_eV(13490),
+    D_0=7.17e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=13490 * htm.ureg.J * htm.ureg.mol**-1,
     range=(250 + 273.15, 600 + 273.15),
     isotope="H",
     source="forcey_hydrogen_1988",
@@ -33,8 +32,11 @@ forcey_diffusivity = htm.Diffusivity(
 
 forcey_solubility = htm.Solubility(
     units="m-3 Pa-1/2",
-    S_0=1.29 * htm.avogadro_nb,  # NOTE: typo in Eq. 16
-    E_S=c.J_per_mol_to_eV(29620),
+    S_0=1.29
+    * htm.ureg.mol
+    * htm.ureg.m**-3
+    * htm.ureg.Pa**-0.5,  # NOTE: typo in Eq. 16
+    E_S=29620 * htm.ureg.J * htm.ureg.mol**-1,
     range=(250 + 273.15, 600 + 273.15),
     isotope="H",
     source="forcey_hydrogen_1988",
@@ -43,16 +45,16 @@ forcey_solubility = htm.Solubility(
 
 # TODO fit this ourselves
 serra_diffusivity_f82h = htm.Diffusivity(
-    D_0=1.07e-7,
-    E_D=c.J_per_mol_to_eV(13950),
+    D_0=1.07e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=13950 * htm.ureg.J * htm.ureg.mol**-1,
     range=(373, 743),
     source="serra_influence_1997",
     isotope="D",
 )
 serra_solubility_f82h = htm.Solubility(
     units="m-3 Pa-1/2",
-    S_0=0.377 * htm.avogadro_nb,
-    E_S=c.J_per_mol_to_eV(26880),
+    S_0=0.377 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=26880 * htm.ureg.J * htm.ureg.mol**-1,
     range=(373, 743),
     source="serra_influence_1997",
     isotope="D",
@@ -62,8 +64,8 @@ serra_solubility_f82h = htm.Solubility(
 
 # TODO fit this ourselves
 serra_diffusivity_batman = htm.Diffusivity(
-    D_0=1.9e-7,
-    E_D=c.J_per_mol_to_eV(15190),
+    D_0=1.9e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=15190 * htm.ureg.J * htm.ureg.mol**-1,
     range=(373, 743),
     source="serra_influence_1997",
     isotope="D",
@@ -71,8 +73,8 @@ serra_diffusivity_batman = htm.Diffusivity(
 )
 serra_solubility_batman = htm.Solubility(
     units="m-3 Pa-1/2",
-    S_0=0.198 * htm.avogadro_nb,
-    E_S=c.J_per_mol_to_eV(24703),
+    S_0=0.198 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=24703 * htm.ureg.J * htm.ureg.mol**-1,
     range=(373, 743),
     source="serra_influence_1997",
     isotope="D",
@@ -81,8 +83,8 @@ serra_solubility_batman = htm.Solubility(
 
 # TODO: try and fit this ourselves (Figures 10 and 11)
 pisarev_diffusivity = htm.Diffusivity(
-    D_0=8.6e-4 * 1e-4,  # cm2 to m2
-    E_D=0.075,
+    D_0=8.6e-4 * htm.ureg.cm**2 * htm.ureg.s**-1,
+    E_D=0.075 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(573, 873),
     isotope="D",
     source="pisarev_surface_2001",
@@ -91,8 +93,8 @@ pisarev_diffusivity = htm.Diffusivity(
 
 pisarev_solubility = htm.Solubility(
     units="m-3 Pa-1/2",
-    S_0=2.0e18 * 1e6,  # cm-3 to m-3
-    E_S=0.343,
+    S_0=2.0e18 * htm.ureg.particle * htm.ureg.cm**-3 * htm.ureg.Pa**-0.5,
+    E_S=0.343 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(573, 873),
     isotope="D",
     source="pisarev_surface_2001",
@@ -101,8 +103,8 @@ pisarev_solubility = htm.Solubility(
 
 # TODO: fit this ourselves from the paper
 esteban_diffusivity_h = htm.Diffusivity(
-    D_0=5.489e-8,
-    E_D=c.J_per_mol_to_eV(10574),
+    D_0=5.489e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=10574 * htm.ureg.J * htm.ureg.mol**-1,
     range=(423, 892),
     isotope="H",
     source="esteban_tritium_2000",
@@ -111,16 +113,16 @@ esteban_diffusivity_h = htm.Diffusivity(
 
 esteban_solubility_h = htm.Solubility(
     units="m-3 Pa-1/2",
-    S_0=0.328 * htm.avogadro_nb,
-    E_S=c.J_per_mol_to_eV(29005),
+    S_0=0.328 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=29005 * htm.ureg.J * htm.ureg.mol**-1,
     range=(423, 892),
     isotope="H",
     source="esteban_tritium_2000",
 )
 
 esteban_diffusivity_d = htm.Diffusivity(
-    D_0=4.613e-8,
-    E_D=c.J_per_mol_to_eV(11321),
+    D_0=4.613e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=11321 * htm.ureg.J * htm.ureg.mol**-1,
     range=(423, 892),
     isotope="D",
     source="esteban_tritium_2000",
@@ -128,8 +130,8 @@ esteban_diffusivity_d = htm.Diffusivity(
 
 esteban_solubility_d = htm.Solubility(
     units="m-3 Pa-1/2",
-    S_0=0.325 * htm.avogadro_nb,
-    E_S=c.J_per_mol_to_eV(28955),
+    S_0=0.325 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=28955 * htm.ureg.J * htm.ureg.mol**-1,
     range=(423, 892),
     isotope="D",
     source="esteban_tritium_2000",
@@ -137,8 +139,8 @@ esteban_solubility_d = htm.Solubility(
 
 
 esteban_diffusivity_t = htm.Diffusivity(
-    D_0=4.166e-8,
-    E_D=c.J_per_mol_to_eV(12027),
+    D_0=4.166e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=12027 * htm.ureg.J * htm.ureg.mol**-1,
     range=(423, 892),
     isotope="T",
     source="esteban_tritium_2000",
@@ -147,8 +149,8 @@ esteban_diffusivity_t = htm.Diffusivity(
 
 esteban_solubility_t = htm.Solubility(
     units="m-3 Pa-1/2",
-    S_0=0.271 * htm.avogadro_nb,
-    E_S=c.J_per_mol_to_eV(27905),
+    S_0=0.271 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=27905 * htm.ureg.J * htm.ureg.mol**-1,
     range=(423, 892),
     isotope="T",
     source="esteban_tritium_2000",
@@ -159,8 +161,8 @@ esteban_solubility_t = htm.Solubility(
 # TODO: Dolinski gives permeability and diffusivities, should we compute solubility ourselves?
 
 dolinski_diffusivity_d = htm.Diffusivity(
-    D_0=6.6e-7,
-    E_D=c.kJ_per_mol_to_eV(29),
+    D_0=6.6e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=29 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(520, 900),
     isotope="D",
     source="dolinski_heavy_2000",
@@ -168,8 +170,8 @@ dolinski_diffusivity_d = htm.Diffusivity(
 )
 
 dolinski_diffusivity_t = htm.Diffusivity(
-    D_0=5.0e-7,
-    E_D=c.kJ_per_mol_to_eV(29),
+    D_0=5.0e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=29 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(520, 900),
     isotope="T",
     source="dolinski_heavy_2000",
@@ -179,8 +181,8 @@ dolinski_diffusivity_t = htm.Diffusivity(
 
 # TODO: fit this ourselves Figures 2, 3
 kulsartov_diffusivity_h = htm.Diffusivity(
-    D_0=2.8e-8,
-    E_D=c.kJ_per_mol_to_eV(8.0),
+    D_0=2.8e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=8.0 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(400 + 273.15, 600 + 273.15),
     isotope="H",
     source="kulsartov_investigation_2006",
@@ -189,8 +191,8 @@ kulsartov_diffusivity_h = htm.Diffusivity(
 
 kulsartov_solubility_h = htm.Solubility(
     units="m-3 Pa-1/2",
-    S_0=7.7 * htm.avogadro_nb,
-    E_S=c.kJ_per_mol_to_eV(33),
+    S_0=7.7 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=33 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(400 + 273.15, 600 + 273.15),
     isotope="H",
     source="kulsartov_investigation_2006",
@@ -198,16 +200,16 @@ kulsartov_solubility_h = htm.Solubility(
 
 
 kulsartov_diffusivity_d = htm.Diffusivity(
-    D_0=2.3e-8,
-    E_D=c.kJ_per_mol_to_eV(7.8),
+    D_0=2.3e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=7.8 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(400 + 273.15, 600 + 273.15),
     isotope="D",
     source="kulsartov_investigation_2006",
 )
 kulsartov_solubility_d = htm.Solubility(
     units="m-3 Pa-1/2",
-    S_0=7.4 * htm.avogadro_nb,
-    E_S=c.kJ_per_mol_to_eV(36),
+    S_0=7.4 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=36 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(400 + 273.15, 600 + 273.15),
     isotope="D",
     source="kulsartov_investigation_2006",
