@@ -77,8 +77,10 @@ def test_mean(mean_D_0, mean_E_D):
     for i in range(nb_props):
         my_group.append(
             htm.ArrheniusProperty(
-                pre_exp=mean_D_0 + noise_D_0[i],
-                act_energy=mean_E_D + noise_E_D[i],
+                pre_exp=(mean_D_0 + noise_D_0[i]) * htm.ureg.m**2 * htm.ureg.s**-1,
+                act_energy=(mean_E_D + noise_E_D[i])
+                * htm.ureg.eV
+                * htm.ureg.particle**-1,
             )
         )
 
