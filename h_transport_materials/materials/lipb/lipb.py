@@ -1,12 +1,9 @@
 import h_transport_materials as htm
-from h_transport_materials.conversion import atmn_to_Pan
 from h_transport_materials.property import Diffusivity, Solubility
 from h_transport_materials import k_B, Rg, avogadro_nb
 from pathlib import Path
 
 import numpy as np
-
-atm_to_Pa = 101325  # Pa/atm
 
 molar_mass_li = 0.06941  # kg/mol
 molar_mass_Pb = 0.2072  # kg/mol
