@@ -1,11 +1,14 @@
 from typing import Iterable
 import numpy as np
 from crossref.restful import Works, Etiquette
+import pint
 from pybtex.database import BibliographyData, parse_string
-from h_transport_materials import k_B, bib_database
+from h_transport_materials import k_B, bib_database, ureg
 from h_transport_materials.fitting import fit_arhenius
 
 import warnings
+
+DEFAULT_ENERGY_UNITS = ureg.eV * ureg.particle**-1
 
 
 class Property:
@@ -196,7 +199,10 @@ class ArrheniusProperty(Property):
 
     @pre_exp.setter
     def pre_exp(self, value):
-        self._pre_exp = value
+        if isinstance(value, pint.Quantity):
+            self._pre_exp = value.to(self.units).magnitude
+        else:  # assume it's given in the correct units
+            self._pre_exp = value
 
     @property
     def act_energy(self):
@@ -206,7 +212,10 @@ class ArrheniusProperty(Property):
 
     @act_energy.setter
     def act_energy(self, value):
-        self._act_energy = value
+        if isinstance(value, pint.Quantity):
+            self._act_energy = value.to(DEFAULT_ENERGY_UNITS).magnitude
+        else:
+            self._act_energy = value
 
     @property
     def data_T(self):
@@ -267,8 +276,14 @@ class Solubility(ArrheniusProperty):
         self, units: str, S_0: float = None, E_S: float = None, **kwargs
     ) -> None:
 
+        acceptable_units = ["m-3 Pa-1/2", "m-3 Pa-1"]
+        if units == "m-3 Pa-1/2":
+            self.units = ureg.particle * ureg.meter**-3 * ureg.Pa**-0.5
+        elif units == "m-3 Pa-1":
+            self.units = ureg.particle * ureg.meter**-3 * ureg.Pa**-1
+        else:
+            raise ValueError("units can only accept {} or {}".format(*acceptable_units))
         super().__init__(pre_exp=S_0, act_energy=E_S, **kwargs)
-        self.units = units
 
     def __str__(self) -> str:
         val = f"""
@@ -276,23 +291,10 @@ class Solubility(ArrheniusProperty):
         Material: {self.material}
         Year: {self.year}
         Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} {self.units}
+        Pre-exponential factor: {self.pre_exp} c
         Activation energy: {self.act_energy} eV
         """
         return val
-
-    @property
-    def units(self):
-        return self._units
-
-    @units.setter
-    def units(self, value):
-        acceptable_values = ["m-3 Pa-1/2", "m-3 Pa-1"]
-        if value not in acceptable_values:
-            raise ValueError(
-                "units can only accept {} or {}".format(*acceptable_values)
-            )
-        self._units = value
 
 
 class Diffusivity(ArrheniusProperty):
@@ -304,6 +306,7 @@ class Diffusivity(ArrheniusProperty):
     """
 
     def __init__(self, D_0: float = None, E_D: float = None, **kwargs) -> None:
+        self.units = ureg.meter**2 * ureg.second**-1
         super().__init__(pre_exp=D_0, act_energy=E_D, **kwargs)
 
     def __str__(self) -> str:
@@ -312,7 +315,7 @@ class Diffusivity(ArrheniusProperty):
         Material: {self.material}
         Year: {self.year}
         Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} m2/s
+        Pre-exponential factor: {self.pre_exp} {self.units:~}
         Activation energy: {self.act_energy} eV
         """
         return val
@@ -322,6 +325,9 @@ class Permeability(ArrheniusProperty):
     """Permeability class"""
 
     def __init__(self, **kwargs) -> None:
+        self.units = (
+            ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
+        )
         super().__init__(**kwargs)
 
     def __str__(self) -> str:
@@ -340,6 +346,7 @@ class RecombinationCoeff(ArrheniusProperty):
     """RecombinationCoeff class"""
 
     def __init__(self, **kwargs) -> None:
+        self.units = ureg.meter**4 * ureg.second**-1
         super().__init__(**kwargs)
 
     def __str__(self) -> str:
@@ -358,6 +365,7 @@ class DissociationCoeff(ArrheniusProperty):
     """DissociationCoeff class"""
 
     def __init__(self, **kwargs) -> None:
+        self.units = ureg.meter**-3 * ureg.Pa**-1
         super().__init__(**kwargs)
 
     def __str__(self) -> str:

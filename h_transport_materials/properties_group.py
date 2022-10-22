@@ -132,6 +132,8 @@ class PropertiesGroup(list):
         for prop in self:
 
             prop_dict = {key: getattr(prop, key) for key in keys if hasattr(prop, key)}
+            if "units" in prop_dict:
+                prop_dict["units"] = f"{prop_dict['units']:~}"
             data.append(prop_dict)
 
         with open(filename, "w") as outfile:

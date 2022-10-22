@@ -22,6 +22,10 @@ from pathlib import Path
 
 bib_database = parse_file(str(Path(__file__).parent) + "/references.bib")
 
+import pint
+
+ureg = pint.UnitRegistry()
+
 from .property import (
     Property,
     ArrheniusProperty,
