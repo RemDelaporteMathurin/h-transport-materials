@@ -156,8 +156,8 @@ class ArrheniusProperty(Property):
         property = pre_exp * exp( - act_energy/(k_B T) )
 
         Args:
-            pre_exp (float, optional): the pre-exponential factor. Defaults to None.
-            act_energy (float, optional): the activation energy in eV. Defaults to None.
+            pre_exp (float or pint.Quantity, optional): the pre-exponential factor. Defaults to None.
+            act_energy (float or pint.Quantity, optional): the activation energy. Defaults to None.
             data_T (list, optional): list of temperatures in K. Used to automatically
                 fit experimental points. Defaults to None.
             data_y (list, optional): list of y data. Used to automatically
@@ -268,8 +268,8 @@ class Solubility(ArrheniusProperty):
 
     Args:
         units (str): units of the solubility "m-3 Pa-1/2" or "m-3 Pa-1".
-        S_0 (float, optional): pre-exponential factor. Defaults to None.
-        E_S (float, optional): activation energy (eV). Defaults to None.
+        S_0 (float or pint.Quantity, optional): pre-exponential factor. Defaults to None.
+        E_S (float or pint.Quantity, optional): activation energy. Defaults to None.
     """
 
     def __init__(
@@ -291,7 +291,7 @@ class Solubility(ArrheniusProperty):
         Material: {self.material}
         Year: {self.year}
         Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} c
+        Pre-exponential factor: {self.pre_exp} {self.units:~}
         Activation energy: {self.act_energy} eV
         """
         return val
@@ -301,8 +301,8 @@ class Diffusivity(ArrheniusProperty):
     """Diffusivity class
 
     Args:
-        D_0 (float, optional): pre-exponential factor (m2/s). Defaults to None.
-        E_D (float, optional): activation energy (eV). Defaults to None.
+        D_0 (float or pint.Quantity, optional): pre-exponential factor. Defaults to None.
+        E_D (float or pint.Quantity, optional): activation energy. Defaults to None.
     """
 
     def __init__(self, D_0: float = None, E_D: float = None, **kwargs) -> None:
@@ -336,7 +336,7 @@ class Permeability(ArrheniusProperty):
         Material: {self.material}
         Year: {self.year}
         Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} m-1 Pa-1/2 s-1
+        Pre-exponential factor: {self.pre_exp} {self.units:~}
         Activation energy: {self.act_energy} eV
         """
         return val
@@ -355,7 +355,7 @@ class RecombinationCoeff(ArrheniusProperty):
         Material: {self.material}
         Year: {self.year}
         Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} m4/s
+        Pre-exponential factor: {self.pre_exp} {self.units:~}
         Activation energy: {self.act_energy} eV
         """
         return val
@@ -374,7 +374,7 @@ class DissociationCoeff(ArrheniusProperty):
         Material: {self.material}
         Year: {self.year}
         Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} m-3 Pa-1
+        Pre-exponential factor: {self.pre_exp} {self.units:~}
         Activation energy: {self.act_energy} eV
         """
         return val
