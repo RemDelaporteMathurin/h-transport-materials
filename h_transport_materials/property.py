@@ -183,7 +183,7 @@ class ArrheniusProperty(Property):
 
     @property
     def units(self):
-        return pint.Unit("")
+        return ureg.dimensionless
 
     @property
     def range(self):
@@ -204,7 +204,11 @@ class ArrheniusProperty(Property):
     @pre_exp.setter
     def pre_exp(self, value):
         if isinstance(value, pint.Quantity):
-            self._pre_exp = value.to(self.units).magnitude
+            if self.units != ureg.dimensionless:
+                self._pre_exp = value.to(self.units).magnitude
+            else:
+                self._pre_exp = value.magnitude
+
         elif value is not None:
             # assume it's given in the correct units
             warnings.warn(
@@ -268,7 +272,10 @@ class ArrheniusProperty(Property):
             return
         if isinstance(value, pint.Quantity):
             # convert to right units
-            value = value.to(self.units).magnitude
+            if self.units != ureg.dimensionless:
+                value = value.to(self.units).magnitude
+            else:
+                value = value.magnitude
         else:
             warnings.warn(f"no units were given with data_y, assuming {self.units:~}")
         if not isinstance(value, (list, np.ndarray)):
