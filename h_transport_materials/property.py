@@ -1,11 +1,14 @@
-from typing import Iterable
+from collections.abc import Iterable
 import numpy as np
 from crossref.restful import Works, Etiquette
+import pint
 from pybtex.database import BibliographyData, parse_string
-from h_transport_materials import k_B, bib_database
+from h_transport_materials import k_B, bib_database, ureg
 from h_transport_materials.fitting import fit_arhenius
 
 import warnings
+
+DEFAULT_ENERGY_UNITS = ureg.eV * ureg.particle**-1
 
 
 class Property:
@@ -153,8 +156,8 @@ class ArrheniusProperty(Property):
         property = pre_exp * exp( - act_energy/(k_B T) )
 
         Args:
-            pre_exp (float, optional): the pre-exponential factor. Defaults to None.
-            act_energy (float, optional): the activation energy in eV. Defaults to None.
+            pre_exp (float or pint.Quantity, optional): the pre-exponential factor. Defaults to None.
+            act_energy (float or pint.Quantity, optional): the activation energy. Defaults to None.
             data_T (list, optional): list of temperatures in K. Used to automatically
                 fit experimental points. Defaults to None.
             data_y (list, optional): list of y data. Used to automatically
@@ -179,6 +182,10 @@ class ArrheniusProperty(Property):
         return val
 
     @property
+    def units(self):
+        return pint.Unit("")
+
+    @property
     def range(self):
         if self._range is None and self.data_T is not None:
             self.fit()
@@ -196,7 +203,13 @@ class ArrheniusProperty(Property):
 
     @pre_exp.setter
     def pre_exp(self, value):
-        self._pre_exp = value
+        if isinstance(value, pint.Quantity):
+            self._pre_exp = value.to(self.units).magnitude
+        else:  # assume it's given in the correct units
+            warnings.warn(
+                f"no units were given with pre-exponential factor, assuming {self.units:~}"
+            )
+            self._pre_exp = value
 
     @property
     def act_energy(self):
@@ -206,7 +219,13 @@ class ArrheniusProperty(Property):
 
     @act_energy.setter
     def act_energy(self, value):
-        self._act_energy = value
+        if isinstance(value, pint.Quantity):
+            self._act_energy = value.to(DEFAULT_ENERGY_UNITS).magnitude
+        else:
+            warnings.warn(
+                f"no units were given with activation energy, assuming {DEFAULT_ENERGY_UNITS:~}"
+            )
+            self._act_energy = value
 
     @property
     def data_T(self):
@@ -259,27 +278,15 @@ class Solubility(ArrheniusProperty):
 
     Args:
         units (str): units of the solubility "m-3 Pa-1/2" or "m-3 Pa-1".
-        S_0 (float, optional): pre-exponential factor. Defaults to None.
-        E_S (float, optional): activation energy (eV). Defaults to None.
+        S_0 (float or pint.Quantity, optional): pre-exponential factor. Defaults to None.
+        E_S (float or pint.Quantity, optional): activation energy. Defaults to None.
     """
 
     def __init__(
         self, units: str, S_0: float = None, E_S: float = None, **kwargs
     ) -> None:
-
-        super().__init__(pre_exp=S_0, act_energy=E_S, **kwargs)
         self.units = units
-
-    def __str__(self) -> str:
-        val = f"""
-        Author: {self.author.capitalize()}
-        Material: {self.material}
-        Year: {self.year}
-        Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} {self.units}
-        Activation energy: {self.act_energy} eV
-        """
-        return val
+        super().__init__(pre_exp=S_0, act_energy=E_S, **kwargs)
 
     @property
     def units(self):
@@ -287,20 +294,32 @@ class Solubility(ArrheniusProperty):
 
     @units.setter
     def units(self, value):
-        acceptable_values = ["m-3 Pa-1/2", "m-3 Pa-1"]
-        if value not in acceptable_values:
-            raise ValueError(
-                "units can only accept {} or {}".format(*acceptable_values)
-            )
-        self._units = value
+        acceptable_units = ["m-3 Pa-1/2", "m-3 Pa-1"]
+        if value == "m-3 Pa-1/2":
+            self._units = ureg.particle * ureg.meter**-3 * ureg.Pa**-0.5
+        elif value == "m-3 Pa-1":
+            self._units = ureg.particle * ureg.meter**-3 * ureg.Pa**-1
+        else:
+            raise ValueError("units can only accept {} or {}".format(*acceptable_units))
+
+    def __str__(self) -> str:
+        val = f"""
+        Author: {self.author.capitalize()}
+        Material: {self.material}
+        Year: {self.year}
+        Isotope: {self.isotope}
+        Pre-exponential factor: {self.pre_exp} {self.units:~}
+        Activation energy: {self.act_energy} eV
+        """
+        return val
 
 
 class Diffusivity(ArrheniusProperty):
     """Diffusivity class
 
     Args:
-        D_0 (float, optional): pre-exponential factor (m2/s). Defaults to None.
-        E_D (float, optional): activation energy (eV). Defaults to None.
+        D_0 (float or pint.Quantity, optional): pre-exponential factor. Defaults to None.
+        E_D (float or pint.Quantity, optional): activation energy. Defaults to None.
     """
 
     def __init__(self, D_0: float = None, E_D: float = None, **kwargs) -> None:
@@ -312,10 +331,14 @@ class Diffusivity(ArrheniusProperty):
         Material: {self.material}
         Year: {self.year}
         Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} m2/s
+        Pre-exponential factor: {self.pre_exp} {self.units:~}
         Activation energy: {self.act_energy} eV
         """
         return val
+
+    @property
+    def units(self):
+        return ureg.meter**2 * ureg.second**-1
 
 
 class Permeability(ArrheniusProperty):
@@ -330,10 +353,14 @@ class Permeability(ArrheniusProperty):
         Material: {self.material}
         Year: {self.year}
         Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} m-1 Pa-1/2 s-1
+        Pre-exponential factor: {self.pre_exp} {self.units:~}
         Activation energy: {self.act_energy} eV
         """
         return val
+
+    @property
+    def units(self):
+        return ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
 
 
 class RecombinationCoeff(ArrheniusProperty):
@@ -348,10 +375,14 @@ class RecombinationCoeff(ArrheniusProperty):
         Material: {self.material}
         Year: {self.year}
         Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} m4/s
+        Pre-exponential factor: {self.pre_exp} {self.units:~}
         Activation energy: {self.act_energy} eV
         """
         return val
+
+    @property
+    def units(self):
+        return ureg.meter**4 * ureg.second**-1
 
 
 class DissociationCoeff(ArrheniusProperty):
@@ -366,10 +397,14 @@ class DissociationCoeff(ArrheniusProperty):
         Material: {self.material}
         Year: {self.year}
         Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} m-3 Pa-1
+        Pre-exponential factor: {self.pre_exp} {self.units:~}
         Activation energy: {self.act_energy} eV
         """
         return val
+
+    @property
+    def units(self):
+        return ureg.meter**-3 * ureg.Pa**-1
 
 
 def get_nb_citations(doi: str):

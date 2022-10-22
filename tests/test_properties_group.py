@@ -147,4 +147,7 @@ def test_export_to_json():
                     for item1, item2 in zip(val, getattr(prop_ref, key)):
                         assert item1 == item2
                 else:
-                    assert getattr(prop_ref, key) == val
+                    if key == "units":
+                        assert f"{getattr(prop_ref, key):~}" == val
+                    else:
+                        assert getattr(prop_ref, key) == val
