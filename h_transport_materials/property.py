@@ -164,6 +164,7 @@ class ArrheniusProperty(Property):
                 fit experimental points. Defaults to None.
             kwargs: other Property arguments
         """
+        self.units = pint.Unit("")
         self.pre_exp = pre_exp
         self.act_energy = act_energy
         self.data_T = data_T
