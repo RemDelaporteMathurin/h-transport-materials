@@ -202,6 +202,9 @@ class ArrheniusProperty(Property):
         if isinstance(value, pint.Quantity):
             self._pre_exp = value.to(self.units).magnitude
         else:  # assume it's given in the correct units
+            warnings.warn(
+                f"no units were given with pre-exponential factor, assuming {self.units:~}"
+            )
             self._pre_exp = value
 
     @property
@@ -215,6 +218,9 @@ class ArrheniusProperty(Property):
         if isinstance(value, pint.Quantity):
             self._act_energy = value.to(DEFAULT_ENERGY_UNITS).magnitude
         else:
+            warnings.warn(
+                f"no units were given with activation energy, assuming {DEFAULT_ENERGY_UNITS:~}"
+            )
             self._act_energy = value
 
     @property
