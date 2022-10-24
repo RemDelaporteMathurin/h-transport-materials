@@ -15,16 +15,16 @@ COPPER_MOLAR_VOLUME = 7.11e-6  # m3/mol  https://www.aqua-calc.com/calculate/mol
 # ################# REITER 1996 #############################
 
 reiter_diffusivity_copper = Diffusivity(
-    D_0=6.6e-7,
-    E_D=0.39,
+    D_0=6.6e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=0.39 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(470, 1200),
     source="reiter_compilation_1996",
     name="T Reiter (1996)",
     isotope="T",
 )
 reiter_solubility_copper = Solubility(
-    S_0=3.14e24,
-    E_S=0.57,
+    S_0=3.14e24 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=0.57 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(470, 1200),
     source="reiter_compilation_1996",
     name="T Reiter (1996)",
@@ -36,8 +36,8 @@ reiter_solubility_copper = Solubility(
 
 
 magnusson_diffusivity_copper = Diffusivity(
-    D_0=1.74e-6,
-    E_D=42000 * k_B / Rg,
+    D_0=1.74e-6 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=42000 * htm.ureg.J * htm.ureg.mol**-1,
     range=(298, 1273),
     source="magnusson_self-diffusion_2013",
     name="H Magnusson (2013)",
@@ -55,8 +55,8 @@ data_diffusivity_katz = np.genfromtxt(
 data_diffusivity_katz_h = data_diffusivity_katz[2:, :2].astype(float)
 
 katz_diffusivity_copper_h = Diffusivity(
-    data_T=1000 / data_diffusivity_katz_h[:, 0],
-    data_y=data_diffusivity_katz_h[:, 1] * 1e-4,
+    data_T=1000 / data_diffusivity_katz_h[:, 0] * htm.ureg.K,
+    data_y=data_diffusivity_katz_h[:, 1] * htm.ureg.cm**2 * htm.ureg.s**-1,
     source=katz_src,
     name="H Katz (1971)",
     isotope="H",
@@ -65,8 +65,8 @@ katz_diffusivity_copper_h = Diffusivity(
 
 data_diffusivity_katz_d = data_diffusivity_katz[2:, 2:4].astype(float)
 katz_diffusivity_copper_d = Diffusivity(
-    data_T=1000 / data_diffusivity_katz_d[:, 0],
-    data_y=data_diffusivity_katz_d[:, 1] * 1e-4,
+    data_T=1000 / data_diffusivity_katz_d[:, 0] * htm.ureg.K,
+    data_y=data_diffusivity_katz_d[:, 1] * htm.ureg.cm**2 * htm.ureg.s**-1,
     source=katz_src,
     name="D Katz (1971)",
     isotope="D",
@@ -75,8 +75,8 @@ katz_diffusivity_copper_d = Diffusivity(
 
 data_diffusivity_katz_t = data_diffusivity_katz[2:, 4:].astype(float)
 katz_diffusivity_copper_t = Diffusivity(
-    data_T=1000 / data_diffusivity_katz_t[:, 0],
-    data_y=data_diffusivity_katz_t[:, 1] * 1e-4,
+    data_T=1000 / data_diffusivity_katz_t[:, 0] * htm.ureg.K,
+    data_y=data_diffusivity_katz_t[:, 1] * htm.ureg.cm**2 * htm.ureg.s**-1,
     source=katz_src,
     name="T Katz (1971)",
     isotope="T",
@@ -84,8 +84,8 @@ katz_diffusivity_copper_t = Diffusivity(
 
 # ################# Eichenauer 1957 #############################
 eichenauer_diffusivity_copper_h = Diffusivity(
-    1.1e-6,
-    0.4,
+    1.1e-6 * htm.ureg.m**2 * htm.ureg.s**-1,
+    0.4 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(700, 920),
     source="eichenauer_notitle_1957",
     name="H Eichenauer (1957)",
@@ -93,8 +93,8 @@ eichenauer_diffusivity_copper_h = Diffusivity(
 )
 
 eichenauer_solubility_copper_h = Solubility(
-    S_0=4.9e23,
-    E_S=0.37,
+    S_0=4.9e23 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=0.37 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(700, 920),
     source="eichenauer_notitle_1957",
     name="H Eichenauer (1957)",
@@ -104,8 +104,8 @@ eichenauer_solubility_copper_h = Solubility(
 
 # ################# Perkins 1973 #############################
 perkins_diffusivity_copper_h = Diffusivity(
-    1.06e-6,
-    0.4,
+    1.06e-6 * htm.ureg.m**2 * htm.ureg.s**-1,
+    0.4 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(410, 710),
     source="perkins_permeation_1973",
     name="H Perkins (1973)",
@@ -114,8 +114,8 @@ perkins_diffusivity_copper_h = Diffusivity(
 
 # ################# Tanabe 1987 #############################
 tanabe_diffusivity_copper_d = Diffusivity(
-    6.7e-8,
-    0.24,
+    6.7e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
+    0.24 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(298, 1070),
     source="tanabe_hydrogen_1987",
     name="D Tanabe (1987)",
@@ -125,8 +125,8 @@ tanabe_diffusivity_copper_d = Diffusivity(
 
 # ################# Eichenauer 1965 #############################
 eichenauer_diffusivity_copper_d = Diffusivity(
-    6.19e-7,
-    0.392,
+    6.19e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    0.392 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(703, 913),
     source="eichenauer_notitle_1965",
     name="D Eichenauer (1965)",
@@ -134,8 +134,8 @@ eichenauer_diffusivity_copper_d = Diffusivity(
 )
 
 eichenauer_solubility_copper_d = Solubility(
-    S_0=3.19e24,
-    E_S=0.41,
+    S_0=3.19e24 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=0.41 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(703, 913),
     source="eichenauer_notitle_1965",
     name="D Eichenauer (1965)",
@@ -145,8 +145,8 @@ eichenauer_solubility_copper_d = Solubility(
 
 # ################# Anderl 1990 #############################
 anderl_diffusivity_copper_d = Diffusivity(
-    9.26e-7,
-    0.409,
+    9.26e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    0.409 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(638, 723),
     source="anderl_hydrogen_1990",
     name="D Anderl (1990)",
@@ -156,8 +156,8 @@ anderl_diffusivity_copper_d = Diffusivity(
 
 # ################# Anderl 1999 #############################
 anderl_diffusivity_copper_d_1999 = Diffusivity(
-    2.1e-6,
-    0.52,
+    2.1e-6 * htm.ureg.m**2 * htm.ureg.s**-1,
+    0.52 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(700, 800),
     source="anderl_deuterium_1999",
     name="D Anderl (1999)",
@@ -167,8 +167,8 @@ anderl_diffusivity_copper_d_1999 = Diffusivity(
 
 # ################# Sakamoto 1982 #############################
 sakamoto_diffusivity_copper_h = Diffusivity(
-    3.69e-7,
-    36820 * k_B / Rg,
+    3.69e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    36820 * htm.ureg.J * htm.ureg.mol**-1,
     range=(292, 339),
     source="sakamoto_electrochemical_1982",
     name="H Sakamoto (1982)",
@@ -177,8 +177,8 @@ sakamoto_diffusivity_copper_h = Diffusivity(
 
 # ################# Otsuka 2010 #############################
 otsuka_diffusivity_copper_t = Diffusivity(
-    1.11e-6,
-    0.399,
+    1.11e-6 * htm.ureg.m**2 * htm.ureg.s**-1,
+    0.399 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(303, 353),
     source="otsuka_behavior_2010",
     name="T Otsuka (1982)",
@@ -187,8 +187,8 @@ otsuka_diffusivity_copper_t = Diffusivity(
 
 # ################# Thomas 1967 #############################
 thomas_solubility_copper_h = Solubility(
-    S_0=1.90e24,
-    E_S=0.51,
+    S_0=1.90e24 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=0.51 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(770, 1320),
     source="thomas_solubility_1967",
     name="H Thomas (1967)",
@@ -198,8 +198,8 @@ thomas_solubility_copper_h = Solubility(
 
 # ################# Wampler 1976 #############################
 wampler_solubility_copper_h = Solubility(
-    S_0=1.07e24,
-    E_S=0.44,
+    S_0=1.07e24 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=0.44 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(770, 1070),
     source="wampler_precipitation_1976",
     name="H Wampler (1976)",
@@ -207,24 +207,26 @@ wampler_solubility_copper_h = Solubility(
     units="m-3 Pa-1/2",
 )
 
-data_T_mclellan = np.array(
-    [
-        1027.0,
-        1005.0,
-        939.0,
-        911.0,
-        871.0,
-        846.0,
-        809.0,
-        778.0,
-        755.0,
-        723.0,
-        659.0,
-        609.0,
-        594.0,
-    ]
+data_T_mclellan = (
+    np.array(
+        [
+            1027.0,
+            1005.0,
+            939.0,
+            911.0,
+            871.0,
+            846.0,
+            809.0,
+            778.0,
+            755.0,
+            723.0,
+            659.0,
+            609.0,
+            594.0,
+        ]
+    )
+    * htm.ureg.degC
 )  # in degC (see Table 1)
-data_T_mclellan += 273.15  # in K
 
 data_y_mclellan = (
     np.array(
@@ -246,7 +248,9 @@ data_y_mclellan = (
     )
     * 1e-5
 )  # in at.fr Pa-1/2 see Table 1
-data_y_mclellan *= avogadro_nb / COPPER_MOLAR_VOLUME  # in H m-3 Pa-1/2
+data_y_mclellan *= (
+    1 / COPPER_MOLAR_VOLUME * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5
+)  # in mol H m-3 Pa-1/2
 
 
 mclellan_solubility = Solubility(
@@ -258,22 +262,20 @@ mclellan_solubility = Solubility(
 )
 
 anderl_recombination = RecombinationCoeff(
-    pre_exp=9.1e-18,
-    act_energy=0.99,
+    pre_exp=9.1e-18 * htm.ureg.m**4 * htm.ureg.s**-1,
+    act_energy=0.99 * htm.ureg.eV * htm.ureg.particle**-1,
     isotope="D",
     source="anderl_deuterium_1999",
 )
 
 
-houben_pre_exp = 3e-6  # mol/ (m s mbar^0.5)
-houben_pre_exp *= htm.avogadro_nb  # / (m s mbar^0.5)
-houben_pre_exp *= (1e-3) ** 0.5  # / (m s bar^0.5)
-
-houben_pre_exp = htm.conversion.barn_to_Pan(houben_pre_exp, -0.5)  # / (m s Pa^0.5)
-
 houben_permeability = Permeability(
-    pre_exp=houben_pre_exp,
-    act_energy=htm.conversion.kJ_per_mol_to_eV(77),
+    pre_exp=3e-6
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.mbar**-0.5,
+    act_energy=77 * htm.ureg.kJ * htm.ureg.mol**-1,
     source="houben_comparison_2022",
     isotope="D",
 )

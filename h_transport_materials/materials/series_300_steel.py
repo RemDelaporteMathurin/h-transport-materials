@@ -4,8 +4,8 @@ import h_transport_materials.conversion as c
 
 
 perng_diffusivity = Diffusivity(
-    D_0=2.01e-7,
-    E_D=c.kJ_per_mol_to_eV(49.3),
+    D_0=2.01e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=49.3 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(373, 623),
     source="perng_effects_1986",
     isotope="H",
@@ -15,8 +15,8 @@ perng_diffusivity = Diffusivity(
 perng_solubility = Solubility(
     units="m-3 Pa-1/2",
     range=(373, 623),
-    S_0=2.70e-1 * htm.avogadro_nb,
-    E_S=c.kJ_per_mol_to_eV(6.9),
+    S_0=2.70e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=6.9 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="H",
     source="perng_effects_1986",
 )

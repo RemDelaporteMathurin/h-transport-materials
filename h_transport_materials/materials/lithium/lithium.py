@@ -1,7 +1,6 @@
 from h_transport_materials.property import Diffusivity, Solubility
 import h_transport_materials as htm
 from h_transport_materials import k_B, Rg, avogadro_nb
-from h_transport_materials.conversion import kJ_per_mol_to_eV, atmn_to_Pan
 
 from pathlib import Path
 import numpy as np
@@ -15,12 +14,10 @@ alire_diffusivity_data = np.genfromtxt(
     delimiter=",",
 )
 
-alire_diffusivity_data_T = 1 / alire_diffusivity_data[:, 0]
-alire_diffusivity_data_y = alire_diffusivity_data[:, 1] * 1e-4  # from cm2 to m2
 
 alire_diffusivity = Diffusivity(
-    data_T=alire_diffusivity_data_T,
-    data_y=alire_diffusivity_data_y,
+    data_T=(1 / alire_diffusivity_data[:, 0]) * htm.ureg.K,
+    data_y=alire_diffusivity_data[:, 1] * htm.ureg.cm**2 * htm.ureg.s**-1,
     range=(898, 1178),
     isotope="H",
     source="alire_transport_1976",
@@ -28,9 +25,13 @@ alire_diffusivity = Diffusivity(
 )
 
 veleckis_solubility = Solubility(
-    S_0=atmn_to_Pan(np.exp(-6.498), n=-0.5) * avogadro_nb / LITHIUM_MOLAR_VOLUME,
+    S_0=np.exp(-6.498)
+    / LITHIUM_MOLAR_VOLUME
+    * htm.ureg.mol
+    * htm.ureg.m**-3
+    * htm.ureg.atm**-0.5,
     # S_0=1.75e-1 * avogadro_nb,
-    E_S=-6182 * k_B,
+    E_S=-6182 * k_B * htm.ureg.eV * htm.ureg.particle**-1,
     range=(710 + 273.15, 903 + 273.15),
     source="veleckis_lithium-lithium_1974",
     isotope="H",

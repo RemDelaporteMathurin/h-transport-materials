@@ -10,8 +10,8 @@ PALLADIUM_VOLUMIC_DENSITY = (
 )
 
 volkl_diffusivity = Diffusivity(
-    D_0=2.90e-7,
-    E_D=c.kJ_per_mol_to_eV(22.2),
+    D_0=2.90e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=22.2 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(223, 873),
     source="volkl_5_1975",
     isotope="H",
@@ -46,7 +46,6 @@ favreau_data_T = np.array(
     ]
 )  # in degC Table II
 
-favreau_data_T += 273.15  # in K
 
 favreau_data_y = np.array(
     [
@@ -78,14 +77,11 @@ favreau_data_y = np.array(
 
 favreau_data_y = c.ccSTP_to_mol(favreau_data_y)  # mol T per gram of Pd  cmHg-1.2
 favreau_data_y *= 1 / PALLADIUM_VOLUMIC_DENSITY  # mol T m-3  cmHg-1.2
-favreau_data_y = c.cmHgn_to_Pan(favreau_data_y, n=-1 / 2)  # mol T m-3  Pa-1.2
-favreau_data_y *= htm.avogadro_nb  # T m-3  Pa-1.2
-
 
 favreau_solubility_t = Solubility(
     units="m-3 Pa-1/2",
-    data_T=favreau_data_T,
-    data_y=favreau_data_y,
+    data_T=favreau_data_T * htm.ureg.degC,
+    data_y=favreau_data_y * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.cmHg**-0.5,
     # S_0=4.45e-1 * htm.avogadro_nb,
     # E_S=c.kJ_per_mol_to_eV(-8.4),
     source="favreau_solubility_1954",
@@ -162,7 +158,6 @@ favreau_data_T_h = np.array(
         305.5,
     ]
 )  # in degC
-favreau_data_T_h += 273.15  # in K
 
 
 favreau_data_y_h = np.array(
@@ -239,13 +234,11 @@ favreau_data_y_h = np.array(
 
 favreau_data_y_h = c.ccSTP_to_mol(favreau_data_y_h)  # mol T per gram of Pd  cmHg-1.2
 favreau_data_y_h *= 1 / PALLADIUM_VOLUMIC_DENSITY  # mol T m-3  cmHg-1.2
-favreau_data_y_h = c.cmHgn_to_Pan(favreau_data_y_h, n=-1 / 2)  # mol T m-3  Pa-1.2
-favreau_data_y_h *= htm.avogadro_nb  # T m-3  Pa-1.2
 
 favreau_solubility_h = Solubility(
     units="m-3 Pa-1/2",
-    data_T=favreau_data_T_h,
-    data_y=favreau_data_y_h,
+    data_T=favreau_data_T_h * htm.ureg.degC,
+    data_y=favreau_data_y_h * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.cmHg**-0.5,
     source="favreau_solubility_1954",
     isotope="H",
 )

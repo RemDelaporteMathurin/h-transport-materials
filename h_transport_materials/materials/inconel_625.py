@@ -4,16 +4,16 @@ import h_transport_materials.conversion as c
 
 
 gervasini_diffusivity_H = Diffusivity(
-    D_0=1.75e-6,
-    E_D=c.kJ_per_mol_to_eV(52.6),
+    D_0=1.75e-6 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=52.6 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="H",
     range=(650, 900),
     source="gervasini_solubility_1984",
 )
 
 gervasini_diffusivity_D = Diffusivity(
-    D_0=2.39e-6,
-    E_D=c.kJ_per_mol_to_eV(57.2),
+    D_0=2.39e-6 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=57.2 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="D",
     range=(650, 900),
     source="gervasini_solubility_1984",
@@ -21,8 +21,8 @@ gervasini_diffusivity_D = Diffusivity(
 
 gervasini_solubility = Solubility(
     units="m-3 Pa-1/2",
-    S_0=2.09e-1 * htm.avogadro_nb,
-    E_S=c.kJ_per_mol_to_eV(10.52),
+    S_0=2.09e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=10.52 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(650, 900),
     source="gervasini_solubility_1984",
     isotope="H",

@@ -1,4 +1,3 @@
-from h_transport_materials import k_B, avogadro_nb, Rg
 import h_transport_materials as htm
 from h_transport_materials.property import Diffusivity, Solubility
 from pathlib import Path
@@ -12,8 +11,8 @@ data_fukada = np.genfromtxt(
 )
 
 fukada_diffusivity_h = Diffusivity(
-    data_T=1 / data_fukada[:-1, 0],
-    data_y=data_fukada[:-1, 1],
+    data_T=1 / data_fukada[:-1, 0] * htm.ureg.K,
+    data_y=data_fukada[:-1, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
     source="fukada_hydrogen_2006",
     isotope="H",
 )
@@ -24,14 +23,9 @@ data_fukada_S = np.genfromtxt(
     delimiter=";",
 )
 
-data_y_solubility_fukada = data_fukada_S[:, 1]  # mol/cm3/atm
-data_y_solubility_fukada *= avogadro_nb  # /cm3/atm
-data_y_solubility_fukada *= 1 / 101325  # /cm3/Pa
-data_y_solubility_fukada *= 1e6  # /m3/Pa
-
 fukada_solubility_h = Solubility(
-    data_T=1 / data_fukada_S[:, 0],
-    data_y=data_y_solubility_fukada,
+    data_T=1 / data_fukada_S[:, 0] * htm.ureg.K,
+    data_y=data_fukada_S[:, 1] * htm.ureg.mol * htm.ureg.cm**-3 * htm.ureg.atm**-1,
     source="fukada_hydrogen_2006",
     isotope="H",
     units="m-3 Pa-1",
@@ -44,8 +38,8 @@ data_nakamura_D = np.genfromtxt(
 )
 
 nakamura_diffusivity_h = Diffusivity(
-    data_T=1 / data_nakamura_D[:, 0],
-    data_y=data_nakamura_D[:, 1],
+    data_T=1 / data_nakamura_D[:, 0] * htm.ureg.K,
+    data_y=data_nakamura_D[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
     source="nakamura_hydrogen_2015",
     isotope="H",
 )
@@ -55,8 +49,8 @@ data_nakamura_S = np.genfromtxt(
     delimiter=";",
 )
 nakamura_solubility_h = Solubility(
-    data_T=1 / data_nakamura_S[:, 0],
-    data_y=data_nakamura_S[:, 1] * avogadro_nb,
+    data_T=1 / data_nakamura_S[:, 0] * htm.ureg.K,
+    data_y=data_nakamura_S[:, 1] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
     source="nakamura_hydrogen_2015",
     isotope="H",
     units="m-3 Pa-1",
@@ -68,8 +62,8 @@ data_lam = np.genfromtxt(
 )
 
 lam_diffusivity_t = Diffusivity(
-    data_T=1 / data_lam[:, 0],
-    data_y=data_lam[:, 1],
+    data_T=1 / data_lam[:, 0] * htm.ureg.K,
+    data_y=data_lam[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
     source="lam_impact_2021",
     isotope="T",
 )
@@ -80,8 +74,8 @@ data_lam_t_ions = np.genfromtxt(
 )
 
 lam_diffusivity_t_ions = Diffusivity(
-    data_T=1 / data_lam_t_ions[:, 0],
-    data_y=data_lam_t_ions[:, 1],
+    data_T=1 / data_lam_t_ions[:, 0] * htm.ureg.K,
+    data_y=data_lam_t_ions[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
     source="lam_impact_2021",
     isotope="T",
 )
@@ -93,8 +87,8 @@ data_zeng = np.genfromtxt(
 )
 
 zeng_diffusivity_h_2019 = Diffusivity(
-    data_T=1 / data_zeng[:, 0],
-    data_y=data_zeng[:, 1],
+    data_T=1 / data_zeng[:, 0] * htm.ureg.K,
+    data_y=data_zeng[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
     source="zeng_behavior_2019",
     isotope="H",
 )
@@ -103,11 +97,9 @@ data_zeng_S = np.genfromtxt(
     str(Path(__file__).parent) + "/zeng_2019/solubility/data_zeng_2019.csv",
     delimiter=";",
 )
-data_y_zeng_S = data_zeng_S[:, 1]  # in mol/m3/Pa
-data_y_zeng_S *= avogadro_nb  # in /m3/Pa
 zeng_solubility_h_2019 = Solubility(
-    data_T=1 / data_zeng_S[:, 0],
-    data_y=data_y_zeng_S,
+    data_T=1 / data_zeng_S[:, 0] * htm.ureg.K,
+    data_y=data_zeng_S[:, 1] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
     source="zeng_behavior_2019",
     isotope="H",
     units="m-3 Pa-1",
@@ -121,12 +113,9 @@ data_zeng_2014 = np.genfromtxt(
     delimiter=";",
 )
 
-data_T_zeng_D = data_zeng_2014[:, 0]  # in °C
-data_T_zeng_D += 273.15  # in K-1
-
 zeng_diffusivity_h_2014 = Diffusivity(
-    data_T=data_T_zeng_D,
-    data_y=data_zeng_2014[:, 1],
+    data_T=data_zeng_2014[:, 0] * htm.ureg.degC,
+    data_y=data_zeng_2014[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
     source="zeng_apparatus_2014",
     isotope="H",
 )
@@ -136,14 +125,10 @@ data_zeng_2014_S = np.genfromtxt(
     delimiter=";",
 )
 
-data_T_zeng_S = data_zeng_2014_S[:, 0]  # in °C
-data_T_zeng_S += 273.15  # in K-1
-data_y_zeng_S = data_zeng_2014_S[:, 1]  # in mol/m3/Pa
-data_y_zeng_S *= avogadro_nb  # in /m3/Pa
 
 zeng_solubility_h_2014 = Solubility(
-    data_T=data_T_zeng_S,
-    data_y=data_y_zeng_S,
+    data_T=data_zeng_2014_S[:, 0] * htm.ureg.degC,
+    data_y=data_zeng_2014_S[:, 1] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
     source="zeng_apparatus_2014",
     isotope="H",
     units="m-3 Pa-1",
