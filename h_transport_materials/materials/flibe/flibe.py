@@ -100,6 +100,40 @@ field_solubility_d = Solubility(
     note="DF",
 )
 
+data_maulinauskas_T = np.array([773, 873, 973]) * htm.ureg.K
+
+# see Equation 1 of original paper for conversion from Kc to solubility
+data_maulinauskas_k_c_h = [1.13e-3, 3.17e-3, 3.87e-3]  # Kc adimensionnal
+data_maulinauskas_sol_h = (
+    data_maulinauskas_k_c_h
+    / (htm.Rg * htm.ureg.J * htm.ureg.mol**-1 * htm.ureg.K**-1)
+    / data_maulinauskas_T
+)
+
+data_maulinauskas_k_c_d = [1.41e-3, 2.74e-3, 4.26e-3]  # Kc adimensionnal
+data_maulinauskas_sol_d = (
+    data_maulinauskas_k_c_d
+    / (htm.Rg * htm.ureg.J * htm.ureg.mol**-1 * htm.ureg.K**-1)
+    / data_maulinauskas_T
+)
+
+maulinauskas_solubility_h = Solubility(
+    units="m-3 Pa-1",
+    data_T=data_maulinauskas_T,
+    data_y=data_maulinauskas_sol_h,
+    isotope="H",
+    source="malinauskas_solubilities_1974",
+)
+
+maulinauskas_solubility_d = Solubility(
+    units="m-3 Pa-1",
+    data_T=data_maulinauskas_T,
+    data_y=data_maulinauskas_sol_d,
+    isotope="D",
+    source="malinauskas_solubilities_1974",
+)
+
+
 properties = [
     calderoni_diffusivity,
     calderoni_solubility,
@@ -108,6 +142,8 @@ properties = [
     oishi_diffusivity,
     field_solubility_h,
     field_solubility_d,
+    maulinauskas_solubility_h,
+    maulinauskas_solubility_d,
 ]
 
 for prop in properties:
