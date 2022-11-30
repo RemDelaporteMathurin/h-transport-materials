@@ -100,7 +100,7 @@ field_solubility_d = Solubility(
     note="DF",
 )
 
-data_maulinauskas_T = np.array([773, 873, 973]) * htm.ureg.K
+data_maulinauskas_T = np.array([773.0, 873.0, 973.0]) * htm.ureg.K
 
 # see Equation 1 of original paper for conversion from Kc to solubility
 data_maulinauskas_k_c_h = [1.13e-3, 3.17e-3, 3.87e-3]  # Kc adimensionnal
