@@ -6,6 +6,7 @@ from . import copper
 from . import cucrzr
 
 from . import flinak
+from . import flibe
 
 from . import lipb
 
