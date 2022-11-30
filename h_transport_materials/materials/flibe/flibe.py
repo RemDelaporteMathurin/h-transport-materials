@@ -9,6 +9,17 @@ from h_transport_materials.property import (
 import numpy as np
 from pathlib import Path
 
+BEF2_DENSITY = 1.99 * htm.ureg.g * htm.ureg.cm**-3
+LIF_DENSITY = 2.64 * htm.ureg.g * htm.ureg.cm**-3
+
+BEF2_MASS = (
+    47.0089884 * htm.ureg.g * htm.ureg.mol**-1
+)  # https://www.webqc.org/molecular-weight-of-BeF2.html
+LIF_MASS = (
+    25.9394 * htm.ureg.g * htm.ureg.mol**-1
+)  # https://www.webqc.org/molecular-weight-of-LiF.html
+
+
 # TODO add experimental points
 calderoni_diffusivity = Diffusivity(
     D_0=9.3e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
@@ -49,7 +60,6 @@ anderl_solubility = Solubility(
 data_diffusivity_oishi = np.genfromtxt(
     str(Path(__file__).parent) + "/oishi_1989_diffusivity.csv",
     delimiter=",",
-    # dtype=str,
     names=True,
 )
 
@@ -60,6 +70,35 @@ oishi_diffusivity = Diffusivity(
     isotope="T",
 )
 
+lif_fraction = 0.66
+flibe_density_field = lif_fraction * LIF_DENSITY + (1 - lif_fraction) * BEF2_DENSITY
+flibe_mass_field = lif_fraction * LIF_MASS + (1 - lif_fraction) * BEF2_MASS
+
+data_solubility_field_h = np.array([3.37e-4, 2.16e-4, 1.51e-4]) * htm.ureg.atm**-1
+data_solubility_field_h *= flibe_density_field
+data_solubility_field_h *= 1 / flibe_mass_field
+
+field_solubility_h = Solubility(
+    units="m-3 Pa-1",
+    data_T=np.array([500, 600, 700]) * htm.ureg.degC,
+    data_y=data_solubility_field_h,
+    source="field_solubilities_1967",
+    isotope="H",
+    note="HF",
+)
+
+data_solubility_field_d = np.array([2.96e-4, 1.83e-4, 1.25e-4]) * htm.ureg.atm**-1
+data_solubility_field_d *= flibe_density_field
+data_solubility_field_d *= 1 / flibe_mass_field
+
+field_solubility_d = Solubility(
+    units="m-3 Pa-1",
+    data_T=np.array([500, 600, 700]) * htm.ureg.degC,
+    data_y=data_solubility_field_d,
+    source="field_solubilities_1967",
+    isotope="D",
+    note="DF",
+)
 
 properties = [
     calderoni_diffusivity,
@@ -67,6 +106,8 @@ properties = [
     anderl_diffusivity,
     anderl_solubility,
     oishi_diffusivity,
+    field_solubility_h,
+    field_solubility_d,
 ]
 
 for prop in properties:
