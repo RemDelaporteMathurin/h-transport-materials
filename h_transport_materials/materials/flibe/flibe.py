@@ -23,7 +23,7 @@ LIF_MASS = (
 # TODO add experimental points
 calderoni_diffusivity = Diffusivity(
     D_0=9.3e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=42e3 * htm.ureg.kJ * htm.ureg.mol**-1,
+    E_D=42e3 * htm.ureg.J * htm.ureg.mol**-1,
     range=(500 + 273.15, 700 + 273.15),
     source="calderoni_measurement_2008",
     isotope="T",
