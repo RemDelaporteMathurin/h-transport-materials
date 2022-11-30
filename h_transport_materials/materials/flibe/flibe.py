@@ -6,6 +6,8 @@ from h_transport_materials.property import (
     Permeability,
 )
 
+import numpy as np
+from pathlib import Path
 
 # TODO add experimental points
 calderoni_diffusivity = Diffusivity(
@@ -27,9 +29,44 @@ calderoni_solubility = Solubility(
     note="2LiF–BeF_2 ; there's a unit inconsistency in the paper",
 )
 
+
+anderl_diffusivity = Diffusivity(
+    data_T=np.array([600, 650]) * htm.ureg.degC,
+    data_y=[8.0e-10, 3.0e-9] * htm.ureg.m**2 * htm.ureg.s**-1,
+    source="anderl_deuteriumtritium_2004",
+    isotope="D",
+)
+
+anderl_solubility = Solubility(
+    units="m-3 Pa-1",
+    data_T=np.array([600, 650]) * htm.ureg.degC,
+    data_y=[3.1e-4, 1.0e-4] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
+    source="anderl_deuteriumtritium_2004",
+    isotope="D",
+)
+
+
+data_diffusivity_oishi = np.genfromtxt(
+    str(Path(__file__).parent) + "/oishi_1989_diffusivity.csv",
+    delimiter=",",
+    # dtype=str,
+    names=True,
+)
+
+oishi_diffusivity = Diffusivity(
+    data_T=(1 / data_diffusivity_oishi["X"]) * htm.ureg.K,
+    data_y=data_diffusivity_oishi["Y"] * htm.ureg.cm**2 * htm.ureg.s**-1,
+    source="oishi_tritium_1989",
+    isotope="T",
+)
+
+
 properties = [
     calderoni_diffusivity,
     calderoni_solubility,
+    anderl_diffusivity,
+    anderl_solubility,
+    oishi_diffusivity,
 ]
 
 for prop in properties:
