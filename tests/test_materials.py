@@ -4,7 +4,7 @@ import h_transport_materials as htm
 
 @pytest.mark.parametrize(
     "material",
-    ["tungsten", "copper", "cucrzr", "flinak", "lipb"],
+    ["tungsten", "copper", "cucrzr", "flinak", "lipb", "flibe"],
 )
 def test_units_wrong_value(material):
     """Checks that material is found in the group
