@@ -2,6 +2,7 @@ import pytest
 import numpy as np
 
 import h_transport_materials as htm
+import pint
 
 
 @pytest.mark.parametrize(
@@ -100,3 +101,14 @@ def test_data_y_removes_nan(data):
         data_y=data * htm.ureg.dimensionless,
     )
     assert np.count_nonzero(np.isnan(my_prop.data_y)) == 0
+
+
+def test_value_returns_pint_quantity():
+    my_prop = htm.ArrheniusProperty(
+        pre_exp=1 * htm.ureg.m**2 * htm.ureg.s**-1,
+        act_energy=0.1 * htm.ureg.eV * htm.ureg.particle**-1,
+    )
+
+    T = htm.ureg.Quantity(400, htm.ureg.K)
+
+    assert isinstance(my_prop.value(T), pint.Quantity)
