@@ -297,7 +297,15 @@ class ArrheniusProperty(Property):
         self.range = (self.data_T.min(), self.data_T.max())
 
     def value(self, T, exp=np.exp):
-        return self.pre_exp * exp(-self.act_energy / k_B / T)
+        if not isinstance(T, pint.Quantity):
+            warnings.warn(f"no units were given with T, assuming {ureg.K}")
+            T = T * ureg.K
+        if not isinstance(self.pre_exp, pint.Quantity):
+            pre_exp = self.pre_exp * self.units
+        if not isinstance(self.act_energy, pint.Quantity):
+            act_energy = self.act_energy * DEFAULT_ENERGY_UNITS
+        k_B_u = k_B * ureg.eV * ureg.particle**-1 * ureg.K**-1
+        return pre_exp * exp(-act_energy / k_B_u / T)
 
 
 class Solubility(ArrheniusProperty):

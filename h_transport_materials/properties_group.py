@@ -1,8 +1,10 @@
 import numpy as np
 import json
 from pybtex.database import BibliographyData
+import pint
 
 from h_transport_materials.fitting import fit_arhenius
+from h_transport_materials import ureg
 
 
 class PropertiesGroup(list):
@@ -96,6 +98,8 @@ class PropertiesGroup(list):
                 if prop.range == None:
                     T_range = default_range
                 prop_T = np.linspace(T_range[0], T_range[1], num=samples_per_line)
+                if not isinstance(prop_T, pint.Quantity):
+                    prop_T = ureg.Quantity(prop_T, ureg.K)
                 prop_y = prop.value(prop_T)
 
             data_T = np.concatenate((data_T, prop_T))
@@ -103,7 +107,6 @@ class PropertiesGroup(list):
 
         # fit all the data
         pre_exp, act_energy = fit_arhenius(data_y, data_T)
-
         return pre_exp, act_energy
 
     def export_bib(self, filename: str):
