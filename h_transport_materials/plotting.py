@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy.typing import ArrayLike
-from h_transport_materials import Property, PropertiesGroup
+import pint
+from h_transport_materials import Property, PropertiesGroup, ureg
 import math
 import matplotlib as mpl
 from typing import Union
@@ -37,6 +38,8 @@ def plot(
         else:
             range = prop.range
         T = np.linspace(*range, num=50)
+        if not isinstance(T, pint.Quantity):
+            T *= ureg.K
         if inverse_temperature:
             plt.xlabel("1/T (K$^{-1}$)")
             x = (1 / T)[::-1]
