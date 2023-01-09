@@ -186,4 +186,4 @@ def test_units_property():
         == htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-1
     )
     assert htm.PropertiesGroup([diff, diff]).units == htm.ureg.m**2 * htm.ureg.s**-1
-    assert htm.PropertiesGroup([sol, diff]).units == htm.ureg.dimensionless
+    assert htm.PropertiesGroup([sol, diff]).units == "mixed units"

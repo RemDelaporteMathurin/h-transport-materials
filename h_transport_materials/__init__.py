@@ -25,6 +25,7 @@ bib_database = parse_file(str(Path(__file__).parent) + "/references.bib")
 import pint
 
 ureg = pint.UnitRegistry()
+ureg.setup_matplotlib()
 
 from .property import (
     Property,
