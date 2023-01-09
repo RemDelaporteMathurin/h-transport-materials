@@ -10,6 +10,14 @@ from h_transport_materials import ureg, ArrheniusProperty
 
 class PropertiesGroup(list):
     @property
+    def units(self):
+        all_units = list(set([prop.units for prop in self]))
+        if len(all_units) == 1:
+            return all_units[0]
+        else:
+            return ureg.dimensionless
+
+    @property
     def bibdata(self):
         bibdata = {}
 
