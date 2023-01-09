@@ -273,14 +273,15 @@ class ArrheniusProperty(Property):
         if isinstance(value, pint.Quantity):
             # convert to right units
             if self.units != ureg.dimensionless:
-                value = value.to(self.units).magnitude
+                value = value.to(self.units)
             else:
-                value = value.magnitude
+                value = value
         else:
             warnings.warn(f"no units were given with data_y, assuming {self.units:~}")
-        if not isinstance(value, (list, np.ndarray)):
+            value *= self.units
+        if not isinstance(value.magnitude, (list, np.ndarray)):
             raise TypeError("data_y accepts list or np.ndarray")
-        elif isinstance(value, list):
+        elif isinstance(value.magnitude, list):
             value_as_array = np.array(value)
             self._data_y = value_as_array[
                 ~np.isnan(value_as_array)

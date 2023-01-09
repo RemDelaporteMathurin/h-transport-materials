@@ -116,7 +116,7 @@ class PropertiesGroup(list):
             data_y = np.concatenate((data_y, prop_y))
 
         # fit all the data
-        pre_exp, act_energy = fit_arhenius(data_y.magnitude, data_T.magnitude)
+        pre_exp, act_energy = fit_arhenius(data_y, data_T.magnitude)
 
         property = ArrheniusProperty(
             pre_exp * self.units, act_energy * ureg.eV * ureg.particle**-1
