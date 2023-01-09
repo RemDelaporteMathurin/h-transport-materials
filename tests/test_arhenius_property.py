@@ -112,3 +112,17 @@ def test_value_returns_pint_quantity():
     T = htm.ureg.Quantity(400, htm.ureg.K)
 
     assert isinstance(my_prop.value(T), pint.Quantity)
+
+
+def test_no_units_preexp_raises_warning():
+    with pytest.warns(
+        UserWarning, match="no units were given with pre-exponential factor"
+    ):
+        htm.ArrheniusProperty(
+            0.1, act_energy=0.1 * htm.ureg.eV * htm.ureg.particle**-1
+        )
+
+
+def test_no_units_act_energy_raises_warning():
+    with pytest.warns(UserWarning, match="no units were given with activation energy"):
+        htm.ArrheniusProperty(0.1 * htm.ureg.m**2 * htm.ureg.s**-1, act_energy=0.1)
