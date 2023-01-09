@@ -160,3 +160,8 @@ def test_export_to_json():
                         assert f"{getattr(prop_ref, key):~}" == val
                     else:
                         assert getattr(prop_ref, key) == val
+
+
+def test_filter_warns_when_no_props():
+    with pytest.warns(UserWarning):
+        htm.diffusivities.filter(material="material_that_doesn_not_exist")
