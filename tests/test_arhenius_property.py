@@ -62,12 +62,12 @@ def test_act_energy_getter_fit():
     "T,pre_exp,act_energy", [(300, 3, 0.2), (205, 6, 0.8), (600, 1e5, 1.2)]
 )
 def test_value(T, pre_exp, act_energy):
-    my_prop = htm.ArrheniusProperty(
-        pre_exp=pre_exp * htm.ureg.dimensionless,
-        act_energy=act_energy * htm.ureg.eV * htm.ureg.particle**-1,
-    )
+    pre_exp *= htm.ureg.dimensionless
+    act_energy *= htm.ureg.eV * htm.ureg.particle**-1
+    T *= htm.ureg.K
+    my_prop = htm.ArrheniusProperty(pre_exp=pre_exp, act_energy=act_energy)
 
-    computed_value = my_prop.value(T=T * htm.ureg.K)
+    computed_value = my_prop.value(T=T)
     expected_value = pre_exp * np.exp(-act_energy / htm.k_B / T)
     assert expected_value == computed_value
 

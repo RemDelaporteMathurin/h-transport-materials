@@ -300,8 +300,7 @@ class ArrheniusProperty(Property):
         if not isinstance(T, pint.Quantity):
             warnings.warn(f"no units were given with T, assuming {ureg.K}")
             T = T * ureg.K
-        k_B_u = k_B * ureg.eV * ureg.particle**-1 * ureg.K**-1
-        return self.pre_exp * exp(-self.act_energy / k_B_u / T)
+        return self.pre_exp * exp(-self.act_energy / k_B / T)
 
 
 class Solubility(ArrheniusProperty):

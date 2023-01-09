@@ -5,7 +5,7 @@ import h_transport_materials.conversion as c
 def test_ccSTP_to_mol():
     P = 101.35e3  # Pa
     T = 273.15  # K
-    R = htm.Rg
+    R = htm.Rg.magnitude
 
     V_cm3 = 1.5  # cm3
     V_m3 = V_cm3 * 1e-6  # m3
