@@ -1,6 +1,6 @@
 import h_transport_materials as htm
 
-
+# TODO add units to this function
 def ccSTP_to_mol(V):
     """Converts a volume in cc (STP) (aka cubic centimetre) to mol
     assuming a perfect gas law PV = nRT
@@ -15,7 +15,7 @@ def ccSTP_to_mol(V):
     P = 101.35e3  # Pa
     T = 273.15  # K
 
-    R = htm.Rg
+    R = htm.Rg.magnitude
 
     V_m3 = V * 1e-6  # m3
 

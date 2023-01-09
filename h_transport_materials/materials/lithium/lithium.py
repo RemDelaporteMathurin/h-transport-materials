@@ -31,7 +31,7 @@ veleckis_solubility = Solubility(
     * htm.ureg.m**-3
     * htm.ureg.atm**-0.5,
     # S_0=1.75e-1 * avogadro_nb,
-    E_S=-6182 * k_B * htm.ureg.eV * htm.ureg.particle**-1,
+    E_S=-6182 * htm.ureg.K * k_B,
     range=(710 + 273.15, 903 + 273.15),
     source="veleckis_lithium-lithium_1974",
     isotope="H",

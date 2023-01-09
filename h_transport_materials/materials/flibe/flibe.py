@@ -104,18 +104,10 @@ data_maulinauskas_T = np.array([773.0, 873.0, 973.0]) * htm.ureg.K
 
 # see Equation 1 of original paper for conversion from Kc to solubility
 data_maulinauskas_k_c_h = [1.13e-3, 3.17e-3, 3.87e-3]  # Kc adimensionnal
-data_maulinauskas_sol_h = (
-    data_maulinauskas_k_c_h
-    / (htm.Rg * htm.ureg.J * htm.ureg.mol**-1 * htm.ureg.K**-1)
-    / data_maulinauskas_T
-)
+data_maulinauskas_sol_h = data_maulinauskas_k_c_h / htm.Rg / data_maulinauskas_T
 
 data_maulinauskas_k_c_d = [1.41e-3, 2.74e-3, 4.26e-3]  # Kc adimensionnal
-data_maulinauskas_sol_d = (
-    data_maulinauskas_k_c_d
-    / (htm.Rg * htm.ureg.J * htm.ureg.mol**-1 * htm.ureg.K**-1)
-    / data_maulinauskas_T
-)
+data_maulinauskas_sol_d = data_maulinauskas_k_c_d / htm.Rg / data_maulinauskas_T
 
 maulinauskas_solubility_h = Solubility(
     units="m-3 Pa-1",

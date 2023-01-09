@@ -29,7 +29,7 @@ shapovalov_solubility = Solubility(
 jones_diffusivity = Diffusivity(
     isotope="T",
     D_0=np.exp(-6.53) * htm.ureg.cm**2 * htm.ureg.s**-1,
-    E_D=965 * htm.k_B * htm.ureg.eV * htm.ureg.particle**-1,
+    E_D=965 * htm.ureg.K * htm.k_B,
     range=(400, 900),
     source="jones_hydrogen_1967",
 )

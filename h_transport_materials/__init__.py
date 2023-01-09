@@ -12,20 +12,19 @@ try:
 except Exception:
     __version__ = "unknown"
 
+import pint
 
-k_B = 8.617e-5  # eV/K
-Rg = 8.314
-avogadro_nb = 6.022e23
+ureg = pint.UnitRegistry()
+ureg.setup_matplotlib()
+
+k_B = 8.617e-5 * ureg.eV * ureg.particle**-1 * ureg.K**-1
+Rg = 8.314 * ureg.Pa * ureg.m**3 * ureg.mol**-1 * ureg.K**-1
+avogadro_nb = 6.022e23 * ureg.particle * ureg.mol**-1
 
 from pybtex.database import parse_file
 from pathlib import Path
 
 bib_database = parse_file(str(Path(__file__).parent) + "/references.bib")
-
-import pint
-
-ureg = pint.UnitRegistry()
-ureg.setup_matplotlib()
 
 from .property import (
     Property,
