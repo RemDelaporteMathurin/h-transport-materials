@@ -15,7 +15,7 @@ class PropertiesGroup(list):
         if len(all_units) == 1:
             return all_units[0]
         else:
-            return ureg.dimensionless
+            return "mixed units"
 
     @property
     def bibdata(self):
