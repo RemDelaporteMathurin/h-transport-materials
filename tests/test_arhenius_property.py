@@ -67,7 +67,7 @@ def test_value(T, pre_exp, act_energy):
         act_energy=act_energy * htm.ureg.eV * htm.ureg.particle**-1,
     )
 
-    computed_value = my_prop.value(T=T)
+    computed_value = my_prop.value(T=T * htm.ureg.K)
     expected_value = pre_exp * np.exp(-act_energy / htm.k_B / T)
     assert expected_value == computed_value
 
@@ -112,3 +112,26 @@ def test_value_returns_pint_quantity():
     T = htm.ureg.Quantity(400, htm.ureg.K)
 
     assert isinstance(my_prop.value(T), pint.Quantity)
+
+
+def test_no_units_T_in_value_raises_warning():
+    prop = htm.ArrheniusProperty(
+        0.1 * htm.ureg.m**2 * htm.ureg.s**-1,
+        act_energy=0.1 * htm.ureg.eV * htm.ureg.particle**-1,
+    )
+    with pytest.warns(UserWarning, match="no units were given with T"):
+        prop.value(T=2)
+
+
+def test_no_units_preexp_raises_warning():
+    with pytest.warns(
+        UserWarning, match="no units were given with pre-exponential factor"
+    ):
+        htm.ArrheniusProperty(
+            0.1, act_energy=0.1 * htm.ureg.eV * htm.ureg.particle**-1
+        )
+
+
+def test_no_units_act_energy_raises_warning():
+    with pytest.warns(UserWarning, match="no units were given with activation energy"):
+        htm.ArrheniusProperty(0.1 * htm.ureg.m**2 * htm.ureg.s**-1, act_energy=0.1)

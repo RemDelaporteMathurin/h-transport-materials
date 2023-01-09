@@ -93,7 +93,9 @@ def test_mean(mean_D_0, mean_E_D):
 
 
 def test_mean_is_type_arrhenius_property():
-    my_prop = htm.ArrheniusProperty(0.1, 0.1)
+    my_prop = htm.ArrheniusProperty(
+        0.1 * htm.ureg.dimensionless, 0.1 * htm.ureg.eV * htm.ureg.particle**-1
+    )
     my_group = htm.PropertiesGroup([my_prop])
 
     assert isinstance(my_group.mean(), htm.ArrheniusProperty)
@@ -165,3 +167,23 @@ def test_export_to_json():
 def test_filter_warns_when_no_props():
     with pytest.warns(UserWarning):
         htm.diffusivities.filter(material="material_that_doesn_not_exist")
+
+
+def test_units_property():
+    """Checks the units property returns the expected value"""
+    diff = htm.Diffusivity(
+        D_0=1 * htm.ureg.m**2 * htm.ureg.s**-1,
+        E_D=0.1 * htm.ureg.eV * htm.ureg.particle**-1,
+    )
+    sol = htm.Solubility(
+        units="m-3 Pa-1",
+        S_0=1 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-1,
+        E_S=0.1 * htm.ureg.eV * htm.ureg.particle**-1,
+    )
+
+    assert (
+        htm.PropertiesGroup([sol, sol]).units
+        == htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-1
+    )
+    assert htm.PropertiesGroup([diff, diff]).units == htm.ureg.m**2 * htm.ureg.s**-1
+    assert htm.PropertiesGroup([sol, diff]).units == htm.ureg.dimensionless
