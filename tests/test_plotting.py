@@ -1,4 +1,5 @@
 import h_transport_materials as htm
+import matplotlib.pyplot as plt
 
 
 def test_plot():
@@ -8,6 +9,7 @@ def test_plot():
     )
 
     htm.plotting.plot(my_prop, alpha=0.2)
+    plt.clf()
 
 
 def test_plot_without_inverse_temp():
@@ -16,9 +18,11 @@ def test_plot_without_inverse_temp():
     )
 
     htm.plotting.plot(my_prop, alpha=0.2, inverse_temperature=False)
+    plt.clf()
 
 
 def test_plot_group():
     """Tests that a group can be plotted"""
 
     htm.plotting.plot(htm.diffusivities)
+    plt.clf()
