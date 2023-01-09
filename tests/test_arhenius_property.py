@@ -67,7 +67,7 @@ def test_value(T, pre_exp, act_energy):
         act_energy=act_energy * htm.ureg.eV * htm.ureg.particle**-1,
     )
 
-    computed_value = my_prop.value(T=T)
+    computed_value = my_prop.value(T=T * htm.ureg.K)
     expected_value = pre_exp * np.exp(-act_energy / htm.k_B / T)
     assert expected_value == computed_value
 
