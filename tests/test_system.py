@@ -32,7 +32,7 @@ def test_all_properties_have_required_attributes():
     for prop in htm.database:
         assert prop.material
         assert isinstance(prop.pre_exp, pint.Quantity)
-        assert isinstance(prop.act_energy, (float, int))
+        assert isinstance(prop.act_energy, pint.Quantity)
         assert prop.isotope
 
 

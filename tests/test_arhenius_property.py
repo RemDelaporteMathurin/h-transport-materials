@@ -26,7 +26,7 @@ def test_fit(data_T, data_y):
     )
 
     my_prop.fit()
-    computed_values = my_prop.pre_exp, my_prop.act_energy
+    computed_values = my_prop.pre_exp.magnitude, my_prop.act_energy.magnitude
     assert expected_values == computed_values
 
 

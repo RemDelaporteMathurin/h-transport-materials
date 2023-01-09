@@ -25,8 +25,7 @@ schmidt_permeability_E_S = 56.6 * htm.ureg.kJ * htm.ureg.mol**-1
 schmidt_solubility = Solubility(
     units="m-3 Pa-1/2",
     S_0=schmidt_permeability_S_0 / schmidt_diffusivity.pre_exp,
-    E_S=schmidt_permeability_E_S
-    - (schmidt_diffusivity.act_energy * htm.ureg.eV * htm.ureg.particle**-1),
+    E_S=schmidt_permeability_E_S - schmidt_diffusivity.act_energy,
     range=(1023, 1223),
     isotope="H",
     source="schmidt_studies_1985",
