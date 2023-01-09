@@ -4,7 +4,7 @@ from pybtex.database import BibliographyData
 import pint
 
 from h_transport_materials.fitting import fit_arhenius
-from h_transport_materials import ureg
+from h_transport_materials import ureg, ArrheniusProperty
 
 
 class PropertiesGroup(list):
@@ -80,7 +80,7 @@ class PropertiesGroup(list):
                 a Property doesn't have range. Defaults to (300, 1200).
 
         Returns:
-            float, float: pre-exponential factor, activation energy (eV)
+            htm.ArrheniusProperty: the mean arrhenius property
         """
         # initialise data points
         data_T = np.array([])
@@ -107,7 +107,11 @@ class PropertiesGroup(list):
 
         # fit all the data
         pre_exp, act_energy = fit_arhenius(data_y, data_T)
-        return pre_exp, act_energy
+        # TODO handle units (see #119)
+        property = ArrheniusProperty(
+            pre_exp, act_energy * ureg.eV * ureg.particle**-1
+        )
+        return property
 
     def export_bib(self, filename: str):
         """Exports the bibliography data
