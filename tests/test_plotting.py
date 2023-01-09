@@ -1,5 +1,6 @@
 import h_transport_materials as htm
 import matplotlib.pyplot as plt
+import pytest
 
 
 def test_plot():
@@ -26,3 +27,9 @@ def test_plot_group():
 
     htm.plotting.plot(htm.diffusivities)
     plt.clf()
+
+
+def test_plot_group_with_mixed_units():
+    """Tests that plotting a group with mixed units raises an error"""
+    with pytest.raises(ValueError):
+        htm.plotting.plot(htm.solubilities)

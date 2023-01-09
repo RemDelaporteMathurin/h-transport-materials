@@ -57,6 +57,8 @@ def plot(
 
         return plt.plot(x, y, **kwargs)
     elif isinstance(prop, PropertiesGroup):
+        if prop.units == "mixed units":
+            raise ValueError("Cannot plot group with mixed units")
         for prop2 in prop:
             plot(
                 prop2,
