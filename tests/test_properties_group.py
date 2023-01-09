@@ -155,8 +155,12 @@ def test_export_to_json():
         for key, val in prop_file.items():
             if hasattr(prop_ref, key):
                 if isinstance(val, list):
-                    for item1, item2 in zip(val, getattr(prop_ref, key)):
-                        assert item1 == item2
+                    if key == "range":
+                        prop_range = getattr(prop_ref, key)
+                        assert [prop_range[0].magnitude, prop_range[1].magnitude] == val
+                    else:
+                        for item1, item2 in zip(val, getattr(prop_ref, key)):
+                            assert item1 == item2
                 else:
                     if key == "units":
                         assert f"{getattr(prop_ref, key):~}" == val

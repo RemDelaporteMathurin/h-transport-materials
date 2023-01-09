@@ -80,7 +80,7 @@ def test_fit_creates_temp_range():
         data_y=[1, 2, 3] * htm.ureg.dimensionless,
     )
 
-    assert my_prop.range == (300, 500)
+    assert my_prop.range == (300 * htm.ureg.K, 500 * htm.ureg.K)
 
 
 @pytest.mark.parametrize("data", [[1, 2, 3, np.nan], np.array([1, 2, 3, np.nan])])

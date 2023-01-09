@@ -193,7 +193,22 @@ class ArrheniusProperty(Property):
 
     @range.setter
     def range(self, value):
-        self._range = value
+        if isinstance(value, pint.Quantity):
+            if self.units != ureg.dimensionless:
+                self._range = value.to(ureg.K)
+            else:
+                self._range = value
+        elif value is not None:
+            # assume it's given in the correct units
+            warnings.warn(
+                f"no units were given with temperature range, assuming {ureg.K:~}"
+            )
+            self._range = (
+                pint.Quantity(value[0], ureg.K),
+                pint.Quantity(value[1], ureg.K),
+            )
+        else:
+            self._range = value
 
     @property
     def pre_exp(self):
@@ -301,7 +316,7 @@ class ArrheniusProperty(Property):
     def value(self, T, exp=np.exp):
         if not isinstance(T, pint.Quantity):
             warnings.warn(f"no units were given with T, assuming {ureg.K}")
-            T = T * ureg.K
+            T *= ureg.K
         return self.pre_exp * exp(-self.act_energy / k_B / T)
 
 

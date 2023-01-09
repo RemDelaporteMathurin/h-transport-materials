@@ -16,6 +16,7 @@ import pint
 
 ureg = pint.UnitRegistry()
 ureg.setup_matplotlib()
+pint.set_application_registry(ureg)
 
 k_B = 8.617e-5 * ureg.eV * ureg.particle**-1 * ureg.K**-1
 Rg = 8.314 * ureg.Pa * ureg.m**3 * ureg.mol**-1 * ureg.K**-1

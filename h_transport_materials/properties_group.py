@@ -153,10 +153,11 @@ class PropertiesGroup(list):
                 prop_dict["units"] = f"{prop_dict['units']:~}"
             prop_dict["pre_exp"] = prop_dict["pre_exp"].magnitude
             prop_dict["act_energy"] = prop_dict["act_energy"].magnitude
-            # prop_dict["range"] = (
-            #     prop_dict["range"][0].magnitude,
-            #     prop_dict["range"][1].magnitude,
-            # )
+            if prop_dict["range"]:
+                prop_dict["range"] = (
+                    prop_dict["range"][0].magnitude,
+                    prop_dict["range"][1].magnitude,
+                )
             data.append(prop_dict)
 
         with open(filename, "w") as outfile:
