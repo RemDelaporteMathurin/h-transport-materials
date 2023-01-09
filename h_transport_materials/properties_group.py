@@ -2,6 +2,7 @@ import numpy as np
 import json
 from pybtex.database import BibliographyData
 import pint
+import warnings
 
 from h_transport_materials.fitting import fit_arhenius
 from h_transport_materials import ureg, ArrheniusProperty
@@ -66,7 +67,8 @@ class PropertiesGroup(list):
             # append the property to the filtered list
             if (match and not exclude) or (not match and exclude):
                 filtered_props.append(prop)
-
+        if len(filtered_props) == 0:
+            warnings.warn("No property matching the requirements")
         return filtered_props
 
     def mean(self, samples_per_line=5, default_range=(300, 1200)):
