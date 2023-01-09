@@ -92,6 +92,13 @@ def test_mean(mean_D_0, mean_E_D):
     assert mean_E_D_computed == pytest.approx(mean_E_D, rel=0.2)
 
 
+def test_mean_is_type_arrhenius_property():
+    my_prop = htm.ArrheniusProperty(0.1, 0.1)
+    my_group = htm.PropertiesGroup([my_prop])
+
+    assert isinstance(my_group.mean(), htm.ArrheniusProperty)
+
+
 def test_bibdata():
     source_bib = """@article{article-minimal,
         author = "L[eslie] B. Lamport",
