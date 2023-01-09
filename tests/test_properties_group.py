@@ -160,6 +160,8 @@ def test_export_to_json():
                 else:
                     if key == "units":
                         assert f"{getattr(prop_ref, key):~}" == val
+                    elif key == "pre_exp":
+                        assert getattr(prop_ref, key).magnitude == val
                     else:
                         assert getattr(prop_ref, key) == val
 

@@ -7,7 +7,7 @@ def test_pre_exp_can_be_quantity():
         E_D=0.5 * htm.ureg.eV * htm.ureg.particle**-1,
     )
 
-    assert prop.pre_exp == 1e-4
+    assert prop.pre_exp == 1e-4 * htm.ureg.m**2 * htm.ureg.second**-1
 
 
 def test_act_energy_can_be_quantity():

@@ -151,6 +151,7 @@ class PropertiesGroup(list):
             prop_dict = {key: getattr(prop, key) for key in keys if hasattr(prop, key)}
             if "units" in prop_dict:
                 prop_dict["units"] = f"{prop_dict['units']:~}"
+            prop_dict["pre_exp"] = prop_dict["pre_exp"].magnitude
             data.append(prop_dict)
 
         with open(filename, "w") as outfile:

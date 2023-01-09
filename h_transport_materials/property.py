@@ -205,16 +205,16 @@ class ArrheniusProperty(Property):
     def pre_exp(self, value):
         if isinstance(value, pint.Quantity):
             if self.units != ureg.dimensionless:
-                self._pre_exp = value.to(self.units).magnitude
+                self._pre_exp = value.to(self.units)
             else:
-                self._pre_exp = value.magnitude
+                self._pre_exp = value
 
         elif value is not None:
             # assume it's given in the correct units
             warnings.warn(
                 f"no units were given with pre-exponential factor, assuming {self.units:~}"
             )
-            self._pre_exp = value
+            self._pre_exp = value * self.units
         else:
             self._pre_exp = value
 
@@ -300,12 +300,10 @@ class ArrheniusProperty(Property):
         if not isinstance(T, pint.Quantity):
             warnings.warn(f"no units were given with T, assuming {ureg.K}")
             T = T * ureg.K
-        if not isinstance(self.pre_exp, pint.Quantity):
-            pre_exp = self.pre_exp * self.units
         if not isinstance(self.act_energy, pint.Quantity):
             act_energy = self.act_energy * DEFAULT_ENERGY_UNITS
         k_B_u = k_B * ureg.eV * ureg.particle**-1 * ureg.K**-1
-        return pre_exp * exp(-act_energy / k_B_u / T)
+        return self.pre_exp * exp(-act_energy / k_B_u / T)
 
 
 class Solubility(ArrheniusProperty):
