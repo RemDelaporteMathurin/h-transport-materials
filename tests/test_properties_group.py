@@ -93,7 +93,9 @@ def test_mean(mean_D_0, mean_E_D):
 
 
 def test_mean_is_type_arrhenius_property():
-    my_prop = htm.ArrheniusProperty(0.1, 0.1 * htm.ureg.eV * htm.ureg.particle**-1)
+    my_prop = htm.ArrheniusProperty(
+        0.1 * htm.ureg.dimensionless, 0.1 * htm.ureg.eV * htm.ureg.particle**-1
+    )
     my_group = htm.PropertiesGroup([my_prop])
 
     assert isinstance(my_group.mean(), htm.ArrheniusProperty)

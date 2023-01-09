@@ -117,9 +117,9 @@ class PropertiesGroup(list):
 
         # fit all the data
         pre_exp, act_energy = fit_arhenius(data_y, data_T)
-        # TODO handle units (see #119)
+
         property = ArrheniusProperty(
-            pre_exp, act_energy * ureg.eV * ureg.particle**-1
+            pre_exp * self.units, act_energy * ureg.eV * ureg.particle**-1
         )
         return property
 
