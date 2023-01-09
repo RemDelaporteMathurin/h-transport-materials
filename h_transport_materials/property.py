@@ -248,12 +248,13 @@ class ArrheniusProperty(Property):
             return
         if isinstance(value, pint.Quantity):
             # convert to K
-            value = value.to(ureg.K).magnitude
+            value = value.to(ureg.K)
         else:
-            warnings.warn(f"no units were given with data_T, assuming {self.units:~}")
-        if not isinstance(value, (list, np.ndarray)):
+            warnings.warn(f"no units were given with data_T, assuming {ureg.K:~}")
+            value *= ureg.K
+        if not isinstance(value.magnitude, (list, np.ndarray)):
             raise TypeError("data_T accepts list or np.ndarray")
-        elif isinstance(value, list):
+        elif isinstance(value.magnitude, list):
             value_as_array = np.array(value)
             self._data_T = value_as_array[
                 ~np.isnan(value_as_array)
@@ -295,7 +296,7 @@ class ArrheniusProperty(Property):
             pre_exp * self.units,
             act_energy * DEFAULT_ENERGY_UNITS,
         )
-        self.range = (self.data_T.min(), self.data_T.max())
+        self.range = (self.data_T.magnitude.min(), self.data_T.magnitude.max())
 
     def value(self, T, exp=np.exp):
         if not isinstance(T, pint.Quantity):

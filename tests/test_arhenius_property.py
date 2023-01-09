@@ -20,9 +20,10 @@ import pint
 )
 def test_fit(data_T, data_y):
     data_y *= htm.ureg.dimensionless
+    data_T *= htm.ureg.K
     expected_values = htm.fitting.fit_arhenius(data_y, data_T)
 
-    my_prop = htm.ArrheniusProperty(data_T=data_T * htm.ureg.K, data_y=data_y)
+    my_prop = htm.ArrheniusProperty(data_T=data_T, data_y=data_y)
 
     my_prop.fit()
     computed_values = my_prop.pre_exp.magnitude, my_prop.act_energy.magnitude

@@ -10,7 +10,7 @@ def D(T, D_0, E_D):
 
 def fit_arhenius(D, T):
     D_ln = np.log(D.magnitude)
-    T_inv = 1 / T
+    T_inv = 1 / T.magnitude
 
     res = stats.linregress(T_inv, D_ln)
     D_0 = np.exp(res.intercept)
