@@ -85,11 +85,11 @@ def test_mean(mean_D_0, mean_E_D):
         )
 
     # run
-    mean_D_0_computed, mean_E_D_computed = my_group.mean()
+    mean_prop = my_group.mean()
 
     # test
-    assert mean_D_0_computed == pytest.approx(mean_D_0, rel=0.2)
-    assert mean_E_D_computed == pytest.approx(mean_E_D, rel=0.2)
+    assert mean_prop.pre_exp == pytest.approx(mean_D_0, rel=0.2)
+    assert mean_prop.act_energy == pytest.approx(mean_E_D, rel=0.2)
 
 
 def test_mean_is_type_arrhenius_property():
