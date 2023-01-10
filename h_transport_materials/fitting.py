@@ -9,12 +9,13 @@ def D(T, D_0, E_D):
 
 
 def fit_arhenius(D, T):
-    D_ln = np.log(D)
-    T_inv = 1 / T
+    D_ln = np.log(D.magnitude)
+    T_inv = 1 / T.magnitude
 
     res = stats.linregress(T_inv, D_ln)
     D_0 = np.exp(res.intercept)
-    E_D = -res.slope * k_B
+    # TODO make this robust
+    E_D = -res.slope * k_B.magnitude
     return D_0, E_D
 
 

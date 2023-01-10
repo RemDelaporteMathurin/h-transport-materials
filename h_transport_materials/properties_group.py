@@ -116,7 +116,7 @@ class PropertiesGroup(list):
             data_y = np.concatenate((data_y, prop_y))
 
         # fit all the data
-        pre_exp, act_energy = fit_arhenius(data_y.magnitude, data_T.magnitude)
+        pre_exp, act_energy = fit_arhenius(data_y, data_T)
 
         property = ArrheniusProperty(
             pre_exp * self.units, act_energy * ureg.eV * ureg.particle**-1
@@ -151,6 +151,13 @@ class PropertiesGroup(list):
             prop_dict = {key: getattr(prop, key) for key in keys if hasattr(prop, key)}
             if "units" in prop_dict:
                 prop_dict["units"] = f"{prop_dict['units']:~}"
+            prop_dict["pre_exp"] = prop_dict["pre_exp"].magnitude
+            prop_dict["act_energy"] = prop_dict["act_energy"].magnitude
+            if prop_dict["range"]:
+                prop_dict["range"] = (
+                    prop_dict["range"][0].magnitude,
+                    prop_dict["range"][1].magnitude,
+                )
             data.append(prop_dict)
 
         with open(filename, "w") as outfile:

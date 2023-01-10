@@ -24,7 +24,10 @@ LIF_MASS = (
 calderoni_diffusivity = Diffusivity(
     D_0=9.3e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=42e3 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(550 + 273.15, 700 + 273.15),
+    range=(
+        htm.ureg.Quantity(550, htm.ureg.degC),
+        htm.ureg.Quantity(700, htm.ureg.degC),
+    ),
     source="calderoni_measurement_2008",
     isotope="T",
     note="2LiF–BeF_2",
@@ -34,7 +37,10 @@ calderoni_solubility = Solubility(
     units="m-3 Pa-1",
     S_0=7.9e-2 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
     E_S=35 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(550 + 273.15, 700 + 273.15),
+    range=(
+        htm.ureg.Quantity(550, htm.ureg.degC),
+        htm.ureg.Quantity(700, htm.ureg.degC),
+    ),
     source="calderoni_measurement_2008",
     isotope="T",
     note="2LiF–BeF_2 ; there's a unit inconsistency in the paper",
@@ -104,18 +110,10 @@ data_maulinauskas_T = np.array([773.0, 873.0, 973.0]) * htm.ureg.K
 
 # see Equation 1 of original paper for conversion from Kc to solubility
 data_maulinauskas_k_c_h = [1.13e-3, 3.17e-3, 3.87e-3]  # Kc adimensionnal
-data_maulinauskas_sol_h = (
-    data_maulinauskas_k_c_h
-    / (htm.Rg * htm.ureg.J * htm.ureg.mol**-1 * htm.ureg.K**-1)
-    / data_maulinauskas_T
-)
+data_maulinauskas_sol_h = data_maulinauskas_k_c_h / htm.Rg / data_maulinauskas_T
 
 data_maulinauskas_k_c_d = [1.41e-3, 2.74e-3, 4.26e-3]  # Kc adimensionnal
-data_maulinauskas_sol_d = (
-    data_maulinauskas_k_c_d
-    / (htm.Rg * htm.ureg.J * htm.ureg.mol**-1 * htm.ureg.K**-1)
-    / data_maulinauskas_T
-)
+data_maulinauskas_sol_d = data_maulinauskas_k_c_d / htm.Rg / data_maulinauskas_T
 
 maulinauskas_solubility_h = Solubility(
     units="m-3 Pa-1",

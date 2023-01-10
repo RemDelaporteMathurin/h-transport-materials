@@ -5,7 +5,7 @@ from h_transport_materials import Diffusivity, Solubility
 schmidt_diffusivity = Diffusivity(
     D_0=9.7e-3 * htm.ureg.cm**2 * htm.ureg.s**-1,
     E_D=56.4 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(1023, 1223),
+    range=(1023 * htm.ureg.K, 1223 * htm.ureg.K),
     isotope="H",
     source="schmidt_studies_1985",
     note="sample No. 1.2 Material 1.4876 (second line of Table 2 in Schmidt's paper)"
@@ -24,11 +24,9 @@ schmidt_permeability_E_S = 56.6 * htm.ureg.kJ * htm.ureg.mol**-1
 
 schmidt_solubility = Solubility(
     units="m-3 Pa-1/2",
-    S_0=schmidt_permeability_S_0
-    / (schmidt_diffusivity.pre_exp * htm.ureg.m**2 * htm.ureg.s**-1),
-    E_S=schmidt_permeability_E_S
-    - (schmidt_diffusivity.act_energy * htm.ureg.eV * htm.ureg.particle**-1),
-    range=(1023, 1223),
+    S_0=schmidt_permeability_S_0 / schmidt_diffusivity.pre_exp,
+    E_S=schmidt_permeability_E_S - schmidt_diffusivity.act_energy,
+    range=(1023 * htm.ureg.K, 1223 * htm.ureg.K),
     isotope="H",
     source="schmidt_studies_1985",
 )

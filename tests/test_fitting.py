@@ -10,8 +10,8 @@ import h_transport_materials as htm
             D_0,
             E_D,
         )
-        for D_0 in np.logspace(-7, 20, num=6)
-        for E_D in np.linspace(0.1, 1.5, num=5)
+        for D_0 in np.logspace(-7, 20, num=6) * htm.ureg.dimensionless
+        for E_D in np.linspace(0.1, 1.5, num=5) * htm.ureg.eV * htm.ureg.particle**-1
     ],
 )
 def test_fit_arhenius(D_0, E_D):
@@ -19,7 +19,7 @@ def test_fit_arhenius(D_0, E_D):
     Fits the noisy data with an Arhenius law and compares the
     computed coefficients with the expected ones.
     """
-    T = np.linspace(300, 1200)
+    T = np.linspace(300, 1200) * htm.ureg.K
     D = D_0 * np.exp(-E_D / htm.k_B / T)
 
     # add noise
@@ -27,5 +27,5 @@ def test_fit_arhenius(D_0, E_D):
     noisy_D = D * 10**noise
 
     computed_D_0, computed_E_D = htm.fitting.fit_arhenius(noisy_D, T)
-    assert computed_D_0 == pytest.approx(D_0, rel=0.3)
-    assert computed_E_D == pytest.approx(E_D, rel=0.3)
+    assert computed_D_0 == pytest.approx(D_0.magnitude, rel=0.3)
+    assert computed_E_D == pytest.approx(E_D.magnitude, rel=0.3)

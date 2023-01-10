@@ -19,14 +19,14 @@ import pint
     ],
 )
 def test_fit(data_T, data_y):
+    data_y *= htm.ureg.dimensionless
+    data_T *= htm.ureg.K
     expected_values = htm.fitting.fit_arhenius(data_y, data_T)
 
-    my_prop = htm.ArrheniusProperty(
-        data_T=data_T * htm.ureg.K, data_y=data_y * htm.ureg.dimensionless
-    )
+    my_prop = htm.ArrheniusProperty(data_T=data_T, data_y=data_y)
 
     my_prop.fit()
-    computed_values = my_prop.pre_exp, my_prop.act_energy
+    computed_values = my_prop.pre_exp.magnitude, my_prop.act_energy.magnitude
     assert expected_values == computed_values
 
 
@@ -62,12 +62,12 @@ def test_act_energy_getter_fit():
     "T,pre_exp,act_energy", [(300, 3, 0.2), (205, 6, 0.8), (600, 1e5, 1.2)]
 )
 def test_value(T, pre_exp, act_energy):
-    my_prop = htm.ArrheniusProperty(
-        pre_exp=pre_exp * htm.ureg.dimensionless,
-        act_energy=act_energy * htm.ureg.eV * htm.ureg.particle**-1,
-    )
+    pre_exp *= htm.ureg.dimensionless
+    act_energy *= htm.ureg.eV * htm.ureg.particle**-1
+    T *= htm.ureg.K
+    my_prop = htm.ArrheniusProperty(pre_exp=pre_exp, act_energy=act_energy)
 
-    computed_value = my_prop.value(T=T * htm.ureg.K)
+    computed_value = my_prop.value(T=T)
     expected_value = pre_exp * np.exp(-act_energy / htm.k_B / T)
     assert expected_value == computed_value
 
@@ -80,7 +80,7 @@ def test_fit_creates_temp_range():
         data_y=[1, 2, 3] * htm.ureg.dimensionless,
     )
 
-    assert my_prop.range == (300, 500)
+    assert my_prop.range == (300 * htm.ureg.K, 500 * htm.ureg.K)
 
 
 @pytest.mark.parametrize("data", [[1, 2, 3, np.nan], np.array([1, 2, 3, np.nan])])
@@ -121,6 +121,36 @@ def test_no_units_T_in_value_raises_warning():
     )
     with pytest.warns(UserWarning, match="no units were given with T"):
         prop.value(T=2)
+
+
+def test_no_units_range_raises_warning():
+    with pytest.warns(UserWarning, match="no units were given with temperature range"):
+        htm.ArrheniusProperty(
+            0.1 * htm.ureg.m**2 * htm.ureg.s**-1,
+            act_energy=0.1 * htm.ureg.eV * htm.ureg.particle**-1,
+            range=(100, 200),
+        )
+
+
+def test_no_units_data_T_raises_warning():
+    with pytest.warns(UserWarning, match="no units were given with data_T"):
+        htm.ArrheniusProperty(
+            data_T=[100, 200],
+            data_y=[
+                100,
+                200,
+            ]
+            * htm.ureg.m**2
+            * htm.ureg.s**-1,
+        )
+
+
+def test_no_units_data_y_raises_warning():
+    with pytest.warns(UserWarning, match="no units were given with data_y"):
+        htm.ArrheniusProperty(
+            data_T=[100, 200] * htm.ureg.K,
+            data_y=[100, 200],
+        )
 
 
 def test_no_units_preexp_raises_warning():

@@ -6,8 +6,8 @@ SILVER_MOLAR_VOLUME = 1.03e-5  # m3/mol  https://www.aqua-calc.com/calculate/mol
 
 katsuta_diffusivity = Diffusivity(
     D_0=8.55e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=3.62e3 * htm.k_B * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(947, 1123),
+    E_D=3.62e3 * htm.ureg.K * htm.k_B,
+    range=(947 * htm.ureg.K, 1123 * htm.ureg.K),
     source="katsuta_diffusivity_1979",
     isotope="H",
 )

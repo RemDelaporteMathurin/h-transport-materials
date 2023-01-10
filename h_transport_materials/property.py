@@ -176,8 +176,8 @@ class ArrheniusProperty(Property):
         Material: {self.material}
         Year: {self.year}
         Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp}
-        Activation energy: {self.act_energy} eV
+        Pre-exponential factor: {self.pre_exp:.2e~P}
+        Activation energy: {self.act_energy:.2e~P}
         """
         return val
 
@@ -193,7 +193,25 @@ class ArrheniusProperty(Property):
 
     @range.setter
     def range(self, value):
-        self._range = value
+        if value is None:
+            self._range = value
+            return
+
+        range_min, range_max = value
+        if isinstance(range_min, pint.Quantity):
+            if self.units != ureg.dimensionless:
+                self._range = (range_min.to(ureg.K), range_max.to(ureg.K))
+            else:
+                self._range = (range_min, range_max)
+        else:
+            # assume it's given in the correct units
+            warnings.warn(
+                f"no units were given with temperature range, assuming {ureg.K:~}"
+            )
+            self._range = (
+                pint.Quantity(value[0], ureg.K),
+                pint.Quantity(value[1], ureg.K),
+            )
 
     @property
     def pre_exp(self):
@@ -205,16 +223,16 @@ class ArrheniusProperty(Property):
     def pre_exp(self, value):
         if isinstance(value, pint.Quantity):
             if self.units != ureg.dimensionless:
-                self._pre_exp = value.to(self.units).magnitude
+                self._pre_exp = value.to(self.units)
             else:
-                self._pre_exp = value.magnitude
+                self._pre_exp = value
 
         elif value is not None:
             # assume it's given in the correct units
             warnings.warn(
                 f"no units were given with pre-exponential factor, assuming {self.units:~}"
             )
-            self._pre_exp = value
+            self._pre_exp = value * self.units
         else:
             self._pre_exp = value
 
@@ -227,13 +245,13 @@ class ArrheniusProperty(Property):
     @act_energy.setter
     def act_energy(self, value):
         if isinstance(value, pint.Quantity):
-            self._act_energy = value.to(DEFAULT_ENERGY_UNITS).magnitude
+            self._act_energy = value.to(DEFAULT_ENERGY_UNITS)
         elif value is not None:
             # assume it's given in DEFAULT_ENERGY_UNITS
             warnings.warn(
                 f"no units were given with activation energy, assuming {DEFAULT_ENERGY_UNITS:~}"
             )
-            self._act_energy = value
+            self._act_energy = value * DEFAULT_ENERGY_UNITS
         else:
             self._act_energy = value
 
@@ -248,18 +266,19 @@ class ArrheniusProperty(Property):
             return
         if isinstance(value, pint.Quantity):
             # convert to K
-            value = value.to(ureg.K).magnitude
+            value = value.to(ureg.K)
         else:
-            warnings.warn(f"no units were given with data_T, assuming {self.units:~}")
-        if not isinstance(value, (list, np.ndarray)):
+            warnings.warn(f"no units were given with data_T, assuming {ureg.K:~}")
+            value *= ureg.K
+        if not isinstance(value.magnitude, (list, np.ndarray)):
             raise TypeError("data_T accepts list or np.ndarray")
-        elif isinstance(value, list):
+        elif isinstance(value.magnitude, list):
             value_as_array = np.array(value)
-            self._data_T = value_as_array[
-                ~np.isnan(value_as_array)
-            ]  # remove nan values
+            value = value_as_array[~np.isnan(value_as_array)]  # remove nan values
         else:
-            self._data_T = value[~np.isnan(value)]
+            value = value[~np.isnan(value)]
+
+        self._data_T = value
 
     @property
     def data_y(self):
@@ -273,20 +292,21 @@ class ArrheniusProperty(Property):
         if isinstance(value, pint.Quantity):
             # convert to right units
             if self.units != ureg.dimensionless:
-                value = value.to(self.units).magnitude
+                value = value.to(self.units)
             else:
-                value = value.magnitude
+                value = value
         else:
             warnings.warn(f"no units were given with data_y, assuming {self.units:~}")
-        if not isinstance(value, (list, np.ndarray)):
+            value *= self.units
+        if not isinstance(value.magnitude, (list, np.ndarray)):
             raise TypeError("data_y accepts list or np.ndarray")
-        elif isinstance(value, list):
+        elif isinstance(value.magnitude, list):
             value_as_array = np.array(value)
-            self._data_y = value_as_array[
-                ~np.isnan(value_as_array)
-            ]  # remove nan values
+            value = value_as_array[~np.isnan(value_as_array)]  # remove nan values
         else:
-            self._data_y = value[~np.isnan(value)]
+            value = value[~np.isnan(value)]
+
+        self._data_y = value
 
     def fit(self):
         pre_exp, act_energy = fit_arhenius(self.data_y, self.data_T)
@@ -299,13 +319,8 @@ class ArrheniusProperty(Property):
     def value(self, T, exp=np.exp):
         if not isinstance(T, pint.Quantity):
             warnings.warn(f"no units were given with T, assuming {ureg.K}")
-            T = T * ureg.K
-        if not isinstance(self.pre_exp, pint.Quantity):
-            pre_exp = self.pre_exp * self.units
-        if not isinstance(self.act_energy, pint.Quantity):
-            act_energy = self.act_energy * DEFAULT_ENERGY_UNITS
-        k_B_u = k_B * ureg.eV * ureg.particle**-1 * ureg.K**-1
-        return pre_exp * exp(-act_energy / k_B_u / T)
+            T *= ureg.K
+        return self.pre_exp * exp(-self.act_energy / k_B / T)
 
 
 class Solubility(ArrheniusProperty):
@@ -337,17 +352,6 @@ class Solubility(ArrheniusProperty):
         else:
             raise ValueError("units can only accept {} or {}".format(*acceptable_units))
 
-    def __str__(self) -> str:
-        val = f"""
-        Author: {self.author.capitalize()}
-        Material: {self.material}
-        Year: {self.year}
-        Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} {self.units:~}
-        Activation energy: {self.act_energy} eV
-        """
-        return val
-
 
 class Diffusivity(ArrheniusProperty):
     """Diffusivity class
@@ -360,17 +364,6 @@ class Diffusivity(ArrheniusProperty):
     def __init__(self, D_0: float = None, E_D: float = None, **kwargs) -> None:
         super().__init__(pre_exp=D_0, act_energy=E_D, **kwargs)
 
-    def __str__(self) -> str:
-        val = f"""
-        Author: {self.author.capitalize()}
-        Material: {self.material}
-        Year: {self.year}
-        Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} {self.units:~}
-        Activation energy: {self.act_energy} eV
-        """
-        return val
-
     @property
     def units(self):
         return ureg.meter**2 * ureg.second**-1
@@ -381,17 +374,6 @@ class Permeability(ArrheniusProperty):
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-
-    def __str__(self) -> str:
-        val = f"""
-        Author: {self.author.capitalize()}
-        Material: {self.material}
-        Year: {self.year}
-        Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} {self.units:~}
-        Activation energy: {self.act_energy} eV
-        """
-        return val
 
     @property
     def units(self):
@@ -404,17 +386,6 @@ class RecombinationCoeff(ArrheniusProperty):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
-    def __str__(self) -> str:
-        val = f"""
-        Author: {self.author.capitalize()}
-        Material: {self.material}
-        Year: {self.year}
-        Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} {self.units:~}
-        Activation energy: {self.act_energy} eV
-        """
-        return val
-
     @property
     def units(self):
         return ureg.meter**4 * ureg.second**-1
@@ -425,17 +396,6 @@ class DissociationCoeff(ArrheniusProperty):
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-
-    def __str__(self) -> str:
-        val = f"""
-        Author: {self.author.capitalize()}
-        Material: {self.material}
-        Year: {self.year}
-        Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} {self.units:~}
-        Activation energy: {self.act_energy} eV
-        """
-        return val
 
     @property
     def units(self):

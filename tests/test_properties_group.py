@@ -89,7 +89,7 @@ def test_mean(mean_D_0, mean_E_D):
 
     # test
     assert mean_prop.pre_exp == pytest.approx(mean_D_0, rel=0.2)
-    assert mean_prop.act_energy == pytest.approx(mean_E_D, rel=0.2)
+    assert mean_prop.act_energy.magnitude == pytest.approx(mean_E_D, rel=0.2)
 
 
 def test_mean_is_type_arrhenius_property():
@@ -155,11 +155,17 @@ def test_export_to_json():
         for key, val in prop_file.items():
             if hasattr(prop_ref, key):
                 if isinstance(val, list):
-                    for item1, item2 in zip(val, getattr(prop_ref, key)):
-                        assert item1 == item2
+                    if key == "range":
+                        prop_range = getattr(prop_ref, key)
+                        assert [prop_range[0].magnitude, prop_range[1].magnitude] == val
+                    else:
+                        for item1, item2 in zip(val, getattr(prop_ref, key)):
+                            assert item1 == item2
                 else:
                     if key == "units":
                         assert f"{getattr(prop_ref, key):~}" == val
+                    elif key in ["pre_exp", "act_energy"]:
+                        assert getattr(prop_ref, key).magnitude == val
                     else:
                         assert getattr(prop_ref, key) == val
 

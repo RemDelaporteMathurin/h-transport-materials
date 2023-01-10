@@ -18,7 +18,7 @@ alire_diffusivity_data = np.genfromtxt(
 alire_diffusivity = Diffusivity(
     data_T=(1 / alire_diffusivity_data[:, 0]) * htm.ureg.K,
     data_y=alire_diffusivity_data[:, 1] * htm.ureg.cm**2 * htm.ureg.s**-1,
-    range=(898, 1178),
+    range=(898 * htm.ureg.K, 1178 * htm.ureg.K),
     isotope="H",
     source="alire_transport_1976",
     note="in Shimada 2020, there is an error in Table 1 Lithium (lq.) line E_D column it should be 105.0 kJ/mol",
@@ -31,8 +31,11 @@ veleckis_solubility = Solubility(
     * htm.ureg.m**-3
     * htm.ureg.atm**-0.5,
     # S_0=1.75e-1 * avogadro_nb,
-    E_S=-6182 * k_B * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(710 + 273.15, 903 + 273.15),
+    E_S=-6182 * htm.ureg.K * k_B,
+    range=(
+        htm.ureg.Quantity(710, htm.ureg.degC),
+        htm.ureg.Quantity(903, htm.ureg.degC),
+    ),
     source="veleckis_lithium-lithium_1974",
     isotope="H",
     units="m-3 Pa-1/2",

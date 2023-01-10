@@ -36,7 +36,7 @@ note_serra_diffusivity_h = (
 serra_diffusivity_h = Diffusivity(
     data_T=1000 / data_diffusivity_serra_h[:, 0] * htm.ureg.K,
     data_y=data_diffusivity_serra_h[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
-    range=(553, 773),
+    range=(553 * htm.ureg.K, 773 * htm.ureg.K),
     source="serra_hydrogen_1998",
     isotope="H",
     note=note_serra_diffusivity_h,
@@ -50,7 +50,7 @@ note_serra_diffusivity_d = (
 serra_diffusivity_d = Diffusivity(
     data_T=1000 / data_diffusivity_serra_d[:, 0] * htm.ureg.K,
     data_y=data_diffusivity_serra_d[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
-    range=(553, 773),
+    range=(553 * htm.ureg.K, 773 * htm.ureg.K),
     source="serra_hydrogen_1998",
     isotope="D",
     note=note_serra_diffusivity_d,
@@ -70,7 +70,7 @@ serra_solubility_h = Solubility(
     * htm.ureg.mol
     * htm.ureg.m**-3
     * htm.ureg.Pa**-0.5,
-    range=(553, 773),
+    range=(553 * htm.ureg.K, 773 * htm.ureg.K),
     source="serra_hydrogen_1998",
     isotope="H",
     units="m-3 Pa-1/2",
@@ -82,7 +82,7 @@ serra_solubility_d = Solubility(
     * htm.ureg.mol
     * htm.ureg.m**-3
     * htm.ureg.Pa**-0.5,
-    range=(553, 773),
+    range=(553 * htm.ureg.K, 773 * htm.ureg.K),
     source="serra_hydrogen_1998",
     isotope="D",
     units="m-3 Pa-1/2",
@@ -91,7 +91,7 @@ serra_solubility_d = Solubility(
 nog_diffusivity_cucrzr_t = Diffusivity(
     5.05e-4 * htm.ureg.m**2 * htm.ureg.s**-1,
     0.964 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(573, 873),
+    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
     source="noh_hydrogen-isotope_2016",
     name="T Noh (2016)",
     isotope="T",
@@ -100,7 +100,7 @@ nog_diffusivity_cucrzr_t = Diffusivity(
 nog_solubility_cucrzr_t_1 = Solubility(
     S_0=7.83e20 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=0.0715 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(573, 873),
+    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
     source="noh_hydrogen-isotope_2016",
     name="T Noh (2016)",
     isotope="T",
@@ -110,7 +110,7 @@ nog_solubility_cucrzr_t_1 = Solubility(
 nog_solubility_cucrzr_t_2 = Solubility(
     S_0=5.42e23 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=0.4 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(573, 873),
+    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
     source="noh_hydrogen-isotope_2016",
     name="T Noh (2016)",
     isotope="T",
@@ -121,7 +121,7 @@ nog_solubility_cucrzr_t_2 = Solubility(
 anderl_diffusivity_cucrzr_d = Diffusivity(
     D_0=2.0e-2 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=1.2 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(700, 800),
+    range=(700 * htm.ureg.K, 800 * htm.ureg.K),
     source="anderl_deuterium_1999",
     name="D Anderl (1999)",
     isotope="D",
@@ -131,7 +131,7 @@ anderl_diffusivity_cucrzr_d = Diffusivity(
 penalva_diffusivity_cucrzr_h = Diffusivity(
     3.55e-5 * htm.ureg.m**2 * htm.ureg.s**-1,
     65.5e3 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(593, 773),
+    range=(593 * htm.ureg.K, 773 * htm.ureg.K),
     source="penalva_interaction_2012",
     name="D Penalva (1999)",
     isotope="D",
@@ -140,7 +140,7 @@ penalva_diffusivity_cucrzr_h = Diffusivity(
 penalva_solubility_cucrzr_h = Solubility(
     S_0=6.71e-3 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=8.4e3 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(593, 773),
+    range=(593 * htm.ureg.K, 773 * htm.ureg.K),
     source="penalva_interaction_2012",
     name="D Penalva (1999)",
     isotope="D",

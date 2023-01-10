@@ -9,7 +9,7 @@ GOLD_MOLAR_VOLUME = 1.02e-5  # m3/mol https://www.aqua-calc.com/calculate/mole-t
 eichenauer_diffusivity = Diffusivity(
     D_0=5.60e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=23.6 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(773, 1273),
+    range=(773 * htm.ureg.K, 1273 * htm.ureg.K),
     source="eichenauer_messung_1962",
     isotope="H",
 )
@@ -19,7 +19,7 @@ shimada_solubility = Solubility(
     units="m-3 Pa-1/2",
     S_0=7.8e1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=99.4 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(773, 873),
+    range=(773 * htm.ureg.K, 873 * htm.ureg.K),
     source="shimada_608_2020",
     isotope="H",
     note="this was computed from the permeability of Caskey and Derrick and the diffusivity of Eichenauer",

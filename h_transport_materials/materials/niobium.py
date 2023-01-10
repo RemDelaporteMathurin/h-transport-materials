@@ -7,7 +7,7 @@ NIOBIUM_MOLAR_VOLUME = 1.08e-8  # m3/mol https://www.aqua-calc.com/calculate/mol
 volkl_diffusivity = Diffusivity(
     D_0=5.00e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=10.2 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(273, 773),
+    range=(273 * htm.ureg.K, 773 * htm.ureg.K),
     source="volkl_5_1975",
     isotope="H",
 )
@@ -23,7 +23,7 @@ veleckis_solubility = Solubility(
     units="m-3 Pa-1/2",
     S_0=1.26e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=-35.3 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(625, 944),
+    range=(625 * htm.ureg.K, 944 * htm.ureg.K),
     source="veleckis_thermodynamic_1969",
     isotope="H",
 )

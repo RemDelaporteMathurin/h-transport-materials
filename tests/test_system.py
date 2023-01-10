@@ -1,5 +1,7 @@
 import h_transport_materials as htm
 
+import pint
+
 
 def test_that_groups_are_not_empty():
     for group in [htm.diffusivities, htm.solubilities, htm.recombination_coeffs]:
@@ -29,8 +31,8 @@ def test_all_dissociations_are_dissociationncoeff():
 def test_all_properties_have_required_attributes():
     for prop in htm.database:
         assert prop.material
-        assert isinstance(prop.pre_exp, (float, int))
-        assert isinstance(prop.act_energy, (float, int))
+        assert isinstance(prop.pre_exp, pint.Quantity)
+        assert isinstance(prop.act_energy, pint.Quantity)
         assert prop.isotope
 
 

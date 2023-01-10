@@ -17,7 +17,7 @@ COPPER_MOLAR_VOLUME = 7.11e-6  # m3/mol  https://www.aqua-calc.com/calculate/mol
 reiter_diffusivity_copper = Diffusivity(
     D_0=6.6e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=0.39 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(470, 1200),
+    range=(470 * htm.ureg.K, 1200 * htm.ureg.K),
     source="reiter_compilation_1996",
     name="T Reiter (1996)",
     isotope="T",
@@ -25,7 +25,7 @@ reiter_diffusivity_copper = Diffusivity(
 reiter_solubility_copper = Solubility(
     S_0=3.14e24 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=0.57 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(470, 1200),
+    range=(470 * htm.ureg.K, 1200 * htm.ureg.K),
     source="reiter_compilation_1996",
     name="T Reiter (1996)",
     isotope="T",
@@ -38,7 +38,7 @@ reiter_solubility_copper = Solubility(
 magnusson_diffusivity_copper = Diffusivity(
     D_0=1.74e-6 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=42000 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(298, 1273),
+    range=(298 * htm.ureg.K, 1273 * htm.ureg.K),
     source="magnusson_self-diffusion_2013",
     name="H Magnusson (2013)",
     isotope="H",
@@ -86,7 +86,7 @@ katz_diffusivity_copper_t = Diffusivity(
 eichenauer_diffusivity_copper_h = Diffusivity(
     1.1e-6 * htm.ureg.m**2 * htm.ureg.s**-1,
     0.4 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(700, 920),
+    range=(700 * htm.ureg.K, 920 * htm.ureg.K),
     source="eichenauer_notitle_1957",
     name="H Eichenauer (1957)",
     isotope="H",
@@ -95,7 +95,7 @@ eichenauer_diffusivity_copper_h = Diffusivity(
 eichenauer_solubility_copper_h = Solubility(
     S_0=4.9e23 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=0.37 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(700, 920),
+    range=(700 * htm.ureg.K, 920 * htm.ureg.K),
     source="eichenauer_notitle_1957",
     name="H Eichenauer (1957)",
     isotope="H",
@@ -106,7 +106,7 @@ eichenauer_solubility_copper_h = Solubility(
 perkins_diffusivity_copper_h = Diffusivity(
     1.06e-6 * htm.ureg.m**2 * htm.ureg.s**-1,
     0.4 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(410, 710),
+    range=(410 * htm.ureg.K, 710 * htm.ureg.K),
     source="perkins_permeation_1973",
     name="H Perkins (1973)",
     isotope="H",
@@ -116,7 +116,7 @@ perkins_diffusivity_copper_h = Diffusivity(
 tanabe_diffusivity_copper_d = Diffusivity(
     6.7e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
     0.24 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(298, 1070),
+    range=(298 * htm.ureg.K, 1070 * htm.ureg.K),
     source="tanabe_hydrogen_1987",
     name="D Tanabe (1987)",
     isotope="D",
@@ -127,7 +127,7 @@ tanabe_diffusivity_copper_d = Diffusivity(
 eichenauer_diffusivity_copper_d = Diffusivity(
     6.19e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
     0.392 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(703, 913),
+    range=(703 * htm.ureg.K, 913 * htm.ureg.K),
     source="eichenauer_notitle_1965",
     name="D Eichenauer (1965)",
     isotope="D",
@@ -136,7 +136,7 @@ eichenauer_diffusivity_copper_d = Diffusivity(
 eichenauer_solubility_copper_d = Solubility(
     S_0=3.19e24 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=0.41 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(703, 913),
+    range=(703 * htm.ureg.K, 913 * htm.ureg.K),
     source="eichenauer_notitle_1965",
     name="D Eichenauer (1965)",
     isotope="D",
@@ -147,7 +147,7 @@ eichenauer_solubility_copper_d = Solubility(
 anderl_diffusivity_copper_d = Diffusivity(
     9.26e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
     0.409 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(638, 723),
+    range=(638 * htm.ureg.K, 723 * htm.ureg.K),
     source="anderl_hydrogen_1990",
     name="D Anderl (1990)",
     isotope="D",
@@ -158,7 +158,7 @@ anderl_diffusivity_copper_d = Diffusivity(
 anderl_diffusivity_copper_d_1999 = Diffusivity(
     2.1e-6 * htm.ureg.m**2 * htm.ureg.s**-1,
     0.52 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(700, 800),
+    range=(700 * htm.ureg.K, 800 * htm.ureg.K),
     source="anderl_deuterium_1999",
     name="D Anderl (1999)",
     isotope="D",
@@ -169,7 +169,7 @@ anderl_diffusivity_copper_d_1999 = Diffusivity(
 sakamoto_diffusivity_copper_h = Diffusivity(
     3.69e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
     36820 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(292, 339),
+    range=(292 * htm.ureg.K, 339 * htm.ureg.K),
     source="sakamoto_electrochemical_1982",
     name="H Sakamoto (1982)",
     isotope="H",
@@ -179,7 +179,7 @@ sakamoto_diffusivity_copper_h = Diffusivity(
 otsuka_diffusivity_copper_t = Diffusivity(
     1.11e-6 * htm.ureg.m**2 * htm.ureg.s**-1,
     0.399 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(303, 353),
+    range=(303 * htm.ureg.K, 353 * htm.ureg.K),
     source="otsuka_behavior_2010",
     name="T Otsuka (1982)",
     isotope="T",
@@ -189,7 +189,7 @@ otsuka_diffusivity_copper_t = Diffusivity(
 thomas_solubility_copper_h = Solubility(
     S_0=1.90e24 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=0.51 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(770, 1320),
+    range=(770 * htm.ureg.K, 1320 * htm.ureg.K),
     source="thomas_solubility_1967",
     name="H Thomas (1967)",
     isotope="H",
@@ -200,7 +200,7 @@ thomas_solubility_copper_h = Solubility(
 wampler_solubility_copper_h = Solubility(
     S_0=1.07e24 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=0.44 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(770, 1070),
+    range=(770 * htm.ureg.K, 1070 * htm.ureg.K),
     source="wampler_precipitation_1976",
     name="H Wampler (1976)",
     isotope="H",

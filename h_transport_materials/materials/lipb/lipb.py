@@ -44,7 +44,7 @@ wu_solubility = Solubility(
     * htm.ureg.m**-3
     * htm.ureg.Pa**-0.5,
     E_S=0 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(850, 1040),
+    range=(850 * htm.ureg.K, 1040 * htm.ureg.K),
     source="wu_solubility_1983",
     name="D Wu (1983)",
     isotope="D",
@@ -59,7 +59,7 @@ chan_solubility = Solubility(
     * htm.ureg.m**-3
     * htm.ureg.Pa**-0.5,
     E_S=9000 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(573, 773),
+    range=(573 * htm.ureg.K, 773 * htm.ureg.K),
     source="chan_thermodynamic_1984",
     name="H Chan (1984)",
     isotope="H",
@@ -75,7 +75,7 @@ katsuta_solubility = Solubility(
     * htm.ureg.m**-3
     * htm.ureg.atm**-0.5,
     E_S=0 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(573, 723),
+    range=(573 * htm.ureg.K, 723 * htm.ureg.K),
     source="katsuta_hydrogen_1985",
     name="H Katsuta (1985)",
     isotope="H",
@@ -86,7 +86,7 @@ katsuta_solubility = Solubility(
 fauvet_diffusivity = Diffusivity(
     D_0=1.5e-09 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=0 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(722, 724),  # TODO should be 723 link to issue #37
+    range=(722 * htm.ureg.K, 724 * htm.ureg.K),  # TODO should be 723 link to issue #37
     source="fauvet_hydrogen_1988",
     name="H Fauvet (1988)",
     isotope="H",
@@ -99,7 +99,7 @@ fauvet_solubility = Solubility(
     * htm.ureg.m**-3
     * htm.ureg.Pa**-0.5,
     E_S=0 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(722, 724),  # TODO should be 723 link to issue #37
+    range=(722 * htm.ureg.K, 724 * htm.ureg.K),  # TODO should be 723 link to issue #37
     source="fauvet_hydrogen_1988",
     name="H Fauvet (1988)",
     isotope="H",
@@ -149,7 +149,7 @@ reiter_difusivity_data_H = reiter_diffusivity_data[2:, 2:]
 reiter_diffusivity_h = Diffusivity(
     data_T=1000 / reiter_difusivity_data_H[:, 0] * htm.ureg.K,
     data_y=reiter_difusivity_data_H[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
-    range=(508, 700),
+    range=(508 * htm.ureg.K, 700 * htm.ureg.K),
     source="reiter_solubility_1991",
     name="H Reiter (1991)",
     isotope="H",
@@ -161,7 +161,7 @@ reiter_difusivity_data_D = reiter_diffusivity_data[2:, :2]
 reiter_diffusivity_d = Diffusivity(
     data_T=1000 / reiter_difusivity_data_D[:, 0] * htm.ureg.K,
     data_y=reiter_difusivity_data_D[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
-    range=(508, 700),
+    range=(508 * htm.ureg.K, 700 * htm.ureg.K),
     source="reiter_solubility_1991",
     name="D Reiter (1991)",
     isotope="D",
@@ -184,7 +184,7 @@ reiter_solubility_h = Solubility(
     * htm.ureg.particle
     * htm.ureg.m**-3
     * htm.ureg.Pa**-0.5,
-    range=(508, 700),
+    range=(508 * htm.ureg.K, 700 * htm.ureg.K),
     source="reiter_solubility_1991",
     name="H Reiter (1991)",
     isotope="H",
@@ -205,7 +205,7 @@ reiter_solubility_d = Solubility(
     * htm.ureg.particle
     * htm.ureg.m**-3
     * htm.ureg.Pa**-0.5,
-    range=(508, 700),
+    range=(508 * htm.ureg.K, 700 * htm.ureg.K),
     source="reiter_solubility_1991",
     name="D Reiter (1991)",
     isotope="D",
@@ -219,7 +219,7 @@ reiter_solubility_t = Solubility(
     * htm.ureg.m**-3
     * htm.ureg.Pa**-0.5,
     E_S=1350 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(508, 700),
+    range=(508 * htm.ureg.K, 700 * htm.ureg.K),
     source="reiter_solubility_1991",
     name="T Reiter (1991)",
     isotope="T",
@@ -235,7 +235,7 @@ data_aiello = np.genfromtxt(
 aiello_solubility = Solubility(
     data_T=1000 / data_aiello[:, 0] * htm.ureg.K,
     data_y=data_aiello[:, 1] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
-    range=(600, 900),
+    range=(600 * htm.ureg.K, 900 * htm.ureg.K),
     source="aiello_determination_2006",
     name="H Aiello (2006)",
     isotope="H",
@@ -254,7 +254,7 @@ shibuya_diffusivity = Diffusivity(
 terai_diffusivity = Diffusivity(
     D_0=2.50e-07 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=27000 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(573, 973),
+    range=(573 * htm.ureg.K, 973 * htm.ureg.K),
     source="terai_diffusion_1992",
     name="T Terai (1987)",
     isotope="T",
@@ -263,7 +263,7 @@ terai_diffusivity = Diffusivity(
 alberro_solubility = Solubility(
     S_0=8.64e-3 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=9000 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(523, 922),
+    range=(523 * htm.ureg.K, 922 * htm.ureg.K),
     source="alberro_experimental_2015",
     name="H Alberro (2015)",
     isotope="H",

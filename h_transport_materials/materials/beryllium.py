@@ -8,7 +8,7 @@ from h_transport_materials.property import RecombinationCoeff
 abramov_diffusivity = Diffusivity(
     D_0=8.0e-9 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=35.1 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(620, 775),
+    range=(620 * htm.ureg.K, 775 * htm.ureg.K),
     isotope="D",
     source="abramov_deuterium_1990",
 )
@@ -19,7 +19,7 @@ shapovalov_solubility = Solubility(
     isotope="H",
     S_0=1.90e-2 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=16.8 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(673, 1473),
+    range=(673 * htm.ureg.K, 1473 * htm.ureg.K),
     author="shapovalov",
     source="Shapovalov, V.I., Dukel'skii, Y.M., 1988. Izv. Akad. Nauk SSR Met. 5, 201–203",
     year=1988,
@@ -29,8 +29,8 @@ shapovalov_solubility = Solubility(
 jones_diffusivity = Diffusivity(
     isotope="T",
     D_0=np.exp(-6.53) * htm.ureg.cm**2 * htm.ureg.s**-1,
-    E_D=965 * htm.k_B * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(400, 900),
+    E_D=965 * htm.ureg.K * htm.k_B,
+    range=(400 * htm.ureg.K, 900 * htm.ureg.K),
     source="jones_hydrogen_1967",
 )
 
