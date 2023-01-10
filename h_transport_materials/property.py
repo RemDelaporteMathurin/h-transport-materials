@@ -314,7 +314,7 @@ class ArrheniusProperty(Property):
             pre_exp * self.units,
             act_energy * DEFAULT_ENERGY_UNITS,
         )
-        self.range = (self.data_T.magnitude.min(), self.data_T.magnitude.max())
+        self.range = (self.data_T.min(), self.data_T.max())
 
     def value(self, T, exp=np.exp):
         if not isinstance(T, pint.Quantity):
