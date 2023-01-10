@@ -27,5 +27,5 @@ def test_fit_arhenius(D_0, E_D):
     noisy_D = D * 10**noise
 
     computed_D_0, computed_E_D = htm.fitting.fit_arhenius(noisy_D, T)
-    assert computed_D_0 == pytest.approx(D_0, rel=0.3)
-    assert computed_E_D == pytest.approx(E_D, rel=0.3)
+    assert computed_D_0 == pytest.approx(D_0.magnitude, rel=0.3)
+    assert computed_E_D == pytest.approx(E_D.magnitude, rel=0.3)
