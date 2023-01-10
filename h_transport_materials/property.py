@@ -176,8 +176,8 @@ class ArrheniusProperty(Property):
         Material: {self.material}
         Year: {self.year}
         Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp}
-        Activation energy: {self.act_energy} eV
+        Pre-exponential factor: {self.pre_exp:.2e~P}
+        Activation energy: {self.act_energy:.2e~P}
         """
         return val
 
@@ -352,17 +352,6 @@ class Solubility(ArrheniusProperty):
         else:
             raise ValueError("units can only accept {} or {}".format(*acceptable_units))
 
-    def __str__(self) -> str:
-        val = f"""
-        Author: {self.author.capitalize()}
-        Material: {self.material}
-        Year: {self.year}
-        Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} {self.units:~}
-        Activation energy: {self.act_energy} eV
-        """
-        return val
-
 
 class Diffusivity(ArrheniusProperty):
     """Diffusivity class
@@ -375,17 +364,6 @@ class Diffusivity(ArrheniusProperty):
     def __init__(self, D_0: float = None, E_D: float = None, **kwargs) -> None:
         super().__init__(pre_exp=D_0, act_energy=E_D, **kwargs)
 
-    def __str__(self) -> str:
-        val = f"""
-        Author: {self.author.capitalize()}
-        Material: {self.material}
-        Year: {self.year}
-        Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} {self.units:~}
-        Activation energy: {self.act_energy} eV
-        """
-        return val
-
     @property
     def units(self):
         return ureg.meter**2 * ureg.second**-1
@@ -396,17 +374,6 @@ class Permeability(ArrheniusProperty):
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-
-    def __str__(self) -> str:
-        val = f"""
-        Author: {self.author.capitalize()}
-        Material: {self.material}
-        Year: {self.year}
-        Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} {self.units:~}
-        Activation energy: {self.act_energy} eV
-        """
-        return val
 
     @property
     def units(self):
@@ -419,17 +386,6 @@ class RecombinationCoeff(ArrheniusProperty):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
-    def __str__(self) -> str:
-        val = f"""
-        Author: {self.author.capitalize()}
-        Material: {self.material}
-        Year: {self.year}
-        Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} {self.units:~}
-        Activation energy: {self.act_energy} eV
-        """
-        return val
-
     @property
     def units(self):
         return ureg.meter**4 * ureg.second**-1
@@ -440,17 +396,6 @@ class DissociationCoeff(ArrheniusProperty):
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-
-    def __str__(self) -> str:
-        val = f"""
-        Author: {self.author.capitalize()}
-        Material: {self.material}
-        Year: {self.year}
-        Isotope: {self.isotope}
-        Pre-exponential factor: {self.pre_exp} {self.units:~}
-        Activation energy: {self.act_energy} eV
-        """
-        return val
 
     @property
     def units(self):
