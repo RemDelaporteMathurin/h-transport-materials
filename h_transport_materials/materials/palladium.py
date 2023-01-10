@@ -12,7 +12,7 @@ PALLADIUM_VOLUMIC_DENSITY = (
 volkl_diffusivity = Diffusivity(
     D_0=2.90e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=22.2 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(223, 873),
+    range=(223 * htm.ureg.K, 873 * htm.ureg.K),
     source="volkl_5_1975",
     isotope="H",
 )

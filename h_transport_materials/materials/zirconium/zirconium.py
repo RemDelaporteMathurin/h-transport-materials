@@ -10,7 +10,7 @@ ZIRCONIUM_MOLAR_VOLUME = 1.4e-5  # m3/mol https://www.aqua-calc.com/calculate/mo
 kearns_diffusivity = Diffusivity(
     D_0=7.73e-3 * htm.ureg.cm**2 * htm.ureg.s**-1,
     E_D=10.830 * htm.ureg.kcal * htm.ureg.mol**-1,
-    range=(548, 973),
+    range=(548 * htm.ureg.K, 973 * htm.ureg.K),
     isotope="H",
     source="kearns_diffusion_1972",
 )
@@ -28,7 +28,7 @@ kearns_solubility = Solubility(
     E_S=-49.5 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="H",
     source="kearns_terminal_1967",
-    range=(602, 1069),
+    range=(602 * htm.ureg.K, 1069 * htm.ureg.K),
     note="this was found in Shimada 2020 review 'Tritium Transport in Fusion Reactor Materials'"
     + "however, I can't find this activation energy in Kearns paper",
 )

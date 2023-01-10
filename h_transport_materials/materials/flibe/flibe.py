@@ -24,7 +24,10 @@ LIF_MASS = (
 calderoni_diffusivity = Diffusivity(
     D_0=9.3e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=42e3 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(550 + 273.15, 700 + 273.15),
+    range=(
+        htm.ureg.Quantity(550, htm.ureg.degC),
+        htm.ureg.Quantity(700, htm.ureg.degC),
+    ),
     source="calderoni_measurement_2008",
     isotope="T",
     note="2LiF–BeF_2",
@@ -34,7 +37,10 @@ calderoni_solubility = Solubility(
     units="m-3 Pa-1",
     S_0=7.9e-2 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
     E_S=35 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(550 + 273.15, 700 + 273.15),
+    range=(
+        htm.ureg.Quantity(550, htm.ureg.degC),
+        htm.ureg.Quantity(700, htm.ureg.degC),
+    ),
     source="calderoni_measurement_2008",
     isotope="T",
     note="2LiF–BeF_2 ; there's a unit inconsistency in the paper",

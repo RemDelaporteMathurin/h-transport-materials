@@ -10,7 +10,7 @@ reiter_diffusivity = Diffusivity(
     E_D=49.1 * htm.ureg.kJ * htm.ureg.mol**-1,
     source="reiter_compilation_1996",
     isotope="T",
-    range=(873, 1123),
+    range=(873 * htm.ureg.K, 1123 * htm.ureg.K),
 )
 
 reiter_solubility = Solubility(
@@ -21,7 +21,7 @@ reiter_solubility = Solubility(
     * htm.ureg.m**-3
     * htm.ureg.Pa**-0.5,
     E_S=-42.7 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(873, 1123),
+    range=(873 * htm.ureg.K, 1123 * htm.ureg.K),
     isotope="T",
     source="reiter_compilation_1996",
 )

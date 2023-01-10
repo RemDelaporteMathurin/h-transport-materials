@@ -5,7 +5,7 @@ from h_transport_materials import Diffusivity, Solubility
 hashizume_diffusivity = Diffusivity(
     D_0=7.50e-4 * htm.ureg.cm**2 * htm.ureg.s**-1,
     E_D=0.13 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(373, 573),
+    range=(373 * htm.ureg.K, 573 * htm.ureg.K),
     isotope="T",
     source="hashizume_diffusional_2007",
     note="there is a conversion mistake for D_0 in Shimada 2020 review",

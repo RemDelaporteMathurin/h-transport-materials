@@ -193,12 +193,17 @@ class ArrheniusProperty(Property):
 
     @range.setter
     def range(self, value):
-        if isinstance(value, pint.Quantity):
+        if value is None:
+            self._range = value
+            return
+
+        range_min, range_max = value
+        if isinstance(range_min, pint.Quantity):
             if self.units != ureg.dimensionless:
-                self._range = value.to(ureg.K)
+                self._range = (range_min.to(ureg.K), range_max.to(ureg.K))
             else:
-                self._range = value
-        elif value is not None:
+                self._range = (range_min, range_max)
+        else:
             # assume it's given in the correct units
             warnings.warn(
                 f"no units were given with temperature range, assuming {ureg.K:~}"
@@ -207,8 +212,6 @@ class ArrheniusProperty(Property):
                 pint.Quantity(value[0], ureg.K),
                 pint.Quantity(value[1], ureg.K),
             )
-        else:
-            self._range = value
 
     @property
     def pre_exp(self):
