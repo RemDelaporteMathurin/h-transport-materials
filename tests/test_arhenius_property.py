@@ -123,6 +123,36 @@ def test_no_units_T_in_value_raises_warning():
         prop.value(T=2)
 
 
+def test_no_units_range_raises_warning():
+    with pytest.warns(UserWarning, match="no units were given with temperature range"):
+        htm.ArrheniusProperty(
+            0.1 * htm.ureg.m**2 * htm.ureg.s**-1,
+            act_energy=0.1 * htm.ureg.eV * htm.ureg.particle**-1,
+            range=(100, 200),
+        )
+
+
+def test_no_units_data_T_raises_warning():
+    with pytest.warns(UserWarning, match="no units were given with data_T"):
+        htm.ArrheniusProperty(
+            data_T=[100, 200],
+            data_y=[
+                100,
+                200,
+            ]
+            * htm.ureg.m**2
+            * htm.ureg.s**-1,
+        )
+
+
+def test_no_units_data_y_raises_warning():
+    with pytest.warns(UserWarning, match="no units were given with data_y"):
+        htm.ArrheniusProperty(
+            data_T=[100, 200] * htm.ureg.K,
+            data_y=[100, 200],
+        )
+
+
 def test_no_units_preexp_raises_warning():
     with pytest.warns(
         UserWarning, match="no units were given with pre-exponential factor"

@@ -274,11 +274,11 @@ class ArrheniusProperty(Property):
             raise TypeError("data_T accepts list or np.ndarray")
         elif isinstance(value.magnitude, list):
             value_as_array = np.array(value)
-            self._data_T = value_as_array[
-                ~np.isnan(value_as_array)
-            ]  # remove nan values
+            value = value_as_array[~np.isnan(value_as_array)]  # remove nan values
         else:
-            self._data_T = value[~np.isnan(value)]
+            value = value[~np.isnan(value)]
+
+        self._data_T = value
 
     @property
     def data_y(self):
@@ -302,11 +302,11 @@ class ArrheniusProperty(Property):
             raise TypeError("data_y accepts list or np.ndarray")
         elif isinstance(value.magnitude, list):
             value_as_array = np.array(value)
-            self._data_y = value_as_array[
-                ~np.isnan(value_as_array)
-            ]  # remove nan values
+            value = value_as_array[~np.isnan(value_as_array)]  # remove nan values
         else:
-            self._data_y = value[~np.isnan(value)]
+            value = value[~np.isnan(value)]
+
+        self._data_y = value
 
     def fit(self):
         pre_exp, act_energy = fit_arhenius(self.data_y, self.data_T)
