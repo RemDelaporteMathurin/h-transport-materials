@@ -77,6 +77,26 @@ braun_diffusivity = Diffusivity(
     note="Braun doesn't plot the permeability and assumes a solubility from N.L. Hawkins, Report KAPL 863 (1953)",
 )
 
+hawkins_solubility = Solubility(
+    units="m-3 Pa-1/2",
+    S_0=2.2e19 * u.particle * u.cm**-3 * u.bar**-0.5,
+    E_S=1700 * u.J * u.mol**-1,
+    source="N.L. Hawkins, Report KAPL 863 (1953)",
+    author="N.L. Hawkins",
+    isotope="H",
+    year=1953,
+    note="Found in Braun 1980 paper but couldn't find the original reference",
+)
+
+braun_permeability = Permeability(
+    pre_exp=braun_diffusivity.pre_exp * hawkins_solubility.pre_exp,
+    act_energy=braun_diffusivity.act_energy + hawkins_solubility.act_energy,
+    range=braun_diffusivity.range,
+    isotope="D",
+    source="braun_determination_1980",
+    note="Braun doesn't plot the permeability and assumes a solubility from N.L. Hawkins, Report KAPL 863 (1953)",
+)
+
 # TODO fit this ourselves
 braun_recombination_coeff = RecombinationCoeff(
     pre_exp=5.4e-19 * u.particle * u.cm**4 * u.particle**-2 * u.s**-1,
@@ -95,6 +115,8 @@ properties = [
     grant_dissociation_oxidised,
     braun_diffusivity,
     braun_recombination_coeff,
+    braun_permeability,
+    hawkins_solubility,
 ]
 
 for prop in properties:
