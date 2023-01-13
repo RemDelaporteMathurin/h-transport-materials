@@ -24,6 +24,7 @@ from . import carbon
 from . import gold
 
 from . import iron
+from . import hastelloy_x
 
 from . import molybdenum
 
