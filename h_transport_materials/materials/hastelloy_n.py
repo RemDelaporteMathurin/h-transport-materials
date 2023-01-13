@@ -10,12 +10,7 @@ from h_transport_materials import (
 u = htm.ureg
 
 webb_permeability = Permeability(
-    pre_exp=htm.conversion.ccSTP_to_mol(190)
-    * u.mol
-    * u.mm
-    * u.cm**-2
-    * u.h**-1
-    * u.atm**-0.5,
+    pre_exp=190 * u.ccSTP * u.mm * u.cm**-2 * u.h**-1 * u.atm**-0.5,
     act_energy=13800 * u.cal * u.mol**-1,
     isotope="H",
     range=(1 / 0.0015 * u.K, 1 / 0.0014 * u.K),

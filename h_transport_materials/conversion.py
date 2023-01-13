@@ -1,47 +1,22 @@
 import h_transport_materials as htm
 
-# TODO add units to this function
-def ccSTP_to_mol(V):
-    """Converts a volume in cc (STP) (aka cubic centimetre) to mol
-    assuming a perfect gas law PV = nRT
 
-    Args:
-        V (float): The volume in cc STP
-
-    Returns:
-        float: the number of moles (mol)
-    """
-    # STP pressure, temperature
-    P = 101.35e3  # Pa  # TODO check this value!!
-    T = 273.15  # K
-
-    R = htm.Rg.magnitude
-
-    V_m3 = V * 1e-6  # m3
-
-    n = P * V_m3 / (R * T)  # mol
-
-    return n
+STP = (273.15 * htm.ureg.K, 1 * htm.ureg.bar)
+NTP = (293.15 * htm.ureg.K, 1 * htm.ureg.atm)
 
 
-def ccNTP_to_mol(V):
-    """Converts a volume in cc (NTP) (aka cubic centimetre) to mol
-    assuming a perfect gas law PV = nRT
+def volume_STP_to_mol(V):
+    T, P = STP
+    return (P * V / (htm.Rg * T)).to(htm.ureg.mol)
 
-    Args:
-        V (float): The volume in cc NTP
 
-    Returns:
-        float: the number of moles (mol)
-    """
-    # STP pressure, temperature
-    P = 101.325e3  # Pa
-    T = 293.15  # K
+def volume_NTP_to_mol(V):
+    T, P = NTP
+    return (P * V / (htm.Rg * T)).to(htm.ureg.mol)
 
-    R = htm.Rg.magnitude
 
-    V_m3 = V * 1e-6  # m3
+htm.ureg.define(f"cubiccentimeterNTP = {volume_NTP_to_mol(1 * htm.ureg.cm**3)} = ccNTP")
+htm.ureg.define(f"cubiccentimeterSTP = {volume_STP_to_mol(1 * htm.ureg.cm**3)} = ccSTP")
 
-    n = P * V_m3 / (R * T)  # mol
-
-    return n
+assert "ccNTP" in htm.ureg
+assert "ccSTP" in htm.ureg
