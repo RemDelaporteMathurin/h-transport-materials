@@ -25,6 +25,7 @@ from . import gold
 
 from . import iron
 from . import hastelloy_x
+from . import hastelloy_n
 
 from . import molybdenum
 
