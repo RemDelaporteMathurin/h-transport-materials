@@ -24,6 +24,8 @@ from . import carbon
 from . import gold
 
 from . import iron
+from . import hastelloy_x
+from . import hastelloy_n
 
 from . import molybdenum
 
@@ -48,10 +50,13 @@ from . import rafm_steel
 from . import series_300_steel
 
 from . import steel_316L
+from . import ss_304
 
 from . import inconel_600
 
 from . import inconel_625
+from . import inconel_750
+from . import nimonic_80A
 
 from . import incoloy_800
 

@@ -174,7 +174,7 @@ fernandez_diffusivity_tungsten_h = Diffusivity(
 )
 
 anderl_recomb = RecombinationCoeff(
-    pre_exp=3.2e-15 * htm.ureg.m**4 * htm.ureg.s**-1,
+    pre_exp=3.2e-15 * htm.ureg.m**4 * htm.ureg.s**-1 * htm.ureg.particle**-1,
     act_energy=1.16 * htm.ureg.eV * htm.ureg.particle**-1,
     isotope="D",
     source="anderl_deuterium_1992",

@@ -35,7 +35,7 @@ jones_diffusivity = Diffusivity(
 )
 
 dolan_recombination = RecombinationCoeff(
-    pre_exp=1.46e-29 * htm.ureg.m**4 * htm.ureg.s**-1,
+    pre_exp=1.46e-29 * htm.ureg.m**4 * htm.ureg.s**-1 * htm.ureg.particle**-1,
     act_energy=0.214 * htm.ureg.eV * htm.ureg.particle**-1,
     source="dolan_assessment_1994",
     isotope="H",
