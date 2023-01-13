@@ -82,7 +82,7 @@ esteban_dissociation_coeff_clean = DissociationCoeff(
     * htm.ureg.Pa**-1,
     act_energy=48.2 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="T",
-    range=(450, 620) * htm.ureg.K,
+    range=(450 * htm.ureg.K, 620 * htm.ureg.K),
     source="perujo_low_1996",
     note="clean surface, stationary",
 )
@@ -91,7 +91,7 @@ esteban_recombination_coeff_clean = RecombinationCoeff(
     pre_exp=6.8e-3 * htm.ureg.mol**-1 * htm.ureg.m**4 * htm.ureg.s**-1,
     act_energy=20.4 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="T",
-    range=(450, 620) * htm.ureg.K,
+    range=(450 * htm.ureg.K, 620 * htm.ureg.K),
     source="perujo_low_1996",
     note="clean surface, stationary",
 )
@@ -104,7 +104,7 @@ esteban_dissociation_coeff_oxidised = DissociationCoeff(
     * htm.ureg.Pa**-1,
     act_energy=68.9 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="T",
-    range=(450, 620) * htm.ureg.K,
+    range=(450 * htm.ureg.K, 620 * htm.ureg.K),
     source="perujo_low_1996",
     note="oxidised surface, stationary",
 )
@@ -113,7 +113,7 @@ esteban_recombination_coeff_oxidised = RecombinationCoeff(
     pre_exp=5.5e-6 * htm.ureg.mol**-1 * htm.ureg.m**4 * htm.ureg.s**-1,
     act_energy=41.2 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="T",
-    range=(450, 620) * htm.ureg.K,
+    range=(450 * htm.ureg.K, 620 * htm.ureg.K),
     source="perujo_low_1996",
     note="oxidised surface, stationary",
 )
