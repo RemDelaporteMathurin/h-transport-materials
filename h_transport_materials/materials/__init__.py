@@ -54,6 +54,7 @@ from . import inconel_600
 
 from . import inconel_625
 from . import inconel_750
+from . import nimonic_80A
 
 from . import incoloy_800
 
