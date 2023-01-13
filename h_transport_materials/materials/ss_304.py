@@ -132,6 +132,15 @@ braun_recombination_coeff = RecombinationCoeff(
     source="braun_determination_1980",
 )
 
+braun_dissociation_coeff = DissociationCoeff(
+    pre_exp=braun_recombination_coeff.pre_exp * hawkins_solubility.pre_exp**2,
+    act_energy=braun_recombination_coeff.act_energy + 2 * hawkins_solubility.act_energy,
+    range=braun_diffusivity.range,
+    isotope="D",
+    source="braun_determination_1980",
+    note="not given in paper, calculated in HTM using Hawkins solubility, differs from Fuerst 2020 review (Table 5)",
+)
+
 properties = [
     grant_permeability,
     grant_diffusivity,
@@ -144,6 +153,7 @@ properties = [
     grant_recombination_oxidised,
     braun_diffusivity,
     braun_recombination_coeff,
+    braun_dissociation_coeff,
     braun_permeability,
     hawkins_solubility,
 ]
