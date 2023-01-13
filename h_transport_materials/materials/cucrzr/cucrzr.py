@@ -148,7 +148,10 @@ penalva_solubility_cucrzr_h = Solubility(
 )
 
 anderl_recombination = RecombinationCoeff(
-    pre_exp=2.9e-14 * htm.ureg.meter**4 * htm.ureg.second**-1,
+    pre_exp=2.9e-14
+    * htm.ureg.meter**4
+    * htm.ureg.second**-1
+    * htm.ureg.particle**-1,
     act_energy=1.92 * htm.ureg.eV * htm.ureg.particle**-1,
     isotope="D",
     source="anderl_deuterium_1999",

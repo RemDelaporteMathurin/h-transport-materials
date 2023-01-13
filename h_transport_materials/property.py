@@ -388,7 +388,7 @@ class RecombinationCoeff(ArrheniusProperty):
 
     @property
     def units(self):
-        return ureg.meter**4 * ureg.second**-1
+        return ureg.particle * ureg.meter**4 * ureg.second**-1 * ureg.particle**-2
 
 
 class DissociationCoeff(ArrheniusProperty):
@@ -399,7 +399,7 @@ class DissociationCoeff(ArrheniusProperty):
 
     @property
     def units(self):
-        return ureg.meter**-3 * ureg.Pa**-1
+        return ureg.particle * ureg.meter**-2 * ureg.s**-1 * ureg.Pa**-1
 
 
 def get_nb_citations(doi: str):
