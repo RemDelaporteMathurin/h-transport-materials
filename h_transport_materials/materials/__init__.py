@@ -53,6 +53,7 @@ from . import ss_304
 from . import inconel_600
 
 from . import inconel_625
+from . import inconel_750
 
 from . import incoloy_800
 
