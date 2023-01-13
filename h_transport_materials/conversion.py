@@ -12,8 +12,31 @@ def ccSTP_to_mol(V):
         float: the number of moles (mol)
     """
     # STP pressure, temperature
-    P = 101.35e3  # Pa
+    P = 101.35e3  # Pa  # TODO check this value!!
     T = 273.15  # K
+
+    R = htm.Rg.magnitude
+
+    V_m3 = V * 1e-6  # m3
+
+    n = P * V_m3 / (R * T)  # mol
+
+    return n
+
+
+def ccNTP_to_mol(V):
+    """Converts a volume in cc (NTP) (aka cubic centimetre) to mol
+    assuming a perfect gas law PV = nRT
+
+    Args:
+        V (float): The volume in cc NTP
+
+    Returns:
+        float: the number of moles (mol)
+    """
+    # STP pressure, temperature
+    P = 101.325e3  # Pa
+    T = 293.15  # K
 
     R = htm.Rg.magnitude
 
