@@ -39,8 +39,8 @@ houben_permeability = Permeability(
 )
 
 kishimoto_permeability = Permeability(
-    pre_exp=c.ccNTP_to_mol(7.1e3)
-    * htm.ureg.mol
+    pre_exp=7.1e3
+    * htm.ureg.ccNTP
     * htm.ureg.mm
     * htm.ureg.cm**-2
     * htm.ureg.h**-1
@@ -61,7 +61,7 @@ kishimoto_diffusivity = Diffusivity(
 
 kishimoto_solubility = Solubility(
     units="m-3 Pa-1/2",
-    S_0=c.ccNTP_to_mol(16) * htm.ureg.mol * htm.ureg.cm**-3 * htm.ureg.MPa**-0.5,
+    S_0=16 * htm.ureg.ccNTP * htm.ureg.cm**-3 * htm.ureg.MPa**-0.5,
     E_S=0.13 * htm.ureg.eV * htm.ureg.particle**-1,
     isotope="H",
     range=(873 * htm.ureg.K, 1173 * htm.ureg.K),

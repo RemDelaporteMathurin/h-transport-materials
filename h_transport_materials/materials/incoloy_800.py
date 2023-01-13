@@ -21,11 +21,7 @@ schmidt_diffusivity = Diffusivity(
 
 
 schmidt_permeability = Permeability(
-    pre_exp=htm.conversion.ccSTP_to_mol(1.8e-3)
-    * u.mol
-    * u.cm**-1
-    * u.s**-1
-    * u.bar**-0.5,
+    pre_exp=1.8e-3 * u.ccSTP * u.cm**-1 * u.s**-1 * u.bar**-0.5,
     act_energy=56.6 * u.kJ * u.mol**-1,
     isotope="H",
     source="schmidt_studies_1985",

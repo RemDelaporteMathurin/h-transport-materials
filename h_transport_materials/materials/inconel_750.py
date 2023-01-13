@@ -17,10 +17,7 @@ kishimoto_diffusivity = Diffusivity(
 
 kishimoto_solubility = Solubility(
     units="m-3 Pa-1/2",
-    S_0=htm.conversion.ccNTP_to_mol(14)
-    * htm.ureg.mol
-    * htm.ureg.cm**-3
-    * htm.ureg.MPa**-0.5,
+    S_0=14 * htm.ureg.ccNTP * htm.ureg.cm**-3 * htm.ureg.MPa**-0.5,
     E_S=0.12 * htm.ureg.eV * htm.ureg.particle**-1,
     isotope="H",
     range=(873 * htm.ureg.K, 1173 * htm.ureg.K),
@@ -28,8 +25,8 @@ kishimoto_solubility = Solubility(
 )
 
 kishimoto_permeability = Permeability(
-    pre_exp=htm.conversion.ccNTP_to_mol(8.1e3)
-    * htm.ureg.mol
+    pre_exp=8.1e3
+    * htm.ureg.ccNTP
     * htm.ureg.mm
     * htm.ureg.cm**-2
     * htm.ureg.h**-1
