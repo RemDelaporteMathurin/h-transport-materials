@@ -66,6 +66,32 @@ grant_dissociation_oxidised = DissociationCoeff(
     note="oxidized surface. uncertainties given in paper",
 )
 
+grant_recombination_clean = RecombinationCoeff(
+    pre_exp=grant_dissociation_clean.pre_exp / (grant_solubility.pre_exp**2),
+    act_energy=grant_dissociation_clean.act_energy - 2 * grant_solubility.act_energy,
+    range=(645 * u.K, 965 * u.K),
+    isotope="H",
+    source="grant_hydrogen_1987",
+    note="ion-beamed cleaned surface. not given in paper, calculated in HTM",
+)
+
+grant_recombination_activated = RecombinationCoeff(
+    pre_exp=grant_dissociation_activated.pre_exp / (grant_solubility.pre_exp**2),
+    act_energy=grant_dissociation_activated.act_energy
+    - 2 * grant_solubility.act_energy,
+    range=(645 * u.K, 965 * u.K),
+    isotope="H",
+    source="grant_hydrogen_1987",
+    note="activated surface. not given in paper, calculated in HTM",
+)
+grant_recombination_oxidised = RecombinationCoeff(
+    pre_exp=grant_dissociation_oxidised.pre_exp / (grant_solubility.pre_exp**2),
+    act_energy=grant_dissociation_oxidised.act_energy - 2 * grant_solubility.act_energy,
+    range=(645 * u.K, 965 * u.K),
+    isotope="H",
+    source="grant_hydrogen_1987",
+    note="oxidized surface. not given in paper, calculated in HTM",
+)
 
 # TODO fit this ourselves
 braun_diffusivity = Diffusivity(
@@ -106,6 +132,15 @@ braun_recombination_coeff = RecombinationCoeff(
     source="braun_determination_1980",
 )
 
+braun_dissociation_coeff = DissociationCoeff(
+    pre_exp=braun_recombination_coeff.pre_exp * hawkins_solubility.pre_exp**2,
+    act_energy=braun_recombination_coeff.act_energy + 2 * hawkins_solubility.act_energy,
+    range=braun_diffusivity.range,
+    isotope="D",
+    source="braun_determination_1980",
+    note="not given in paper, calculated in HTM using Hawkins solubility, differs from Fuerst 2020 review (Table 5)",
+)
+
 properties = [
     grant_permeability,
     grant_diffusivity,
@@ -113,8 +148,12 @@ properties = [
     grant_dissociation_clean,
     grant_dissociation_activated,
     grant_dissociation_oxidised,
+    grant_recombination_clean,
+    grant_recombination_activated,
+    grant_recombination_oxidised,
     braun_diffusivity,
     braun_recombination_coeff,
+    braun_dissociation_coeff,
     braun_permeability,
     hawkins_solubility,
 ]

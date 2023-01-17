@@ -39,6 +39,7 @@ schmidt_solubility = Solubility(
     source="schmidt_studies_1985",
 )
 
+# TODO fit this ourselves Fig. 2
 esteban_permeability = Permeability(
     pre_exp=3.94e-8 * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5,
     act_energy=55.6 * u.kJ * u.mol**-1,
@@ -47,6 +48,7 @@ esteban_permeability = Permeability(
     source="esteban_diffusive_2002",
 )
 
+# TODO fit this ourselves Fig. 3
 esteban_diffusivity = Diffusivity(
     D_0=3.87e-7 * u.m**2 * u.s**-1,
     E_D=47.8 * u.kJ * u.mol**-1,
@@ -64,6 +66,7 @@ esteban_solubility = Solubility(
     source="esteban_diffusive_2002",
 )
 
+# TODO fit this ourselves Fig. 5
 esteban_diss_coeff_non_oxidised = DissociationCoeff(
     pre_exp=2.67e-10 * u.mol * u.m**-2 * u.s**-1 * u.Pa**-1,
     act_energy=40.1 * u.kJ * u.mol**-1,
@@ -73,6 +76,7 @@ esteban_diss_coeff_non_oxidised = DissociationCoeff(
     note="non-oxidised surface",
 )
 
+# TODO fit this ourselves Fig. 6
 esteban_recomb_coeff_non_oxidised = RecombinationCoeff(
     pre_exp=2.58e-8 * u.mol**-1 * u.m**4 * u.s**-1,
     act_energy=24.5 * u.kJ * u.mol**-1,
@@ -82,6 +86,7 @@ esteban_recomb_coeff_non_oxidised = RecombinationCoeff(
     note="non-oxidised surface",
 )
 
+# TODO fit this ourselves Fig. 5
 esteban_diss_coeff_oxidised = DissociationCoeff(
     pre_exp=4.14e-6 * u.mol * u.m**-2 * u.s**-1 * u.Pa**-1,
     act_energy=44.3 * u.kJ * u.mol**-1,
@@ -91,6 +96,7 @@ esteban_diss_coeff_oxidised = DissociationCoeff(
     note="oxidised surface",
 )
 
+# TODO fit this ourselves Fig. 6
 esteban_recomb_coeff_oxidised = RecombinationCoeff(
     pre_exp=4.00e-4 * u.mol**-1 * u.m**4 * u.s**-1,
     act_energy=28.6 * u.kJ * u.mol**-1,

@@ -1,5 +1,10 @@
 import h_transport_materials as htm
-from h_transport_materials import Diffusivity, Solubility
+from h_transport_materials import (
+    Diffusivity,
+    Solubility,
+    DissociationCoeff,
+    RecombinationCoeff,
+)
 import h_transport_materials.conversion as c
 
 
@@ -29,7 +34,59 @@ gervasini_solubility = Solubility(
     note="the value of the pre-exp factor conversion was taken from Shimada 2020",
 )
 
-properties = [gervasini_diffusivity_H, gervasini_diffusivity_D, gervasini_solubility]
+perujo_dissociation_coeff_clean = DissociationCoeff(
+    pre_exp=1.6e-3
+    * htm.ureg.mol
+    * htm.ureg.m**-2
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-1,
+    act_energy=48.2 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="T",
+    range=(450 * htm.ureg.K, 620 * htm.ureg.K),
+    source="perujo_low_1996",
+    note="clean surface, stationary",
+)
+
+perujo_recombination_coeff_clean = RecombinationCoeff(
+    pre_exp=2.0e-3 * htm.ureg.mol**-1 * htm.ureg.m**4 * htm.ureg.s**-1,
+    act_energy=11.5 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="T",
+    range=(450 * htm.ureg.K, 620 * htm.ureg.K),
+    source="perujo_low_1996",
+    note="clean surface, stationary",
+)
+
+perujo_dissociation_coeff_oxidised = DissociationCoeff(
+    pre_exp=0.26
+    * htm.ureg.mol
+    * htm.ureg.m**-2
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-1,
+    act_energy=111.3 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="T",
+    range=(450 * htm.ureg.K, 620 * htm.ureg.K),
+    source="perujo_low_1996",
+    note="oxidised surface, stationary",
+)
+
+perujo_recombination_coeff_oxidised = RecombinationCoeff(
+    pre_exp=32.0 * htm.ureg.mol**-1 * htm.ureg.m**4 * htm.ureg.s**-1,
+    act_energy=97.0 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="T",
+    range=(450 * htm.ureg.K, 620 * htm.ureg.K),
+    source="perujo_low_1996",
+    note="oxidised surface, stationary",
+)
+
+properties = [
+    gervasini_diffusivity_H,
+    gervasini_diffusivity_D,
+    gervasini_solubility,
+    perujo_dissociation_coeff_clean,
+    perujo_recombination_coeff_clean,
+    perujo_dissociation_coeff_oxidised,
+    perujo_recombination_coeff_oxidised,
+]
 
 for prop in properties:
     prop.material = "inconel_625"

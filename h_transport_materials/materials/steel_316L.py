@@ -1,5 +1,11 @@
 import h_transport_materials as htm
-from h_transport_materials import Diffusivity, Solubility, Permeability
+from h_transport_materials import (
+    Diffusivity,
+    Solubility,
+    Permeability,
+    DissociationCoeff,
+    RecombinationCoeff,
+)
 import h_transport_materials.conversion as c
 from h_transport_materials.materials.iron import IRON_MOLAR_VOLUME
 
@@ -68,6 +74,51 @@ kishimoto_solubility = Solubility(
     source="kishimoto_hydrogen_1985",
 )
 
+esteban_dissociation_coeff_clean = DissociationCoeff(
+    pre_exp=1.6e-3
+    * htm.ureg.mol
+    * htm.ureg.m**-2
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-1,
+    act_energy=48.2 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="T",
+    range=(450 * htm.ureg.K, 620 * htm.ureg.K),
+    source="perujo_low_1996",
+    note="clean surface, stationary",
+)
+
+esteban_recombination_coeff_clean = RecombinationCoeff(
+    pre_exp=6.8e-3 * htm.ureg.mol**-1 * htm.ureg.m**4 * htm.ureg.s**-1,
+    act_energy=20.4 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="T",
+    range=(450 * htm.ureg.K, 620 * htm.ureg.K),
+    source="perujo_low_1996",
+    note="clean surface, stationary",
+)
+
+esteban_dissociation_coeff_oxidised = DissociationCoeff(
+    pre_exp=1.3e-6
+    * htm.ureg.mol
+    * htm.ureg.m**-2
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-1,
+    act_energy=68.9 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="T",
+    range=(450 * htm.ureg.K, 620 * htm.ureg.K),
+    source="perujo_low_1996",
+    note="oxidised surface, stationary",
+)
+
+esteban_recombination_coeff_oxidised = RecombinationCoeff(
+    pre_exp=5.5e-6 * htm.ureg.mol**-1 * htm.ureg.m**4 * htm.ureg.s**-1,
+    act_energy=41.2 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="T",
+    range=(450 * htm.ureg.K, 620 * htm.ureg.K),
+    source="perujo_low_1996",
+    note="oxidised surface, stationary",
+)
+
+
 properties = [
     reiter_diffusivity,
     reiter_solubility,
@@ -75,6 +126,10 @@ properties = [
     kishimoto_permeability,
     kishimoto_diffusivity,
     kishimoto_solubility,
+    esteban_dissociation_coeff_clean,
+    esteban_recombination_coeff_clean,
+    esteban_dissociation_coeff_oxidised,
+    esteban_recombination_coeff_oxidised,
 ]
 
 for prop in properties:
