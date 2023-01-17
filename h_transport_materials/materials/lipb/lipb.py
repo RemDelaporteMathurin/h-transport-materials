@@ -5,6 +5,8 @@ from pathlib import Path
 
 import numpy as np
 
+u = htm.ureg
+
 molar_mass_li = 0.06941  # kg/mol
 molar_mass_Pb = 0.2072  # kg/mol
 rho_lipb = 10163.197  # kg/m3  at 300K
@@ -40,11 +42,11 @@ def atom_density_lipb(nb_li: int, nb_pb: int):
 wu_solubility = Solubility(
     S_0=6.33e-07
     * atom_density_lipb(nb_li=17, nb_pb=83)
-    * htm.ureg.particle
-    * htm.ureg.m**-3
-    * htm.ureg.Pa**-0.5,
-    E_S=0 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(850 * htm.ureg.K, 1040 * htm.ureg.K),
+    * u.particle
+    * u.m**-3
+    * u.Pa**-0.5,
+    E_S=0 * u.eV * u.particle**-1,
+    range=(850 * u.K, 1040 * u.K),
     source="wu_solubility_1983",
     name="D Wu (1983)",
     isotope="D",
@@ -55,11 +57,11 @@ wu_solubility = Solubility(
 chan_solubility = Solubility(
     S_0=4.7e-07
     * atom_density_lipb(nb_li=17, nb_pb=1)
-    * htm.ureg.particle
-    * htm.ureg.m**-3
-    * htm.ureg.Pa**-0.5,
-    E_S=9000 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(573 * htm.ureg.K, 773 * htm.ureg.K),
+    * u.particle
+    * u.m**-3
+    * u.Pa**-0.5,
+    E_S=9000 * u.J * u.mol**-1,
+    range=(573 * u.K, 773 * u.K),
     source="chan_thermodynamic_1984",
     name="H Chan (1984)",
     isotope="H",
@@ -71,11 +73,11 @@ chan_solubility = Solubility(
 katsuta_solubility = Solubility(
     S_0=(1 / 2.9e3)
     * atom_density_lipb(nb_li=17, nb_pb=83)
-    * htm.ureg.particle
-    * htm.ureg.m**-3
-    * htm.ureg.atm**-0.5,
-    E_S=0 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(573 * htm.ureg.K, 723 * htm.ureg.K),
+    * u.particle
+    * u.m**-3
+    * u.atm**-0.5,
+    E_S=0 * u.eV * u.particle**-1,
+    range=(573 * u.K, 723 * u.K),
     source="katsuta_hydrogen_1985",
     name="H Katsuta (1985)",
     isotope="H",
@@ -84,9 +86,9 @@ katsuta_solubility = Solubility(
 
 
 fauvet_diffusivity = Diffusivity(
-    D_0=1.5e-09 * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=0 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(722 * htm.ureg.K, 724 * htm.ureg.K),  # TODO should be 723 link to issue #37
+    D_0=1.5e-09 * u.m**2 * u.s**-1,
+    E_D=0 * u.eV * u.particle**-1,
+    range=(722 * u.K, 724 * u.K),  # TODO should be 723 link to issue #37
     source="fauvet_hydrogen_1988",
     name="H Fauvet (1988)",
     isotope="H",
@@ -95,11 +97,11 @@ fauvet_diffusivity = Diffusivity(
 fauvet_solubility = Solubility(
     S_0=2.7e-08
     * atom_density_lipb(nb_li=17, nb_pb=83)
-    * htm.ureg.particle
-    * htm.ureg.m**-3
-    * htm.ureg.Pa**-0.5,
-    E_S=0 * htm.ureg.eV * htm.ureg.particle**-1,
-    range=(722 * htm.ureg.K, 724 * htm.ureg.K),  # TODO should be 723 link to issue #37
+    * u.particle
+    * u.m**-3
+    * u.Pa**-0.5,
+    E_S=0 * u.eV * u.particle**-1,
+    range=(722 * u.K, 724 * u.K),  # TODO should be 723 link to issue #37
     source="fauvet_hydrogen_1988",
     name="H Fauvet (1988)",
     isotope="H",
@@ -124,11 +126,8 @@ schumacher_solubility_data_y = np.exp(
 schumacher_solubility_data_y *= atom_density_lipb(nb_li=1, nb_pb=1)
 
 schumacher_solubility = Solubility(
-    data_T=1000 / schumacher_solubility_data[:, 0] * htm.ureg.K,
-    data_y=schumacher_solubility_data_y
-    * htm.ureg.particle
-    * htm.ureg.m**-3
-    * htm.ureg.bar**-0.5,
+    data_T=1000 / schumacher_solubility_data[:, 0] * u.K,
+    data_y=schumacher_solubility_data_y * u.particle * u.m**-3 * u.bar**-0.5,
     source="schumacher_hydrogen_1990",
     name="H Schumacher (1990)",
     isotope="H",
@@ -147,9 +146,9 @@ reiter_diffusivity_data = np.genfromtxt(
 reiter_difusivity_data_H = reiter_diffusivity_data[2:, 2:]
 
 reiter_diffusivity_h = Diffusivity(
-    data_T=1000 / reiter_difusivity_data_H[:, 0] * htm.ureg.K,
-    data_y=reiter_difusivity_data_H[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
-    range=(508 * htm.ureg.K, 700 * htm.ureg.K),
+    data_T=1000 / reiter_difusivity_data_H[:, 0] * u.K,
+    data_y=reiter_difusivity_data_H[:, 1] * u.m**2 * u.s**-1,
+    range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
     name="H Reiter (1991)",
     isotope="H",
@@ -159,9 +158,9 @@ reiter_difusivity_data_D = reiter_diffusivity_data[2:, :2]
 
 
 reiter_diffusivity_d = Diffusivity(
-    data_T=1000 / reiter_difusivity_data_D[:, 0] * htm.ureg.K,
-    data_y=reiter_difusivity_data_D[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
-    range=(508 * htm.ureg.K, 700 * htm.ureg.K),
+    data_T=1000 / reiter_difusivity_data_D[:, 0] * u.K,
+    data_y=reiter_difusivity_data_D[:, 1] * u.m**2 * u.s**-1,
+    range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
     name="D Reiter (1991)",
     isotope="D",
@@ -179,12 +178,9 @@ reiter_solubility_data_H_y = reiter_solubility_data_H[:, 1]  # at.fr. Pa-1/2
 reiter_solubility_data_H_y *= atom_density_lipb(nb_li=17, nb_pb=1)  # m-3 Pa-1/2
 
 reiter_solubility_h = Solubility(
-    data_T=1000 / reiter_solubility_data_H[:, 0] * htm.ureg.K,
-    data_y=reiter_solubility_data_H_y
-    * htm.ureg.particle
-    * htm.ureg.m**-3
-    * htm.ureg.Pa**-0.5,
-    range=(508 * htm.ureg.K, 700 * htm.ureg.K),
+    data_T=1000 / reiter_solubility_data_H[:, 0] * u.K,
+    data_y=reiter_solubility_data_H_y * u.particle * u.m**-3 * u.Pa**-0.5,
+    range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
     name="H Reiter (1991)",
     isotope="H",
@@ -199,13 +195,12 @@ reiter_solubility_data_D_y = reiter_solubility_data_D[:, 1]  # at.fr. Pa-1/2
 reiter_solubility_data_D_y *= atom_density_lipb(nb_li=17, nb_pb=1)  # m-3 Pa-1/2
 
 reiter_solubility_d = Solubility(
-    data_T=reiter_solubility_data_D_T[np.isfinite(reiter_solubility_data_D_T)]
-    * htm.ureg.K,
+    data_T=reiter_solubility_data_D_T[np.isfinite(reiter_solubility_data_D_T)] * u.K,
     data_y=reiter_solubility_data_D_y[np.isfinite(reiter_solubility_data_D_y)]
-    * htm.ureg.particle
-    * htm.ureg.m**-3
-    * htm.ureg.Pa**-0.5,
-    range=(508 * htm.ureg.K, 700 * htm.ureg.K),
+    * u.particle
+    * u.m**-3
+    * u.Pa**-0.5,
+    range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
     name="D Reiter (1991)",
     isotope="D",
@@ -215,11 +210,11 @@ reiter_solubility_d = Solubility(
 reiter_solubility_t = Solubility(
     S_0=2.32e-08
     * atom_density_lipb(nb_li=17, nb_pb=1)
-    * htm.ureg.particle
-    * htm.ureg.m**-3
-    * htm.ureg.Pa**-0.5,
-    E_S=1350 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(508 * htm.ureg.K, 700 * htm.ureg.K),
+    * u.particle
+    * u.m**-3
+    * u.Pa**-0.5,
+    E_S=1350 * u.J * u.mol**-1,
+    range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
     name="T Reiter (1991)",
     isotope="T",
@@ -233,9 +228,9 @@ data_aiello = np.genfromtxt(
 )
 
 aiello_solubility = Solubility(
-    data_T=1000 / data_aiello[:, 0] * htm.ureg.K,
-    data_y=data_aiello[:, 1] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
-    range=(600 * htm.ureg.K, 900 * htm.ureg.K),
+    data_T=1000 / data_aiello[:, 0] * u.K,
+    data_y=data_aiello[:, 1] * u.mol * u.m**-3 * u.Pa**-0.5,
+    range=(600 * u.K, 900 * u.K),
     source="aiello_determination_2006",
     name="H Aiello (2006)",
     isotope="H",
@@ -244,26 +239,26 @@ aiello_solubility = Solubility(
 
 
 shibuya_diffusivity = Diffusivity(
-    data_T=np.array([300, 400, 500]) * htm.ureg.degC,
-    data_y=np.array([6.6e-6, 7.8e-6, 9.5e-6]) * htm.ureg.cm**2 * htm.ureg.s**-1,
+    data_T=np.array([300, 400, 500]) * u.degC,
+    data_y=np.array([6.6e-6, 7.8e-6, 9.5e-6]) * u.cm**2 * u.s**-1,
     source="shibuya_isothermal_1987",
     name="T Shibuya (1987)",
     isotope="T",
 )
 
 terai_diffusivity = Diffusivity(
-    D_0=2.50e-07 * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=27000 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(573 * htm.ureg.K, 973 * htm.ureg.K),
+    D_0=2.50e-07 * u.m**2 * u.s**-1,
+    E_D=27000 * u.J * u.mol**-1,
+    range=(573 * u.K, 973 * u.K),
     source="terai_diffusion_1992",
     name="T Terai (1987)",
     isotope="T",
 )
 
 alberro_solubility = Solubility(
-    S_0=8.64e-3 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
-    E_S=9000 * htm.ureg.J * htm.ureg.mol**-1,
-    range=(523 * htm.ureg.K, 922 * htm.ureg.K),
+    S_0=8.64e-3 * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=9000 * u.J * u.mol**-1,
+    range=(523 * u.K, 922 * u.K),
     source="alberro_experimental_2015",
     name="H Alberro (2015)",
     isotope="H",
@@ -273,46 +268,38 @@ alberro_solubility = Solubility(
 
 # TODO fit Edao data ourselves
 edao_permeability_h = Permeability(
-    pre_exp=1.20e-9
-    * htm.ureg.mol
-    * htm.ureg.s**-1
-    * htm.ureg.m**-1
-    * htm.ureg.Pa**-0.5,
-    act_energy=20.0 * htm.ureg.kJ * htm.ureg.mol**-1,
+    pre_exp=1.20e-9 * u.mol * u.s**-1 * u.m**-1 * u.Pa**-0.5,
+    act_energy=20.0 * u.kJ * u.mol**-1,
     isotope="H",
-    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
+    range=(573 * u.K, 873 * u.K),
     source="edao_experiments_2011",
     note="Li17Pb83",
 )
 
 edao_permeability_d = Permeability(
-    pre_exp=1.30e-9
-    * htm.ureg.mol
-    * htm.ureg.s**-1
-    * htm.ureg.m**-1
-    * htm.ureg.Pa**-0.5,
-    act_energy=16.7 * htm.ureg.kJ * htm.ureg.mol**-1,
+    pre_exp=1.30e-9 * u.mol * u.s**-1 * u.m**-1 * u.Pa**-0.5,
+    act_energy=16.7 * u.kJ * u.mol**-1,
     isotope="D",
-    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
+    range=(573 * u.K, 873 * u.K),
     source="edao_experiments_2011",
     note="Li17Pb83",
 )
 
 
 edao_diffusivity_h = Diffusivity(
-    D_0=8.18e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=15.8 * htm.ureg.kJ * htm.ureg.mol**-1,
+    D_0=8.18e-8 * u.m**2 * u.s**-1,
+    E_D=15.8 * u.kJ * u.mol**-1,
     isotope="H",
-    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
+    range=(573 * u.K, 873 * u.K),
     source="edao_experiments_2011",
     note="Li17Pb83",
 )
 
 edao_diffusivity_d = Diffusivity(
-    D_0=5.73e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=13.6 * htm.ureg.kJ * htm.ureg.mol**-1,
+    D_0=5.73e-8 * u.m**2 * u.s**-1,
+    E_D=13.6 * u.kJ * u.mol**-1,
     isotope="D",
-    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
+    range=(573 * u.K, 873 * u.K),
     source="edao_experiments_2011",
     note="Li17Pb83",
 )
@@ -322,12 +309,12 @@ edao_solubility_h = Solubility(
     units="m-3 Pa-1/2",
     S_0=2.73e-7
     * atom_density_lipb(nb_li=17, nb_pb=83)
-    * htm.ureg.particle
-    * htm.ureg.m**-3
-    * htm.ureg.Pa**-0.5,
-    E_S=4.18 * htm.ureg.kJ * htm.ureg.mol**-1,
+    * u.particle
+    * u.m**-3
+    * u.Pa**-0.5,
+    E_S=4.18 * u.kJ * u.mol**-1,
     isotope="H",
-    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
+    range=(573 * u.K, 873 * u.K),
     source="edao_experiments_2011",
     note="Li17Pb83",
 )
@@ -336,12 +323,12 @@ edao_solubility_d = Solubility(
     units="m-3 Pa-1/2",
     S_0=4.21e-7
     * atom_density_lipb(nb_li=17, nb_pb=83)
-    * htm.ureg.particle
-    * htm.ureg.m**-3
-    * htm.ureg.Pa**-0.5,
-    E_S=3.10 * htm.ureg.kJ * htm.ureg.mol**-1,
+    * u.particle
+    * u.m**-3
+    * u.Pa**-0.5,
+    E_S=3.10 * u.kJ * u.mol**-1,
     isotope="D",
-    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
+    range=(573 * u.K, 873 * u.K),
     source="edao_experiments_2011",
     note="Li17Pb83",
 )
