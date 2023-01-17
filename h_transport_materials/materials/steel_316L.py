@@ -118,6 +118,43 @@ esteban_recombination_coeff_oxidised = RecombinationCoeff(
     note="oxidised surface, stationary",
 )
 
+forcey_permeability = Permeability(
+    pre_exp=1.80e-7
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-0.5,
+    act_energy=64030 * htm.ureg.kJ * htm.ureg.mol**-1,
+    range=(
+        htm.ureg.Quantity(250, htm.ureg.degC),
+        htm.ureg.Quantity(600, htm.ureg.degC),
+    ),
+    isotope="H",
+    source="forcey_hydrogen_1988",
+)
+
+forcey_diffusivity = Diffusivity(
+    D_0=3.82e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=45500 * htm.ureg.kJ * htm.ureg.mol**-1,
+    range=(
+        htm.ureg.Quantity(250, htm.ureg.degC),
+        htm.ureg.Quantity(600, htm.ureg.degC),
+    ),
+    isotope="H",
+    source="forcey_hydrogen_1988",
+)
+
+forcey_solubility = Solubility(
+    units="m-3 Pa-1/2",
+    S_0=1.50 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    E_S=18510 * htm.ureg.kJ * htm.ureg.mol**-1,
+    range=(
+        htm.ureg.Quantity(250, htm.ureg.degC),
+        htm.ureg.Quantity(600, htm.ureg.degC),
+    ),
+    isotope="H",
+    source="forcey_hydrogen_1988",
+)
 
 properties = [
     reiter_diffusivity,
@@ -130,6 +167,9 @@ properties = [
     esteban_recombination_coeff_clean,
     esteban_dissociation_coeff_oxidised,
     esteban_recombination_coeff_oxidised,
+    forcey_permeability,
+    forcey_diffusivity,
+    forcey_solubility,
 ]
 
 for prop in properties:
