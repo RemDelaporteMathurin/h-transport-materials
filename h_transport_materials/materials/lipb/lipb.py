@@ -333,6 +333,70 @@ edao_solubility_d = Solubility(
     note="Li17Pb83",
 )
 
+edao_permeability_h_bis = Permeability(
+    pre_exp=9.7e-8 * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5,
+    act_energy=65000 * u.kJ * u.mol**-1,
+    range=(773 * u.K, 973 * u.K),
+    isotope="H",
+    source="edao_permeation_2011",
+    note="Li17Pb83",
+)
+
+edao_permeability_d_bis = Permeability(
+    pre_exp=2.87e-7 * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5,
+    act_energy=75500 * u.kJ * u.mol**-1,
+    range=(773 * u.K, 973 * u.K),
+    isotope="D",
+    source="edao_permeation_2011",
+    note="Li17Pb83",
+)
+
+okitsu_diffusivity_h = Diffusivity(
+    D_0=2.0e8 * u.m**2 * u.s**-1,
+    E_D=11200 * u.kJ * u.mol**-1,
+    range=(773 * u.K, 973 * u.K),
+    isotope="H",
+    source="okitsu_analysis_2012",
+    note="Li17Pb83",
+)
+
+okitsu_diffusivity_d = Diffusivity(
+    D_0=4.8e8 * u.m**2 * u.s**-1,
+    E_D=20300 * u.kJ * u.mol**-1,
+    range=(773 * u.K, 973 * u.K),
+    isotope="D",
+    source="okitsu_analysis_2012",
+    note="Li17Pb83",
+)
+
+okitsu_solubility_h = Solubility(
+    units="m-3 Pa-1/2",
+    S_0=8.6e-5
+    * atom_density_lipb(nb_li=17, nb_pb=83)
+    * u.particle
+    * u.m**-3
+    * u.Pa**-0.5,
+    E_S=53800 * u.kJ * u.mol**-1,
+    range=(773 * u.K, 973 * u.K),
+    isotope="H",
+    source="okitsu_analysis_2012",
+    note="Li17Pb83 + typo in exponent Okitsu table 2",
+)
+
+okitsu_solubility_d = Solubility(
+    units="m-3 Pa-1/2",
+    S_0=1.1e-4
+    * atom_density_lipb(nb_li=17, nb_pb=83)
+    * u.particle
+    * u.m**-3
+    * u.Pa**-0.5,
+    E_S=55200 * u.kJ * u.mol**-1,
+    range=(773 * u.K, 973 * u.K),
+    isotope="D",
+    source="okitsu_analysis_2012",
+    note="Li17Pb83",
+)
+
 properties = [
     fauvet_diffusivity,
     reiter_diffusivity_h,
@@ -355,6 +419,12 @@ properties = [
     edao_diffusivity_d,
     edao_solubility_h,
     edao_solubility_d,
+    edao_permeability_h_bis,
+    edao_permeability_d_bis,
+    okitsu_diffusivity_h,
+    okitsu_diffusivity_d,
+    okitsu_solubility_h,
+    okitsu_solubility_d,
 ]
 
 for prop in properties:
