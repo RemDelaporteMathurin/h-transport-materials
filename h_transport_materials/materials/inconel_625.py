@@ -34,7 +34,7 @@ gervasini_solubility = Solubility(
     note="the value of the pre-exp factor conversion was taken from Shimada 2020",
 )
 
-esteban_dissociation_coeff_clean = DissociationCoeff(
+perujo_dissociation_coeff_clean = DissociationCoeff(
     pre_exp=1.6e-3
     * htm.ureg.mol
     * htm.ureg.m**-2
@@ -47,7 +47,7 @@ esteban_dissociation_coeff_clean = DissociationCoeff(
     note="clean surface, stationary",
 )
 
-esteban_recombination_coeff_clean = RecombinationCoeff(
+perujo_recombination_coeff_clean = RecombinationCoeff(
     pre_exp=2.0e-3 * htm.ureg.mol**-1 * htm.ureg.m**4 * htm.ureg.s**-1,
     act_energy=11.5 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="T",
@@ -56,7 +56,7 @@ esteban_recombination_coeff_clean = RecombinationCoeff(
     note="clean surface, stationary",
 )
 
-esteban_dissociation_coeff_oxidised = DissociationCoeff(
+perujo_dissociation_coeff_oxidised = DissociationCoeff(
     pre_exp=0.26
     * htm.ureg.mol
     * htm.ureg.m**-2
@@ -69,7 +69,7 @@ esteban_dissociation_coeff_oxidised = DissociationCoeff(
     note="oxidised surface, stationary",
 )
 
-esteban_recombination_coeff_oxidised = RecombinationCoeff(
+perujo_recombination_coeff_oxidised = RecombinationCoeff(
     pre_exp=32.0 * htm.ureg.mol**-1 * htm.ureg.m**4 * htm.ureg.s**-1,
     act_energy=97.0 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="T",
@@ -82,10 +82,10 @@ properties = [
     gervasini_diffusivity_H,
     gervasini_diffusivity_D,
     gervasini_solubility,
-    esteban_dissociation_coeff_clean,
-    esteban_recombination_coeff_clean,
-    esteban_dissociation_coeff_oxidised,
-    esteban_recombination_coeff_oxidised,
+    perujo_dissociation_coeff_clean,
+    perujo_recombination_coeff_clean,
+    perujo_dissociation_coeff_oxidised,
+    perujo_recombination_coeff_oxidised,
 ]
 
 for prop in properties:
