@@ -118,6 +118,7 @@ esteban_recombination_coeff_oxidised = RecombinationCoeff(
     note="oxidised surface, stationary",
 )
 
+# TODO fit Forcey data ourselves
 forcey_permeability = Permeability(
     pre_exp=1.80e-7
     * htm.ureg.mol
@@ -156,6 +157,33 @@ forcey_solubility = Solubility(
     source="forcey_hydrogen_1988",
 )
 
+xiukui_permeability = Permeability(
+    pre_exp=3.90e-4
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.MPa**-0.5,
+    act_energy=64.06 * htm.ureg.kJ * htm.ureg.mol**-1,
+    range=(
+        htm.ureg.Quantity(200, htm.ureg.degC),
+        htm.ureg.Quantity(430, htm.ureg.degC),
+    ),
+    isotope="H",
+    source="xiukui_hydrogen_1989",
+)
+
+xiukui_diffusivity = Diffusivity(
+    D_0=4.79e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=51.59 * htm.ureg.kJ * htm.ureg.mol**-1,
+    range=(
+        htm.ureg.Quantity(200, htm.ureg.degC),
+        htm.ureg.Quantity(430, htm.ureg.degC),
+    ),
+    isotope="H",
+    source="xiukui_hydrogen_1989",
+)
+
+
 properties = [
     reiter_diffusivity,
     reiter_solubility,
@@ -170,6 +198,8 @@ properties = [
     forcey_permeability,
     forcey_diffusivity,
     forcey_solubility,
+    xiukui_permeability,
+    xiukui_diffusivity,
 ]
 
 for prop in properties:
