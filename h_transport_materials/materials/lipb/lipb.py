@@ -339,7 +339,7 @@ edao_permeability_h_bis = Permeability(
     range=(773 * u.K, 973 * u.K),
     isotope="H",
     source="edao_permeation_2011",
-    note="Li17Pb83",
+    note="Li17Pb83, co-permeation of H and D",
 )
 
 edao_permeability_d_bis = Permeability(
@@ -348,7 +348,7 @@ edao_permeability_d_bis = Permeability(
     range=(773 * u.K, 973 * u.K),
     isotope="D",
     source="edao_permeation_2011",
-    note="Li17Pb83",
+    note="Li17Pb83, co-permeation of H and D",
 )
 
 okitsu_diffusivity_h = Diffusivity(
