@@ -1,5 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import Diffusivity, Solubility
+from h_transport_materials import Diffusivity, Solubility, RecombinationCoeff
 
 IRON_MOLAR_VOLUME = 7.09e-6  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/iron
 
@@ -41,11 +41,38 @@ eichenauer_solubility = Solubility(
 )
 
 
+nagasaki_recombination_alpha = RecombinationCoeff(
+    pre_exp=1.26e-17 * htm.ureg.cm**4 * htm.ureg.s**-1 * htm.ureg.particle**-1,
+    act_energy=39.2 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="D",
+    range=(
+        htm.ureg.Quantity(600, htm.ureg.degC),
+        htm.ureg.Quantity(900, htm.ureg.degC),
+    ),
+    source="nagasaki_ion-driven_1993",
+    note="gamma iron, Nagasaki also gives an equivalent form for the recombination coefficient. Here we take the Arrhenius one (Eq. 9)",
+)
+
+
+nagasaki_recombination_gamma = RecombinationCoeff(
+    pre_exp=9.93e-20 * htm.ureg.cm**4 * htm.ureg.s**-1 * htm.ureg.particle**-1,
+    act_energy=78.8 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="D",
+    range=(
+        htm.ureg.Quantity(900, htm.ureg.degC),
+        htm.ureg.Quantity(1050, htm.ureg.degC),
+    ),
+    source="nagasaki_ion-driven_1993",
+    note="gamma iron, Nagasaki also gives an equivalent form for the recombination coefficient. Here we take the Arrhenius one (Eq. 9)",
+)
+
 properties = [
     volkl_diffusivity,
     tahara_diffusivity_H,
     tahara_diffusivity_D,
     eichenauer_solubility,
+    nagasaki_recombination_alpha,
+    nagasaki_recombination_gamma,
 ]
 
 for prop in properties:
