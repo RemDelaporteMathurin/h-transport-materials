@@ -1,5 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials.property import Diffusivity, Solubility
+from h_transport_materials.property import Diffusivity, Solubility, Permeability
 from h_transport_materials import k_B, Rg, avogadro_nb
 from pathlib import Path
 
@@ -271,6 +271,81 @@ alberro_solubility = Solubility(
 )
 
 
+# TODO fit Edao data ourselves
+edao_permeability_h = Permeability(
+    pre_exp=1.20e-9
+    * htm.ureg.mol
+    * htm.ureg.s**-1
+    * htm.ureg.m**-1
+    * htm.ureg.Pa**-0.5,
+    act_energy=20.0 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="H",
+    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
+    source="edao_experiments_2011",
+    note="Li17Pb83",
+)
+
+edao_permeability_d = Permeability(
+    pre_exp=1.30e-9
+    * htm.ureg.mol
+    * htm.ureg.s**-1
+    * htm.ureg.m**-1
+    * htm.ureg.Pa**-0.5,
+    act_energy=16.7 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="D",
+    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
+    source="edao_experiments_2011",
+    note="Li17Pb83",
+)
+
+
+edao_diffusivity_h = Diffusivity(
+    D_0=8.18e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=15.8 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="H",
+    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
+    source="edao_experiments_2011",
+    note="Li17Pb83",
+)
+
+edao_diffusivity_d = Diffusivity(
+    D_0=5.73e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=13.6 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="D",
+    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
+    source="edao_experiments_2011",
+    note="Li17Pb83",
+)
+
+
+edao_solubility_h = Solubility(
+    units="m-3 Pa-1/2",
+    S_0=2.73e-7
+    * atom_density_lipb(nb_li=17, nb_pb=83)
+    * htm.ureg.particle
+    * htm.ureg.m**-3
+    * htm.ureg.Pa**-0.5,
+    E_S=4.18 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="H",
+    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
+    source="edao_experiments_2011",
+    note="Li17Pb83",
+)
+
+edao_solubility_d = Solubility(
+    units="m-3 Pa-1/2",
+    S_0=4.21e-7
+    * atom_density_lipb(nb_li=17, nb_pb=83)
+    * htm.ureg.particle
+    * htm.ureg.m**-3
+    * htm.ureg.Pa**-0.5,
+    E_S=3.10 * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="D",
+    range=(573 * htm.ureg.K, 873 * htm.ureg.K),
+    source="edao_experiments_2011",
+    note="Li17Pb83",
+)
+
 properties = [
     fauvet_diffusivity,
     reiter_diffusivity_h,
@@ -287,6 +362,12 @@ properties = [
     reiter_solubility_t,
     aiello_solubility,
     alberro_solubility,
+    edao_permeability_h,
+    edao_permeability_d,
+    edao_diffusivity_h,
+    edao_diffusivity_d,
+    edao_solubility_h,
+    edao_solubility_d,
 ]
 
 for prop in properties:
