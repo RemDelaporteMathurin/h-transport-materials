@@ -1,15 +1,16 @@
 import h_transport_materials as htm
 from h_transport_materials.property import Diffusivity, Solubility, Permeability
-from h_transport_materials import k_B, Rg, avogadro_nb
 from pathlib import Path
 
 import numpy as np
 
 u = htm.ureg
 
-molar_mass_li = 0.06941  # kg/mol
-molar_mass_Pb = 0.2072  # kg/mol
-rho_lipb = 10163.197  # kg/m3  at 300K
+molar_mass_li = 0.06941 * u.kg * u.mol**-1
+molar_mass_Pb = 0.2072 * u.kg * u.mol**-1
+
+# NOTE: this gives a temperature dependent density of LiPb https://publikationen.bibliothek.kit.edu/270023422/3813094
+rho_lipb = 10163.197 * u.kg * u.m**-3
 
 
 def molar_mass_lipb(nb_li: int, nb_pb: int):
@@ -27,43 +28,34 @@ def molar_mass_lipb(nb_li: int, nb_pb: int):
 
 
 def atom_density_lipb(nb_li: int, nb_pb: int):
-    """Returns the atomic density (in m-3) of a LiPb compound
+    """Returns the atomic density of a LiPb compound
 
     Args:
         nb_li (int): the number of Li atoms
         nb_pb (int): the number of Pb atoms
 
     Returns:
-        float: the atomic density in m-3
+        float: the atomic density
     """
-    return (rho_lipb * avogadro_nb) / molar_mass_lipb(nb_li, nb_pb)
+    return rho_lipb / molar_mass_lipb(nb_li, nb_pb)
 
 
+K_S_wu = 5e3 * u.atm**0.5
 wu_solubility = Solubility(
-    S_0=6.33e-07
-    * atom_density_lipb(nb_li=17, nb_pb=83)
-    * u.particle
-    * u.m**-3
-    * u.Pa**-0.5,
+    S_0=1 / K_S_wu * atom_density_lipb(nb_li=17, nb_pb=83),
     E_S=0 * u.eV * u.particle**-1,
     range=(850 * u.K, 1040 * u.K),
     source="wu_solubility_1983",
-    name="D Wu (1983)",
     isotope="D",
     units="m-3 Pa-1/2",
 )
 
 
 chan_solubility = Solubility(
-    S_0=4.7e-07
-    * atom_density_lipb(nb_li=17, nb_pb=1)
-    * u.particle
-    * u.m**-3
-    * u.Pa**-0.5,
+    S_0=4.7e-07 * atom_density_lipb(nb_li=17, nb_pb=1) * u.Pa**-0.5,
     E_S=9000 * u.J * u.mol**-1,
     range=(573 * u.K, 773 * u.K),
     source="chan_thermodynamic_1984",
-    name="H Chan (1984)",
     isotope="H",
     units="m-3 Pa-1/2",
     note="extrapolated to Pb-17Li",
@@ -71,15 +63,10 @@ chan_solubility = Solubility(
 
 
 katsuta_solubility = Solubility(
-    S_0=(1 / 2.9e3)
-    * atom_density_lipb(nb_li=17, nb_pb=83)
-    * u.particle
-    * u.m**-3
-    * u.atm**-0.5,
+    S_0=(1 / 2.9e3) * atom_density_lipb(nb_li=17, nb_pb=83) * u.atm**-0.5,
     E_S=0 * u.eV * u.particle**-1,
     range=(573 * u.K, 723 * u.K),
     source="katsuta_hydrogen_1985",
-    name="H Katsuta (1985)",
     isotope="H",
     units="m-3 Pa-1/2",
 )
@@ -90,20 +77,14 @@ fauvet_diffusivity = Diffusivity(
     E_D=0 * u.eV * u.particle**-1,
     range=(722 * u.K, 724 * u.K),  # TODO should be 723 link to issue #37
     source="fauvet_hydrogen_1988",
-    name="H Fauvet (1988)",
     isotope="H",
     note="Fauvet gives the value for 723 K only",
 )
 fauvet_solubility = Solubility(
-    S_0=2.7e-08
-    * atom_density_lipb(nb_li=17, nb_pb=83)
-    * u.particle
-    * u.m**-3
-    * u.Pa**-0.5,
+    S_0=2.7e-08 * atom_density_lipb(nb_li=17, nb_pb=83) * u.Pa**-0.5,
     E_S=0 * u.eV * u.particle**-1,
     range=(722 * u.K, 724 * u.K),  # TODO should be 723 link to issue #37
     source="fauvet_hydrogen_1988",
-    name="H Fauvet (1988)",
     isotope="H",
     units="m-3 Pa-1/2",
     note="Fauvet gives the value for 723 K only",
@@ -119,17 +100,16 @@ schumacher_solubility_data_y = schumacher_solubility_data[:, 1]  # ln(Ks/sqrt(ba
 schumacher_solubility_data_y *= (
     -1
 )  # -ln(Ks/sqrt(bar)) = ln(sqrt(bar)/Ks) = ln(solubility * sqrt(bar))
-schumacher_solubility_data_y = np.exp(
-    schumacher_solubility_data_y
+schumacher_solubility_data_y = (
+    np.exp(schumacher_solubility_data_y) * u.atfr * u.bar**-0.5
 )  # solubility * sqrt(bar)
 
 schumacher_solubility_data_y *= atom_density_lipb(nb_li=1, nb_pb=1)
 
 schumacher_solubility = Solubility(
     data_T=1000 / schumacher_solubility_data[:, 0] * u.K,
-    data_y=schumacher_solubility_data_y * u.particle * u.m**-3 * u.bar**-0.5,
+    data_y=schumacher_solubility_data_y,
     source="schumacher_hydrogen_1990",
-    name="H Schumacher (1990)",
     isotope="H",
     units="m-3 Pa-1/2",
     note="in the review of E.Mas de les Valls there's a mistake in the conversion and"
@@ -150,7 +130,6 @@ reiter_diffusivity_h = Diffusivity(
     data_y=reiter_difusivity_data_H[:, 1] * u.m**2 * u.s**-1,
     range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
-    name="H Reiter (1991)",
     isotope="H",
 )
 
@@ -162,7 +141,6 @@ reiter_diffusivity_d = Diffusivity(
     data_y=reiter_difusivity_data_D[:, 1] * u.m**2 * u.s**-1,
     range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
-    name="D Reiter (1991)",
     isotope="D",
 )
 
@@ -174,15 +152,15 @@ reiter_solubility_data = np.genfromtxt(
 
 reiter_solubility_data_H = reiter_solubility_data[2:, :2]
 
-reiter_solubility_data_H_y = reiter_solubility_data_H[:, 1]  # at.fr. Pa-1/2
+reiter_solubility_data_H_y = reiter_solubility_data_H[:, 1] * u.atfr * u.Pa**-0.5
+
 reiter_solubility_data_H_y *= atom_density_lipb(nb_li=17, nb_pb=1)  # m-3 Pa-1/2
 
 reiter_solubility_h = Solubility(
     data_T=1000 / reiter_solubility_data_H[:, 0] * u.K,
-    data_y=reiter_solubility_data_H_y * u.particle * u.m**-3 * u.Pa**-0.5,
+    data_y=reiter_solubility_data_H_y,
     range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
-    name="H Reiter (1991)",
     isotope="H",
     units="m-3 Pa-1/2",
 )
@@ -191,32 +169,25 @@ reiter_solubility_data_D = reiter_solubility_data[2:, 2:]
 reiter_solubility_data_D_T = reiter_solubility_data_D[:, 0]  # 1000/K
 reiter_solubility_data_D_T = 1000 / reiter_solubility_data_D_T  # K
 
-reiter_solubility_data_D_y = reiter_solubility_data_D[:, 1]  # at.fr. Pa-1/2
+reiter_solubility_data_D_y = (
+    reiter_solubility_data_D[:, 1] * u.atfr * u.Pa**-0.5
+)  # at.fr. Pa-1/2
 reiter_solubility_data_D_y *= atom_density_lipb(nb_li=17, nb_pb=1)  # m-3 Pa-1/2
 
 reiter_solubility_d = Solubility(
     data_T=reiter_solubility_data_D_T[np.isfinite(reiter_solubility_data_D_T)] * u.K,
-    data_y=reiter_solubility_data_D_y[np.isfinite(reiter_solubility_data_D_y)]
-    * u.particle
-    * u.m**-3
-    * u.Pa**-0.5,
+    data_y=reiter_solubility_data_D_y[np.isfinite(reiter_solubility_data_D_y)],
     range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
-    name="D Reiter (1991)",
     isotope="D",
     units="m-3 Pa-1/2",
 )
 
 reiter_solubility_t = Solubility(
-    S_0=2.32e-08
-    * atom_density_lipb(nb_li=17, nb_pb=1)
-    * u.particle
-    * u.m**-3
-    * u.Pa**-0.5,
+    S_0=2.32e-08 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=1),
     E_S=1350 * u.J * u.mol**-1,
     range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
-    name="T Reiter (1991)",
     isotope="T",
     units="m-3 Pa-1/2",
 )
@@ -232,7 +203,6 @@ aiello_solubility = Solubility(
     data_y=data_aiello[:, 1] * u.mol * u.m**-3 * u.Pa**-0.5,
     range=(600 * u.K, 900 * u.K),
     source="aiello_determination_2006",
-    name="H Aiello (2006)",
     isotope="H",
     units="m-3 Pa-1/2",
 )
@@ -242,7 +212,6 @@ shibuya_diffusivity = Diffusivity(
     data_T=np.array([300, 400, 500]) * u.degC,
     data_y=np.array([6.6e-6, 7.8e-6, 9.5e-6]) * u.cm**2 * u.s**-1,
     source="shibuya_isothermal_1987",
-    name="T Shibuya (1987)",
     isotope="T",
 )
 
@@ -251,7 +220,6 @@ terai_diffusivity = Diffusivity(
     E_D=27000 * u.J * u.mol**-1,
     range=(573 * u.K, 973 * u.K),
     source="terai_diffusion_1992",
-    name="T Terai (1987)",
     isotope="T",
 )
 
@@ -260,7 +228,6 @@ alberro_solubility = Solubility(
     E_S=9000 * u.J * u.mol**-1,
     range=(523 * u.K, 922 * u.K),
     source="alberro_experimental_2015",
-    name="H Alberro (2015)",
     isotope="H",
     units="m-3 Pa-1/2",
 )
@@ -307,11 +274,7 @@ edao_diffusivity_d = Diffusivity(
 
 edao_solubility_h = Solubility(
     units="m-3 Pa-1/2",
-    S_0=2.73e-7
-    * atom_density_lipb(nb_li=17, nb_pb=83)
-    * u.particle
-    * u.m**-3
-    * u.Pa**-0.5,
+    S_0=2.73e-7 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
     E_S=4.18 * u.kJ * u.mol**-1,
     isotope="H",
     range=(573 * u.K, 873 * u.K),
@@ -321,11 +284,7 @@ edao_solubility_h = Solubility(
 
 edao_solubility_d = Solubility(
     units="m-3 Pa-1/2",
-    S_0=4.21e-7
-    * atom_density_lipb(nb_li=17, nb_pb=83)
-    * u.particle
-    * u.m**-3
-    * u.Pa**-0.5,
+    S_0=4.21e-7 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
     E_S=3.10 * u.kJ * u.mol**-1,
     isotope="D",
     range=(573 * u.K, 873 * u.K),
@@ -371,11 +330,7 @@ okitsu_diffusivity_d = Diffusivity(
 
 okitsu_solubility_h = Solubility(
     units="m-3 Pa-1/2",
-    S_0=8.6e-5
-    * atom_density_lipb(nb_li=17, nb_pb=83)
-    * u.particle
-    * u.m**-3
-    * u.Pa**-0.5,
+    S_0=8.6e-5 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
     E_S=53800 * u.kJ * u.mol**-1,
     range=(773 * u.K, 973 * u.K),
     isotope="H",
@@ -385,11 +340,7 @@ okitsu_solubility_h = Solubility(
 
 okitsu_solubility_d = Solubility(
     units="m-3 Pa-1/2",
-    S_0=1.1e-4
-    * atom_density_lipb(nb_li=17, nb_pb=83)
-    * u.particle
-    * u.m**-3
-    * u.Pa**-0.5,
+    S_0=1.1e-4 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
     E_S=55200 * u.kJ * u.mol**-1,
     range=(773 * u.K, 973 * u.K),
     isotope="D",
