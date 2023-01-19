@@ -7,7 +7,7 @@ from h_transport_materials import (
     RecombinationCoeff,
 )
 import h_transport_materials.conversion as c
-from h_transport_materials.materials.iron import IRON_MOLAR_VOLUME
+from h_transport_materials.property_database.iron import IRON_MOLAR_VOLUME
 
 
 reiter_diffusivity = Diffusivity(
