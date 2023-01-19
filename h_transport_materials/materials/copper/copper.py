@@ -6,7 +6,6 @@ from h_transport_materials.property import (
     RecombinationCoeff,
     Solubility,
 )
-from h_transport_materials.materials import Material
 from pathlib import Path
 import numpy as np
 
