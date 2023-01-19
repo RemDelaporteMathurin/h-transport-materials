@@ -1,20 +1,25 @@
+import inspect
+
+
 class Material:
-    family = None
+    family = "material"
 
     def __init__(self, name: str):
         self.name = name
 
     @property
     def parents(self):
-        return [_ for _ in self.__class__.__mro__ if _ not in [object, Material]]
+        return [_ for _ in self.__class__.__mro__ if _ not in [object, self.__class__]]
 
-    def __eq__(self, __o: object) -> bool:
-        if isinstance(__o, str):
-            match_name = self.name == __o
-            match_family = any([parent.family == __o for parent in self.parents])
-            return match_name or match_family
+    def __eq__(self, mat) -> bool:
+        if isinstance(mat, str):
+            matching_name = self.name == mat
+            matching_family = mat in [p.family for p in self.parents]
+            return matching_name or matching_family
+        elif inspect.isclass(mat):
+            return isinstance(self, mat)
         else:
-            return super().__eq__(__o)
+            return super.__eq__(self, mat)
 
 
 class PlasmaFacing(Material):
@@ -36,15 +41,19 @@ class PureMetal(Metal):
         super().__init__(name)
         self.symbol = symbol
 
-    def __eq__(self, __o: object) -> bool:
-        if isinstance(__o, str):
-            if self.symbol == __o:
+    def __eq__(self, mat) -> bool:
+        if isinstance(mat, str):
+            if self.symbol == mat:
                 return True
 
-        return super().__eq__(__o)
+        return super().__eq__(mat)
 
 
 class Steel(Alloy):
+    family = "steel"
+
+
+class Steel316L(Steel):
     family = "steel"
 
 
@@ -57,18 +66,14 @@ class TungstenAlloy(Alloy, PlasmaFacing):
 
 
 class Tungsten(PureMetal, PlasmaFacing):
-    family = "tungsten"
-
     def __init__(self):
         super().__init__("tungsten", symbol="W")
 
 
 class Beryllium(PureMetal, PlasmaFacing):
-    family = "beryllium"
-
     def __init__(self):
         super().__init__("beryllium", symbol="Be")
 
 
-tungsten = Tungsten()
-beryllium = Beryllium()
+TUNGSTEN = Tungsten()
+BERYLLIUM = Beryllium()
