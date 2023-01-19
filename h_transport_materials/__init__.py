@@ -44,7 +44,7 @@ from .material import *
 
 database = PropertiesGroup()
 
-from . import materials
+from . import property_database
 
 diffusivities = PropertiesGroup(
     prop for prop in database if isinstance(prop, Diffusivity)
