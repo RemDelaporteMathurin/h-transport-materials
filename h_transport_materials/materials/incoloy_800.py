@@ -121,6 +121,6 @@ properties = [
 ]
 
 for prop in properties:
-    prop.material = "incoloy_800"
+    prop.material = htm.INCOLOY_800
 
 htm.database += properties

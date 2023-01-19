@@ -113,6 +113,6 @@ properties = [
 ]
 
 for prop in properties:
-    prop.material = "nickel"
+    prop.material = htm.NICKEL
 
 htm.database += properties

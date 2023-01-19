@@ -65,6 +65,6 @@ mclellan_solubility = Solubility(
 properties = [eichenauer_diffusivity, shimada_solubility, mclellan_solubility]
 
 for prop in properties:
-    prop.material = "gold"
+    prop.material = htm.GOLD
 
 htm.database += properties

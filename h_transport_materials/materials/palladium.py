@@ -260,6 +260,6 @@ favreau_solubility_h = Solubility(
 properties = [volkl_diffusivity, favreau_solubility_t, favreau_solubility_h]
 
 for prop in properties:
-    prop.material = "palladium"
+    prop.material = htm.PALLADIUM
 
 htm.database += properties

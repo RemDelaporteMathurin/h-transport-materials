@@ -23,6 +23,6 @@ veleckis_solubility = Solubility(
 properties = [volkl_diffusivity, veleckis_solubility]
 
 for prop in properties:
-    prop.material = "tantalum"
+    prop.material = htm.TANTALUM
 
 htm.database += properties

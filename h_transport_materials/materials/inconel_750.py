@@ -44,6 +44,6 @@ properties = [
 ]
 
 for prop in properties:
-    prop.material = "inconel_750"
+    prop.material = htm.INCONEL_750
 
 htm.database += properties

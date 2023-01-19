@@ -145,6 +145,6 @@ properties = [
 ]
 
 for prop in properties:
-    prop.material = "flibe"
+    prop.material = htm.FLIBE
 
 htm.database += properties

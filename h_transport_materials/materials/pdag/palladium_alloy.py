@@ -60,6 +60,6 @@ properties = [
 ]
 
 for prop in properties:
-    prop.material = "pdag"
+    prop.material = htm.PDAG
 
 htm.database += properties

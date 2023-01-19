@@ -49,11 +49,11 @@ class PureMetal(Metal):
         return super().__eq__(mat)
 
 
+class Hastelloy(Alloy):
+    family = "hastelloy"
+
+
 class Steel(Alloy):
-    family = "steel"
-
-
-class Steel316L(Steel):
     family = "steel"
 
 
@@ -75,5 +75,46 @@ class Beryllium(PureMetal, PlasmaFacing):
         super().__init__("beryllium", symbol="Be")
 
 
+class Carbon(PureMetal, PlasmaFacing):
+    def __init__(self):
+        super().__init__("carbon", symbol="C")
+
+
+class MoltenSalt(Material):
+    family = "molten salt"
+
+
 TUNGSTEN = Tungsten()
 BERYLLIUM = Beryllium()
+CARBON = Carbon()
+GOLD = PureMetal("gold", "Au")
+HASTELLOY_X = Hastelloy("hastelloy_x")
+HASTELLOY_N = Hastelloy("hastelloy_n")
+STEEL_316L = Steel("316l_steel")
+INCOLOY_800 = Alloy("incoloy_800")
+INCONEL_600 = Inconel("inconel_600")
+INCONEL_625 = Inconel("inconel_625")
+INCONEL_750 = Inconel("inconel_750")
+IRON = PureMetal("iron", "Fe")
+MOLYBDENUM = PureMetal("molybdenum", "Mo")
+NICKEL = PureMetal("nickel", "Ni")
+NIMONIC_80A = Alloy("nimonic_80a")
+NIOBIUM = PureMetal("niobium", "Nb")
+PALLADIUM = PureMetal("palladium", "Pd")
+STEEL_RAFM = Steel("rafm_steel")
+STEEL_SERIES_300 = Steel("series_300_steel")
+SILVER = PureMetal("silver", "Ag")
+STEEL_304 = Steel("304_steel")
+TANTALUM = PureMetal("tantalum", "Ta")
+TITANIUM = PureMetal("titanium", "Ti")
+V4CR4TI = Alloy("v4cr4ti")
+VANADIUM = PureMetal("vanadium", "V")
+ALUMINIUM = PureMetal("aluminium", "Al")
+COPPER = PureMetal("copper", "Cu")
+CUCRZR = Alloy("cucrzr")
+FLIBE = MoltenSalt("flibe")
+FLINAK = MoltenSalt("flinak")
+LIPB = Alloy("lipb")
+LITHIUM = PureMetal("lithium", "Li")
+PDAG = Alloy("pdag")
+ZIRCONIUM = PureMetal("zirconium", "Zr")

@@ -379,6 +379,6 @@ properties = [
 ]
 
 for prop in properties:
-    prop.material = "lipb"
+    prop.material = htm.LIPB
 
 htm.database += properties

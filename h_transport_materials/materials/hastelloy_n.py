@@ -81,6 +81,6 @@ properties = [
 ]
 
 for prop in properties:
-    prop.material = "hastelloy_n"
+    prop.material = htm.HASTELLOY_N
 
 htm.database += properties

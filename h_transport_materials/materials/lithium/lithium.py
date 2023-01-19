@@ -44,6 +44,6 @@ veleckis_solubility = Solubility(
 properties = [alire_diffusivity, veleckis_solubility]
 
 for prop in properties:
-    prop.material = "lithium"
+    prop.material = htm.LITHIUM
 
 htm.database += properties

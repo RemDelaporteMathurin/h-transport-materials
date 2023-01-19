@@ -34,6 +34,6 @@ atsumi_solubility = Solubility(
 properties = [causey_diffusivity, atsumi_diffusivity, atsumi_solubility]
 
 for prop in properties:
-    prop.material = "carbon"
+    prop.material = htm.CARBON
 
 htm.database += properties

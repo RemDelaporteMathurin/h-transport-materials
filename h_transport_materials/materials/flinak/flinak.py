@@ -148,6 +148,6 @@ properties = [
 ]
 
 for prop in properties:
-    prop.material = "flinak"
+    prop.material = htm.FLINAK
 
 htm.database += properties

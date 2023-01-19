@@ -48,6 +48,6 @@ reiter_solubility = Solubility(
 properties = [volk_diffusivity, veleckis_solubility]
 
 for prop in properties:
-    prop.material = "vanadium"
+    prop.material = htm.VANADIUM
 
 htm.database += properties

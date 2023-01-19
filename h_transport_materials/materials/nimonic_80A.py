@@ -44,6 +44,6 @@ properties = [
 ]
 
 for prop in properties:
-    prop.material = "nimonic_80A"
+    prop.material = htm.NIMONIC_80A
 
 htm.database += properties

@@ -26,6 +26,6 @@ klepikov_solubility = Solubility(
 properties = [hashizume_diffusivity, klepikov_solubility]
 
 for prop in properties:
-    prop.material = "v4cr4ti"
+    prop.material = htm.V4CRTI
 
 htm.database += properties

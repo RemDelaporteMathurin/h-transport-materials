@@ -185,6 +185,6 @@ properties = [
 ]
 
 for prop in properties:
-    prop.material = "cucrzr"
+    prop.material = htm.CUCRZR
 
 htm.database += properties

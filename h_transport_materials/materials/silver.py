@@ -35,6 +35,6 @@ mclellan_solubility = Solubility(
 properties = [katsuta_diffusivity, mclellan_solubility]
 
 for prop in properties:
-    prop.material = "silver"
+    prop.material = htm.SILVER
 
 htm.database += properties

@@ -31,6 +31,6 @@ ransley_solubility = Solubility(
 properties = [young_diffusivity, ransley_solubility]
 
 for prop in properties:
-    prop.material = "aluminium"
+    prop.material = htm.ALUMINIUM
 
 htm.database += properties
