@@ -50,9 +50,7 @@ properties = [
     dolan_recombination,
 ]
 
-beryllium = htm.PureMetal("beryllium", "Be")
-
 for prop in properties:
-    prop.material = "beryllium"
+    prop.material = htm.beryllium
 
 htm.database += properties
