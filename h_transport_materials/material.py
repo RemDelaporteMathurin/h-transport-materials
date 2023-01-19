@@ -9,7 +9,7 @@ class Material:
 
     @property
     def parents(self):
-        return [_ for _ in self.__class__.__mro__ if _ not in [object, self.__class__]]
+        return [_ for _ in self.__class__.__mro__ if _ not in [object]]
 
     def __eq__(self, mat) -> bool:
         if isinstance(mat, str):
