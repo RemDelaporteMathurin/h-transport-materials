@@ -32,6 +32,7 @@ jones_diffusivity = Diffusivity(
     E_D=965 * htm.ureg.K * htm.k_B,
     range=(400 * htm.ureg.K, 900 * htm.ureg.K),
     source="jones_hydrogen_1967",
+    note="Jones also gives a solubility but the units are weird",
 )
 
 dolan_recombination = RecombinationCoeff(
@@ -39,7 +40,6 @@ dolan_recombination = RecombinationCoeff(
     act_energy=0.214 * htm.ureg.eV * htm.ureg.particle**-1,
     source="dolan_assessment_1994",
     isotope="H",
-    note="Jones also gives a solubility but the units are weird",
 )
 
 
