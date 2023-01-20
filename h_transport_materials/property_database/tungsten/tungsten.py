@@ -227,15 +227,27 @@ zakharov_permeability = Permeability(
     note="this property value differs from the one shown in https://link.springer.com/article/10.1007/s42247-021-00344-w. Error in conversion?",
 )
 
-esteban_permeability = Permeability(
-    pre_exp=1.20e-11
+esteban_permeability_h = Permeability(
+    pre_exp=1.65e-11
     * htm.ureg.mol
     * htm.ureg.m**-1
     * htm.ureg.Pa**-0.5
     * htm.ureg.s**-1,
-    act_energy=3.9 * htm.ureg.kJ * htm.ureg.mol**-1,
+    act_energy=36.2 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(673 * htm.ureg.K, 1073 * htm.ureg.K),
     isotope="H",
+    source="esteban_hydrogen_2001",
+)
+
+esteban_permeability_d = Permeability(
+    pre_exp=1.51e-11
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.Pa**-0.5
+    * htm.ureg.s**-1,
+    act_energy=38.7 * htm.ureg.kJ * htm.ureg.mol**-1,
+    range=(673 * htm.ureg.K, 1073 * htm.ureg.K),
+    isotope="D",
     source="esteban_hydrogen_2001",
 )
 
@@ -397,7 +409,8 @@ properties = [
     anderl_recomb,
     frauenfelder_permeability,
     zakharov_permeability,
-    esteban_permeability,
+    esteban_permeability_h,
+    esteban_permeability_d,
     zhao_permeability,
     zhao_diffusivity,
     liang_permeability,
