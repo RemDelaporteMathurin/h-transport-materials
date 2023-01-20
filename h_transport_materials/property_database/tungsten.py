@@ -233,6 +233,29 @@ esteban_permeability = Permeability(
     source="esteban_hydrogen_2001",
 )
 
+# TODO fit this ourselves
+zhao_permeability = Permeability(
+    pre_exp=3.2e-8
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.Pa**-0.5
+    * htm.ureg.s**-1,
+    act_energy=0.81 * htm.ureg.eV * htm.ureg.particle**-1,
+    isotope="D",
+    range=(627 * htm.ureg.K, 965 * htm.ureg.K),
+    source="zhao_deuterium_2020",
+    note="undamaged W",
+)
+
+zhao_diffusivity = Diffusivity(
+    D_0=3.0e-6 * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=0.64 * htm.ureg.eV * htm.ureg.particle**-1,
+    isotope="D",
+    range=(627 * htm.ureg.K, 965 * htm.ureg.K),
+    source="zhao_deuterium_2020",
+    note="undamaged W",
+)
+
 properties = [
     frauenfelder_diffusivity,
     liu_diffusivity_tungsten,
@@ -256,6 +279,8 @@ properties = [
     frauenfelder_permeability,
     zakharov_permeability,
     esteban_permeability,
+    zhao_permeability,
+    zhao_diffusivity,
 ]
 
 for prop in properties:
