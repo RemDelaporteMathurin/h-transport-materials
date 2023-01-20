@@ -77,12 +77,13 @@ moore_diffusivity_tungsten_t = Diffusivity(
 
 
 zakharov_diffusivity_tungsten_h = Diffusivity(
-    D_0=6.0e-4 * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=103.4 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(400 * htm.ureg.K, 1200 * htm.ureg.K),
+    data_T=htm.ureg.Quantity(np.array([400, 600, 800, 1000, 1200]), htm.ureg.degC),
+    data_y=np.array([6.43e-8, 4.22e-6, 5.99e-5, 3.67e-4, 1.38e-3])
+    * htm.ureg.cm**2
+    * htm.ureg.s**-1,
     source="zakharov_hydrogen_1975",
-    name="H Zakharov (1973)",
     isotope="H",
+    note="the author gives activation energies in cal",
 )
 
 ryabchikov_diffusivity_tungsten_h = Diffusivity(
@@ -206,10 +207,6 @@ frauenfelder_permeability = Permeability(
     source="frauenfelder_permeation_1968",
 )
 
-# TODO check the value is correct cause differs from
-# https://link.springer.com/article/10.1007/s42247-021-00344-w
-# and
-# https://doi.org/10.1080/15361055.2019.1705727
 zakharov_permeability = Permeability(
     pre_exp=5.2e-3
     * htm.ureg.ccNTP
@@ -217,14 +214,14 @@ zakharov_permeability = Permeability(
     * htm.ureg.cm**-2
     * htm.ureg.s**-1
     * htm.ureg.atm**-0.5,
-    act_energy=25400 * htm.ureg.J * htm.ureg.mol**-1,
+    act_energy=25400 * htm.ureg.cal * htm.ureg.mol**-1,
     source="zakharov_hydrogen_1975",
     isotope="H",
     range=(
         htm.ureg.Quantity(400, htm.ureg.degC),
         htm.ureg.Quantity(1200, htm.ureg.degC),
     ),
-    note="this property value differs from the one shown in https://link.springer.com/article/10.1007/s42247-021-00344-w. Error in conversion?",
+    note="the author gives activation energies in cal",
 )
 
 esteban_permeability_h = Permeability(
