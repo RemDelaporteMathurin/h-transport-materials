@@ -173,7 +173,7 @@ class ArrheniusProperty(Property):
     def __str__(self) -> str:
         val = f"""
         Author: {self.author.capitalize()}
-        Material: {self.material}
+        Material: {self.material.name}
         Year: {self.year}
         Isotope: {self.isotope}
         Pre-exponential factor: {self.pre_exp:.2e~P}

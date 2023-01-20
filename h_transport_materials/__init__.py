@@ -40,10 +40,11 @@ from .properties_group import PropertiesGroup
 from . import conversion
 from . import fitting
 from . import plotting
+from .material import *
 
 database = PropertiesGroup()
 
-from .materials import *
+from . import property_database
 
 diffusivities = PropertiesGroup(
     prop for prop in database if isinstance(prop, Diffusivity)
