@@ -290,11 +290,20 @@ liang_permeability = Permeability(
     source="liang_deuterium_2018",
 )
 
+
+# LIU 2016 PAPER
+
 liu_permeability_data = np.genfromtxt(
     str(Path(__file__).parent) + "/liu_2016/permeability.csv",
     delimiter=",",
     names=True,
 )
+liu_diffusivity_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/liu_2016/diffusivity.csv",
+    delimiter=",",
+    names=True,
+)
+
 rolled_50um_data_invT = liu_permeability_data["rolled_50umX"] * htm.ureg.K**-1
 rolled_50um_data_y = (
     liu_permeability_data["rolled_50umY"]
@@ -393,6 +402,71 @@ liu_permeability_recrystallized_250um = Permeability(
     note="recrystallized_250um",
 )
 
+
+rolled_114um_data_invT = liu_diffusivity_data["rolled_114umX"] * htm.ureg.K**-1
+rolled_114um_data_y = (
+    liu_diffusivity_data["rolled_114umY"] * htm.ureg.m**2 * htm.ureg.s**-1
+)
+liu_diffusivity_rolled_114um = Diffusivity(
+    data_T=1 / rolled_114um_data_invT,
+    data_y=rolled_114um_data_y,
+    source="liu_gas-driven_2016",
+    note="rolled_144um",
+    isotope="H",
+)
+
+rolled_240um_data_invT = liu_diffusivity_data["rolled_240umX"] * htm.ureg.K**-1
+rolled_240um_data_y = (
+    liu_diffusivity_data["rolled_240umY"] * htm.ureg.m**2 * htm.ureg.s**-1
+)
+liu_diffusivity_rolled_240um = Diffusivity(
+    data_T=1 / rolled_240um_data_invT,
+    data_y=rolled_240um_data_y,
+    source="liu_gas-driven_2016",
+    note="rolled_240um",
+    isotope="H",
+)
+
+annealed_102um_data_invT = liu_diffusivity_data["annealed_102umX"] * htm.ureg.K**-1
+annealed_102um_data_y = (
+    liu_diffusivity_data["annealed_102umY"] * htm.ureg.m**2 * htm.ureg.s**-1
+)
+liu_diffusivity_annealed_102um = Diffusivity(
+    data_T=1 / annealed_102um_data_invT,
+    data_y=annealed_102um_data_y,
+    source="liu_gas-driven_2016",
+    note="annealed_102um",
+    isotope="H",
+)
+
+annealed_250um_data_invT = liu_diffusivity_data["annealed_250umX"] * htm.ureg.K**-1
+annealed_250um_data_y = (
+    liu_diffusivity_data["annealed_250umY"] * htm.ureg.m**2 * htm.ureg.s**-1
+)
+liu_diffusivity_annealed_250um = Diffusivity(
+    data_T=1 / annealed_250um_data_invT,
+    data_y=annealed_250um_data_y,
+    source="liu_gas-driven_2016",
+    note="annealed_250um",
+    isotope="H",
+)
+
+
+recrystallized_250um_data_invT = (
+    liu_diffusivity_data["recrystallized_250umX"] * htm.ureg.K**-1
+)
+recrystallized_250um_data_y = (
+    liu_diffusivity_data["recrystallized_250umY"] * htm.ureg.m**2 * htm.ureg.s**-1
+)
+liu_diffusivity_recrystallized_250um = Diffusivity(
+    data_T=1 / recrystallized_250um_data_invT,
+    data_y=recrystallized_250um_data_y,
+    source="liu_gas-driven_2016",
+    note="recrystallized_250um",
+    isotope="H",
+)
+
+
 properties = [
     frauenfelder_diffusivity,
     liu_diffusivity_tungsten,
@@ -426,6 +500,11 @@ properties = [
     liu_permeability_annealed_50um,
     liu_permeability_annealed_250um,
     liu_permeability_recrystallized_250um,
+    liu_diffusivity_rolled_114um,
+    liu_diffusivity_rolled_240um,
+    liu_diffusivity_annealed_102um,
+    liu_diffusivity_annealed_250um,
+    liu_diffusivity_recrystallized_250um,
 ]
 
 for prop in properties:
