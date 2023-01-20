@@ -34,7 +34,8 @@ plt.ylabel("Diffusivity (m$^2$/s)")
 plt.legend()
 plt.show()
 ```
-![Figure_1](https://user-images.githubusercontent.com/40028739/169280320-c4d45d9b-7f33-4628-a4fd-72e81be16124.svg)
+![Figure_1](https://user-images.githubusercontent.com/40028739/213814746-9dadb8dc-599e-4004-8135-e496b19fd8bc.png)
+
 >
 ### Add custom properties
 
