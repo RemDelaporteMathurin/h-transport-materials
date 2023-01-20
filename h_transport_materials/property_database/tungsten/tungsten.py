@@ -307,6 +307,7 @@ liu_permeability_rolled_50um = Permeability(
     data_T=1 / rolled_50um_data_invT,
     data_y=rolled_50um_data_y,
     source="liu_gas-driven_2016",
+    note="rolled_50um",
     isotope="H",
 )
 
@@ -322,6 +323,7 @@ liu_permeability_rolled_114um = Permeability(
     data_T=1 / rolled_114um_data_invT,
     data_y=rolled_114um_data_y,
     source="liu_gas-driven_2016",
+    note="rolled_144um",
     isotope="H",
 )
 
@@ -337,6 +339,7 @@ liu_permeability_rolled_240um = Permeability(
     data_T=1 / rolled_240um_data_invT,
     data_y=rolled_240um_data_y,
     source="liu_gas-driven_2016",
+    note="rolled_240um",
     isotope="H",
 )
 
@@ -353,6 +356,7 @@ liu_permeability_annealed_50um = Permeability(
     data_y=annealed_50um_data_y,
     source="liu_gas-driven_2016",
     isotope="H",
+    note="annealed_50um",
 )
 
 annealed_250um_data_invT = liu_permeability_data["annealed_250umX"] * htm.ureg.K**-1
@@ -368,6 +372,7 @@ liu_permeability_annealed_250um = Permeability(
     data_y=annealed_250um_data_y,
     source="liu_gas-driven_2016",
     isotope="H",
+    note="annealed_250um",
 )
 
 recrystallized_250um_data_invT = (
@@ -385,6 +390,7 @@ liu_permeability_recrystallized_250um = Permeability(
     data_y=recrystallized_250um_data_y,
     source="liu_gas-driven_2016",
     isotope="H",
+    note="recrystallized_250um",
 )
 
 properties = [
