@@ -5,6 +5,8 @@ from h_transport_materials.property import (
     Solubility,
     Permeability,
 )
+from pathlib import Path
+import numpy as np
 
 frauenfelder_src = "frauenfelder_solution_1969"
 frauenfelder_diffusivity = Diffusivity(
@@ -276,6 +278,103 @@ liang_permeability = Permeability(
     source="liang_deuterium_2018",
 )
 
+liu_permeability_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/liu_2016/permeability.csv",
+    delimiter=",",
+    names=True,
+)
+rolled_50um_data_invT = liu_permeability_data["rolled_50umX"] * htm.ureg.K**-1
+rolled_50um_data_y = (
+    liu_permeability_data["rolled_50umY"]
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-0.5
+)
+liu_permeability_rolled_50um = Permeability(
+    data_T=1 / rolled_50um_data_invT,
+    data_y=rolled_50um_data_y,
+    source="liu_gas-driven_2016",
+    isotope="H",
+)
+
+rolled_114um_data_invT = liu_permeability_data["rolled_114umX"] * htm.ureg.K**-1
+rolled_114um_data_y = (
+    liu_permeability_data["rolled_114umY"]
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-0.5
+)
+liu_permeability_rolled_114um = Permeability(
+    data_T=1 / rolled_114um_data_invT,
+    data_y=rolled_114um_data_y,
+    source="liu_gas-driven_2016",
+    isotope="H",
+)
+
+rolled_240um_data_invT = liu_permeability_data["rolled_240umX"] * htm.ureg.K**-1
+rolled_240um_data_y = (
+    liu_permeability_data["rolled_240umY"]
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-0.5
+)
+liu_permeability_rolled_240um = Permeability(
+    data_T=1 / rolled_240um_data_invT,
+    data_y=rolled_240um_data_y,
+    source="liu_gas-driven_2016",
+    isotope="H",
+)
+
+annealed_50um_data_invT = liu_permeability_data["annealed_50umX"] * htm.ureg.K**-1
+annealed_50um_data_y = (
+    liu_permeability_data["annealed_50umY"]
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-0.5
+)
+liu_permeability_annealed_50um = Permeability(
+    data_T=1 / annealed_50um_data_invT,
+    data_y=annealed_50um_data_y,
+    source="liu_gas-driven_2016",
+    isotope="H",
+)
+
+annealed_250um_data_invT = liu_permeability_data["annealed_250umX"] * htm.ureg.K**-1
+annealed_250um_data_y = (
+    liu_permeability_data["annealed_250umY"]
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-0.5
+)
+liu_permeability_annealed_250um = Permeability(
+    data_T=1 / annealed_250um_data_invT,
+    data_y=annealed_250um_data_y,
+    source="liu_gas-driven_2016",
+    isotope="H",
+)
+
+recrystallized_250um_data_invT = (
+    liu_permeability_data["recrystallized_250umX"] * htm.ureg.K**-1
+)
+recrystallized_250um_data_y = (
+    liu_permeability_data["recrystallized_250umY"]
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-0.5
+)
+liu_permeability_recrystallized_250um = Permeability(
+    data_T=1 / recrystallized_250um_data_invT,
+    data_y=recrystallized_250um_data_y,
+    source="liu_gas-driven_2016",
+    isotope="H",
+)
+
 properties = [
     frauenfelder_diffusivity,
     liu_diffusivity_tungsten,
@@ -302,6 +401,12 @@ properties = [
     zhao_permeability,
     zhao_diffusivity,
     liang_permeability,
+    liu_permeability_rolled_50um,
+    liu_permeability_rolled_114um,
+    liu_permeability_rolled_240um,
+    liu_permeability_annealed_50um,
+    liu_permeability_annealed_250um,
+    liu_permeability_recrystallized_250um,
 ]
 
 for prop in properties:
