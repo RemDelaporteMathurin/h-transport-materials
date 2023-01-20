@@ -204,6 +204,22 @@ frauenfelder_permeability = Permeability(
     source="frauenfelder_permeation_1968",
 )
 
+zakharov_permeability = Permeability(
+    pre_exp=5.2e-3
+    * htm.ureg.ccNTP
+    * htm.ureg.cm
+    * htm.ureg.cm**-2
+    * htm.ureg.s**-1
+    * htm.ureg.atm**-0.5,
+    act_energy=25400 * htm.ureg.J * htm.ureg.mol**-1,
+    source="zakharov_hydrogen_1975",
+    isotope="H",
+    range=(
+        htm.ureg.Quantity(400, htm.ureg.degC),
+        htm.ureg.Quantity(1200, htm.ureg.degC),
+    ),
+    note="this property value differs from the one shown in https://link.springer.com/article/10.1007/s42247-021-00344-w. Error in conversion?",
+)
 
 properties = [
     frauenfelder_diffusivity,
@@ -226,6 +242,7 @@ properties = [
     esteban_solubility_tungsten_t,
     anderl_recomb,
     frauenfelder_permeability,
+    zakharov_permeability,
 ]
 
 for prop in properties:
