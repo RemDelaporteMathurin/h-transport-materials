@@ -260,6 +260,22 @@ zhao_diffusivity = Diffusivity(
     note="undamaged W",
 )
 
+
+liang_permeability = Permeability(
+    pre_exp=4.94e-7
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-0.5,
+    act_energy=1.38 * htm.ureg.eV * htm.ureg.particle**-1,
+    isotope="D",
+    range=(
+        htm.ureg.Quantity(600, htm.ureg.degC),
+        htm.ureg.Quantity(800, htm.ureg.degC),
+    ),
+    source="liang_deuterium_2018",
+)
+
 properties = [
     frauenfelder_diffusivity,
     liu_diffusivity_tungsten,
@@ -285,6 +301,7 @@ properties = [
     esteban_permeability,
     zhao_permeability,
     zhao_diffusivity,
+    liang_permeability,
 ]
 
 for prop in properties:
