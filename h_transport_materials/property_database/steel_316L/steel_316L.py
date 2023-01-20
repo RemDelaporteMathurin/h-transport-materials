@@ -6,9 +6,9 @@ from h_transport_materials import (
     DissociationCoeff,
     RecombinationCoeff,
 )
-import h_transport_materials.conversion as c
 from h_transport_materials.property_database.iron import IRON_MOLAR_VOLUME
-
+from pathlib import Path
+import numpy as np
 
 reiter_diffusivity = Diffusivity(
     D_0=3.70e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
@@ -183,6 +183,46 @@ xiukui_diffusivity = Diffusivity(
     source="xiukui_hydrogen_1989",
 )
 
+lee_permeability_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/lee_2011/permeability.csv",
+    delimiter=",",
+    names=True,
+)
+lee_data_invT = lee_permeability_data["X"] * htm.ureg.K**-1
+lee_permeability = Permeability(
+    data_T=1 / lee_data_invT,
+    data_y=lee_permeability_data["Y"]
+    * htm.ureg.mol
+    * htm.ureg.s**-1
+    * htm.ureg.m**-1
+    * htm.ureg.Pa**-0.5,
+    isotope="H",
+    source="lee_hydrogen_2011",
+)
+
+lee_diffsol_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/lee_2011/diffusivity_solubility.csv",
+    delimiter=",",
+    names=True,
+)
+lee_data_invT = lee_diffsol_data["diffusivityX"] * htm.ureg.K**-1
+lee_diffusivity = Diffusivity(
+    data_T=1 / lee_data_invT,
+    data_y=lee_diffsol_data["diffusivityY"] * htm.ureg.m**2 * htm.ureg.s**-1,
+    isotope="H",
+    source="lee_hydrogen_2011",
+)
+lee_data_invT = lee_diffsol_data["solubilityX"] * htm.ureg.K**-1
+lee_solubility = Solubility(
+    units="m-3 Pa-1/2",
+    data_T=1 / lee_data_invT,
+    data_y=lee_diffsol_data["solubilityY"]
+    * htm.ureg.mol
+    * htm.ureg.m**-3
+    * htm.ureg.Pa**-0.5,
+    isotope="H",
+    source="lee_hydrogen_2011",
+)
 
 properties = [
     reiter_diffusivity,
@@ -200,6 +240,9 @@ properties = [
     forcey_solubility,
     xiukui_permeability,
     xiukui_diffusivity,
+    lee_permeability,
+    lee_diffusivity,
+    lee_solubility,
 ]
 
 for prop in properties:
