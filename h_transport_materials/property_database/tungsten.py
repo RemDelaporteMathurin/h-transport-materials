@@ -204,6 +204,10 @@ frauenfelder_permeability = Permeability(
     source="frauenfelder_permeation_1968",
 )
 
+# TODO check the value is correct cause differs from
+# https://link.springer.com/article/10.1007/s42247-021-00344-w
+# and
+# https://doi.org/10.1080/15361055.2019.1705727
 zakharov_permeability = Permeability(
     pre_exp=5.2e-3
     * htm.ureg.ccNTP
