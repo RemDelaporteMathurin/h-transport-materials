@@ -1,5 +1,10 @@
 import h_transport_materials as htm
-from h_transport_materials import Diffusivity, Solubility, RecombinationCoeff
+from h_transport_materials import (
+    Diffusivity,
+    Solubility,
+    RecombinationCoeff,
+    Permeability,
+)
 
 IRON_MOLAR_VOLUME = 7.09e-6  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/iron
 
@@ -66,6 +71,52 @@ nagasaki_recombination_gamma = RecombinationCoeff(
     note="gamma iron, Nagasaki also gives an equivalent form for the recombination coefficient. Here we take the Arrhenius one (Eq. 9)",
 )
 
+# TODO fit this ourselves
+addach_diffusivity = Diffusivity(
+    D_0=1.02e-6 * htm.ureg.cm**2 * htm.ureg.s**-1,
+    E_D=19.6 * htm.ureg.kJ * htm.ureg.mol**-1,
+    range=(
+        htm.ureg.Quantity(25, htm.ureg.degC),
+        htm.ureg.Quantity(45, htm.ureg.degC),
+    ),
+    isotope="H",
+    source="addach_hydrogen_2005",
+)
+
+masui_permeability_alpha = Permeability(
+    pre_exp=113
+    * htm.ureg.ccNTP
+    * htm.ureg.mm
+    * htm.ureg.cm**-2
+    * htm.ureg.h**-1
+    * htm.ureg.atm**-0.5,
+    act_energy=8190 * htm.ureg.cal * htm.ureg.mol**-1,
+    range=(
+        htm.ureg.Quantity(200, htm.ureg.degC),
+        htm.ureg.Quantity(850, htm.ureg.degC),
+    ),
+    isotope="H",
+    source="masui_hydrogen_1978",
+    note="alpha phase",
+)
+
+masui_permeability_gamma = Permeability(
+    pre_exp=1630
+    * htm.ureg.ccNTP
+    * htm.ureg.mm
+    * htm.ureg.cm**-2
+    * htm.ureg.h**-1
+    * htm.ureg.atm**-0.5,
+    act_energy=16900 * htm.ureg.cal * htm.ureg.mol**-1,
+    range=(
+        htm.ureg.Quantity(930, htm.ureg.degC),
+        htm.ureg.Quantity(1000, htm.ureg.degC),
+    ),
+    isotope="H",
+    source="masui_hydrogen_1978",
+    note="gamma phase",
+)
+
 properties = [
     volkl_diffusivity,
     tahara_diffusivity_H,
@@ -73,6 +124,9 @@ properties = [
     eichenauer_solubility,
     nagasaki_recombination_alpha,
     nagasaki_recombination_gamma,
+    addach_diffusivity,
+    masui_permeability_alpha,
+    masui_permeability_gamma,
 ]
 
 for prop in properties:

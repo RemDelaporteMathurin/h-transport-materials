@@ -37,10 +37,28 @@ kishimoto_permeability = Permeability(
     source="kishimoto_hydrogen_1985",
 )
 
+
+masui_permeability = Permeability(
+    pre_exp=2290
+    * htm.ureg.ccNTP
+    * htm.ureg.mm
+    * htm.ureg.cm**-2
+    * htm.ureg.h**-1
+    * htm.ureg.atm**-0.5,
+    act_energy=16000 * htm.ureg.cal * htm.ureg.mol**-1,
+    range=(
+        htm.ureg.Quantity(800, htm.ureg.degC),
+        htm.ureg.Quantity(1000, htm.ureg.degC),
+    ),
+    isotope="H",
+    source="masui_hydrogen_1978",
+)
+
 properties = [
     kishimoto_diffusivity,
     kishimoto_solubility,
     kishimoto_permeability,
+    masui_permeability,
 ]
 
 for prop in properties:

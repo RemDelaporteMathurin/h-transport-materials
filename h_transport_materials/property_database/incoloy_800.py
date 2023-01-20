@@ -107,6 +107,22 @@ esteban_recomb_coeff_oxidised = RecombinationCoeff(
 )
 
 
+masui_permeability = Permeability(
+    pre_exp=2440
+    * htm.ureg.ccNTP
+    * htm.ureg.mm
+    * htm.ureg.cm**-2
+    * htm.ureg.h**-1
+    * htm.ureg.atm**-0.5,
+    act_energy=16500 * htm.ureg.cal * htm.ureg.mol**-1,
+    range=(
+        htm.ureg.Quantity(800, htm.ureg.degC),
+        htm.ureg.Quantity(1000, htm.ureg.degC),
+    ),
+    isotope="H",
+    source="masui_hydrogen_1978",
+)
+
 properties = [
     schmidt_diffusivity,
     schmidt_permeability,
@@ -118,6 +134,7 @@ properties = [
     esteban_recomb_coeff_non_oxidised,
     esteban_diss_coeff_oxidised,
     esteban_recomb_coeff_oxidised,
+    masui_permeability,
 ]
 
 for prop in properties:

@@ -98,6 +98,21 @@ altonoglu_dissociation_coeff = DissociationCoeff(
     source="altunoglu_permeation_1991",
 )
 
+masui_permeability = Permeability(
+    pre_exp=1340
+    * htm.ureg.ccNTP
+    * htm.ureg.mm
+    * htm.ureg.cm**-2
+    * htm.ureg.h**-1
+    * htm.ureg.atm**-0.5,
+    act_energy=13000 * htm.ureg.cal * htm.ureg.mol**-1,
+    range=(
+        htm.ureg.Quantity(300, htm.ureg.degC),
+        htm.ureg.Quantity(1000, htm.ureg.degC),
+    ),
+    isotope="H",
+    source="masui_hydrogen_1978",
+)
 
 properties = [
     volkl_diffusivity,
@@ -110,6 +125,7 @@ properties = [
     altunoglu_permeability,
     altonoglu_diffusivity,
     altonoglu_dissociation_coeff,
+    masui_permeability,
 ]
 
 for prop in properties:
