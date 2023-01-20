@@ -1,5 +1,10 @@
 import h_transport_materials as htm
-from h_transport_materials.property import Diffusivity, RecombinationCoeff, Solubility
+from h_transport_materials.property import (
+    Diffusivity,
+    RecombinationCoeff,
+    Solubility,
+    Permeability,
+)
 
 frauenfelder_src = "frauenfelder_solution_1969"
 frauenfelder_diffusivity = Diffusivity(
@@ -180,6 +185,26 @@ anderl_recomb = RecombinationCoeff(
     source="anderl_deuterium_1992",
 )
 
+frauenfelder_p_0 = (
+    1.5e-3
+    * htm.ureg.torr
+    * htm.ureg.liter
+    * htm.ureg.cm**-1
+    * htm.ureg.s**-1
+    * htm.ureg.torr**-0.5
+)
+frauenfelder_permeability = Permeability(
+    pre_exp=frauenfelder_p_0 / (htm.Rg * 300 * htm.ureg.K),
+    act_energy=31.5 * htm.ureg.kcal * htm.ureg.mol**-1,
+    isotope="H",
+    range=(
+        htm.ureg.Quantity(1050, htm.ureg.degC),
+        htm.ureg.Quantity(2400, htm.ureg.degC),
+    ),
+    source="frauenfelder_permeation_1968",
+)
+
+
 properties = [
     frauenfelder_diffusivity,
     liu_diffusivity_tungsten,
@@ -200,6 +225,7 @@ properties = [
     esteban_solubility_tungsten_d,
     esteban_solubility_tungsten_t,
     anderl_recomb,
+    frauenfelder_permeability,
 ]
 
 for prop in properties:

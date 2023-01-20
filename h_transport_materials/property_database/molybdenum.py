@@ -1,6 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import Diffusivity, Solubility
-import h_transport_materials.conversion as c
+from h_transport_materials import Diffusivity, Solubility, Permeability
 
 import numpy as np
 
@@ -37,11 +36,32 @@ katsuta_solubility = Solubility(
     source="katsuta_diffusivity_1982",
 )
 
+
+frauenfelder_p_0 = (
+    7.1e-4
+    * htm.ureg.torr
+    * htm.ureg.liter
+    * htm.ureg.cm**-1
+    * htm.ureg.s**-1
+    * htm.ureg.torr**-0.5
+)
+frauenfelder_permeability = Permeability(
+    pre_exp=frauenfelder_p_0 / (htm.Rg * 300 * htm.ureg.K),
+    act_energy=21.5 * htm.ureg.kcal * htm.ureg.mol**-1,
+    isotope="H",
+    range=(
+        htm.ureg.Quantity(1050, htm.ureg.degC),
+        htm.ureg.Quantity(2400, htm.ureg.degC),
+    ),
+    source="frauenfelder_permeation_1968",
+)
+
 properties = [
     tanabe_diffusivity,
     katsuta_diffusivity,
     tanabe_solubility,
     katsuta_solubility,
+    frauenfelder_permeability,
 ]
 
 for prop in properties:
