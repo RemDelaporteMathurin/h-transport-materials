@@ -66,6 +66,19 @@ nagasaki_recombination_gamma = RecombinationCoeff(
     note="gamma iron, Nagasaki also gives an equivalent form for the recombination coefficient. Here we take the Arrhenius one (Eq. 9)",
 )
 
+# TODO fit this ourselves
+addach_diffusivity = Diffusivity(
+    D_0=1.02e-6 * htm.ureg.cm**2 * htm.ureg.s**-1,
+    E_D=19.6 * htm.ureg.kJ * htm.ureg.mol**-1,
+    range=(
+        htm.ureg.Quantity(25, htm.ureg.degC),
+        htm.ureg.Quantity(45, htm.ureg.degC),
+    ),
+    isotope="H",
+    source="addach_hydrogen_2005",
+)
+
+
 properties = [
     volkl_diffusivity,
     tahara_diffusivity_H,
@@ -73,6 +86,7 @@ properties = [
     eichenauer_solubility,
     nagasaki_recombination_alpha,
     nagasaki_recombination_gamma,
+    addach_diffusivity,
 ]
 
 for prop in properties:
