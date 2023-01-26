@@ -15,3 +15,7 @@ def test_units_wrong_value(material):
     filtered_group = htm.database.filter(material=material)
 
     assert len(filtered_group) > 0
+
+
+def test_print():
+    print(htm.ALUMINIUM)
