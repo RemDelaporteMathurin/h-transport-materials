@@ -101,7 +101,7 @@ vadrucci_permeability_wt84 = Permeability(
 )
 vadrucci_permeability_wt150 = Permeability(
     pre_exp=5.63e-8 * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5,
-    act_energy=5.45606 * u.kJ * u.mol**-1,
+    act_energy=5456.06 * htm.ureg..J * htm.ureg.mol**-1,
     range=(473 * u.K, 623 * u.K),
     isotope="H",
     source="vadrucci_pdag_2013",
