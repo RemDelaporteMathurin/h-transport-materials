@@ -1,3 +1,5 @@
+from importlib.metadata import version
+
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -7,8 +9,17 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "h-transport-materials"
-copyright = "2023, Remi Delaporte-Mathurin, James Dark, Thomas Fuerst"
-author = "Remi Delaporte-Mathurin, James Dark, Thomas Fuerst"
+copyright = "2023, Remi Delaporte-Mathurin"
+author = "Remi Delaporte-Mathurin"
+
+try:  # pragma: no cover
+    version = version(project)
+except Exception:  # pragma: no cover
+    # we seem to have a local copy not installed without setuptools
+    # so the reported version will be unknown
+    version = "unknown"
+
+release = version
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
