@@ -18,7 +18,7 @@ serra_diffusivity_h = Diffusivity(
     data_T=1000 / serra_diffusivity_data["hydrogenX"] * htm.ureg.K,
     data_y=serra_diffusivity_data["hydrogenY"] * htm.ureg.m**2 * htm.ureg.s**-1,
     isotope="H",
-    source="serra_hydrogen_1998-1",
+    source="serra_hydrogen_1998-2",
 )
 
 serra_diffusivity_d = Diffusivity(
