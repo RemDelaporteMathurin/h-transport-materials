@@ -1,6 +1,15 @@
 User Guide
 ==========
 
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+
+    defining_property
+    database
+    plotting
+
 .. plot::
    :include-source: true
 
@@ -21,8 +30,6 @@ User Guide
 .. testcode::
 
     import h_transport_materials as htm
-
-    import numpy as np
 
     # Create a custom property
     my_custom_property = htm.ArrheniusProperty(pre_exp=1e-5, act_energy=0.2)
