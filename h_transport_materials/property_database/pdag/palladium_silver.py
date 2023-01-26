@@ -92,7 +92,7 @@ serra_recombination_coeff_d= RecombinationCoeff(
     source="serra_hydrogen_1998-1",
 ) 
 vadrucci_permeability_wt84 = Permeability(
-    pre_exp=2.95e-8 * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5,
+    pre_exp=2.95e-8 * u.mol * htm.ureg.m**-1 * htm.ureg.u.s**-1 * htm.ureg.u.Pa**-0.5,
     act_energy=25.3149 * u.kJ * u.mol**-1,
     range=(473 * u.K, 623 * u.K),
     isotope="H",
