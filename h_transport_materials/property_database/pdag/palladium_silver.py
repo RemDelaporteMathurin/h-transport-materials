@@ -53,7 +53,7 @@ serra_solubility_d = Solubility(
     * htm.ureg.m**-3
     * htm.ureg.Pa**-0.5,
     isotope="D",
-    source="serra_hydrogen_1998-1",
+    source="serra_hydrogen_1998-2",
 )
 serra_dissociation_h = DissociationCoeff(
     pre_exp=1.7e-2
