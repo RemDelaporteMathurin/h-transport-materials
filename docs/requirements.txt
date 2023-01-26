@@ -1,3 +1,4 @@
 sphinx
 sphinx-design
 sphinx_book_theme
+matplotlib
