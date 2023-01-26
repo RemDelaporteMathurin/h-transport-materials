@@ -75,7 +75,7 @@ serra_dissociation_d = DissociationCoeff(
     act_energy=24.780 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="D",
     range=(323 * htm.ureg.K, 773* htm.ureg.K),
-    source="serra_hydrogen_1998-1",
+    source="serra_hydrogen_1998-2",
 )
 serra_recombination_coeff_h= RecombinationCoeff(
     pre_exp=0.51 * htm.ureg.mol**-1 * htm.ureg.m**4 * htm.ureg.s**-1,
