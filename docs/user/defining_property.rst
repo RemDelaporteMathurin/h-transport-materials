@@ -19,7 +19,7 @@ Note, :math:`R_g` and :math:`k_B` are linked by Avogadro's number :math:`N_A`.
 Arrhenius parameters
 --------------------
 
-Properties can be defined in HTM by using the :class:`ArrheniusProperty() <h_transport_materials.ArrheniusProperty>` class.
+Properties can be defined in HTM by using the :class:`ArrheniusProperty() <h_transport_materials.property.ArrheniusProperty>` class.
 
 .. testcode::
 
@@ -28,7 +28,7 @@ Properties can be defined in HTM by using the :class:`ArrheniusProperty() <h_tra
     my_property = ArrheniusProperty(pre_exp=1, act_energy=0.2)
 
 
-More precise classes can also be used like :class:`Diffusivity() <h_transport_materials.Diffusivity>`, :class:`Solubility() <h_transport_materials.Solubility>`, :class:`Permeability() <h_transport_materials.Permeability>`, :class:`RecombinationCoeff() <h_transport_materials.RecombinationCoeff>`, :class:`DissociationCoeff() <h_transport_materials.DissociationCoeff>`.
+More precise classes can also be used like :class:`Diffusivity() <h_transport_materials.property.Diffusivity>`, :class:`Solubility() <h_transport_materials.property.Solubility>`, :class:`Permeability() <h_transport_materials.property.Permeability>`, :class:`RecombinationCoeff() <h_transport_materials.property.RecombinationCoeff>`, :class:`DissociationCoeff() <h_transport_materials.property.DissociationCoeff>`.
 
 .. testcode::
 
@@ -38,7 +38,7 @@ More precise classes can also be used like :class:`Diffusivity() <h_transport_ma
     my_sol = Solubility(units="m-3 Pa-1/2", S_0=1, E_S=0.2)
     my_perm = Permeability(pre_exp=1, act_energy=0.2)
 
-Note, :class:`Solubility() <h_transport_materials.Solubility>` has a `units` argument because depending on the material, the units can be m-3 Pa-1/2 (Sievert's law of solubility) or m-3 Pa-1 (Henry's law of solubility).
+Note, :class:`Solubility() <h_transport_materials.property.Solubility>` has a `units` argument because depending on the material, the units can be m-3 Pa-1/2 (Sievert's law of solubility) or m-3 Pa-1 (Henry's law of solubility).
 
 Temperature range
 -----------------
@@ -57,7 +57,7 @@ In this example, the property is defined over the 300-400 K temperature range (s
 Property from experimental data
 -------------------------------
 
-It is possible to define an :class:`ArrheniusProperty() <h_transport_materials.ArrheniusProperty>` directly from (T,y) points.
+It is possible to define an :class:`ArrheniusProperty() <h_transport_materials.property.ArrheniusProperty>` directly from (T,y) points.
 In this case, the Arrhenius parameters will be fitted automatically from the data points.
 
 .. testcode::
