@@ -115,18 +115,18 @@ vadrucci_permeability_wt200 = Permeability(
     source="vadrucci_pdag_2013",
     note="wt = 200 micron"
 )
+
+# TODO fit this ourselves
+R_S_0 = 4.88e2 * htm.ureg.mol**-1 * htm.ureg.m**2 * htm.ureg.s * htm.ureg.Pa
+E_R_S = -20.103 * htm.ureg.kJ * htm.ureg.mol**-1
 vadrucci_dissociation_h = DissociationCoeff(
-    pre_exp=2.05e-3
-    * htm.ureg.mol
-    * htm.ureg.m**-2
-    * htm.ureg.s**-1
-    * htm.ureg.Pa**-1,
-    act_energy=20.103 * htm.ureg.kJ * htm.ureg.mol**-1,
+    pre_exp=2/R_S_0,
+    act_energy=-E_R_S,
     isotope="H",
     range=(473* htm.ureg.K, 623* htm.ureg.K),
     source="vadrucci_pdag_2013",
+    note="equation 17 + probably an error in the units of the activation energy in the original paper",
 )
-
 
 properties = [
     serra_diffusivity_h,
