@@ -42,7 +42,7 @@ serra_solubility_h = Solubility(
     * htm.ureg.m**-3
     * htm.ureg.Pa**-0.5,
     isotope="H",
-    source="serra_hydrogen_1998-1",
+    source="serra_hydrogen_1998-2",
 )
 
 serra_solubility_d = Solubility(
