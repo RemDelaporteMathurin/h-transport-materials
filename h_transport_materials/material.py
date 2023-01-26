@@ -27,6 +27,9 @@ class Material:
         else:
             return super.__eq__(self, mat)
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class PlasmaFacing(Material):
     family = "plasma facing"
