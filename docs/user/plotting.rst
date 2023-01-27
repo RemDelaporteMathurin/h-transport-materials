@@ -4,7 +4,7 @@ Plotting
 ========
 
 Plotting a property
----------------
+-------------------
 
 HTM has a plotting module for visualising the temperature dependence of a property:
 
@@ -59,7 +59,7 @@ The matplotlib line parameters can be modified:
    plt.show()
 
 Plotting with experimental points
----------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To overlay the experimental points of a property, simply access the (T,y) data with the attributes `.data_T` and `.data_y`:
 
