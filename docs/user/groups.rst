@@ -100,3 +100,51 @@ Alternatively, the properties can be filtered by the material name as a string:
 
     steel_diffusivities = htm.diffusivities.filter(material="steel")
     tungsten_diffusivities = htm.diffusivities.filter(material="tungsten")
+
+Computing mean property
+-----------------------
+
+With :class:`PropertiesGroup() <h_transport_materials.properties_group.PropertiesGroup>` objects, it is possible to compute the mean property using the :meth:`~h_transport_materials.properties_group.PropertiesGroup.mean` method.
+
+.. testcode::
+
+    import h_transport_materials as htm
+
+    prop1 = htm.Diffusivity(1, 0.1)
+    prop2 = htm.Diffusivity(2, 0.2)
+    
+    group = htm.PropertiesGroup([prop1, prop2])
+    mean_property = group.mean()
+
+    print(mean_property)
+
+.. testoutput::
+    :options: +NORMALIZE_WHITESPACE
+
+    Author:
+    Material:
+    Year: None
+    Isotope: None
+    Pre-exponential factor: 1.41×10⁰ m²/s
+    Activation energy: 1.50×10⁻¹ eV/particle
+
+.. plot::
+   :include-source: false
+
+    import h_transport_materials as htm
+    from h_transport_materials.plotting import plot
+    import matplotlib.pyplot as plt
+
+    prop1 = htm.Diffusivity(1, 0.1)
+    prop2 = htm.Diffusivity(2, 0.2)
+    
+    group = htm.PropertiesGroup([prop1, prop2])
+    mean_property = group.mean()
+
+    plot(group, alpha=0.5)
+    plot(mean_property, color="black")
+
+    plt.annotate("mean property", (0.0025, 2e-2))
+    plt.yscale("log")
+    plt.xlabel("1/T (K$^{-1}$)")
+    plt.show()
