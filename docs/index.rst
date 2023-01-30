@@ -66,6 +66,7 @@ HTM: your H transport property library
     :caption: For developers
 
     dev/contributing
+    dev/documentation
 
 .. toctree::
    :maxdepth: 1

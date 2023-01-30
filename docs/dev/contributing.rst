@@ -14,16 +14,15 @@ This is a personnal copy of the repository where you can commit changes without 
 .. image:: https://user-images.githubusercontent.com/40028739/215575310-9b3eb090-1bf4-406e-9f90-bda5bf4d3c7b.png
     :alt: htm_repo_screenshot
 
-2. Clone your fork and create a development branch
+2. Clone your fork and create a development branch::
 
-.. code::
     git clone https://github.com/your_username/h-transport-materials
     cd h-transport-materials
     git checkout -b newbranch
 
-3. Make your changes
+3. Make your changes. Make sure you :ref:`tested your code<testing>`.
 
-4. Push and `open a pull request <https://github.com/RemDelaporteMathurin/h-transport-materials/compare>`_
+4. Push and `open a pull request <https://github.com/RemDelaporteMathurin/h-transport-materials/compare>`_. Automatically, the test suite will be ran.
 
 5. One of the maintainers will review the pull request. Any potential issues with the pull request can be discussed directly here. If need be, simply commit new changes to your development branch to update the pull request.
 
@@ -126,8 +125,6 @@ Given as a supplementary file
 If the authors provide data as a supplementary file (rather uncommon), either download the file and put a copy in the appropriate folder then read directly from this file.
 It is recommended to add a link to the data supplementary file for reproductibility sake. 
 
-
-
 Reference
 ^^^^^^^^^
 
@@ -137,4 +134,37 @@ Reference
 Adding a new material
 ---------------------
 
+Adding a feature
+----------------
 
+Before starting working on a new feature, reach out to the users and developers of HTM by raising an issue.
+Here we'll be able to discuss the implementation of this feature and maybe even improve the idea.
+
+Then, follow the usual :ref:`Contribution workflow` and be sure to add a test that proves your feature works.
+More info on python testing `here <https://realpython.com/python-testing/>`_.
+
+Fixing a bug
+------------
+
+Before starting making changes to fix a bug, please `open an issue reporting the bug <https://github.com/RemDelaporteMathurin/h-transport-materials/issues/new>`_ (if there isn't one already).
+To be as efficient as possible, the issue should contain a Minimal Working Example that reproduces the bug.
+
+When fixing a bug, follow the usual :ref:`Contribution workflow` but add a test that catches the bug to prove that your fix is effective.
+More info on python testing `here <https://realpython.com/python-testing/>`_.
+
+.. _testing:
+
+Testing your code
+-----------------
+
+Regardless the addition (contributing to the database, fixing a bug, adding a feature...), your code needs to be tested.
+When you open a pull request, your code will automatically be tested by running the test suite.
+The test suite can be found in the ``tests`` folder.
+
+To test the local source code, run::
+
+    pytest .
+
+You may have to install the tests dependencies (like ``pytest``)::
+
+    pip install -e .[tests]
