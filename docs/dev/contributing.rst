@@ -22,7 +22,7 @@ This is a personnal copy of the repository where you can commit changes without 
 
 #. Make your changes. Make sure you :ref:`tested your code<testing>`.
 
-#. Push and `open a pull request <https://github.com/RemDelaporteMathurin/h-transport-materials/compare>`_. Automatically, the test suite will be ran.
+#. Push and `open a pull request <https://github.com/RemDelaporteMathurin/h-transport-materials/compare>`_. Automatically, the test suite will be run.
 
 #. One of the maintainers will review the pull request. Any potential issues with the pull request can be discussed directly here. If need be, simply commit new changes to your development branch to update the pull request.
 
