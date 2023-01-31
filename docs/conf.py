@@ -51,6 +51,9 @@ html_css_files = ["style.css"]
 html_theme_options = {
     "repository_url": "https://github.com/RemDelaporteMathurin/h-transport-materials",
     "use_repository_button": True,
+    "use_edit_page_button": True,
+    "repository_branch": "main",
+    "path_to_docs": "./docs",
 }
 
 html_title = "H-transport-materials"
