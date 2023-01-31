@@ -31,19 +31,19 @@ class PropertiesGroup(list):
         return BibliographyData(bibdata)
 
     def filter(self, exclude=False, **kwargs):
-        """Returns properties that match the specified arguments.
+        """
+        Returns properties that match the specified arguments.
         Usage:
-        ```
-        group = htm.diffusivities
 
-        # filter tungsten and authors esteban or heinola
-        filtered_props = group.filter(material="tungsten").filter(author=["esteban", "heinola"])
+            group = htm.diffusivities
 
-        # exclude isotope T
-        filtered_props = filtered_props.filter(exclude=True, isotope="T")
+            # filter tungsten and authors esteban or heinola
+            filtered_props = group.filter(material="tungsten").filter(author=["esteban", "heinola"])
 
-        property = filtered_props[0]
-        ```
+            # exclude isotope T
+            filtered_props = filtered_props.filter(exclude=True, isotope="T")
+
+            my_prop = filtered_props[0]
 
         Args:
             exclude (bool, optional): if True, the searched
@@ -53,6 +53,7 @@ class PropertiesGroup(list):
 
         Returns:
             PropertiesGroup: the resulting properties
+
         """
         filtered_props = PropertiesGroup()
 
@@ -80,7 +81,8 @@ class PropertiesGroup(list):
         return filtered_props
 
     def mean(self, samples_per_line=5, default_range=(300, 1200)):
-        """Fits all the data and returns the mean pre-exponential
+        """
+        Fits all the data and returns the mean pre-exponential
         factor and activation energy.
 
         Args:
@@ -124,7 +126,8 @@ class PropertiesGroup(list):
         return property
 
     def export_bib(self, filename: str):
-        """Exports the bibliography data
+        """
+        Exports the bibliography data
 
         Args:
             filename (str): the path of the exported file

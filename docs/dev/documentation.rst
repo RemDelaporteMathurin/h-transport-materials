@@ -18,7 +18,7 @@ directly with pip:
 Build as a webpage
 ------------------
 
-To build the documentation as a html webpage (what appears at `https://h-transport-materials.readthedocs.io`_):
+To build the documentation as a html webpage (what appears at https://h-transport-materials.readthedocs.io):
 
 .. code:: sh
 

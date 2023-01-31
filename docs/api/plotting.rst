@@ -1,5 +1,5 @@
-Plotting
-========
+Plotting API
+============
 
 
 .. automodule:: h_transport_materials.plotting

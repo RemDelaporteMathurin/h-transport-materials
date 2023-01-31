@@ -12,6 +12,21 @@ DEFAULT_ENERGY_UNITS = ureg.eV * ureg.particle**-1
 
 
 class Property:
+    """Base Property class
+
+    Args:
+        material (str, optional): name of the material. Defaults to "".
+        source (str, optional): bibliographic reference. Defaults to "".
+        name (str, optional): name of the property. Defaults to "".
+        range (tuple, optional): temperature validity range in K.
+            Defaults to None.
+        year (int, optional): year of publication. Defaults to None.
+        isotope (str, optional): isotope of the property ("H", "D" or "T").
+            Defaults to None.
+        author (str, optional): name of the author. Defaults to "".
+        note (str, optional): additional information. Defaults to None.
+    """
+
     def __init__(
         self,
         material: str = "",
@@ -23,20 +38,6 @@ class Property:
         author: str = "",
         note: str = None,
     ) -> None:
-        """Inits Property
-
-        Args:
-            material (str, optional): name of the material. Defaults to "".
-            source (str, optional): bibliographic reference. Defaults to "".
-            name (str, optional): name of the property. Defaults to "".
-            range (tuple, optional): temperature validity range in K.
-                Defaults to None.
-            year (int, optional): year of publication. Defaults to None.
-            isotope (str, optional): isotope of the property ("H", "D" or "T").
-                Defaults to None.
-            author (str, optional): name of the author. Defaults to "".
-            note (str, optional): additional information. Defaults to None.
-        """
 
         self.material = material
         self.source = source
