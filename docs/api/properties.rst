@@ -8,8 +8,13 @@ Property classes
     :members:
     :show-inheritance:
 
+.. autoclass:: h_transport_materials.ArrheniusProperty
+    :members:
+    :show-inheritance:
+
 .. automodule:: h_transport_materials.property
     :members:
+    :exclude-members: Property, ArrheniusProperty
     :show-inheritance:
 
 

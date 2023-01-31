@@ -33,7 +33,7 @@ class PropertiesGroup(list):
     def filter(self, exclude=False, **kwargs):
         """
         Returns properties that match the specified arguments.
-        Usage:
+        Usage::
 
             group = htm.diffusivities
 
@@ -92,7 +92,7 @@ class PropertiesGroup(list):
                 a Property doesn't have range. Defaults to (300, 1200).
 
         Returns:
-            htm.ArrheniusProperty: the mean arrhenius property
+            ArrheniusProperty: the mean arrhenius property
         """
         # initialise data points
         data_T = np.array([])

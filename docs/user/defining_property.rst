@@ -117,7 +117,7 @@ Units
 
 HTM uses pint to automatically converts units.
 If no units are given, defaults units are assumed.
-The units are stored in a `pint.UnitRegistry` that can be accessed by `h_transport_materials.ureg`.
+The units are stored in a :class:`pint.UnitRegistry` that can be accessed by ``h_transport_materials.ureg``.
 
 .. testcode::
 
@@ -155,7 +155,7 @@ This is extremely useful when units start getting complicated:
     0.0001 meter ** 2 / second
     0.20728539312524347 electron_volt / particle
 
-Most attributes of properties in HTM are `pint.Quantity()` objects: pre-exponential factors, activation energies, temperature range.
+Most attributes of properties in HTM are :class:`pint.Quantity` objects: pre-exponential factors, activation energies, temperature range.
 Visit the `pint documentation <https://pint.readthedocs.io/en/stable/index.html>`_ to learn more.
 
 Evaluate property at a given temperature

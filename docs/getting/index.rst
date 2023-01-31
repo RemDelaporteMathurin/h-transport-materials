@@ -4,11 +4,15 @@ Getting Started
 Installation
 ------------
 
-After `getting python <https://www.python.org/downloads/>`_, simply run::
+After `getting python <https://www.python.org/downloads/>`_, simply run:
+
+.. code:: console
 
     pip install h-transport-materials
 
-To install a specific version of HTM (here v0.9)::
+To install a specific version of HTM (here v0.9):
+
+.. code-block:: console
 
     pip install h-transport-materials==0.9
 

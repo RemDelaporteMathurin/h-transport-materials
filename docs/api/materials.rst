@@ -8,5 +8,5 @@ Materials
 
 .. automodule:: h_transport_materials.material
     :members:
-    :exclude-members: h_transport_materials.materials.Material
+    :exclude-members: Material
     :show-inheritance:
