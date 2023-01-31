@@ -36,7 +36,7 @@ Rules for adding a property
 
 * The property doesn't already exist in the HTM database
 * The property comes from a published source
-* The property must have the following attribute:
+* The property must have the following attributes:
 
     * Arrhenius parameters or experimental datapoints
     * a ``source``
