@@ -1,1 +1,1 @@
-from . import palladium_alloy
+from . import palladium_silver
