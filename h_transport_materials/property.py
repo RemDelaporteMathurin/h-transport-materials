@@ -12,6 +12,21 @@ DEFAULT_ENERGY_UNITS = ureg.eV * ureg.particle**-1
 
 
 class Property:
+    """Base Property class
+
+    Args:
+        material (str, optional): name of the material. Defaults to "".
+        source (str, optional): bibliographic reference. Defaults to "".
+        name (str, optional): name of the property. Defaults to "".
+        range (tuple, optional): temperature validity range in K.
+            Defaults to None.
+        year (int, optional): year of publication. Defaults to None.
+        isotope (str, optional): isotope of the property ("H", "D" or "T").
+            Defaults to None.
+        author (str, optional): name of the author. Defaults to "".
+        note (str, optional): additional information. Defaults to None.
+    """
+
     def __init__(
         self,
         material: str = "",
@@ -23,20 +38,6 @@ class Property:
         author: str = "",
         note: str = None,
     ) -> None:
-        """Inits Property
-
-        Args:
-            material (str, optional): name of the material. Defaults to "".
-            source (str, optional): bibliographic reference. Defaults to "".
-            name (str, optional): name of the property. Defaults to "".
-            range (tuple, optional): temperature validity range in K.
-                Defaults to None.
-            year (int, optional): year of publication. Defaults to None.
-            isotope (str, optional): isotope of the property ("H", "D" or "T").
-                Defaults to None.
-            author (str, optional): name of the author. Defaults to "".
-            note (str, optional): additional information. Defaults to None.
-        """
 
         self.material = material
         self.source = source
@@ -144,6 +145,20 @@ class Property:
 
 
 class ArrheniusProperty(Property):
+    """
+    Arrhenius type Property
+    value = pre_exp * exp( - act_energy/(k_B T) )
+
+    Args:
+        pre_exp (float or pint.Quantity, optional): the pre-exponential factor. Defaults to None.
+        act_energy (float or pint.Quantity, optional): the activation energy. Defaults to None.
+        data_T (list, optional): list of temperatures in K. Used to automatically
+            fit experimental points. Defaults to None.
+        data_y (list, optional): list of y data. Used to automatically
+            fit experimental points. Defaults to None.
+        kwargs: other Property arguments
+    """
+
     def __init__(
         self,
         pre_exp: float = None,
@@ -152,18 +167,7 @@ class ArrheniusProperty(Property):
         data_y: list = None,
         **kwargs,
     ) -> None:
-        """Inits ArrheniusProperty
-        property = pre_exp * exp( - act_energy/(k_B T) )
 
-        Args:
-            pre_exp (float or pint.Quantity, optional): the pre-exponential factor. Defaults to None.
-            act_energy (float or pint.Quantity, optional): the activation energy. Defaults to None.
-            data_T (list, optional): list of temperatures in K. Used to automatically
-                fit experimental points. Defaults to None.
-            data_y (list, optional): list of y data. Used to automatically
-                fit experimental points. Defaults to None.
-            kwargs: other Property arguments
-        """
         self.pre_exp = pre_exp
         self.act_energy = act_energy
         self.data_T = data_T
