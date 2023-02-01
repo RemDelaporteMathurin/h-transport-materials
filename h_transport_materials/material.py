@@ -2,6 +2,12 @@ import inspect
 
 
 class Material:
+    """Base Material class
+
+    Args:
+        name (str): the name of the material
+    """
+
     family = "material"
 
     def __init__(self, name: str):
@@ -38,6 +44,13 @@ class Alloy(Metal):
 
 
 class PureMetal(Metal):
+    """Pure metal
+
+    Args:
+        name (str): the name of the material
+        symbol (str, optional): the element symbol. Defaults to None.
+    """
+
     family = "pure metal"
 
     def __init__(self, name: str, symbol: str = None):
