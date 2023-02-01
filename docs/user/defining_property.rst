@@ -147,13 +147,13 @@ This is extremely useful when units start getting complicated:
         act_energy=20 * ureg.kcal * ureg.mol**-1,
     )
 
-    print(my_property.pre_exp)
-    print(my_property.act_energy)
+    print(my_perm.pre_exp)
+    print(my_perm.act_energy)
 
 .. testoutput::
 
-    0.0001 meter ** 2 / second
-    0.20728539312524347 electron_volt / particle
+    5.289911442149285e+19 particle / meter / pascal ** 0.5 / second
+    0.8672820848360187 electron_volt / particle
 
 Most attributes of properties in HTM are :class:`pint.Quantity` objects: pre-exponential factors, activation energies, temperature range.
 Visit the `pint documentation <https://pint.readthedocs.io/en/stable/index.html>`_ to learn more.
