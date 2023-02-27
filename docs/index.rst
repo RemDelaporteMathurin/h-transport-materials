@@ -1,5 +1,5 @@
-HTM: your H transport property library
-======================================
+HTM: your hydrogen transport properties library
+===============================================
 
 .. grid:: 1 1 2 2
     :gutter: 2
