@@ -85,7 +85,7 @@ vadrucci_permeability_wt84 = Permeability(
     act_energy=2531.49 * u.J * u.mol**-1,
     range=(473 * u.K, 623 * u.K),
     isotope="H",
-    source="vadrucci_pdag_2013",
+    source="vadrucci_hydrogen_2013",
     note="wt = 84 micron",
 )
 vadrucci_permeability_wt150 = Permeability(
@@ -93,7 +93,7 @@ vadrucci_permeability_wt150 = Permeability(
     act_energy=5456.06 * u.J * u.mol**-1,
     range=(473 * u.K, 623 * u.K),
     isotope="H",
-    source="vadrucci_pdag_2013",
+    source="vadrucci_hydrogen_2013",
     note="wt = 150 micron",
 )
 vadrucci_permeability_wt200 = Permeability(
@@ -101,7 +101,7 @@ vadrucci_permeability_wt200 = Permeability(
     act_energy=2592.56 * u.J * u.mol**-1,
     range=(473 * u.K, 623 * u.K),
     isotope="H",
-    source="vadrucci_pdag_2013",
+    source="vadrucci_hydrogen_2013",
     note="wt = 200 micron",
 )
 
@@ -113,7 +113,7 @@ vadrucci_dissociation_h = DissociationCoeff(
     act_energy=-E_R_S,
     isotope="H",
     range=(473 * u.K, 623 * u.K),
-    source="vadrucci_pdag_2013",
+    source="vadrucci_hydrogen_2013",
     note="equation 17 + probably an error in the units of the activation energy in the original paper",
 )
 
