@@ -37,6 +37,7 @@ veleckis_solubility = Solubility(
     source="veleckis_lithium-lithium_1974",
     isotope="H",
     units="m-3 Pa-1/2",
+    note="table 1 of original paper",
 )
 
 
@@ -53,6 +54,7 @@ smith_solubility_h = Solubility(
     data_y=smith_sol_data_y_h,
     isotope="H",
     source="smith_solubility_1979",
+    note="table 1 of original paper",
 )
 
 
@@ -69,6 +71,7 @@ smith_solubility_d = Solubility(
     data_y=smith_sol_data_y_d,
     isotope="D",
     source="smith_solubility_1979",
+    note="table 1 of original paper",
 )
 
 
@@ -85,6 +88,7 @@ smith_solubility_t = Solubility(
     data_y=smith_sol_data_y_t,
     isotope="T",
     source="smith_solubility_1979",
+    note="table 1 of original paper",
 )
 
 
