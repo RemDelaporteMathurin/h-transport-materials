@@ -338,21 +338,44 @@ class Solubility(ArrheniusProperty):
     Args:
         S_0 (float or pint.Quantity, optional): pre-exponential factor. Defaults to None.
         E_S (float or pint.Quantity, optional): activation energy. Defaults to None.
+        law (str, optional): "sievert" or "henry", the solubility law
     """
 
-    def __init__(self, S_0: float = None, E_S: float = None, **kwargs) -> None:
+    def __init__(
+        self, S_0: float = None, E_S: float = None, law: str = None, **kwargs
+    ) -> None:
+        self.law = law
         super().__init__(pre_exp=S_0, act_energy=E_S, **kwargs)
+
+    @property
+    def law(self):
+        return self._law
+
+    @law.setter
+    def law(self, value):
+        acceptable_values = ["sievert", "henry", None]
+        if value not in acceptable_values:
+            raise ValueError(f"law should be one of {acceptable_values}, not {value}")
+        self._law = value
 
     @ArrheniusProperty.pre_exp.setter
     def pre_exp(self, value):
+        if value is None:
+            self._pre_exp = value
+            return
         if isinstance(value, pint.Quantity):
             self.set_law_from_quantity(value)
 
             self._pre_exp = value.to(self.units)
-        elif value is not None:
-            raise ValueError("units are required for Solubility")
+        elif self.law is None:
+            raise ValueError(
+                "units are required for Solubility.pre_exp, set law argument for default units"
+            )
         else:
-            self._pre_exp = value
+            warnings.warn(
+                f"no units were given with pre-exponential factor, assuming {self.units:~}"
+            )
+            self._pre_exp = value * self.units
 
     @ArrheniusProperty.data_y.setter
     def data_y(self, value):
@@ -407,21 +430,66 @@ class Diffusivity(ArrheniusProperty):
 
 
 class Permeability(ArrheniusProperty):
-    """Permeability class"""
+    """Permeability class
 
-    def __init__(self, **kwargs) -> None:
-        super().__init__(**kwargs)
+    Args:
+        pre_exp (float or pint.Quantity, optional): the pre-exponential factor. Defaults to None.
+        act_energy (float or pint.Quantity, optional): the activation energy. Defaults to None.
+        data_T (list, optional): list of temperatures in K. Used to automatically
+            fit experimental points. Defaults to None.
+        data_y (list, optional): list of y data. Used to automatically
+            fit experimental points. Defaults to None.
+        law (str, optional): "sievert" or "henry", the solubility law. Defaults to None.
+    """
+
+    def __init__(
+        self,
+        pre_exp=None,
+        act_energy=None,
+        data_T: list = None,
+        data_y: list = None,
+        law: str = None,
+        **kwargs,
+    ) -> None:
+
+        self.law = law
+        super().__init__(
+            pre_exp=pre_exp,
+            act_energy=act_energy,
+            data_T=data_T,
+            data_y=data_y,
+            **kwargs,
+        )
+
+    @property
+    def law(self):
+        return self._law
+
+    @law.setter
+    def law(self, value):
+        acceptable_values = ["sievert", "henry", None]
+        if value not in acceptable_values:
+            raise ValueError(f"law should be one of {acceptable_values}, not {value}")
+        self._law = value
 
     @ArrheniusProperty.pre_exp.setter
     def pre_exp(self, value):
+        if value is None:
+            self._pre_exp = value
+            return
         if isinstance(value, pint.Quantity):
             self.set_law_from_quantity(value)
 
             self._pre_exp = value.to(self.units)
-        elif value is not None:
-            raise ValueError("units are required for Permeability")
+        elif self.law is None:
+            raise ValueError(
+                "units are required for Permeability.pre_exp, set law argument for default units"
+            )
         else:
-            self._pre_exp = value
+            warnings.warn(
+                f"no units were given with pre-exponential factor, assuming {self.units:~}"
+            )
+            self._pre_exp = value * self.units
 
     @ArrheniusProperty.data_y.setter
     def data_y(self, value):
