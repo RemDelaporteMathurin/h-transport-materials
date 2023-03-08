@@ -26,7 +26,6 @@ data_y_mclellan *= 1 / SILVER_MOLAR_VOLUME  # in m-3 Pa-1/2
 mclellan_solubility = Solubility(
     data_T=data_T_mclellan * htm.ureg.degC,
     data_y=data_y_mclellan * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
-    units="m-3 Pa-1/2",
     source="mclellan_solid_1973",
     isotope="H",
     note="there is likely a mistake in Shimada's 2020 Review",

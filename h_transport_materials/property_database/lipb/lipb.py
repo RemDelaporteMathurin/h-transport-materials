@@ -47,7 +47,6 @@ wu_solubility = Solubility(
     range=(850 * u.K, 1040 * u.K),
     source="wu_solubility_1983",
     isotope="D",
-    units="m-3 Pa-1/2",
 )
 
 
@@ -57,7 +56,6 @@ chan_solubility = Solubility(
     range=(573 * u.K, 773 * u.K),
     source="chan_thermodynamic_1984",
     isotope="H",
-    units="m-3 Pa-1/2",
     note="extrapolated to Pb-17Li",
 )
 
@@ -68,7 +66,6 @@ katsuta_solubility = Solubility(
     range=(573 * u.K, 723 * u.K),
     source="katsuta_hydrogen_1985",
     isotope="H",
-    units="m-3 Pa-1/2",
 )
 
 
@@ -86,7 +83,6 @@ fauvet_solubility = Solubility(
     range=(722 * u.K, 724 * u.K),  # TODO should be 723 link to issue #37
     source="fauvet_hydrogen_1988",
     isotope="H",
-    units="m-3 Pa-1/2",
     note="Fauvet gives the value for 723 K only",
 )
 
@@ -111,7 +107,6 @@ schumacher_solubility = Solubility(
     data_y=schumacher_solubility_data_y,
     source="schumacher_hydrogen_1990",
     isotope="H",
-    units="m-3 Pa-1/2",
     note="in the review of E.Mas de les Valls there's a mistake in the conversion and"
     + "the activation energy of solubility should be positive"
     + "We decided to refit Schumacher's data",
@@ -162,7 +157,6 @@ reiter_solubility_h = Solubility(
     range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
     isotope="H",
-    units="m-3 Pa-1/2",
 )
 
 reiter_solubility_data_D = reiter_solubility_data[2:, 2:]
@@ -180,7 +174,6 @@ reiter_solubility_d = Solubility(
     range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
     isotope="D",
-    units="m-3 Pa-1/2",
 )
 
 reiter_solubility_t = Solubility(
@@ -189,7 +182,6 @@ reiter_solubility_t = Solubility(
     range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
     isotope="T",
-    units="m-3 Pa-1/2",
 )
 
 
@@ -204,7 +196,6 @@ aiello_solubility = Solubility(
     range=(600 * u.K, 900 * u.K),
     source="aiello_determination_2006",
     isotope="H",
-    units="m-3 Pa-1/2",
 )
 
 
@@ -229,7 +220,6 @@ alberro_solubility = Solubility(
     range=(523 * u.K, 922 * u.K),
     source="alberro_experimental_2015",
     isotope="H",
-    units="m-3 Pa-1/2",
 )
 
 
@@ -273,7 +263,6 @@ edao_diffusivity_d = Diffusivity(
 
 
 edao_solubility_h = Solubility(
-    units="m-3 Pa-1/2",
     S_0=2.73e-7 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
     E_S=4.18 * u.kJ * u.mol**-1,
     isotope="H",
@@ -283,7 +272,6 @@ edao_solubility_h = Solubility(
 )
 
 edao_solubility_d = Solubility(
-    units="m-3 Pa-1/2",
     S_0=4.21e-7 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
     E_S=3.10 * u.kJ * u.mol**-1,
     isotope="D",
@@ -329,7 +317,6 @@ okitsu_diffusivity_d = Diffusivity(
 )
 
 okitsu_solubility_h = Solubility(
-    units="m-3 Pa-1/2",
     S_0=8.6e-5 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
     E_S=53800 * u.kJ * u.mol**-1,
     range=(773 * u.K, 973 * u.K),
@@ -339,7 +326,6 @@ okitsu_solubility_h = Solubility(
 )
 
 okitsu_solubility_d = Solubility(
-    units="m-3 Pa-1/2",
     S_0=1.1e-4 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
     E_S=55200 * u.kJ * u.mol**-1,
     range=(773 * u.K, 973 * u.K),

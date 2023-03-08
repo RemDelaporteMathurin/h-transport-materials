@@ -34,7 +34,6 @@ calderoni_diffusivity = Diffusivity(
 )
 
 calderoni_solubility = Solubility(
-    units="m-3 Pa-1",
     S_0=7.9e-2 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
     E_S=35 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(
@@ -55,7 +54,6 @@ anderl_diffusivity = Diffusivity(
 )
 
 anderl_solubility = Solubility(
-    units="m-3 Pa-1",
     data_T=np.array([600, 650]) * htm.ureg.degC,
     data_y=[3.1e-4, 1.0e-4] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
     source="anderl_deuteriumtritium_2004",
@@ -85,7 +83,6 @@ data_solubility_field_h *= flibe_density_field
 data_solubility_field_h *= 1 / flibe_mass_field
 
 field_solubility_h = Solubility(
-    units="m-3 Pa-1",
     data_T=np.array([500, 600, 700]) * htm.ureg.degC,
     data_y=data_solubility_field_h,
     source="field_solubilities_1967",
@@ -98,7 +95,6 @@ data_solubility_field_d *= flibe_density_field
 data_solubility_field_d *= 1 / flibe_mass_field
 
 field_solubility_d = Solubility(
-    units="m-3 Pa-1",
     data_T=np.array([500, 600, 700]) * htm.ureg.degC,
     data_y=data_solubility_field_d,
     source="field_solubilities_1967",
@@ -116,7 +112,6 @@ data_maulinauskas_k_c_d = [1.41e-3, 2.74e-3, 4.26e-3]  # Kc adimensionnal
 data_maulinauskas_sol_d = data_maulinauskas_k_c_d / htm.Rg / data_maulinauskas_T
 
 maulinauskas_solubility_h = Solubility(
-    units="m-3 Pa-1",
     data_T=data_maulinauskas_T,
     data_y=data_maulinauskas_sol_h,
     isotope="H",
@@ -124,7 +119,6 @@ maulinauskas_solubility_h = Solubility(
 )
 
 maulinauskas_solubility_d = Solubility(
-    units="m-3 Pa-1",
     data_T=data_maulinauskas_T,
     data_y=data_maulinauskas_sol_d,
     isotope="D",

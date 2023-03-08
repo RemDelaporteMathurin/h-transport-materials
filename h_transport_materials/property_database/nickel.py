@@ -5,7 +5,6 @@ from h_transport_materials import (
     Permeability,
     DissociationCoeff,
 )
-import h_transport_materials.conversion as c
 
 NI_MOLAR_VOLUME = 6.59e-6  # m3/mol  https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/nickel
 u = htm.ureg
@@ -53,7 +52,6 @@ louthan_diffusivity_T = Diffusivity(
 )
 
 robertson_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=5.52e-6 / NI_MOLAR_VOLUME * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=12.5 * u.kJ * u.mol**-1,
     range=(273 * u.K, 1673 * u.K),
@@ -65,7 +63,6 @@ robertson_solubility = Solubility(
 
 
 louthan_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=5.5e-1 * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=15.8 * u.kJ * u.mol**-1,
     range=(300 * u.K, 500 * u.K),

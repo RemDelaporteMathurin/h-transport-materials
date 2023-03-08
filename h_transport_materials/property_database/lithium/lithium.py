@@ -36,7 +36,6 @@ veleckis_solubility = Solubility(
     ),
     source="veleckis_lithium-lithium_1974",
     isotope="H",
-    units="m-3 Pa-1/2",
     note="table 1 of original paper",
 )
 
@@ -49,7 +48,6 @@ smith_sol_data_y_h **= -1
 smith_sol_data_y_h *= 1 / LITHIUM_MOLAR_VOLUME
 
 smith_solubility_h = Solubility(
-    units="m-3 Pa-1/2",
     data_T=htm.ureg.Quantity([700, 750, 800, 850, 900, 950, 1000], htm.ureg.degC),
     data_y=smith_sol_data_y_h,
     isotope="H",
@@ -66,7 +64,6 @@ smith_sol_data_y_d **= -1
 smith_sol_data_y_d *= 1 / LITHIUM_MOLAR_VOLUME
 
 smith_solubility_d = Solubility(
-    units="m-3 Pa-1/2",
     data_T=htm.ureg.Quantity([700, 750, 800, 850, 900, 950, 1000], htm.ureg.degC),
     data_y=smith_sol_data_y_d,
     isotope="D",
@@ -83,7 +80,6 @@ smith_sol_data_y_t **= -1
 smith_sol_data_y_t *= 1 / LITHIUM_MOLAR_VOLUME
 
 smith_solubility_t = Solubility(
-    units="m-3 Pa-1/2",
     data_T=htm.ureg.Quantity([700, 750, 800, 850, 900, 950, 1000], htm.ureg.degC),
     data_y=smith_sol_data_y_t,
     isotope="T",

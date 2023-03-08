@@ -89,7 +89,6 @@ favreau_data_y = (
 favreau_data_y *= 1 / PALLADIUM_VOLUMIC_DENSITY  # mol T m-3  cmHg-1.2
 
 favreau_solubility_t = Solubility(
-    units="m-3 Pa-1/2",
     data_T=favreau_data_T * htm.ureg.degC,
     data_y=favreau_data_y,
     # S_0=4.45e-1 * htm.avogadro_nb,
@@ -250,7 +249,6 @@ favreau_data_y_h = (
 favreau_data_y_h *= 1 / PALLADIUM_VOLUMIC_DENSITY  # mol T m-3  cmHg-1.2
 
 favreau_solubility_h = Solubility(
-    units="m-3 Pa-1/2",
     data_T=favreau_data_T_h * htm.ureg.degC,
     data_y=favreau_data_y_h,
     source="favreau_solubility_1954",

@@ -13,7 +13,6 @@ perng_diffusivity = Diffusivity(
 )
 
 perng_solubility = Solubility(
-    units="m-3 Pa-1/2",
     range=(373 * htm.ureg.K, 623 * htm.ureg.K),
     S_0=2.70e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=6.9 * htm.ureg.kJ * htm.ureg.mol**-1,

@@ -12,7 +12,6 @@ hashizume_diffusivity = Diffusivity(
 )
 
 klepikov_solubility = Solubility(
-    units="m-3 Pa-1/2",
     data_T=[673.0, 773.0, 873.0, 973.0, 1073.0] * htm.ureg.K,
     data_y=[1.62e20, 9.84e19, 5.65e19, 4.91e19, 2.94e19]
     * htm.ureg.particle

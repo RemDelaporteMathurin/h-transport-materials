@@ -182,7 +182,6 @@ def test_units_property():
         E_D=0.1 * htm.ureg.eV * htm.ureg.particle**-1,
     )
     sol = htm.Solubility(
-        units="m-3 Pa-1",
         S_0=1 * htm.ureg.particle * htm.ureg.m**-3 * htm.ureg.Pa**-1,
         E_S=0.1 * htm.ureg.eV * htm.ureg.particle**-1,
     )

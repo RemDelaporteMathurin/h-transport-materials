@@ -33,7 +33,6 @@ tahara_diffusivity_D = Diffusivity(
 )
 
 eichenauer_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=4.90e-6
     / IRON_MOLAR_VOLUME
     * htm.ureg.mol

@@ -72,7 +72,6 @@ serra_solubility_h = Solubility(
     range=(553 * htm.ureg.K, 773 * htm.ureg.K),
     source="serra_hydrogen_1998",
     isotope="H",
-    units="m-3 Pa-1/2",
 )
 
 serra_solubility_d = Solubility(
@@ -84,7 +83,6 @@ serra_solubility_d = Solubility(
     range=(553 * htm.ureg.K, 773 * htm.ureg.K),
     source="serra_hydrogen_1998",
     isotope="D",
-    units="m-3 Pa-1/2",
 )
 # ################# Noh 2016 #############################
 nog_diffusivity_cucrzr_t = Diffusivity(
@@ -101,7 +99,6 @@ nog_solubility_cucrzr_t_1 = Solubility(
     range=(573 * htm.ureg.K, 873 * htm.ureg.K),
     source="noh_hydrogen-isotope_2016",
     isotope="T",
-    units="m-3 Pa-1/2",
 )
 
 nog_solubility_cucrzr_t_2 = Solubility(
@@ -110,7 +107,6 @@ nog_solubility_cucrzr_t_2 = Solubility(
     range=(573 * htm.ureg.K, 873 * htm.ureg.K),
     source="noh_hydrogen-isotope_2016",
     isotope="T",
-    units="m-3 Pa-1/2",
 )
 
 # ################# Anderl 1999 #############################
@@ -137,7 +133,6 @@ penalva_solubility_cucrzr_h = Solubility(
     range=(593 * htm.ureg.K, 773 * htm.ureg.K),
     source="penalva_interaction_2012",
     isotope="D",
-    units="m-3 Pa-1/2",
 )
 
 anderl_recombination = RecombinationCoeff(

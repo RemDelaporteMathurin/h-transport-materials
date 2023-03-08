@@ -53,7 +53,6 @@ zhang_diffusivity_d = Diffusivity(
 )
 
 zhang_solubility_h = Solubility(
-    units="m-3 Pa-1/2",
     S_0=0.36e-7 * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=17.60 * u.kJ * u.mol**-1,
     range=(u.Quantity(400, u.degC), u.Quantity(800, u.degC)),
@@ -62,7 +61,6 @@ zhang_solubility_h = Solubility(
 )
 
 zhang_solubility_d = Solubility(
-    units="m-3 Pa-1/2",
     S_0=0.31e-7 * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=17.81 * u.kJ * u.mol**-1,
     range=(u.Quantity(400, u.degC), u.Quantity(800, u.degC)),

@@ -14,7 +14,6 @@ reiter_diffusivity = Diffusivity(
 )
 
 reiter_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=1.06e-5
     / TITANIUM_MOLAR_VOLUME
     * htm.ureg.mol

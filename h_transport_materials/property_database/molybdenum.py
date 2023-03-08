@@ -20,7 +20,6 @@ katsuta_diffusivity = Diffusivity(
 )
 
 tanabe_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=3.3 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=37.4 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(500 * htm.ureg.K, 1100 * htm.ureg.K),
@@ -29,7 +28,6 @@ tanabe_solubility = Solubility(
 )
 
 katsuta_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=np.exp(8.703) * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=7.863e3 * htm.ureg.K * htm.k_B,
     isotope="H",

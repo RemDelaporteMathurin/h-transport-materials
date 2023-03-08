@@ -332,9 +332,7 @@ class Solubility(ArrheniusProperty):
         E_S (float or pint.Quantity, optional): activation energy. Defaults to None.
     """
 
-    def __init__(
-        self, units=None, S_0: float = None, E_S: float = None, **kwargs
-    ) -> None:
+    def __init__(self, S_0: float = None, E_S: float = None, **kwargs) -> None:
         super().__init__(pre_exp=S_0, act_energy=E_S, **kwargs)
 
     @ArrheniusProperty.pre_exp.setter

@@ -38,7 +38,6 @@ serra_solubility_data = np.genfromtxt(
 )
 
 serra_solubility_h = Solubility(
-    units="m-3 Pa-1/2",
     data_T=1000 / serra_solubility_data["hydrogenX"] * u.K,
     data_y=serra_solubility_data["hydrogenY"] * u.mol * u.m**-3 * u.Pa**-0.5,
     isotope="H",
@@ -46,7 +45,6 @@ serra_solubility_h = Solubility(
 )
 
 serra_solubility_d = Solubility(
-    units="m-3 Pa-1/2",
     data_T=1000 / serra_solubility_data["deuteriumX"] * u.K,
     data_y=serra_solubility_data["deuteriumY"] * u.mol * u.m**-3 * u.Pa**-0.5,
     isotope="D",

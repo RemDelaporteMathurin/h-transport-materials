@@ -16,7 +16,6 @@ kishimoto_diffusivity = Diffusivity(
 )
 
 kishimoto_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=41 * htm.ureg.ccNTP * htm.ureg.cm**-3 * htm.ureg.MPa**-0.5,
     E_S=0.22 * htm.ureg.eV * htm.ureg.particle**-1,
     isotope="H",
