@@ -14,7 +14,6 @@ anderl_recombination = Diffusivity(
     D_0=2.9e-14 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=1.92 * htm.ureg.eV * htm.ureg.particle**-1,
     source="anderl_deuterium_1999",
-    name="Anderl (1999)",
     isotope="D",
 )
 
@@ -93,7 +92,6 @@ nog_diffusivity_cucrzr_t = Diffusivity(
     0.964 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(573 * htm.ureg.K, 873 * htm.ureg.K),
     source="noh_hydrogen-isotope_2016",
-    name="T Noh (2016)",
     isotope="T",
 )
 
@@ -102,7 +100,6 @@ nog_solubility_cucrzr_t_1 = Solubility(
     E_S=0.0715 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(573 * htm.ureg.K, 873 * htm.ureg.K),
     source="noh_hydrogen-isotope_2016",
-    name="T Noh (2016)",
     isotope="T",
     units="m-3 Pa-1/2",
 )
@@ -112,7 +109,6 @@ nog_solubility_cucrzr_t_2 = Solubility(
     E_S=0.4 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(573 * htm.ureg.K, 873 * htm.ureg.K),
     source="noh_hydrogen-isotope_2016",
-    name="T Noh (2016)",
     isotope="T",
     units="m-3 Pa-1/2",
 )
@@ -123,7 +119,6 @@ anderl_diffusivity_cucrzr_d = Diffusivity(
     E_D=1.2 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(700 * htm.ureg.K, 800 * htm.ureg.K),
     source="anderl_deuterium_1999",
-    name="D Anderl (1999)",
     isotope="D",
 )
 
@@ -133,7 +128,6 @@ penalva_diffusivity_cucrzr_h = Diffusivity(
     65.5e3 * htm.ureg.J * htm.ureg.mol**-1,
     range=(593 * htm.ureg.K, 773 * htm.ureg.K),
     source="penalva_interaction_2012",
-    name="D Penalva (1999)",
     isotope="D",
 )
 
@@ -142,7 +136,6 @@ penalva_solubility_cucrzr_h = Solubility(
     E_S=8.4e3 * htm.ureg.J * htm.ureg.mol**-1,
     range=(593 * htm.ureg.K, 773 * htm.ureg.K),
     source="penalva_interaction_2012",
-    name="D Penalva (1999)",
     isotope="D",
     units="m-3 Pa-1/2",
 )

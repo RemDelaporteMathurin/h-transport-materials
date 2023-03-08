@@ -17,7 +17,6 @@ class Property:
     Args:
         material (str, optional): name of the material. Defaults to "".
         source (str, optional): bibliographic reference. Defaults to "".
-        name (str, optional): name of the property. Defaults to "".
         range (tuple, optional): temperature validity range in K.
             Defaults to None.
         year (int, optional): year of publication. Defaults to None.
@@ -31,7 +30,6 @@ class Property:
         self,
         material: str = "",
         source: str = "",
-        name: str = "",
         range: tuple = None,
         year: int = None,
         isotope: str = None,
@@ -41,7 +39,6 @@ class Property:
 
         self.material = material
         self.source = source
-        self.name = name
         self.range = range
         self.isotope = isotope
         self.note = note

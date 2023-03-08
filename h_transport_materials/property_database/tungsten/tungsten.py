@@ -14,7 +14,6 @@ frauenfelder_diffusivity = Diffusivity(
     E_D=0.39 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(1100 * htm.ureg.K, 2400 * htm.ureg.K),
     source=frauenfelder_src,
-    name="Frauenfelder (1969)",
     isotope="H",
 )
 frauenfelder_solubility = Solubility(
@@ -22,7 +21,6 @@ frauenfelder_solubility = Solubility(
     E_S=1.04 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(1100 * htm.ureg.K, 2400 * htm.ureg.K),
     source=frauenfelder_src,
-    name="Frauenfelder (1969)",
     isotope="H",
     units="m-3 Pa-1/2",
 )
@@ -34,7 +32,6 @@ liu_diffusivity_tungsten = Diffusivity(
     E_D=0.21 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(200 * htm.ureg.K, 3000 * htm.ureg.K),
     source=liu_src,
-    name="H Liu (2014)",
     isotope="H",
 )
 
@@ -44,7 +41,6 @@ heinola_diffusivity_tungsten = Diffusivity(
     D_0=5.2e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=0.21 * htm.ureg.eV * htm.ureg.particle**-1,
     source=heinola_src,
-    name="H Heinola (2010)",
     isotope="H",
 )
 
@@ -53,7 +49,6 @@ johnson_diffusivity_tungsten_h = Diffusivity(
     D_0=6.32e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=0.39 * htm.ureg.eV * htm.ureg.particle**-1,
     source=johnson_src,
-    name="H Johnson (2010)",
     isotope="H",
 )
 
@@ -61,7 +56,6 @@ johnson_diffusivity_tungsten_t = Diffusivity(
     D_0=5.16e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=0.40 * htm.ureg.eV * htm.ureg.particle**-1,
     source=johnson_src,
-    name="T Johnson (2010)",
     isotope="T",
 )
 
@@ -71,7 +65,6 @@ moore_diffusivity_tungsten_t = Diffusivity(
     E_D=173.7 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(1510 * htm.ureg.K, 1902 * htm.ureg.K),
     source="moore_adsorptiondesorption_1964",
-    name="T Moore (1964)",
     isotope="T",
 )
 
@@ -91,7 +84,6 @@ ryabchikov_diffusivity_tungsten_h = Diffusivity(
     E_D=82.9 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(1055 * htm.ureg.K, 1570 * htm.ureg.K),
     source="ryabchikov_notitle_1964",
-    name="H Ryabchikov (1964)",
     isotope="H",
 )
 
@@ -101,7 +93,6 @@ esteban_diffusivity_tungsten_h = Diffusivity(
     E_D=9.3 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(673 * htm.ureg.K, 1073 * htm.ureg.K),
     source=esteban_src,
-    name="H Esteban (2001)",
     isotope="H",
 )
 
@@ -110,7 +101,6 @@ esteban_diffusivity_tungsten_d = Diffusivity(
     E_D=10 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(673 * htm.ureg.K, 1073 * htm.ureg.K),
     source=esteban_src,
-    name="D Esteban (2001)",
     isotope="D",
 )
 
@@ -119,7 +109,6 @@ esteban_diffusivity_tungsten_t = Diffusivity(
     E_D=11.2 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(673 * htm.ureg.K, 1073 * htm.ureg.K),
     source=esteban_src,
-    name="T Esteban (2001)",
     isotope="T",
 )
 
@@ -129,7 +118,6 @@ esteban_solubility_tungsten_h = Solubility(
     E_S=26.9 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(673 * htm.ureg.K, 1073 * htm.ureg.K),
     source=esteban_src,
-    name="H Esteban (2001)",
     isotope="H",
     units="m-3 Pa-1/2",
 )
@@ -139,7 +127,6 @@ esteban_solubility_tungsten_d = Solubility(
     E_S=28.7 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(673 * htm.ureg.K, 1073 * htm.ureg.K),
     source=esteban_src,
-    name="D Esteban (2001)",
     isotope="D",
     units="m-3 Pa-1/2",
 )
@@ -149,7 +136,6 @@ esteban_solubility_tungsten_t = Solubility(
     E_S=27.8 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(673 * htm.ureg.K, 1073 * htm.ureg.K),
     source=esteban_src,
-    name="T Esteban (2001)",
     isotope="T",
     units="m-3 Pa-1/2",
 )
@@ -160,7 +146,6 @@ holzner_diffusivity_tungsten_h = Diffusivity(
     E_D=0.28 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(1600 * htm.ureg.K, 2600 * htm.ureg.K),
     source=holzner_src,
-    name="H Holzner (2020)",
     isotope="H",
 )
 holzner_diffusivity_tungsten_d = Diffusivity(
@@ -168,7 +153,6 @@ holzner_diffusivity_tungsten_d = Diffusivity(
     E_D=0.28 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(1600 * htm.ureg.K, 2600 * htm.ureg.K),
     source=holzner_src,
-    name="D Holzner (2020)",
     isotope="D",
 )
 
@@ -176,7 +160,6 @@ fernandez_diffusivity_tungsten_h = Diffusivity(
     D_0=1.93e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=0.20 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(300 * htm.ureg.K, 1200 * htm.ureg.K),
-    name="H Fernandez (2015)",
     source="fernandez_hydrogen_2015",
     isotope="H",
 )
