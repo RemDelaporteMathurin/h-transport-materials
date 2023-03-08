@@ -39,3 +39,9 @@ def test_users_have_to_give_units_pre_exp():
 def test_users_have_to_give_units_data_y():
     with pytest.raises(ValueError, match="units are required for Permeability"):
         htm.Permeability(data_y=[1, 2], data_T=[1, 2] * htm.ureg.K)
+
+
+@pytest.mark.filterwarnings("ignore:no units were given")
+def test_without_units_but_law():
+    prop = htm.Permeability(1, 0, law="sievert")
+    assert prop.pre_exp.units == prop.units
