@@ -328,30 +328,66 @@ class Solubility(ArrheniusProperty):
     """Solubility class
 
     Args:
-        units (str): units of the solubility "m-3 Pa-1/2" or "m-3 Pa-1".
         S_0 (float or pint.Quantity, optional): pre-exponential factor. Defaults to None.
         E_S (float or pint.Quantity, optional): activation energy. Defaults to None.
     """
 
     def __init__(
-        self, units: str, S_0: float = None, E_S: float = None, **kwargs
+        self, units=None, S_0: float = None, E_S: float = None, **kwargs
     ) -> None:
-        self.units = units
         super().__init__(pre_exp=S_0, act_energy=E_S, **kwargs)
+
+    @ArrheniusProperty.pre_exp.setter
+    def pre_exp(self, value):
+        if isinstance(value, pint.Quantity):
+            self.set_law_from_quantity(value)
+
+            self._pre_exp = value.to(self.units)
+        elif value is not None:
+            raise ValueError("units are required for Solubility")
+        else:
+            self._pre_exp = value
+
+    @ArrheniusProperty.data_y.setter
+    def data_y(self, value):
+        if value is None:
+            self._data_y = value
+            return
+        if isinstance(value, pint.Quantity):
+            self.set_law_from_quantity(value)
+
+            # convert to right units
+            value = value.to(self.units)
+        else:
+            raise ValueError("units are required for Solubility")
+        if not isinstance(value.magnitude, (list, np.ndarray)):
+            raise TypeError("data_y accepts list or np.ndarray")
+        elif isinstance(value.magnitude, list):
+            value_as_array = np.array(value)
+            value = value_as_array[~np.isnan(value_as_array)]  # remove nan values
+        else:
+            value = value[~np.isnan(value)]
+
+        self._data_y = value
+
+    def set_law_from_quantity(self, quantity):
+        sievert_units = ureg.particle * ureg.meter**-3 * ureg.Pa**-0.5
+        henry_units = ureg.particle * ureg.meter**-3 * ureg.Pa**-1
+        if quantity.check(sievert_units):
+            self.law = "sievert"
+        elif quantity.check(henry_units):
+            self.law = "henry"
+        else:
+            raise ValueError(
+                f"Wrong dimensionality for solubility. Should be one of {[henry_units.dimensionality, sievert_units.dimensionality]}"
+            )
 
     @property
     def units(self):
-        return self._units
-
-    @units.setter
-    def units(self, value):
-        acceptable_units = ["m-3 Pa-1/2", "m-3 Pa-1"]
-        if value == "m-3 Pa-1/2":
-            self._units = ureg.particle * ureg.meter**-3 * ureg.Pa**-0.5
-        elif value == "m-3 Pa-1":
-            self._units = ureg.particle * ureg.meter**-3 * ureg.Pa**-1
-        else:
-            raise ValueError("units can only accept {} or {}".format(*acceptable_units))
+        if self.law == "sievert":
+            return ureg.particle * ureg.meter**-3 * ureg.Pa**-0.5
+        elif self.law == "henry":
+            return ureg.particle * ureg.meter**-3 * ureg.Pa**-1
 
 
 class Diffusivity(ArrheniusProperty):
