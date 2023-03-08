@@ -28,7 +28,6 @@ fukada_solubility_h = Solubility(
     data_y=data_fukada_S[:, 1] * htm.ureg.mol * htm.ureg.cm**-3 * htm.ureg.atm**-1,
     source="fukada_hydrogen_2006",
     isotope="H",
-    units="m-3 Pa-1",
 )
 
 # nakamura 2015
@@ -53,7 +52,6 @@ nakamura_solubility_h = Solubility(
     data_y=data_nakamura_S[:, 1] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
     source="nakamura_hydrogen_2015",
     isotope="H",
-    units="m-3 Pa-1",
 )
 
 # lam 2020
@@ -102,7 +100,6 @@ zeng_solubility_h_2019 = Solubility(
     data_y=data_zeng_S[:, 1] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
     source="zeng_behavior_2019",
     isotope="H",
-    units="m-3 Pa-1",
 )
 
 
@@ -131,7 +128,6 @@ zeng_solubility_h_2014 = Solubility(
     data_y=data_zeng_2014_S[:, 1] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
     source="zeng_apparatus_2014",
     isotope="H",
-    units="m-3 Pa-1",
 )
 
 properties = [

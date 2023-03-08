@@ -5,7 +5,6 @@ from h_transport_materials import (
     DissociationCoeff,
     RecombinationCoeff,
 )
-import h_transport_materials.conversion as c
 
 
 gervasini_diffusivity_H = Diffusivity(
@@ -25,7 +24,6 @@ gervasini_diffusivity_D = Diffusivity(
 )
 
 gervasini_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=2.09e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=10.52 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(650 * htm.ureg.K, 900 * htm.ureg.K),

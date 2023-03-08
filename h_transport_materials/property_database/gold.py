@@ -16,7 +16,6 @@ eichenauer_diffusivity = Diffusivity(
 
 
 shimada_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=7.8e1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=99.4 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(773 * htm.ureg.K, 873 * htm.ureg.K),
@@ -56,7 +55,6 @@ data_y_mclellan *= (
 mclellan_solubility = Solubility(
     data_T=data_T_mclellan,
     data_y=data_y_mclellan,
-    units="m-3 Pa-1/2",
     source="mclellan_solid_1973",
     isotope="H",
 )

@@ -20,7 +20,6 @@ reiter_diffusivity = Diffusivity(
 )
 
 reiter_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=5.8e-6
     / IRON_MOLAR_VOLUME
     * htm.ureg.mol
@@ -66,7 +65,6 @@ kishimoto_diffusivity = Diffusivity(
 )
 
 kishimoto_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=16 * htm.ureg.ccNTP * htm.ureg.cm**-3 * htm.ureg.MPa**-0.5,
     E_S=0.13 * htm.ureg.eV * htm.ureg.particle**-1,
     isotope="H",
@@ -146,7 +144,6 @@ forcey_diffusivity = Diffusivity(
 )
 
 forcey_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=1.50 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=18510 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(
@@ -214,7 +211,6 @@ lee_diffusivity = Diffusivity(
 )
 lee_data_invT = lee_diffsol_data["solubilityX"] * htm.ureg.K**-1
 lee_solubility = Solubility(
-    units="m-3 Pa-1/2",
     data_T=1 / lee_data_invT,
     data_y=lee_diffsol_data["solubilityY"]
     * htm.ureg.mol

@@ -31,7 +31,6 @@ schmidt_permeability = Permeability(
 
 
 schmidt_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=schmidt_permeability.pre_exp / schmidt_diffusivity.pre_exp,
     E_S=schmidt_permeability.act_energy - schmidt_diffusivity.act_energy,
     range=(1023 * u.K, 1223 * u.K),
@@ -58,7 +57,6 @@ esteban_diffusivity = Diffusivity(
 )
 
 esteban_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=0.102 * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=7.8 * u.kJ * u.mol**-1,
     range=(427 * u.K, 780 * u.K),

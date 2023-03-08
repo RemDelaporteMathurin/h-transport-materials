@@ -22,7 +22,6 @@ frauenfelder_solubility = Solubility(
     range=(1100 * htm.ureg.K, 2400 * htm.ureg.K),
     source=frauenfelder_src,
     isotope="H",
-    units="m-3 Pa-1/2",
 )
 
 
@@ -119,7 +118,6 @@ esteban_solubility_tungsten_h = Solubility(
     range=(673 * htm.ureg.K, 1073 * htm.ureg.K),
     source=esteban_src,
     isotope="H",
-    units="m-3 Pa-1/2",
 )
 
 esteban_solubility_tungsten_d = Solubility(
@@ -128,7 +126,6 @@ esteban_solubility_tungsten_d = Solubility(
     range=(673 * htm.ureg.K, 1073 * htm.ureg.K),
     source=esteban_src,
     isotope="D",
-    units="m-3 Pa-1/2",
 )
 
 esteban_solubility_tungsten_t = Solubility(
@@ -137,7 +134,6 @@ esteban_solubility_tungsten_t = Solubility(
     range=(673 * htm.ureg.K, 1073 * htm.ureg.K),
     source=esteban_src,
     isotope="T",
-    units="m-3 Pa-1/2",
 )
 
 holzner_src = "holzner_solute_2020"

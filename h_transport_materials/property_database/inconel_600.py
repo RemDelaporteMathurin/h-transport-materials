@@ -16,7 +16,6 @@ kishimoto_diffusivity = Diffusivity(
 )
 
 kishimoto_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=36 * htm.ureg.ccNTP * htm.ureg.cm**-3 * htm.ureg.MPa**-0.5,
     E_S=0.22 * htm.ureg.eV * htm.ureg.particle**-1,
     isotope="H",
@@ -90,7 +89,6 @@ rota_permeability_d = Permeability(
 )
 
 rota_solubility_h = Solubility(
-    units="m-3 Pa-1/2",
     S_0=1.4e17 * htm.ureg.particle * htm.ureg.cm**-3 * htm.ureg.mbar**-0.5,
     E_S=1.3 * htm.ureg.kcal * htm.ureg.mol**-1,
     isotope="H",
@@ -102,7 +100,6 @@ rota_solubility_h = Solubility(
 )
 
 rota_solubility_d = Solubility(
-    units="m-3 Pa-1/2",
     S_0=1.2e17 * htm.ureg.particle * htm.ureg.cm**-3 * htm.ureg.mbar**-0.5,
     E_S=1.2 * htm.ureg.kcal * htm.ureg.mol**-1,
     isotope="D",

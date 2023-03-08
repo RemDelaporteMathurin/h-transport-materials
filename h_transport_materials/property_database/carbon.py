@@ -24,7 +24,6 @@ atsumi_diffusivity = Diffusivity(
 )
 
 atsumi_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=1.9e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=-19.2 * htm.ureg.kJ * htm.ureg.mol**-1,
     source="atsumi_absorption_1988",

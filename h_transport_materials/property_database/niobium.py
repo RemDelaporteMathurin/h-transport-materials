@@ -1,6 +1,5 @@
 import h_transport_materials as htm
 from h_transport_materials import Diffusivity, Solubility
-import h_transport_materials.conversion as c
 
 NIOBIUM_MOLAR_VOLUME = 1.08e-8  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/niobium
 
@@ -20,7 +19,6 @@ schober_diffusivity = Diffusivity(
 )
 
 veleckis_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=1.26e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=-35.3 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(625 * htm.ureg.K, 944 * htm.ureg.K),
@@ -29,7 +27,6 @@ veleckis_solubility = Solubility(
 )
 
 reiter_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=3.6e-6
     / NIOBIUM_MOLAR_VOLUME
     * htm.ureg.mol

@@ -12,7 +12,6 @@ volkl_diffusivity = Diffusivity(
 )
 
 veleckis_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=1.32e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=-33.7 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="H",

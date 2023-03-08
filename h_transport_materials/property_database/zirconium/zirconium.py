@@ -23,7 +23,6 @@ hsu_diffusivity = Diffusivity(
 )
 
 kearns_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=4.30e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=-49.5 * htm.ureg.kJ * htm.ureg.mol**-1,
     isotope="H",
@@ -39,7 +38,6 @@ yamanaka_solubility_data = np.genfromtxt(
 )
 
 yamanaka_solubility = Solubility(
-    units="m-3 Pa-1/2",
     data_T=1e4 / yamanaka_solubility_data[:, 0] * htm.ureg.K,
     data_y=np.exp(yamanaka_solubility_data[:, 1])
     / ZIRCONIUM_MOLAR_VOLUME

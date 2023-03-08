@@ -271,13 +271,8 @@ class ArrheniusProperty(Property):
         else:
             warnings.warn(f"no units were given with data_T, assuming {ureg.K:~}")
             value *= ureg.K
-        if not isinstance(value.magnitude, (list, np.ndarray)):
-            raise TypeError("data_T accepts list or np.ndarray")
-        elif isinstance(value.magnitude, list):
-            value_as_array = np.array(value)
-            value = value_as_array[~np.isnan(value_as_array)]  # remove nan values
-        else:
-            value = value[~np.isnan(value)]
+
+        value = self._remove_nan_in_experimental_points(value)
 
         self._data_T = value
 
@@ -299,15 +294,28 @@ class ArrheniusProperty(Property):
         else:
             warnings.warn(f"no units were given with data_y, assuming {self.units:~}")
             value *= self.units
-        if not isinstance(value.magnitude, (list, np.ndarray)):
-            raise TypeError("data_y accepts list or np.ndarray")
-        elif isinstance(value.magnitude, list):
-            value_as_array = np.array(value)
-            value = value_as_array[~np.isnan(value_as_array)]  # remove nan values
-        else:
-            value = value[~np.isnan(value)]
+        value = self._remove_nan_in_experimental_points(value)
 
         self._data_y = value
+
+    def _remove_nan_in_experimental_points(self, quantity: pint.Quantity):
+        """Removes all nan values from a list of values
+
+        Args:
+            quantity (pint.Quantity): the quantity with magnitude as a list
+
+        Raises:
+            TypeError: if the magnitude is not a list of a numpy array
+
+        Returns:
+            pint.Quantity: the values without nans
+        """
+        if not isinstance(quantity.magnitude, (list, np.ndarray)):
+            raise TypeError("data_T and data_y accept list or np.ndarray")
+        quantity_mag = np.asarray(quantity.magnitude)
+        quantity_mag = quantity_mag[~np.isnan(quantity_mag)]
+
+        return ureg.Quantity(quantity_mag, quantity.units)
 
     def fit(self):
         pre_exp, act_energy = fit_arhenius(self.data_y, self.data_T)
@@ -328,30 +336,81 @@ class Solubility(ArrheniusProperty):
     """Solubility class
 
     Args:
-        units (str): units of the solubility "m-3 Pa-1/2" or "m-3 Pa-1".
         S_0 (float or pint.Quantity, optional): pre-exponential factor. Defaults to None.
         E_S (float or pint.Quantity, optional): activation energy. Defaults to None.
+        law (str, optional): "sievert" or "henry", the solubility law
     """
 
     def __init__(
-        self, units: str, S_0: float = None, E_S: float = None, **kwargs
+        self, S_0: float = None, E_S: float = None, law: str = None, **kwargs
     ) -> None:
-        self.units = units
+        self.law = law
         super().__init__(pre_exp=S_0, act_energy=E_S, **kwargs)
 
     @property
-    def units(self):
-        return self._units
+    def law(self):
+        return self._law
 
-    @units.setter
-    def units(self, value):
-        acceptable_units = ["m-3 Pa-1/2", "m-3 Pa-1"]
-        if value == "m-3 Pa-1/2":
-            self._units = ureg.particle * ureg.meter**-3 * ureg.Pa**-0.5
-        elif value == "m-3 Pa-1":
-            self._units = ureg.particle * ureg.meter**-3 * ureg.Pa**-1
+    @law.setter
+    def law(self, value):
+        acceptable_values = ["sievert", "henry", None]
+        if value not in acceptable_values:
+            raise ValueError(f"law should be one of {acceptable_values}, not {value}")
+        self._law = value
+
+    @ArrheniusProperty.pre_exp.setter
+    def pre_exp(self, value):
+        if value is None:
+            self._pre_exp = value
+            return
+        if isinstance(value, pint.Quantity):
+            self.set_law_from_quantity(value)
+
+            self._pre_exp = value.to(self.units)
+        elif self.law is None:
+            raise ValueError(
+                "units are required for Solubility.pre_exp, set law argument for default units"
+            )
         else:
-            raise ValueError("units can only accept {} or {}".format(*acceptable_units))
+            warnings.warn(
+                f"no units were given with pre-exponential factor, assuming {self.units:~}"
+            )
+            self._pre_exp = value * self.units
+
+    @ArrheniusProperty.data_y.setter
+    def data_y(self, value):
+        if value is None:
+            self._data_y = value
+            return
+        if isinstance(value, pint.Quantity):
+            self.set_law_from_quantity(value)
+
+            # convert to right units
+            value = value.to(self.units)
+        else:
+            raise ValueError("units are required for Solubility")
+        value = self._remove_nan_in_experimental_points(value)
+
+        self._data_y = value
+
+    def set_law_from_quantity(self, quantity):
+        sievert_units = ureg.particle * ureg.meter**-3 * ureg.Pa**-0.5
+        henry_units = ureg.particle * ureg.meter**-3 * ureg.Pa**-1
+        if quantity.check(sievert_units):
+            self.law = "sievert"
+        elif quantity.check(henry_units):
+            self.law = "henry"
+        else:
+            raise ValueError(
+                f"Wrong dimensionality for solubility. Should be one of {[henry_units.dimensionality, sievert_units.dimensionality]}"
+            )
+
+    @property
+    def units(self):
+        if self.law == "sievert":
+            return ureg.particle * ureg.meter**-3 * ureg.Pa**-0.5
+        elif self.law == "henry":
+            return ureg.particle * ureg.meter**-3 * ureg.Pa**-1
 
 
 class Diffusivity(ArrheniusProperty):
@@ -371,14 +430,107 @@ class Diffusivity(ArrheniusProperty):
 
 
 class Permeability(ArrheniusProperty):
-    """Permeability class"""
+    """Permeability class
 
-    def __init__(self, **kwargs) -> None:
-        super().__init__(**kwargs)
+    Args:
+        pre_exp (float or pint.Quantity, optional): the pre-exponential factor. Defaults to None.
+        act_energy (float or pint.Quantity, optional): the activation energy. Defaults to None.
+        data_T (list, optional): list of temperatures in K. Used to automatically
+            fit experimental points. Defaults to None.
+        data_y (list, optional): list of y data. Used to automatically
+            fit experimental points. Defaults to None.
+        law (str, optional): "sievert" or "henry", the solubility law. Defaults to None.
+    """
+
+    def __init__(
+        self,
+        pre_exp=None,
+        act_energy=None,
+        data_T: list = None,
+        data_y: list = None,
+        law: str = None,
+        **kwargs,
+    ) -> None:
+
+        self.law = law
+        super().__init__(
+            pre_exp=pre_exp,
+            act_energy=act_energy,
+            data_T=data_T,
+            data_y=data_y,
+            **kwargs,
+        )
+
+    @property
+    def law(self):
+        return self._law
+
+    @law.setter
+    def law(self, value):
+        acceptable_values = ["sievert", "henry", None]
+        if value not in acceptable_values:
+            raise ValueError(f"law should be one of {acceptable_values}, not {value}")
+        self._law = value
+
+    @ArrheniusProperty.pre_exp.setter
+    def pre_exp(self, value):
+        if value is None:
+            self._pre_exp = value
+            return
+        if isinstance(value, pint.Quantity):
+            self.set_law_from_quantity(value)
+
+            self._pre_exp = value.to(self.units)
+        elif self.law is None:
+            raise ValueError(
+                "units are required for Permeability.pre_exp, set law argument for default units"
+            )
+        else:
+            warnings.warn(
+                f"no units were given with pre-exponential factor, assuming {self.units:~}"
+            )
+            self._pre_exp = value * self.units
+
+    @ArrheniusProperty.data_y.setter
+    def data_y(self, value):
+        if value is None:
+            self._data_y = value
+            return
+        if isinstance(value, pint.Quantity):
+            self.set_law_from_quantity(value)
+
+            # convert to right units
+            value = value.to(self.units)
+        else:
+            raise ValueError("units are required for Permeability")
+        value = self._remove_nan_in_experimental_points(value)
+
+        self._data_y = value
+
+    def set_law_from_quantity(self, quantity):
+        sievert_units = (
+            ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
+        )
+        henry_units = (
+            ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-1
+        )
+        if quantity.check(sievert_units):
+            self.law = "sievert"
+        elif quantity.check(henry_units):
+            self.law = "henry"
+        else:
+            raise ValueError(
+                f"Wrong dimensionality for permeability. Should be one of {[henry_units.dimensionality, sievert_units.dimensionality]}"
+            )
 
     @property
     def units(self):
-        return ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
+        if self.law == "sievert":
+            return (
+                ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
+            )
+        elif self.law == "henry":
+            return ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-1
 
 
 class RecombinationCoeff(ArrheniusProperty):

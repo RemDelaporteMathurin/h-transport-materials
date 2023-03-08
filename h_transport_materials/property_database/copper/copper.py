@@ -26,7 +26,6 @@ reiter_solubility_copper = Solubility(
     range=(470 * htm.ureg.K, 1200 * htm.ureg.K),
     source="reiter_compilation_1996",
     isotope="T",
-    units="m-3 Pa-1/2",
 )
 
 # copper = Material(D=reiter_diffusivity_copper, S=reiter_solubility_copper, name="copper")
@@ -90,7 +89,6 @@ eichenauer_solubility_copper_h = Solubility(
     range=(700 * htm.ureg.K, 920 * htm.ureg.K),
     source="eichenauer_notitle_1957",
     isotope="H",
-    units="m-3 Pa-1/2",
 )
 
 # ################# Perkins 1973 #############################
@@ -127,7 +125,6 @@ eichenauer_solubility_copper_d = Solubility(
     range=(703 * htm.ureg.K, 913 * htm.ureg.K),
     source="eichenauer_notitle_1965",
     isotope="D",
-    units="m-3 Pa-1/2",
 )
 
 # ################# Anderl 1990 #############################
@@ -175,7 +172,6 @@ thomas_solubility_copper_h = Solubility(
     range=(770 * htm.ureg.K, 1320 * htm.ureg.K),
     source="thomas_solubility_1967",
     isotope="H",
-    units="m-3 Pa-1/2",
 )
 
 # ################# Wampler 1976 #############################
@@ -185,7 +181,6 @@ wampler_solubility_copper_h = Solubility(
     range=(770 * htm.ureg.K, 1070 * htm.ureg.K),
     source="wampler_precipitation_1976",
     isotope="H",
-    units="m-3 Pa-1/2",
 )
 
 data_T_mclellan = (
@@ -237,7 +232,6 @@ data_y_mclellan *= (
 mclellan_solubility = Solubility(
     data_T=data_T_mclellan,
     data_y=data_y_mclellan,
-    units="m-3 Pa-1/2",
     isotope="H",
     source="mclellan_solid_1973",
 )

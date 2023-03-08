@@ -12,7 +12,6 @@ causey_diffusivity = Diffusivity(
 )
 
 causey_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=4.40e-1 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=28.6 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(300 * htm.ureg.K, 973 * htm.ureg.K),
@@ -34,7 +33,6 @@ forcey_diffusivity = htm.Diffusivity(
 )
 
 forcey_solubility = htm.Solubility(
-    units="m-3 Pa-1/2",
     S_0=1.29
     * htm.ureg.mol
     * htm.ureg.m**-3
@@ -58,7 +56,6 @@ serra_diffusivity_f82h = htm.Diffusivity(
     isotope="D",
 )
 serra_solubility_f82h = htm.Solubility(
-    units="m-3 Pa-1/2",
     S_0=0.377 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=26880 * htm.ureg.J * htm.ureg.mol**-1,
     range=(373 * htm.ureg.K, 743 * htm.ureg.K),
@@ -78,7 +75,6 @@ serra_diffusivity_batman = htm.Diffusivity(
     note="Batman steel",
 )
 serra_solubility_batman = htm.Solubility(
-    units="m-3 Pa-1/2",
     S_0=0.198 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=24703 * htm.ureg.J * htm.ureg.mol**-1,
     range=(373 * htm.ureg.K, 743 * htm.ureg.K),
@@ -98,7 +94,6 @@ pisarev_diffusivity = htm.Diffusivity(
 )
 
 pisarev_solubility = htm.Solubility(
-    units="m-3 Pa-1/2",
     S_0=2.0e18 * htm.ureg.particle * htm.ureg.cm**-3 * htm.ureg.Pa**-0.5,
     E_S=0.343 * htm.ureg.eV * htm.ureg.particle**-1,
     range=(573 * htm.ureg.K, 873 * htm.ureg.K),
@@ -118,7 +113,6 @@ esteban_diffusivity_h = htm.Diffusivity(
 )
 
 esteban_solubility_h = htm.Solubility(
-    units="m-3 Pa-1/2",
     S_0=0.328 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=29005 * htm.ureg.J * htm.ureg.mol**-1,
     range=(423 * htm.ureg.K, 892 * htm.ureg.K),
@@ -135,7 +129,6 @@ esteban_diffusivity_d = htm.Diffusivity(
 )
 
 esteban_solubility_d = htm.Solubility(
-    units="m-3 Pa-1/2",
     S_0=0.325 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=28955 * htm.ureg.J * htm.ureg.mol**-1,
     range=(423 * htm.ureg.K, 892 * htm.ureg.K),
@@ -154,7 +147,6 @@ esteban_diffusivity_t = htm.Diffusivity(
 )
 
 esteban_solubility_t = htm.Solubility(
-    units="m-3 Pa-1/2",
     S_0=0.271 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=27905 * htm.ureg.J * htm.ureg.mol**-1,
     range=(423 * htm.ureg.K, 892 * htm.ureg.K),
@@ -199,7 +191,6 @@ kulsartov_diffusivity_h = htm.Diffusivity(
 )
 
 kulsartov_solubility_h = htm.Solubility(
-    units="m-3 Pa-1/2",
     S_0=7.7 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=33 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(
@@ -222,7 +213,6 @@ kulsartov_diffusivity_d = htm.Diffusivity(
     source="kulsartov_investigation_2006",
 )
 kulsartov_solubility_d = htm.Solubility(
-    units="m-3 Pa-1/2",
     S_0=7.4 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=36 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(

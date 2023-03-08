@@ -19,7 +19,6 @@ young_diffusivity = Diffusivity(
 
 ransley_solubility = Solubility(
     isotope="H",
-    units="m-3 Pa-1/2",
     S_0=2.32e-2 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
     E_S=39.7 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(723 * htm.ureg.K, 873 * htm.ureg.K),

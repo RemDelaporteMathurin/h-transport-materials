@@ -30,7 +30,6 @@ grant_diffusivity = Diffusivity(
 )
 
 grant_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=grant_permeability.pre_exp / grant_diffusivity.pre_exp,
     E_S=grant_permeability.act_energy - grant_diffusivity.act_energy,
     range=(645 * u.K, 965 * u.K),
@@ -104,7 +103,6 @@ braun_diffusivity = Diffusivity(
 )
 
 hawkins_solubility = Solubility(
-    units="m-3 Pa-1/2",
     S_0=2.2e19 * u.particle * u.cm**-3 * u.bar**-0.5,
     E_S=1700 * u.J * u.mol**-1,
     source="N.L. Hawkins, Report KAPL 863 (1953)",
