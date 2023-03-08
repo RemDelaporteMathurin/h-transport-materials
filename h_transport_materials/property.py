@@ -271,13 +271,8 @@ class ArrheniusProperty(Property):
         else:
             warnings.warn(f"no units were given with data_T, assuming {ureg.K:~}")
             value *= ureg.K
-        if not isinstance(value.magnitude, (list, np.ndarray)):
-            raise TypeError("data_T accepts list or np.ndarray")
-        elif isinstance(value.magnitude, list):
-            value_as_array = np.array(value)
-            value = value_as_array[~np.isnan(value_as_array)]  # remove nan values
-        else:
-            value = value[~np.isnan(value)]
+
+        value = self._remove_nan_in_experimental_points(value, label="data_T")
 
         self._data_T = value
 
@@ -299,15 +294,33 @@ class ArrheniusProperty(Property):
         else:
             warnings.warn(f"no units were given with data_y, assuming {self.units:~}")
             value *= self.units
-        if not isinstance(value.magnitude, (list, np.ndarray)):
-            raise TypeError("data_y accepts list or np.ndarray")
-        elif isinstance(value.magnitude, list):
-            value_as_array = np.array(value)
-            value = value_as_array[~np.isnan(value_as_array)]  # remove nan values
-        else:
-            value = value[~np.isnan(value)]
+        value = self._remove_nan_in_experimental_points(value, label="data_y")
 
         self._data_y = value
+
+    def _remove_nan_in_experimental_points(self, quantity: pint.Quantity, label: str):
+        """_summary_
+
+        Args:
+            quantity (pint.Quantity): _description_
+            label (str): _description_
+
+        Raises:
+            TypeError: _description_
+
+        Returns:
+            _type_: _description_
+        """
+        if not isinstance(quantity.magnitude, (list, np.ndarray)):
+            raise TypeError(f"{label} accepts list or np.ndarray")
+        elif isinstance(quantity.magnitude, list):
+            quantity_as_array = np.array(quantity)
+            quantity = quantity_as_array[
+                ~np.isnan(quantity_as_array)
+            ]  # remove nan values
+        else:
+            quantity = quantity[~np.isnan(quantity)]
+        return quantity
 
     def fit(self):
         pre_exp, act_energy = fit_arhenius(self.data_y, self.data_T)
@@ -358,13 +371,7 @@ class Solubility(ArrheniusProperty):
             value = value.to(self.units)
         else:
             raise ValueError("units are required for Solubility")
-        if not isinstance(value.magnitude, (list, np.ndarray)):
-            raise TypeError("data_y accepts list or np.ndarray")
-        elif isinstance(value.magnitude, list):
-            value_as_array = np.array(value)
-            value = value_as_array[~np.isnan(value_as_array)]  # remove nan values
-        else:
-            value = value[~np.isnan(value)]
+        value = self._remove_nan_in_experimental_points(value, label="data_y")
 
         self._data_y = value
 
@@ -433,13 +440,7 @@ class Permeability(ArrheniusProperty):
             value = value.to(self.units)
         else:
             raise ValueError("units are required for Permeability")
-        if not isinstance(value.magnitude, (list, np.ndarray)):
-            raise TypeError("data_y accepts list or np.ndarray")
-        elif isinstance(value.magnitude, list):
-            value_as_array = np.array(value)
-            value = value_as_array[~np.isnan(value_as_array)]  # remove nan values
-        else:
-            value = value[~np.isnan(value)]
+        value = self._remove_nan_in_experimental_points(value, label="data_y")
 
         self._data_y = value
 
