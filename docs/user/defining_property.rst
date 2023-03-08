@@ -35,8 +35,8 @@ More precise classes can also be used like :class:`Diffusivity() <h_transport_ma
     from h_transport_materials import Diffusivity, Solubility, Permeability
 
     my_diff = Diffusivity(D_0=1, E_D=0.2)
-    # my_sol = Solubility(S_0=1, E_S=0.2)
-    # my_perm = Permeability(pre_exp=1, act_energy=0.2)
+    my_sol = Solubility(S_0=1, E_S=0.2)
+    my_perm = Permeability(pre_exp=1, act_energy=0.2)
 
 Note, :class:`Solubility() <h_transport_materials.property.Solubility>` has a `units` argument because depending on the material, the units can be m-3 Pa-1/2 (Sievert's law of solubility) or m-3 Pa-1 (Henry's law of solubility).
 
