@@ -373,12 +373,29 @@ class Diffusivity(ArrheniusProperty):
 class Permeability(ArrheniusProperty):
     """Permeability class"""
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, law: str, **kwargs) -> None:
+        self.law = law
         super().__init__(**kwargs)
 
     @property
+    def law(self):
+        return self._law
+
+    @law.setter
+    def law(self, value):
+        acceptable_values = ["henry", "sievert"]
+        if value not in acceptable_values:
+            raise ValueError(f"law attribute must be one of {acceptable_values}")
+        self._law = value
+
+    @property
     def units(self):
-        return ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
+        if self.law == "sievert":
+            return (
+                ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
+            )
+        elif self.law == "henry":
+            return ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-1
 
 
 class RecombinationCoeff(ArrheniusProperty):
