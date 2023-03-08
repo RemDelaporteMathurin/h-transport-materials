@@ -272,7 +272,7 @@ class ArrheniusProperty(Property):
             warnings.warn(f"no units were given with data_T, assuming {ureg.K:~}")
             value *= ureg.K
 
-        value = self._remove_nan_in_experimental_points(value, label="data_T")
+        value = self._remove_nan_in_experimental_points(value)
 
         self._data_T = value
 
@@ -294,33 +294,28 @@ class ArrheniusProperty(Property):
         else:
             warnings.warn(f"no units were given with data_y, assuming {self.units:~}")
             value *= self.units
-        value = self._remove_nan_in_experimental_points(value, label="data_y")
+        value = self._remove_nan_in_experimental_points(value)
 
         self._data_y = value
 
-    def _remove_nan_in_experimental_points(self, quantity: pint.Quantity, label: str):
-        """_summary_
+    def _remove_nan_in_experimental_points(self, quantity: pint.Quantity):
+        """Removes all nan values from a list of values
 
         Args:
-            quantity (pint.Quantity): _description_
-            label (str): _description_
+            quantity (pint.Quantity): the quantity with magnitude as a list
 
         Raises:
-            TypeError: _description_
+            TypeError: if the magnitude is not a list of a numpy array
 
         Returns:
-            _type_: _description_
+            pint.Quantity: the values without nans
         """
         if not isinstance(quantity.magnitude, (list, np.ndarray)):
-            raise TypeError(f"{label} accepts list or np.ndarray")
-        elif isinstance(quantity.magnitude, list):
-            quantity_as_array = np.array(quantity)
-            quantity = quantity_as_array[
-                ~np.isnan(quantity_as_array)
-            ]  # remove nan values
-        else:
-            quantity = quantity[~np.isnan(quantity)]
-        return quantity
+            raise TypeError("data_T and data_y accept list or np.ndarray")
+        quantity_mag = np.asarray(quantity.magnitude)
+        quantity_mag = quantity_mag[~np.isnan(quantity_mag)]
+
+        return ureg.Quantity(quantity_mag, quantity.units)
 
     def fit(self):
         pre_exp, act_energy = fit_arhenius(self.data_y, self.data_T)
@@ -371,7 +366,7 @@ class Solubility(ArrheniusProperty):
             value = value.to(self.units)
         else:
             raise ValueError("units are required for Solubility")
-        value = self._remove_nan_in_experimental_points(value, label="data_y")
+        value = self._remove_nan_in_experimental_points(value)
 
         self._data_y = value
 
@@ -440,7 +435,7 @@ class Permeability(ArrheniusProperty):
             value = value.to(self.units)
         else:
             raise ValueError("units are required for Permeability")
-        value = self._remove_nan_in_experimental_points(value, label="data_y")
+        value = self._remove_nan_in_experimental_points(value)
 
         self._data_y = value
 
