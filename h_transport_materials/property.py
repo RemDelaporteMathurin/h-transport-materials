@@ -373,20 +373,57 @@ class Diffusivity(ArrheniusProperty):
 class Permeability(ArrheniusProperty):
     """Permeability class"""
 
-    def __init__(self, law: str, **kwargs) -> None:
-        self.law = law
+    def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
-    @property
-    def law(self):
-        return self._law
+    @ArrheniusProperty.pre_exp.setter
+    def pre_exp(self, value):
+        if isinstance(value, pint.Quantity):
+            self.set_law_from_quantity(value)
 
-    @law.setter
-    def law(self, value):
-        acceptable_values = ["henry", "sievert"]
-        if value not in acceptable_values:
-            raise ValueError(f"law attribute must be one of {acceptable_values}")
-        self._law = value
+            self._pre_exp = value.to(self.units)
+        elif value is not None:
+            raise ValueError("units are required for Permeability")
+        else:
+            self._pre_exp = value
+
+    @ArrheniusProperty.data_y.setter
+    def data_y(self, value):
+        if value is None:
+            self._data_y = value
+            return
+        if isinstance(value, pint.Quantity):
+            self.set_law_from_quantity(value)
+
+            # convert to right units
+            value = value.to(self.units)
+        else:
+            raise ValueError("units are required for Permeability")
+        if not isinstance(value.magnitude, (list, np.ndarray)):
+            raise TypeError("data_y accepts list or np.ndarray")
+        elif isinstance(value.magnitude, list):
+            value_as_array = np.array(value)
+            value = value_as_array[~np.isnan(value_as_array)]  # remove nan values
+        else:
+            value = value[~np.isnan(value)]
+
+        self._data_y = value
+
+    def set_law_from_quantity(self, quantity):
+        sievert_units = (
+            ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
+        )
+        henry_units = (
+            ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-1
+        )
+        if quantity.check(sievert_units):
+            self.law = "sievert"
+        elif quantity.check(henry_units):
+            self.law = "henry"
+        else:
+            raise ValueError(
+                f"Wrong dimensionality for permeability. Should be one of {[henry_units.dimensionality, sievert_units.dimensionality]}"
+            )
 
     @property
     def units(self):
