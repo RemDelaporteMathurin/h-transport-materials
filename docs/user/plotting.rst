@@ -71,7 +71,6 @@ To overlay the experimental points of a property, simply access the (T,y) data w
    import matplotlib.pyplot as plt
 
    S = htm.Solubility(
-      units="m-3 Pa-1/2",
       data_T=[673, 773, 873, 973, 1073] * htm.ureg.K,
       data_y=[3e+21, 9e+20, 5e+20, 3e+20, 1e+20]
       * htm.ureg.particle
