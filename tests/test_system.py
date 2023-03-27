@@ -41,3 +41,9 @@ def test_all_properties_have_references():
         assert prop.author
         assert prop.year
         assert prop.source
+
+
+def test_all_properties_have_reasonable_activation_energies():
+    for prop in htm.database:
+        print(prop)
+        assert abs(prop.act_energy) < 4 * htm.ureg.eV * htm.ureg.particle**-1

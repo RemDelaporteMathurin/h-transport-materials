@@ -123,7 +123,7 @@ forcey_permeability = Permeability(
     * htm.ureg.m**-1
     * htm.ureg.s**-1
     * htm.ureg.Pa**-0.5,
-    act_energy=64030 * htm.ureg.kJ * htm.ureg.mol**-1,
+    act_energy=64030 * htm.ureg.J * htm.ureg.mol**-1,
     range=(
         htm.ureg.Quantity(250, htm.ureg.degC),
         htm.ureg.Quantity(600, htm.ureg.degC),
@@ -134,7 +134,7 @@ forcey_permeability = Permeability(
 
 forcey_diffusivity = Diffusivity(
     D_0=3.82e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=45500 * htm.ureg.kJ * htm.ureg.mol**-1,
+    E_D=45500 * htm.ureg.J * htm.ureg.mol**-1,
     range=(
         htm.ureg.Quantity(250, htm.ureg.degC),
         htm.ureg.Quantity(600, htm.ureg.degC),
@@ -145,7 +145,7 @@ forcey_diffusivity = Diffusivity(
 
 forcey_solubility = Solubility(
     S_0=1.50 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
-    E_S=18510 * htm.ureg.kJ * htm.ureg.mol**-1,
+    E_S=18510 * htm.ureg.J * htm.ureg.mol**-1,
     range=(
         htm.ureg.Quantity(250, htm.ureg.degC),
         htm.ureg.Quantity(600, htm.ureg.degC),
