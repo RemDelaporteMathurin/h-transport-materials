@@ -148,3 +148,37 @@ With :class:`PropertiesGroup() <h_transport_materials.properties_group.Propertie
     plt.yscale("log")
     plt.xlabel("1/T (K$^{-1}$)")
     plt.show()
+
+Export group
+------------
+
+It is possible to export a :class:`PropertiesGroup() <h_transport_materials.properties_group.PropertiesGroup>` to JSON by running:
+
+.. testcode::
+
+    steel_diffusivities = htm.diffusivities.filter(material=htm.Steel)
+
+    steel_diffusivities.export_to_json("filename.json")
+
+It is also possible to export some of the data to a latex table with:
+
+.. testcode::
+
+    import h_transport_materials as htm
+    prop1 = htm.Diffusivity(1, 0.1)
+    prop2 = htm.Diffusivity(2, 0.2)
+    
+    group = htm.PropertiesGroup([prop1, prop2])
+    print(group.to_latex_table())
+
+.. testoutput::
+    :options: +NORMALIZE_WHITESPACE
+
+    \begin{center}
+        \begin{tabular}{ c c c }
+
+            Material & pre-exp. factor & Act. energy \\
+             & $1.00\times 10^{0}\ \frac{\mathrm{m}^{2}}{\mathrm{s}}$ & 0.10 eV/particle \\        
+             & $2.00\times 10^{0}\ \frac{\mathrm{m}^{2}}{\mathrm{s}}$ & 0.20 eV/particle \\        
+        \end{tabular}
+    \end{center}
