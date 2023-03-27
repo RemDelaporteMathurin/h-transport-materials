@@ -282,7 +282,7 @@ edao_solubility_d = Solubility(
 
 edao_permeability_h_bis = Permeability(
     pre_exp=9.7e-8 * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5,
-    act_energy=65000 * u.kJ * u.mol**-1,
+    act_energy=65000 * u.J * u.mol**-1,
     range=(773 * u.K, 973 * u.K),
     isotope="H",
     source="edao_permeation_2011",
@@ -291,7 +291,7 @@ edao_permeability_h_bis = Permeability(
 
 edao_permeability_d_bis = Permeability(
     pre_exp=2.87e-7 * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5,
-    act_energy=75500 * u.kJ * u.mol**-1,
+    act_energy=75500 * u.J * u.mol**-1,
     range=(773 * u.K, 973 * u.K),
     isotope="D",
     source="edao_permeation_2011",
@@ -300,7 +300,7 @@ edao_permeability_d_bis = Permeability(
 
 okitsu_diffusivity_h = Diffusivity(
     D_0=2.0e8 * u.m**2 * u.s**-1,
-    E_D=11200 * u.kJ * u.mol**-1,
+    E_D=11200 * u.J * u.mol**-1,
     range=(773 * u.K, 973 * u.K),
     isotope="H",
     source="okitsu_analysis_2012",
@@ -309,7 +309,7 @@ okitsu_diffusivity_h = Diffusivity(
 
 okitsu_diffusivity_d = Diffusivity(
     D_0=4.8e8 * u.m**2 * u.s**-1,
-    E_D=20300 * u.kJ * u.mol**-1,
+    E_D=20300 * u.J * u.mol**-1,
     range=(773 * u.K, 973 * u.K),
     isotope="D",
     source="okitsu_analysis_2012",
@@ -318,7 +318,7 @@ okitsu_diffusivity_d = Diffusivity(
 
 okitsu_solubility_h = Solubility(
     S_0=8.6e-5 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
-    E_S=53800 * u.kJ * u.mol**-1,
+    E_S=53800 * u.J * u.mol**-1,
     range=(773 * u.K, 973 * u.K),
     isotope="H",
     source="okitsu_analysis_2012",
@@ -327,7 +327,7 @@ okitsu_solubility_h = Solubility(
 
 okitsu_solubility_d = Solubility(
     S_0=1.1e-4 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
-    E_S=55200 * u.kJ * u.mol**-1,
+    E_S=55200 * u.J * u.mol**-1,
     range=(773 * u.K, 973 * u.K),
     isotope="D",
     source="okitsu_analysis_2012",
