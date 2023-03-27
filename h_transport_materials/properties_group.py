@@ -175,6 +175,8 @@ class PropertiesGroup(list):
         end_tabular = r"\end{tabular}"
         end_center = r"\end{center}"
 
+        # TODO expose the columns to the users
+
         header = f"""
                 Material & pre-exp. factor & Act. energy \\\\"""
         core = [header]
