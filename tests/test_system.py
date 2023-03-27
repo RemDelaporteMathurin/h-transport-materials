@@ -46,4 +46,4 @@ def test_all_properties_have_references():
 def test_all_properties_have_reasonable_activation_energies():
     for prop in htm.database:
         print(prop)
-        assert prop.act_energy < 4 * htm.ureg.eV * htm.ureg.particle**-1
+        assert abs(prop.act_energy) < 4 * htm.ureg.eV * htm.ureg.particle**-1
