@@ -192,3 +192,7 @@ def test_units_property():
     )
     assert htm.PropertiesGroup([diff, diff]).units == htm.ureg.m**2 * htm.ureg.s**-1
     assert htm.PropertiesGroup([sol, diff]).units == "mixed units"
+
+
+def test_to_latex_table():
+    htm.diffusivities.to_latex_table()
