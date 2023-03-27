@@ -166,7 +166,7 @@ It is also possible to export some of the data to a latex table with:
 
     import h_transport_materials as htm
     prop1 = htm.Diffusivity(1, 0.1)
-    prop2 = htm.Diffusivity(2, 0.2)
+    prop2 = htm.Solubility(2, 0.2, law="henry")
     
     group = htm.PropertiesGroup([prop1, prop2])
     print(group.to_latex_table())
@@ -179,6 +179,6 @@ It is also possible to export some of the data to a latex table with:
 
             Material & pre-exp. factor & Act. energy \\
              & $1.00\times 10^{0}\ \frac{\mathrm{m}^{2}}{\mathrm{s}}$ & 0.10 eV/particle \\        
-             & $2.00\times 10^{0}\ \frac{\mathrm{m}^{2}}{\mathrm{s}}$ & 0.20 eV/particle \\        
+             & $2.00\times 10^{0}\ \frac{\mathrm{particle}}{\left(\mathrm{Pa} \cdot \mathrm{m}^{3}\right)}$ & 0.20 eV/particle \\
         \end{tabular}
     \end{center}
