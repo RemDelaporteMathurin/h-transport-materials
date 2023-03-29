@@ -184,7 +184,10 @@ class ArrheniusProperty(Property):
 
     @property
     def units(self):
-        return ureg.dimensionless
+        if not hasattr(self, "pre_exp"):
+            return ureg.dimensionless
+        else:
+            return self.pre_exp.units
 
     @property
     def range(self):

@@ -88,7 +88,7 @@ def test_mean(mean_D_0, mean_E_D):
     mean_prop = my_group.mean()
 
     # test
-    assert mean_prop.pre_exp == pytest.approx(mean_D_0, rel=0.2)
+    assert mean_prop.pre_exp.magnitude == pytest.approx(mean_D_0, rel=0.2)
     assert mean_prop.act_energy.magnitude == pytest.approx(mean_E_D, rel=0.2)
 
 
@@ -196,3 +196,7 @@ def test_units_property():
 
 def test_to_latex_table():
     htm.diffusivities.to_latex_table()
+
+
+def test_mean_has_units():
+    assert htm.diffusivities.mean().units == htm.ureg.m**2 * htm.ureg.s**-1
