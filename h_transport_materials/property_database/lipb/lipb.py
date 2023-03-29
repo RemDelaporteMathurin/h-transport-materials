@@ -299,16 +299,16 @@ edao_permeability_d_bis = Permeability(
 )
 
 okitsu_diffusivity_h = Diffusivity(
-    D_0=2.0e8 * u.m**2 * u.s**-1,
+    D_0=2.0e-8 * u.m**2 * u.s**-1,
     E_D=11200 * u.J * u.mol**-1,
     range=(773 * u.K, 973 * u.K),
     isotope="H",
     source="okitsu_analysis_2012",
-    note="Li17Pb83",
+    note="Li17Pb83. Typo in Okitsu's paper on the pre-exponential factor",
 )
 
 okitsu_diffusivity_d = Diffusivity(
-    D_0=4.8e8 * u.m**2 * u.s**-1,
+    D_0=4.8e-8 * u.m**2 * u.s**-1,
     E_D=20300 * u.J * u.mol**-1,
     range=(773 * u.K, 973 * u.K),
     isotope="D",
