@@ -184,6 +184,15 @@ class ArrheniusProperty(Property):
 
     @property
     def units(self):
+        # check if data_y is set
+        if hasattr(self, "data_y"):
+            if self.data_y is not None:
+                return self.data_y.units
+        # check if pre_exp is set
+        if hasattr(self, "pre_exp"):
+            return self.pre_exp.units
+
+        # return dimensionless by default
         return ureg.dimensionless
 
     @property
