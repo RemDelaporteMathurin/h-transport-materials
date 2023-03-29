@@ -200,3 +200,16 @@ def test_to_latex_table():
 
 def test_mean_has_units():
     assert htm.diffusivities.mean().units == htm.ureg.m**2 * htm.ureg.s**-1
+
+
+def test_cannot_compute_mean_on_mixed_groups():
+    prop1 = htm.ArrheniusProperty(
+        0.1 * htm.ureg.dimensionless, 0.1 * htm.ureg.eV * htm.ureg.particle**-1
+    )
+    prop2 = htm.ArrheniusProperty(
+        0.1 * htm.ureg.m, 0.1 * htm.ureg.eV * htm.ureg.particle**-1
+    )
+    my_group = htm.PropertiesGroup([prop1, prop2])
+
+    with pytest.raises(ValueError, match="Can't compute mean on mixed units groups"):
+        my_group.mean()

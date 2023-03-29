@@ -92,9 +92,15 @@ class PropertiesGroup(list):
             default_range (tuple, optional): temperature range taken if
                 a Property doesn't have range. Defaults to (300, 1200).
 
+        Raises:
+            ValueError: When called on a mixed units group
+
         Returns:
             ArrheniusProperty: the mean arrhenius property
         """
+        if self.units == "mixed units":
+            raise ValueError("Can't compute mean on mixed units groups")
+
         # initialise data points
         data_T = np.array([])
         data_y = np.array([])
