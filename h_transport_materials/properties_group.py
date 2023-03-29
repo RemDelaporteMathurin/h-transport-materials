@@ -3,6 +3,7 @@ import json
 from pybtex.database import BibliographyData
 import pint
 import warnings
+from textwrap import dedent
 
 from h_transport_materials.fitting import fit_arhenius
 from h_transport_materials import ureg, ArrheniusProperty
@@ -166,3 +167,32 @@ class PropertiesGroup(list):
 
         with open(filename, "w") as outfile:
             json.dump(data, outfile, indent=4)
+
+    def to_latex_table(self):
+        """Exports to simple latex table"""
+        begin_center = r"\begin{center}"
+        begin_tabular = r"\begin{tabular}{ c c c }"
+        end_tabular = r"\end{tabular}"
+        end_center = r"\end{center}"
+
+        # TODO expose the columns to the users
+
+        header = f"""
+                Material & pre-exp. factor & Act. energy \\\\"""
+        core = [header]
+        for prop in self:
+            core.append(
+                f"""
+                {prop.material} & ${prop.pre_exp:.2e~L}$ & {prop.act_energy:.2f~P} \\\\"""
+            )
+
+        latex_table = f"""
+        {begin_center}
+            {begin_tabular}
+            {''.join(core)}
+            {end_tabular}
+        {end_center}
+        """
+
+        latex_table = dedent(latex_table).strip("\n")
+        return latex_table
