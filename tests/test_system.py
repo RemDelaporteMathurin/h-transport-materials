@@ -47,3 +47,10 @@ def test_all_properties_have_reasonable_activation_energies():
     for prop in htm.database:
         print(prop)
         assert abs(prop.act_energy) < 4 * htm.ureg.eV * htm.ureg.particle**-1
+
+
+def test_all_diffusivities_have_reasonable_pre_exp():
+    """Checks that all the diffusivities have pre_exp factors below 100 m2/s"""
+    for prop in htm.diffusivities:
+        print(prop)
+        assert abs(prop.pre_exp) < 100 * htm.ureg.m**2 * htm.ureg.s**-1
