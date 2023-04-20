@@ -60,8 +60,8 @@ johnson_diffusivity_tungsten_t = Diffusivity(
 
 
 moore_diffusivity_tungsten_h = Diffusivity(
-    data_T=[1783, 1890, 1960, 2045, 2175] * htm.ureg.K,
-    data_y=[6.45e-9, 1.26e-8, 1.81e-8, 3.01e-8, 5.15e-8]
+    data_T=[1783.0, 1890.0, 1960.0, 2045.0, 2175.0] * htm.ureg.K,
+    data_y=np.array([6.45e-9, 1.26e-8, 1.81e-8, 3.01e-8, 5.15e-8])
     * htm.ureg.cm**2
     * htm.ureg.s**-1,
     source="moore_thermal_2004",
