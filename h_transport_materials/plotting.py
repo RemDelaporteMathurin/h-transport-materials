@@ -13,6 +13,8 @@ def plot(
     T_bounds=(300, 1200),
     inverse_temperature=True,
     auto_label=True,
+    show_datapoints=True,
+    scatter_kwargs={},
     **kwargs
 ):
     """Plots a Property object on a temperature plot
@@ -28,6 +30,10 @@ def plot(
         auto_label (bool, optional): If True, a label will be automatically
             generated from the isotope, author and year. Ignored if label is set in kwargs.
             Defaults to True.
+        show_datapoints (bool, optional): If True, the experimental datapoints will be
+            scattered too. Defaults to True.
+        scatter_kwargs (dict, optional): other matplotlib.pyplot.scatter arguments.
+            Defaults to {}.
         kwargs: other matplotlib.pyplot.plot arguments
     Returns:
         matplotlib.lines.Line2D: the Line2D artist
@@ -54,8 +60,16 @@ def plot(
                 prop.isotope, prop.author.capitalize(), prop.year
             )
             kwargs["label"] = label
-
-        return plt.plot(x, y, **kwargs)
+        (l,) = plt.plot(x, y, **kwargs)
+        if show_datapoints and prop.data_T is not None:
+            if inverse_temperature:
+                scat_x = (1 / prop.data_T)[::-1]
+                scat_y = prop.data_y[::-1]
+            else:
+                scat_x = prop.data_T
+                scat_y = prop.data_y
+            plt.scatter(scat_x, scat_y, color=l.get_color(), **scatter_kwargs)
+        return l
     elif isinstance(prop, PropertiesGroup):
         if prop.units == "mixed units":
             raise ValueError("Cannot plot group with mixed units")
