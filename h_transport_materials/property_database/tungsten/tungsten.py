@@ -59,12 +59,14 @@ johnson_diffusivity_tungsten_t = Diffusivity(
 )
 
 
-moore_diffusivity_tungsten_t = Diffusivity(
-    D_0=7.2e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=173.7 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(1510 * htm.ureg.K, 1902 * htm.ureg.K),
+moore_diffusivity_tungsten_h = Diffusivity(
+    data_T=[1783.0, 1890.0, 1960.0, 2045.0, 2175.0] * htm.ureg.K,
+    data_y=np.array([6.45e-9, 1.26e-8, 1.81e-8, 3.01e-8, 5.15e-8])
+    * htm.ureg.cm**2
+    * htm.ureg.s**-1,
     source="moore_thermal_2004",
-    isotope="T",
+    isotope="H",
+    note="data in table IV. Units are not given but on page 2651 the equation indiquates that D is in cm2/s",
 )
 
 
@@ -449,7 +451,7 @@ properties = [
     heinola_diffusivity_tungsten,
     johnson_diffusivity_tungsten_h,
     johnson_diffusivity_tungsten_t,
-    moore_diffusivity_tungsten_t,
+    moore_diffusivity_tungsten_h,
     zakharov_diffusivity_tungsten_h,
     ryabchikov_diffusivity_tungsten_h,
     esteban_diffusivity_tungsten_h,
