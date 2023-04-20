@@ -63,7 +63,7 @@ moore_diffusivity_tungsten_t = Diffusivity(
     D_0=7.2e-8 * htm.ureg.m**2 * htm.ureg.s**-1,
     E_D=173.7 * htm.ureg.kJ * htm.ureg.mol**-1,
     range=(1510 * htm.ureg.K, 1902 * htm.ureg.K),
-    source="moore_adsorptiondesorption_1964",
+    source="moore_thermal_2004",
     isotope="T",
 )
 
