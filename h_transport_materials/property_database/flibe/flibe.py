@@ -143,6 +143,51 @@ lam_diffusivity_atoms = Diffusivity(
 )
 
 
+# nakamura 2015
+data_nakamura = np.genfromtxt(
+    str(Path(__file__).parent) + "/nakamura_2015/data.csv", delimiter=",", names=True
+)
+
+data_nakamura_diff_flibe_T = 1 / data_nakamura["diff_flibex"] * htm.ureg.K
+data_nakamura_diff_flibe_y = (
+    data_nakamura["diff_flibey"] * htm.ureg.m**2 * htm.ureg.s**-1
+)
+
+nakamura_diffusivity_h = Diffusivity(
+    data_T=data_nakamura_diff_flibe_T,
+    data_y=data_nakamura_diff_flibe_y,
+    source="nakamura_hydrogen_2015",
+    isotope="H",
+)
+
+data_nakamura_sol_flibe_T = 1 / data_nakamura["sol_flibex"] * htm.ureg.K
+data_nakamura_sol_flibe_y = (
+    data_nakamura["sol_flibey"] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1
+)
+nakamura_solubility_h = Solubility(
+    data_T=data_nakamura_sol_flibe_T,
+    data_y=data_nakamura_sol_flibe_y,
+    source="nakamura_hydrogen_2015",
+    isotope="H",
+)
+
+
+data_nakamura_perm_flibe_T = 1 / data_nakamura["perm_flibex"] * htm.ureg.K
+data_nakamura_perm_flibe_y = (
+    data_nakamura["perm_flibey"]
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-1
+)
+nakamura_permeability_h = Permeability(
+    data_T=data_nakamura_perm_flibe_T,
+    data_y=data_nakamura_perm_flibe_y,
+    source="nakamura_hydrogen_2015",
+    isotope="H",
+)
+
+
 properties = [
     calderoni_diffusivity,
     calderoni_solubility,
@@ -155,6 +200,9 @@ properties = [
     maulinauskas_solubility_d,
     lam_diffusivity_ions,
     lam_diffusivity_atoms,
+    nakamura_diffusivity_h,
+    nakamura_solubility_h,
+    nakamura_permeability_h,
 ]
 
 for prop in properties:
