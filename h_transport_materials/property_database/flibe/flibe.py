@@ -126,6 +126,23 @@ maulinauskas_solubility_d = Solubility(
 )
 
 
+lam_diffusivity_ions = Diffusivity(
+    data_T=[973.0, 1173.0, 1373.0] * htm.ureg.K,
+    data_y=[3e-9, 7e-9, 11.1e-9] * htm.ureg.m**2 * htm.ureg.s**-1,
+    isotope="T",
+    source="lam_impact_2021",
+    note="Calculated for T+",
+)
+
+lam_diffusivity_atoms = Diffusivity(
+    data_T=[973.0, 1173.0, 1373.0] * htm.ureg.K,
+    data_y=[6.3e-9, 16.3e-9, 27.0e-9] * htm.ureg.m**2 * htm.ureg.s**-1,
+    isotope="T",
+    source="lam_impact_2021",
+    note="Calculated for T neutral",
+)
+
+
 properties = [
     calderoni_diffusivity,
     calderoni_solubility,
@@ -136,6 +153,8 @@ properties = [
     field_solubility_d,
     maulinauskas_solubility_h,
     maulinauskas_solubility_d,
+    lam_diffusivity_ions,
+    lam_diffusivity_atoms,
 ]
 
 for prop in properties:
