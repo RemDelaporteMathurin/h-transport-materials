@@ -1,5 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials.property import Diffusivity, Solubility
+from h_transport_materials.property import Diffusivity, Solubility, Permeability
 from pathlib import Path
 import numpy as np
 
@@ -57,6 +57,23 @@ nakamura_solubility_h = Solubility(
     source="nakamura_hydrogen_2015",
     isotope="H",
 )
+
+
+data_nakamura_perm_flinak_T = 1 / data_nakamura["perm_flinakx"] * htm.ureg.K
+data_nakamura_perm_flinak_y = (
+    data_nakamura["perm_flinaky"]
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-1
+)
+nakamura_permeability_h = Permeability(
+    data_T=data_nakamura_perm_flinak_T,
+    data_y=data_nakamura_perm_flinak_y,
+    source="nakamura_hydrogen_2015",
+    isotope="H",
+)
+
 
 # lam 2020
 data_lam = np.genfromtxt(
@@ -137,6 +154,7 @@ zeng_solubility_h_2014 = Solubility(
 properties = [
     fukada_diffusivity_h,
     nakamura_diffusivity_h,
+    nakamura_permeability_h,
     lam_diffusivity_t,
     lam_diffusivity_t_ions,
     zeng_diffusivity_h_2014,
