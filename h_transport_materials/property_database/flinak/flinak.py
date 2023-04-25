@@ -1,5 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials.property import Diffusivity, Solubility
+from h_transport_materials.property import Diffusivity, Solubility, Permeability
 from pathlib import Path
 import numpy as np
 
@@ -31,28 +31,49 @@ fukada_solubility_h = Solubility(
 )
 
 # nakamura 2015
-data_nakamura_D = np.genfromtxt(
-    str(Path(__file__).parent) + "/nakamura_2015/diffusivity/data_nakamura_2015.csv",
-    delimiter=";",
+data_nakamura = np.genfromtxt(
+    str(Path(__file__).parent) + "/nakamura_2015/data.csv", delimiter=",", names=True
+)
+
+data_nakamura_diff_flinak_T = 1 / data_nakamura["diff_flinakx"] * htm.ureg.K
+data_nakamura_diff_flinak_y = (
+    data_nakamura["diff_flinaky"] * htm.ureg.m**2 * htm.ureg.s**-1
 )
 
 nakamura_diffusivity_h = Diffusivity(
-    data_T=1 / data_nakamura_D[:, 0] * htm.ureg.K,
-    data_y=data_nakamura_D[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
+    data_T=data_nakamura_diff_flinak_T,
+    data_y=data_nakamura_diff_flinak_y,
     source="nakamura_hydrogen_2015",
     isotope="H",
 )
 
-data_nakamura_S = np.genfromtxt(
-    str(Path(__file__).parent) + "/nakamura_2015/solubility/data_nakamura_2015.csv",
-    delimiter=";",
+data_nakamura_sol_flinak_T = 1 / data_nakamura["sol_flinakx"] * htm.ureg.K
+data_nakamura_sol_flinak_y = (
+    data_nakamura["sol_flinaky"] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1
 )
 nakamura_solubility_h = Solubility(
-    data_T=1 / data_nakamura_S[:, 0] * htm.ureg.K,
-    data_y=data_nakamura_S[:, 1] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
+    data_T=data_nakamura_sol_flinak_T,
+    data_y=data_nakamura_sol_flinak_y,
     source="nakamura_hydrogen_2015",
     isotope="H",
 )
+
+
+data_nakamura_perm_flinak_T = 1 / data_nakamura["perm_flinakx"] * htm.ureg.K
+data_nakamura_perm_flinak_y = (
+    data_nakamura["perm_flinaky"]
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-1
+)
+nakamura_permeability_h = Permeability(
+    data_T=data_nakamura_perm_flinak_T,
+    data_y=data_nakamura_perm_flinak_y,
+    source="nakamura_hydrogen_2015",
+    isotope="H",
+)
+
 
 # lam 2020
 data_lam = np.genfromtxt(
@@ -133,6 +154,7 @@ zeng_solubility_h_2014 = Solubility(
 properties = [
     fukada_diffusivity_h,
     nakamura_diffusivity_h,
+    nakamura_permeability_h,
     lam_diffusivity_t,
     lam_diffusivity_t_ions,
     zeng_diffusivity_h_2014,
