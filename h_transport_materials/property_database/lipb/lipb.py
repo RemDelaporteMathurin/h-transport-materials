@@ -223,22 +223,17 @@ alberro_solubility = Solubility(
 )
 
 
-# TODO fit Edao data ourselves
 data_edao = np.genfromtxt(
-    str(Path(__file__).parent) + "/edao_2011/data.csv",
-    delimiter=",",
+    str(Path(__file__).parent) + "/edao_2011/data.csv", delimiter=",", names=True
 )
 
 
 edao_permeability_h = Permeability(
     data_T=1 / data_edao["permx"] * u.K,
     data_y=data_edao["permy"] * u.mol * u.s**-1 * u.m**-1 * u.Pa**-0.5,
-    # pre_exp=1.20e-9 * u.mol * u.s**-1 * u.m**-1 * u.Pa**-0.5,
-    # act_energy=20.0 * u.kJ * u.mol**-1,
     isotope="H",
-    # range=(573 * u.K, 873 * u.K),
     source="edao_experiments_2011",
-    note="Li17Pb83",
+    note="Li17Pb83, in the paper Eq. 9 doesn't match the line shown on Fig. 4",
 )
 
 edao_permeability_d = Permeability(
@@ -254,21 +249,15 @@ edao_permeability_d = Permeability(
 edao_diffusivity_h = Diffusivity(
     data_T=1 / data_edao["diff_Hx"] * u.K,
     data_y=data_edao["diff_Hy"] * u.m**2 * u.s**-1,
-    # D_0=8.18e-8 * u.m**2 * u.s**-1,
-    # E_D=15.8 * u.kJ * u.mol**-1,
     isotope="H",
-    # range=(573 * u.K, 873 * u.K),
     source="edao_experiments_2011",
     note="Li17Pb83",
 )
 
 edao_diffusivity_d = Diffusivity(
-    # D_0=5.73e-8 * u.m**2 * u.s**-1,
-    # E_D=13.6 * u.kJ * u.mol**-1,
     data_T=1 / data_edao["diff_Dx"] * u.K,
     data_y=data_edao["diff_Dy"] * u.m**2 * u.s**-1,
     isotope="D",
-    # range=(573 * u.K, 873 * u.K),
     source="edao_experiments_2011",
     note="Li17Pb83",
 )
@@ -280,10 +269,7 @@ edao_solubility_h = Solubility(
     * u.atfr
     * u.Pa**-0.5
     * atom_density_lipb(nb_li=17, nb_pb=83),
-    # S_0=2.73e-7 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
-    # E_S=4.18 * u.kJ * u.mol**-1,
     isotope="H",
-    # range=(573 * u.K, 873 * u.K),
     source="edao_experiments_2011",
     note="Li17Pb83",
 )
@@ -294,10 +280,7 @@ edao_solubility_d = Solubility(
     * u.atfr
     * u.Pa**-0.5
     * atom_density_lipb(nb_li=17, nb_pb=83),
-    # S_0=4.21e-7 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
-    # E_S=3.10 * u.kJ * u.mol**-1,
     isotope="D",
-    # range=(573 * u.K, 873 * u.K),
     source="edao_experiments_2011",
     note="Li17Pb83",
 )
