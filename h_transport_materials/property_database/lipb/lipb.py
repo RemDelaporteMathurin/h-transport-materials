@@ -339,6 +339,41 @@ okitsu_solubility_d = Solubility(
     note="Li17Pb83",
 )
 
+
+data_okada = np.genfromtxt(
+    str(Path(__file__).parent) + "/okada_2012/data.csv", delimiter=",", names=True
+)
+
+
+okada_diffusivity_h = Diffusivity(
+    data_T=1 / data_okada["diff_Hx"] * u.K,
+    data_y=data_okada["diff_Hy"] * u.m**2 * u.s**-1,
+    isotope="H",
+    source="okada_analysis_2012",
+)
+
+okada_diffusivity_d = Diffusivity(
+    data_T=1 / data_okada["diff_Dx"] * u.K,
+    data_y=data_okada["diff_Dy"] * u.m**2 * u.s**-1,
+    isotope="D",
+    source="okada_analysis_2012",
+)
+
+
+okada_solubility_h = Solubility(
+    data_T=1 / data_okada["sol_Hx"] * u.K,
+    data_y=data_okada["sol_Hy"] * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
+    isotope="H",
+    source="okada_analysis_2012",
+)
+
+okada_solubility_d = Solubility(
+    data_T=1 / data_okada["sol_Dx"] * u.K,
+    data_y=data_okada["sol_Dy"] * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
+    isotope="D",
+    source="okada_analysis_2012",
+)
+
 properties = [
     fauvet_diffusivity,
     reiter_diffusivity_h,
@@ -367,6 +402,10 @@ properties = [
     okitsu_diffusivity_d,
     okitsu_solubility_h,
     okitsu_solubility_d,
+    okada_diffusivity_h,
+    okada_diffusivity_d,
+    okada_solubility_h,
+    okada_solubility_d,
 ]
 
 for prop in properties:
