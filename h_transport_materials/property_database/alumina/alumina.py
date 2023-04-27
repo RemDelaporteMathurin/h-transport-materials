@@ -40,10 +40,34 @@ serra_solubility = Solubility(
 )
 
 
+belonshko_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/belonoshko_2004/data.csv",
+    delimiter=",",
+    names=True,
+)
+
+belonshko_diffusivity_solid = Diffusivity(
+    data_T=1 / belonshko_data["alpha_aluminax"] * htm.ureg.K,
+    data_y=belonshko_data["alpha_aluminay"] * htm.ureg.m**2 * htm.ureg.s**-1,
+    isotope="H",
+    source="belonoshko_first-principles_2004",
+    note="solid alpha alumina",
+)
+
+belonshko_diffusivity_liquid = Diffusivity(
+    data_T=1 / belonshko_data["liquid_aluminax"] * htm.ureg.K,
+    data_y=belonshko_data["liquid_aluminay"] * htm.ureg.m**2 * htm.ureg.s**-1,
+    isotope="H",
+    source="belonoshko_first-principles_2004",
+    note="liquid alumina",
+)
+
 properties = [
     serra_permeability,
     serra_diffusivity,
     serra_solubility,
+    belonshko_diffusivity_solid,
+    belonshko_diffusivity_liquid,
 ]
 
 for prop in properties:
