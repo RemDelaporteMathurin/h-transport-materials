@@ -123,7 +123,6 @@ reiter_difusivity_data_H = reiter_diffusivity_data[2:, 2:]
 reiter_diffusivity_h = Diffusivity(
     data_T=1000 / reiter_difusivity_data_H[:, 0] * u.K,
     data_y=reiter_difusivity_data_H[:, 1] * u.m**2 * u.s**-1,
-    range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
     isotope="H",
 )
@@ -134,7 +133,6 @@ reiter_difusivity_data_D = reiter_diffusivity_data[2:, :2]
 reiter_diffusivity_d = Diffusivity(
     data_T=1000 / reiter_difusivity_data_D[:, 0] * u.K,
     data_y=reiter_difusivity_data_D[:, 1] * u.m**2 * u.s**-1,
-    range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
     isotope="D",
 )
@@ -154,7 +152,6 @@ reiter_solubility_data_H_y *= atom_density_lipb(nb_li=17, nb_pb=1)  # m-3 Pa-1/2
 reiter_solubility_h = Solubility(
     data_T=1000 / reiter_solubility_data_H[:, 0] * u.K,
     data_y=reiter_solubility_data_H_y,
-    range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
     isotope="H",
 )
@@ -171,7 +168,6 @@ reiter_solubility_data_D_y *= atom_density_lipb(nb_li=17, nb_pb=1)  # m-3 Pa-1/2
 reiter_solubility_d = Solubility(
     data_T=reiter_solubility_data_D_T[np.isfinite(reiter_solubility_data_D_T)] * u.K,
     data_y=reiter_solubility_data_D_y[np.isfinite(reiter_solubility_data_D_y)],
-    range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
     isotope="D",
 )
@@ -193,7 +189,6 @@ data_aiello = np.genfromtxt(
 aiello_solubility = Solubility(
     data_T=1000 / data_aiello[:, 0] * u.K,
     data_y=data_aiello[:, 1] * u.mol * u.m**-3 * u.Pa**-0.5,
-    range=(600 * u.K, 900 * u.K),
     source="aiello_determination_2006",
     isotope="H",
 )

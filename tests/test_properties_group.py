@@ -165,7 +165,11 @@ def test_export_to_json():
                     if key == "units":
                         assert f"{getattr(prop_ref, key):~}" == val
                     elif key in ["pre_exp", "act_energy"]:
-                        assert getattr(prop_ref, key).magnitude == val
+                        assert getattr(prop_ref, key).magnitude == val["value"]
+                    elif key in ["data_T", "data_y"]:
+                        assert np.array_equal(
+                            getattr(prop_ref, key).magnitude, val["value"]
+                        )
                     else:
                         assert getattr(prop_ref, key) == val
 

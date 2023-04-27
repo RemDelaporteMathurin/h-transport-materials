@@ -143,33 +143,9 @@ class PropertiesGroup(list):
         self.bibdata.to_file(filename)
 
     def export_to_json(self, filename: str):
-        keys = [
-            "material",
-            "pre_exp",
-            "act_energy",
-            "isotope",
-            "author",
-            "source",
-            "range",
-            "doi",
-            "units",
-        ]
-
         data = []
         for prop in self:
-
-            prop_dict = {key: getattr(prop, key) for key in keys if hasattr(prop, key)}
-            if "units" in prop_dict:
-                prop_dict["units"] = f"{prop_dict['units']:~}"
-            prop_dict["pre_exp"] = prop_dict["pre_exp"].magnitude
-            prop_dict["act_energy"] = prop_dict["act_energy"].magnitude
-            prop_dict["material"] = prop_dict["material"].name
-            if prop_dict["range"]:
-                prop_dict["range"] = (
-                    prop_dict["range"][0].magnitude,
-                    prop_dict["range"][1].magnitude,
-                )
-            data.append(prop_dict)
+            data.append(prop.to_json())
 
         with open(filename, "w") as outfile:
             json.dump(data, outfile, indent=4)
