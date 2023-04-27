@@ -36,7 +36,6 @@ class Property:
         author: str = "",
         note: str = None,
     ) -> None:
-
         self.material = material
         self.source = source
         self.range = range
@@ -137,6 +136,20 @@ class Property:
 
         self.bibdata.to_file(filename)
 
+    def to_json(self):
+        as_json = {}
+        if self.range is not None:
+            as_json["range"] = (self.range[0].magnitude, self.range[1].magnitude)
+        as_json["material"] = self.material.name
+        as_json["source"] = self.source
+        as_json["year"] = self.year
+        as_json["isotope"] = self.isotope
+        as_json["author"] = self.author
+        as_json["note"] = self.note
+        as_json["doi"] = self.doi
+
+        return as_json
+
     def value(self, T):
         pass
 
@@ -164,7 +177,6 @@ class ArrheniusProperty(Property):
         data_y: list = None,
         **kwargs,
     ) -> None:
-
         self.pre_exp = pre_exp
         self.act_energy = act_energy
         self.data_T = data_T
@@ -340,6 +352,24 @@ class ArrheniusProperty(Property):
             T *= ureg.K
         return self.pre_exp * exp(-self.act_energy / k_B / T)
 
+    def to_json(self):
+        as_json = super().to_json()
+        as_json["pre_exp"] = {}
+        as_json["act_energy"] = {}
+        as_json["pre_exp"]["value"] = self.pre_exp.magnitude
+        as_json["pre_exp"]["units"] = f"{self.pre_exp.units}"
+        as_json["act_energy"]["value"] = self.act_energy.magnitude
+        as_json["act_energy"]["units"] = f"{self.act_energy.units}"
+        if self.data_T is not None:
+            as_json["data_T"] = {}
+            as_json["data_T"]["value"] = self.data_T.magnitude.tolist()
+            as_json["data_T"]["units"] = f"{self.data_T.units}"
+        if self.data_y is not None:
+            as_json["data_y"] = {}
+            as_json["data_y"]["value"] = self.data_y.magnitude.tolist()
+            as_json["data_y"]["units"] = f"{self.data_y.units}"
+        return as_json
+
 
 class Solubility(ArrheniusProperty):
     """Solubility class
@@ -460,7 +490,6 @@ class Permeability(ArrheniusProperty):
         law: str = None,
         **kwargs,
     ) -> None:
-
         self.law = law
         super().__init__(
             pre_exp=pre_exp,
