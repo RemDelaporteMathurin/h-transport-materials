@@ -1,4 +1,5 @@
 from . import aluminium
+from . import alumina
 
 from . import copper
 

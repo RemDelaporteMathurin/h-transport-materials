@@ -43,6 +43,10 @@ class Alloy(Metal):
     family = "alloy"
 
 
+class Compound(Metal):
+    family = "compound"
+
+
 class PureMetal(Metal):
     """Pure metal
 
@@ -134,3 +138,5 @@ LIPB = Alloy("lipb")
 LITHIUM = PureMetal("lithium", "Li")
 PDAG = Alloy("pdag")
 ZIRCONIUM = PureMetal("zirconium", "Zr")
+
+ALUMINA = Compound("alumina")
