@@ -35,7 +35,6 @@ note_serra_diffusivity_h = (
 serra_diffusivity_h = Diffusivity(
     data_T=1000 / data_diffusivity_serra_h[:, 0] * htm.ureg.K,
     data_y=data_diffusivity_serra_h[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
-    range=(553 * htm.ureg.K, 773 * htm.ureg.K),
     source="serra_hydrogen_1998",
     isotope="H",
     note=note_serra_diffusivity_h,
@@ -49,7 +48,6 @@ note_serra_diffusivity_d = (
 serra_diffusivity_d = Diffusivity(
     data_T=1000 / data_diffusivity_serra_d[:, 0] * htm.ureg.K,
     data_y=data_diffusivity_serra_d[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
-    range=(553 * htm.ureg.K, 773 * htm.ureg.K),
     source="serra_hydrogen_1998",
     isotope="D",
     note=note_serra_diffusivity_d,
@@ -69,7 +67,6 @@ serra_solubility_h = Solubility(
     * htm.ureg.mol
     * htm.ureg.m**-3
     * htm.ureg.Pa**-0.5,
-    range=(553 * htm.ureg.K, 773 * htm.ureg.K),
     source="serra_hydrogen_1998",
     isotope="H",
 )
@@ -80,7 +77,6 @@ serra_solubility_d = Solubility(
     * htm.ureg.mol
     * htm.ureg.m**-3
     * htm.ureg.Pa**-0.5,
-    range=(553 * htm.ureg.K, 773 * htm.ureg.K),
     source="serra_hydrogen_1998",
     isotope="D",
 )
