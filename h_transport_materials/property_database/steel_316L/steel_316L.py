@@ -220,6 +220,37 @@ lee_solubility = Solubility(
     source="lee_hydrogen_2011",
 )
 
+serra_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/serra_2005/data.csv",
+    delimiter=",",
+    names=True,
+)
+
+serra_permeability = Permeability(
+    data_T=1 / serra_data["permx"] * htm.ureg.K,
+    data_y=serra_data["permy"]
+    * htm.ureg.mol
+    * htm.ureg.m**-1
+    * htm.ureg.s**-1
+    * htm.ureg.Pa**-0.5,
+    isotope="H",
+    source="serra_hydrogen_2004",
+)
+
+serra_diffusivity = Diffusivity(
+    data_T=1 / serra_data["diffx"] * htm.ureg.K,
+    data_y=serra_data["diffy"] * htm.ureg.m**2 * htm.ureg.s**-1,
+    isotope="H",
+    source="serra_hydrogen_2004",
+)
+
+serra_solubility = Solubility(
+    data_T=1 / serra_data["solx"] * htm.ureg.K,
+    data_y=serra_data["soly"] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    isotope="H",
+    source="serra_hydrogen_2004",
+)
+
 properties = [
     reiter_diffusivity,
     reiter_solubility,
@@ -239,6 +270,9 @@ properties = [
     lee_permeability,
     lee_diffusivity,
     lee_solubility,
+    serra_permeability,
+    serra_diffusivity,
+    serra_solubility,
 ]
 
 for prop in properties:
