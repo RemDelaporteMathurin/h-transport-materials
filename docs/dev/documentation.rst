@@ -34,3 +34,5 @@ The code blocks and examples given in the documentation can be tested by running
 
     cd docs
     make.bat doctest
+
+The documentation is also automatically tested as part of the CI.
