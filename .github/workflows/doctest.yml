@@ -25,4 +25,4 @@ jobs:
         run: sphinx-build -n -j auto -b html -d build/doctrees docs build/html
 
       - name: Doc Tests
-        run: sphinx-build -b doctest -d docs build/doctest
+        run: sphinx-build -b doctest -d build/doctrees docs build/doctest
