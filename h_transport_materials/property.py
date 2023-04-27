@@ -137,6 +137,11 @@ class Property:
         self.bibdata.to_file(filename)
 
     def to_json(self):
+        """Returns a dictionary with the relevant attributes of the property
+
+        Returns:
+            dict: a dict reprensation of the property
+        """
         as_json = {}
         if self.range is not None:
             as_json["range"] = (self.range[0].magnitude, self.range[1].magnitude)
@@ -353,6 +358,11 @@ class ArrheniusProperty(Property):
         return self.pre_exp * exp(-self.act_energy / k_B / T)
 
     def to_json(self):
+        """Returns a dictionary with the relevant attributes of the property
+
+        Returns:
+            dict: a dict reprensation of the property
+        """
         as_json = super().to_json()
         as_json["pre_exp"] = {}
         as_json["act_energy"] = {}
