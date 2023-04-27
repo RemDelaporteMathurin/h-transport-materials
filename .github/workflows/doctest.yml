@@ -1,0 +1,28 @@
+name: Documentation Build
+
+on: [push, pull_request]
+
+jobs:
+  docbuild:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 100
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install -r "docs/requirements.txt"
+          pip install .
+
+      - name: Build documentation
+        run: sphinx-build -n -j auto -b html -d build/doctrees docs build/html
+
+      - name: Doc Tests
+        run: sphinx-build -b doctest -d build/doctrees docs build/doctest
