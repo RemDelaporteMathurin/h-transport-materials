@@ -29,9 +29,13 @@ This is a personnal copy of the repository where you can commit changes without 
     cd h-transport-materials
     git checkout -b newbranch
 
-#. Make your changes. Make sure you :ref:`tested your code<testing>`.
+#. Make your changes. Make sure to :ref:`test your code<testing>`.
 
-#. Push and `open a pull request <https://github.com/RemDelaporteMathurin/h-transport-materials/compare>`_. Automatically, the test suite will be run.
+   Note: you can install your development version of HTM with::
+
+       pip install -e .
+
+#. Push and `open a pull request <https://github.com/RemDelaporteMathurin/h-transport-materials/compare>`_. The test suite will be run automatically.
 
 #. One of the maintainers will review the pull request. Any potential issues with the pull request can be discussed directly here. If need be, simply commit new changes to your development branch to update the pull request.
 
@@ -74,7 +78,7 @@ Experimental data
 
 When providing experimental data, no need to add a ``range`` value: the temperature range will be worked out from the experimental points directly.
 
-In papers, experimental datapoints are either:
+In papers, experimental datapoints are either given in a table, given in a graph, and rarely given as supplementary data files.
 
 Given in a table in the paper
 """""""""""""""""""""""""""""
