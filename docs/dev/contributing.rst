@@ -3,6 +3,15 @@
 Contributing to HTM
 ===================
 
+Thank you for willing to contribute to HTM!
+Any kind of contribution is most welcome, from bug reports, to fixes, enhancements, and also new features and new database entries.
+This page describes the contribution workflow as well as the rules and best practices for contributing.
+
+Anyone wishing to make contributions to HTM should be familiar with git and GitHub.
+We assume you have git installed on your system, have a GitHub account, and are able to pull/push to repositories on GitHub.
+
+Additionally, we assume you have `Python <https://www.python.org/downloads/>`_ and `pip <https://pip.pypa.io/en/stable/installation/>`_ installed.
+
 Contribution workflow
 ---------------------
 
