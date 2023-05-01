@@ -38,11 +38,11 @@ Rules for adding a property
 * The property comes from a published source
 * The property must have the following attributes:
 
-    * Arrhenius parameters or experimental datapoints
-    * a ``source``
-    * an ``isotope``
-    * a ``range`` (if it doesn't have experimental datapoints)
-    * a ``material``
+  * Arrhenius parameters or experimental datapoints
+  * a ``source``
+  * an ``isotope``
+  * a ``range`` (if it doesn't have experimental datapoints)
+  * a ``material``
 
 Best practices
 ^^^^^^^^^^^^^^
@@ -55,9 +55,9 @@ Best practices
 
 * If there is a discrepency in the original paper (for example: the equation and the plotted curve don't match):
 
-   #. Use the datapoints
+  #. Use the datapoints
    
-   #. Indicate the discrepency in ``note``
+  #. Indicate the discrepency in ``note``
 
 
 Experimental data
