@@ -49,12 +49,13 @@ def plot(
             **kwargs
         )
     elif isinstance(prop, PropertiesGroup):
+        group = prop
         if prop.units == "mixed units":
             raise ValueError("Cannot plot group with mixed units")
         lines = []
-        for prop2 in prop:
+        for single_prop in group:
             l = plot_property(
-                prop2,
+                single_prop,
                 T_bounds=T_bounds,
                 inverse_temperature=inverse_temperature,
                 auto_label=auto_label,
