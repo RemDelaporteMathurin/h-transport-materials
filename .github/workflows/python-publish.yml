@@ -12,11 +12,11 @@ on:
   release:
     types: [published]
 
-permissions:
-  contents: read
-
 jobs:
   deploy:
+
+    permissions:
+      contents: read
 
     runs-on: ubuntu-latest
 
