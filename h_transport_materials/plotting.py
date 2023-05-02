@@ -51,8 +51,9 @@ def plot(
     elif isinstance(prop, PropertiesGroup):
         if prop.units == "mixed units":
             raise ValueError("Cannot plot group with mixed units")
+        lines = []
         for prop2 in prop:
-            plot_property(
+            l = plot_property(
                 prop2,
                 T_bounds=T_bounds,
                 inverse_temperature=inverse_temperature,
@@ -61,6 +62,8 @@ def plot(
                 scatter_kwargs=scatter_kwargs,
                 **kwargs
             )
+            lines.append(l)
+        return lines
 
 
 def plot_property(
