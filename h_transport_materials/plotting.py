@@ -15,6 +15,7 @@ def plot(
     auto_label=True,
     show_datapoints=True,
     scatter_kwargs={},
+    colour_by="property",
     **kwargs
 ):
     """Plots a Property object on a temperature plot
@@ -52,8 +53,15 @@ def plot(
         group = prop
         if prop.units == "mixed units":
             raise ValueError("Cannot plot group with mixed units")
+        if colour_by != "property":
+            prop_to_color = get_prop_to_color(group, colour_by)
+            print(prop_to_color)
         lines = []
+        user_kwargs = kwargs.copy()
         for single_prop in group:
+            current_kwargs = user_kwargs.copy()
+            if colour_by != "property" and "color" not in user_kwargs:
+                current_kwargs["color"] = prop_to_color[single_prop]
             l = plot_property(
                 single_prop,
                 T_bounds=T_bounds,
@@ -61,7 +69,7 @@ def plot(
                 auto_label=auto_label,
                 show_datapoints=show_datapoints,
                 scatter_kwargs=scatter_kwargs,
-                **kwargs
+                **current_kwargs
             )
             lines.append(l)
         return lines
