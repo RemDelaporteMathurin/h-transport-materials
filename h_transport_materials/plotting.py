@@ -55,7 +55,6 @@ def plot(
             raise ValueError("Cannot plot group with mixed units")
         if colour_by != "property":
             prop_to_color = get_prop_to_color(group, colour_by)
-            print(prop_to_color)
         lines = []
         user_kwargs = kwargs.copy()
         for single_prop in group:
