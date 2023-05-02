@@ -109,6 +109,18 @@ def plot_property(
     return l
 
 
+def get_prop_to_color(group, colour_by):
+    colour_cycle = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+
+    all_keys = list(set([getattr(prop, colour_by) for prop in group]))
+    key_to_colour = {
+        key: colour_cycle[i % len(colour_cycle)] for i, key in enumerate(all_keys)
+    }
+    prop_to_colour = {prop: key_to_colour[getattr(prop, colour_by)] for prop in group}
+
+    return prop_to_colour
+
+
 def line_labels(
     ax=None,
     min_label_distance: float or str = "auto",
