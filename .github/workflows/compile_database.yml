@@ -5,7 +5,7 @@ on:
     types: [created]
   
 jobs:
-  build_latex:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
@@ -20,7 +20,7 @@ jobs:
       - name: Compile database
         run: |
           pip install .
-          python -c "import h_transport_materials as htm;htm.database.export_to_json("database.json")"
+          python -c "import h_transport_materials as htm;htm.database.export_to_json('database.json')"
 
       - name: Upload Release Asset
         id: upload-release-asset 
