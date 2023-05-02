@@ -102,6 +102,8 @@ def plot_property(
         else:
             scat_x = prop.data_T
             scat_y = prop.data_y
+        if "alpha" not in scatter_kwargs:
+            scatter_kwargs["alpha"] = l.get_alpha()
         plt.scatter(scat_x, scat_y, color=l.get_color(), **scatter_kwargs)
     return l
 
