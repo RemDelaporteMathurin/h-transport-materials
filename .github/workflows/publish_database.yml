@@ -1,0 +1,46 @@
+name: Compile database
+
+# Only trigger, when the Upload Python Package workflow succeeded
+on:
+  workflow_run:
+    workflows: ["Upload Python Package"]
+    types:
+      - completed
+
+jobs:
+  compile_database:
+    permissions:
+      contents: write
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.2.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+      - name: Compile database
+        run: |
+          pip install h_transport_materials==${{ steps.get_version.outputs.VERSION }}
+          python -c "import h_transport_materials as htm;htm.database.export_to_json('database.json')"
+
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./database.json
+          asset_name: database.json
+          asset_content_type: json
