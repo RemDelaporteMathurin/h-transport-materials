@@ -55,7 +55,7 @@ jobs:
 
       - name: Compile database
         run: |
-          pip install h_transport_materials == ${{ steps.get_version.outputs.VERSION }}
+          pip install h_transport_materials==${{ steps.get_version.outputs.VERSION }}
           python -c "import h_transport_materials as htm;htm.database.export_to_json('database.json')"
 
       - name: Upload Release Asset
