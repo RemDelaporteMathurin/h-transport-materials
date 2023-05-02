@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Upload Python Package
+name: Upload Python Package & compile database
 
 on:
   release:
@@ -37,3 +37,30 @@ jobs:
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
+
+  compile_database:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+       
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.2.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compile database
+        run: |
+          pip install h_transport_materials
+          python -c "import h_transport_materials as htm;htm.database.export_to_json('database.json')"
+
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./database.json
+          asset_name: database.json
+          asset_content_type: json
