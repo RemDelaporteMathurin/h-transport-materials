@@ -151,27 +151,25 @@ def test_export_to_json():
     with open("out.json") as json_file:
         data_in = json.load(json_file)
 
-    for prop_file, prop_ref in zip(data_in, my_group):
+    for prop_file, prop_ref in zip(data_in["data"], my_group):
         for key, val in prop_file.items():
             if hasattr(prop_ref, key):
-                if isinstance(val, list):
-                    if key == "range":
-                        prop_range = getattr(prop_ref, key)
-                        assert [prop_range[0].magnitude, prop_range[1].magnitude] == val
-                    else:
-                        for item1, item2 in zip(val, getattr(prop_ref, key)):
-                            assert item1 == item2
+                if key == "units":
+                    assert f"{getattr(prop_ref, key):~}" == val
+                elif key in ["pre_exp", "act_energy"]:
+                    assert getattr(prop_ref, key).magnitude == val["value"]
+                elif key in ["data_T", "data_y"]:
+                    assert np.array_equal(
+                        getattr(prop_ref, key).magnitude, val["value"]
+                    )
+                elif key == "range":
+                    prop_range = getattr(prop_ref, key)
+                    assert [
+                        prop_range[0].magnitude,
+                        prop_range[1].magnitude,
+                    ] == val["value"]
                 else:
-                    if key == "units":
-                        assert f"{getattr(prop_ref, key):~}" == val
-                    elif key in ["pre_exp", "act_energy"]:
-                        assert getattr(prop_ref, key).magnitude == val["value"]
-                    elif key in ["data_T", "data_y"]:
-                        assert np.array_equal(
-                            getattr(prop_ref, key).magnitude, val["value"]
-                        )
-                    else:
-                        assert getattr(prop_ref, key) == val
+                    assert getattr(prop_ref, key) == val
 
 
 def test_filter_warns_when_no_props():

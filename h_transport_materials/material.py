@@ -30,6 +30,9 @@ class Material:
     def __str__(self) -> str:
         return self.name
 
+    def __hash__(self):
+        return hash(self.name)
+
 
 class PlasmaFacing(Material):
     family = "plasma facing"
@@ -67,6 +70,9 @@ class PureMetal(Metal):
                 return True
 
         return super().__eq__(mat)
+
+    def __hash__(self):
+        return hash(self.name)
 
 
 class Hastelloy(Alloy):

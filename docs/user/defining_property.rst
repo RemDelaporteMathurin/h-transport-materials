@@ -183,6 +183,11 @@ To visualise the temperature dependency of an Arrhenius property, see :ref:`plot
 Add a reference
 ---------------
 
+References are very important in order to track the origin of the property.
+Three methods exist to add a reference to a property in HTM.
+
+**Method 1:** Fields like ``author``, ``year``, and ``source`` can be added manually:
+
 .. testcode::
 
     import h_transport_materials as htm
@@ -195,7 +200,7 @@ Add a reference
         source="name of book"
     )
 
-Alternatively, one can provide a source in the Bib format.
+**Method 2:** One can provide a source in the Bib format.
 
 .. testcode::
 
@@ -225,6 +230,20 @@ Alternatively, one can provide a source in the Bib format.
     shrek
     2023
     10.1016/awesome.journal.2023.1234
+
+**Method 3:** In the ``h_transport_materials`` directory, there is a ``references.bib`` file containing a most of the references of HTM.
+One can also append the source in the Bib format to ``references.bib`` and then add the reference to ``source``.
+The previous example would then be:
+
+.. testcode::
+
+    import h_transport_materials as htm
+
+    D = htm.Diffusivity(
+        D_0=1,
+        E_D=0.2,
+        source="my_shrek_reference"
+    )
 
 Add notes
 ---------

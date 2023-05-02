@@ -61,7 +61,7 @@ The matplotlib line parameters can be modified:
 Plotting with experimental points
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To overlay the experimental points of a property, simply access the (T,y) data with the attributes `.data_T` and `.data_y`:
+When the (T,y) data is given with the attributes `.data_T` and `.data_y`, the experimental points are also plotted:
 
 .. plot::
    :include-source: true
@@ -80,11 +80,30 @@ To overlay the experimental points of a property, simply access the (T,y) data w
 
    plot(S)
 
-   plt.scatter(1/S.data_T, S.data_y)
-
    plt.yscale("log")
    plt.show()
 
+In order to hide the experimental points, simply call:
+
+.. plot::
+   :include-source: true
+
+   import h_transport_materials as htm
+   from h_transport_materials.plotting import plot
+   import matplotlib.pyplot as plt
+
+   S = htm.Solubility(
+      data_T=[673, 773, 873, 973, 1073] * htm.ureg.K,
+      data_y=[3e+21, 9e+20, 5e+20, 3e+20, 1e+20]
+      * htm.ureg.particle
+      * htm.ureg.m**-3
+      * htm.ureg.Pa**-0.5,
+   )
+
+   plot(S, show_datapoints=False)
+
+   plt.yscale("log")
+   plt.show()
 
 Plotting groups of properties
 -----------------------------
@@ -147,6 +166,24 @@ Calculate the mean value and plot it too:
 
    plot(diffusivities, alpha=0.5)
    plot(diffusivities.mean(), color="black", linewidth=3)
+
+   plt.title("Tungsten diffusivity")
+   plt.yscale("log")
+   plt.show()
+
+The properties can be coloured according to different attributes like ``materials``, ``author``...
+
+.. plot::
+   :include-source: true
+
+   import h_transport_materials as htm
+   from h_transport_materials.plotting import plot
+   import matplotlib.pyplot as plt
+
+   # filter only tungsten and H
+   diffusivities = htm.diffusivities.filter(material="tungsten")
+
+   plot(diffusivities, colour_by="author")
 
    plt.title("Tungsten diffusivity")
    plt.yscale("log")
