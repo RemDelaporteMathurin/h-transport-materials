@@ -40,6 +40,9 @@ jobs:
 
   compile_database:
     needs: deploy
+    permissions:
+      contents: write
+
     runs-on: ubuntu-latest
     steps:
        
