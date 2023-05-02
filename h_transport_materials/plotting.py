@@ -39,48 +39,74 @@ def plot(
         matplotlib.lines.Line2D: the Line2D artist
     """
     if isinstance(prop, Property):
-        if prop.range is None:
-            range = T_bounds
-        else:
-            range = prop.range
-        T = np.linspace(*range, num=50)
-        if not isinstance(T, pint.Quantity):
-            T *= ureg.K
-        if inverse_temperature:
-            plt.xlabel("1/T (K$^{-1}$)")
-            x = (1 / T)[::-1]
-            y = prop.value(T)[::-1]
-        else:
-            plt.xlabel("T (K)")
-            x = T
-            y = prop.value(T)
-
-        if auto_label and "label" not in kwargs.keys():
-            label = "{} {} ({})".format(
-                prop.isotope, prop.author.capitalize(), prop.year
-            )
-            kwargs["label"] = label
-        (l,) = plt.plot(x, y, **kwargs)
-        if show_datapoints and prop.data_T is not None:
-            if inverse_temperature:
-                scat_x = (1 / prop.data_T)[::-1]
-                scat_y = prop.data_y[::-1]
-            else:
-                scat_x = prop.data_T
-                scat_y = prop.data_y
-            plt.scatter(scat_x, scat_y, color=l.get_color(), **scatter_kwargs)
-        return l
+        return plot_property(
+            prop,
+            T_bounds,
+            inverse_temperature,
+            auto_label,
+            show_datapoints,
+            scatter_kwargs,
+            **kwargs
+        )
     elif isinstance(prop, PropertiesGroup):
+        group = prop
         if prop.units == "mixed units":
             raise ValueError("Cannot plot group with mixed units")
-        for prop2 in prop:
-            plot(
-                prop2,
+        lines = []
+        for single_prop in group:
+            l = plot_property(
+                single_prop,
                 T_bounds=T_bounds,
                 inverse_temperature=inverse_temperature,
                 auto_label=auto_label,
+                show_datapoints=show_datapoints,
+                scatter_kwargs=scatter_kwargs,
                 **kwargs
             )
+            lines.append(l)
+        return lines
+
+
+def plot_property(
+    prop: Property,
+    T_bounds=(300, 1200),
+    inverse_temperature=True,
+    auto_label=True,
+    show_datapoints=True,
+    scatter_kwargs={},
+    **kwargs
+):
+    if prop.range is None:
+        range = T_bounds
+    else:
+        range = prop.range
+    T = np.linspace(*range, num=50)
+    if not isinstance(T, pint.Quantity):
+        T *= ureg.K
+    if inverse_temperature:
+        plt.xlabel("1/T (K$^{-1}$)")
+        x = (1 / T)[::-1]
+        y = prop.value(T)[::-1]
+    else:
+        plt.xlabel("T (K)")
+        x = T
+        y = prop.value(T)
+
+    if auto_label and "label" not in kwargs.keys():
+        label = "{} {} ({})".format(prop.isotope, prop.author.capitalize(), prop.year)
+        kwargs["label"] = label
+    (l,) = plt.plot(x, y, **kwargs)
+    if show_datapoints and prop.data_T is not None:
+        if inverse_temperature:
+            scat_x = (1 / prop.data_T)[::-1]
+            scat_y = prop.data_y[::-1]
+        else:
+            scat_x = prop.data_T
+            scat_y = prop.data_y
+        if "alpha" not in scatter_kwargs:
+            scatter_kwargs["alpha"] = l.get_alpha()
+        plt.scatter(scat_x, scat_y, color=l.get_color(), **scatter_kwargs)
+    return l
 
 
 def line_labels(
