@@ -144,7 +144,12 @@ class Property:
         """
         as_json = {}
         if self.range is not None:
-            as_json["range"] = (self.range[0].magnitude, self.range[1].magnitude)
+            as_json["range"] = {}
+            as_json["range"]["value"] = (
+                self.range[0].magnitude,
+                self.range[1].magnitude,
+            )
+            as_json["range"]["units"] = f"{self.range[0].units}"
         as_json["material"] = self.material.name
         as_json["source"] = self.source
         as_json["year"] = self.year
@@ -152,6 +157,7 @@ class Property:
         as_json["author"] = self.author
         as_json["note"] = self.note
         as_json["doi"] = self.doi
+        as_json["type"] = self.__class__.__name__
 
         return as_json
 

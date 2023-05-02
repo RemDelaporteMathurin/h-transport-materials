@@ -6,7 +6,7 @@ import warnings
 from textwrap import dedent
 
 from h_transport_materials.fitting import fit_arhenius
-from h_transport_materials import ureg, ArrheniusProperty
+from h_transport_materials import ureg, ArrheniusProperty, __version__
 
 
 class PropertiesGroup(list):
@@ -143,9 +143,11 @@ class PropertiesGroup(list):
         self.bibdata.to_file(filename)
 
     def export_to_json(self, filename: str):
-        data = []
+        data = {"data": []}
         for prop in self:
-            data.append(prop.to_json())
+            data["data"].append(prop.to_json())
+
+        data["htm_version"] = __version__
 
         with open(filename, "w") as outfile:
             json.dump(data, outfile, indent=4)
