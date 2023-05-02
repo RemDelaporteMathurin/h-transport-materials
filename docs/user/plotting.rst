@@ -171,6 +171,24 @@ Calculate the mean value and plot it too:
    plt.yscale("log")
    plt.show()
 
+The properties can be coloured according to different attributes like ``materials``, ``author``...
+
+.. plot::
+   :include-source: true
+
+   import h_transport_materials as htm
+   from h_transport_materials.plotting import plot
+   import matplotlib.pyplot as plt
+
+   # filter only tungsten and H
+   diffusivities = htm.diffusivities.filter(material="tungsten")
+
+   plot(diffusivities, colour_by="author")
+
+   plt.title("Tungsten diffusivity")
+   plt.yscale("log")
+   plt.show()
+
 Interactive visualisation
 -------------------------
 

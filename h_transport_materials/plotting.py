@@ -15,6 +15,7 @@ def plot(
     auto_label=True,
     show_datapoints=True,
     scatter_kwargs={},
+    colour_by="property",
     **kwargs
 ):
     """Plots a Property object on a temperature plot
@@ -34,6 +35,8 @@ def plot(
             scattered too. Defaults to True.
         scatter_kwargs (dict, optional): other matplotlib.pyplot.scatter arguments.
             Defaults to {}.
+        colour_by (str, optional): a property attribute to colour by (eg. "author", "isotope",
+            "material"). Defaults to "property".
         kwargs: other matplotlib.pyplot.plot arguments
     Returns:
         matplotlib.lines.Line2D: the Line2D artist
@@ -52,8 +55,18 @@ def plot(
         group = prop
         if prop.units == "mixed units":
             raise ValueError("Cannot plot group with mixed units")
+
+        # compute the prop to colour mapping
+        if colour_by != "property":
+            prop_to_color = get_prop_to_color(group, colour_by)
+
         lines = []
         for single_prop in group:
+            # change colour from kwargs if need be
+            current_kwargs = kwargs.copy()
+            if colour_by != "property" and "color" not in kwargs:
+                current_kwargs["color"] = prop_to_color[single_prop]
+
             l = plot_property(
                 single_prop,
                 T_bounds=T_bounds,
@@ -61,7 +74,7 @@ def plot(
                 auto_label=auto_label,
                 show_datapoints=show_datapoints,
                 scatter_kwargs=scatter_kwargs,
-                **kwargs
+                **current_kwargs
             )
             lines.append(l)
         return lines
@@ -107,6 +120,28 @@ def plot_property(
             scatter_kwargs["alpha"] = l.get_alpha()
         plt.scatter(scat_x, scat_y, color=l.get_color(), **scatter_kwargs)
     return l
+
+
+def get_prop_to_color(group: PropertiesGroup, colour_by: str):
+    """Returns a dictionary mapping Property objects to a colour based on
+    a property attribute
+
+    Args:
+        group (PropertiesGroup): a group of properties
+        colour_by (str): a property attribute to colour by (eg. "author", "isotope", "material")
+
+    Returns:
+        dict: a dictionary mapping properties to colours
+    """
+    colour_cycle = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+
+    all_keys = list(set([getattr(prop, colour_by) for prop in group]))
+    key_to_colour = {
+        key: colour_cycle[i % len(colour_cycle)] for i, key in enumerate(all_keys)
+    }
+    prop_to_colour = {prop: key_to_colour[getattr(prop, colour_by)] for prop in group}
+
+    return prop_to_colour
 
 
 def line_labels(

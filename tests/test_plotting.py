@@ -47,3 +47,10 @@ def test_plot_group_with_mixed_units():
     """Tests that plotting a group with mixed units raises an error"""
     with pytest.raises(ValueError):
         htm.plotting.plot(htm.solubilities)
+
+
+def test_plot_group_with_colour_by():
+    """Tests that a group can be plotted with a non-default colour_by argument"""
+
+    htm.plotting.plot(htm.diffusivities, colour_by="material")
+    plt.clf()
