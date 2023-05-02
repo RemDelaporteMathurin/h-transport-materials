@@ -39,7 +39,7 @@ def plot(
         matplotlib.lines.Line2D: the Line2D artist
     """
     if isinstance(prop, Property):
-        plot_property(
+        return plot_property(
             prop,
             T_bounds,
             inverse_temperature,
