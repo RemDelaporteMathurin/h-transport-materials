@@ -35,6 +35,8 @@ def plot(
             scattered too. Defaults to True.
         scatter_kwargs (dict, optional): other matplotlib.pyplot.scatter arguments.
             Defaults to {}.
+        colour_by (str, optional): a property attribute to colour by (eg. "author", "isotope",
+            "material"). Defaults to "property".
         kwargs: other matplotlib.pyplot.plot arguments
     Returns:
         matplotlib.lines.Line2D: the Line2D artist
@@ -53,14 +55,18 @@ def plot(
         group = prop
         if prop.units == "mixed units":
             raise ValueError("Cannot plot group with mixed units")
+
+        # compute the prop to colour mapping
         if colour_by != "property":
             prop_to_color = get_prop_to_color(group, colour_by)
+
         lines = []
-        user_kwargs = kwargs.copy()
         for single_prop in group:
-            current_kwargs = user_kwargs.copy()
-            if colour_by != "property" and "color" not in user_kwargs:
+            # change colour from kwargs if need be
+            current_kwargs = kwargs.copy()
+            if colour_by != "property" and "color" not in kwargs:
                 current_kwargs["color"] = prop_to_color[single_prop]
+
             l = plot_property(
                 single_prop,
                 T_bounds=T_bounds,
