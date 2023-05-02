@@ -81,16 +81,9 @@ class PropertiesGroup(list):
             warnings.warn("No property matching the requirements")
         return filtered_props
 
-    def mean(self, samples_per_line=5, default_range=(300, 1200)):
+    def mean(self):
         """
-        Fits all the data and returns the mean pre-exponential
-        factor and activation energy.
-
-        Args:
-            samples_per_line (int, optional): number of points taken
-                per Property if it doesn't have any data. Defaults to 5.
-            default_range (tuple, optional): temperature range taken if
-                a Property doesn't have range. Defaults to (300, 1200).
+        Returns the mean Arrhenius property.
 
         Raises:
             ValueError: When called on a mixed units group
@@ -101,31 +94,12 @@ class PropertiesGroup(list):
         if self.units == "mixed units":
             raise ValueError("Can't compute mean on mixed units groups")
 
-        # initialise data points
-        data_T = np.array([])
-        data_y = np.array([])
+        # geometric mean of pre-exponential factor
+        pre_exps = np.array([prop.pre_exp.magnitude for prop in self])
+        pre_exp = pre_exps.prod() ** (1.0 / len(pre_exps))
 
-        # add data points
-        for prop in self:
-            # if the property has data points, use them
-            if prop.data_T is not None:
-                prop_T = prop.data_T
-                prop_y = prop.data_y
-            # else, take samples
-            else:
-                T_range = prop.range
-                if prop.range == None:
-                    T_range = default_range
-                prop_T = np.linspace(T_range[0], T_range[1], num=samples_per_line)
-                if not isinstance(prop_T, pint.Quantity):
-                    prop_T = ureg.Quantity(prop_T, ureg.K)
-                prop_y = prop.value(prop_T)
-
-            data_T = np.concatenate((data_T, prop_T))
-            data_y = np.concatenate((data_y, prop_y))
-
-        # fit all the data
-        pre_exp, act_energy = fit_arhenius(data_y, data_T)
+        # arithmetic mean of activation energy
+        act_energy = np.array([prop.act_energy.magnitude for prop in self]).mean()
 
         property = ArrheniusProperty(
             pre_exp * self.units, act_energy * ureg.eV * ureg.particle**-1
