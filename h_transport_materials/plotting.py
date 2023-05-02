@@ -116,7 +116,17 @@ def plot_property(
     return l
 
 
-def get_prop_to_color(group, colour_by):
+def get_prop_to_color(group: PropertiesGroup, colour_by: str):
+    """Returns a dictionary mapping Property objects to a colour based on
+    a property attribute
+
+    Args:
+        group (PropertiesGroup): a group of properties
+        colour_by (str): a property attribute to colour by (eg. "author", "isotope", "material")
+
+    Returns:
+        dict: a dictionary mapping properties to colours
+    """
     colour_cycle = plt.rcParams["axes.prop_cycle"].by_key()["color"]
 
     all_keys = list(set([getattr(prop, colour_by) for prop in group]))
