@@ -1,0 +1,8 @@
+
+black
+numpy
+matplotlib
+pybtex
+crossrefapi
+scipy
+pint

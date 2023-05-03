@@ -1,0 +1,14 @@
+name: htm
+channels:
+  - conda-forge
+  - nodefaults
+
+variables:
+  # Avoid use of .local
+  PYTHONNOUSERSITE: '1'
+
+dependencies:
+  - python
+  - pip
+  - pip:
+    - -r ../environment/requirements.txt
