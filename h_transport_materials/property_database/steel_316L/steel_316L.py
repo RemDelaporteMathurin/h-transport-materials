@@ -261,49 +261,76 @@ serra_solubility = Solubility(
 )
 
 pomellalobo_data = {
+    "source": "pomellalobo_2022",
+    "isotope": "D",
     "T": [100, 350, 400],
-    "T_unit": "C",
+    "T_unit": "ºC",
     "D_0": [7.17e-7, 8.18e-7, 5.14e-7],
     "D_0_unit": "m2.s-1",
     "E_D": [42.50, 42.50, 42.50],
-    "E_D_unit": "kJ.mol-1.K-1",
+    "E_D_unit": "kJ.mol-1",
+    "S_0": [1.50, 5.50e-1, 4.20e-1],
+    "S_0_unit": "mol.m-3.Pa-0.5",
+    "E_S": [12.87, 17.50, 15.95],
+    "E_S_unit": "kJ.mol-1",
+    "mean_note": (
+        "Arithmetic mean for activation energies and geometric mean for "
+        "pre-exponential coefficients; mean of experimental results not "
+        "present in original reference."
+    ),
 }
 
-pomellalobo_diffusivity_experiment100C = Diffusivity(
-    D_0=pomellalobo_data["D_0"][0] * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=pomellalobo_data["E_D"][0] * htm.ureg.kJ * htm.ureg.mol**-1,
-    isotope="D",
-    source="pomellalobo_2022",
+pomellalobo_properties = []
+for t, temperature in enumerate(pomellalobo_data["T"]):
+    pomellalobo_properties.append(
+        Diffusivity(
+            D_0=pomellalobo_data["D_0"][t] * htm.ureg.m**2 * htm.ureg.s**-1,
+            E_D=pomellalobo_data["E_D"][t] * htm.ureg.kJ * htm.ureg.mol**-1,
+            isotope=pomellalobo_data["isotope"],
+            source=pomellalobo_data["source"],
+            note=(
+                "Coefficients derived from experimental data at "
+                f"temperature {temperature} {pomellalobo_data['T_unit']}"
+            ),
+        )
+    )
+    pomellalobo_properties.append(
+        Solubility(
+            S_0=pomellalobo_data["S_0"][t] * SOLUBILITY_UNIT_MOL_VOLUME,
+            E_S=pomellalobo_data["E_S"][t] * htm.ureg.kJ * htm.ureg.mol**-1,
+            isotope=pomellalobo_data["isotope"],
+            source=pomellalobo_data["source"],
+            note=(
+                "Coefficients derived from experimental data at "
+                f"temperature {temperature} {pomellalobo_data['T_unit']}"
+            ),
+        )
+    )
+pomellalobo_properties.append(
+    Diffusivity(
+        D_0=gmean(pomellalobo_data["D_0"]) * htm.ureg.m**2 * htm.ureg.s**-1,
+        E_D=mean(pomellalobo_data["E_D"]) * htm.ureg.kJ * htm.ureg.mol**-1,
+        range=(
+            htm.ureg.Quantity(min(pomellalobo_data["T"]), htm.ureg.degC),
+            htm.ureg.Quantity(max(pomellalobo_data["T"]), htm.ureg.degC),
+        ),
+        isotope=pomellalobo_data["isotope"],
+        source=pomellalobo_data["source"],
+        note=pomellalobo_data["mean_note"],
+    )
 )
-
-pomellalobo_diffusivity_experiment350C = Diffusivity(
-    D_0=pomellalobo_data["D_0"][1] * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=pomellalobo_data["E_D"][1] * htm.ureg.kJ * htm.ureg.mol**-1,
-    isotope="D",
-    source="pomellalobo_2022",
-)
-
-pomellalobo_diffusivity_experiment400C = Diffusivity(
-    D_0=pomellalobo_data["D_0"][2] * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=pomellalobo_data["E_D"][2] * htm.ureg.kJ * htm.ureg.mol**-1,
-    isotope="D",
-    source="pomellalobo_2022",
-)
-
-pomellalobo_diffusivity_mean = Diffusivity(
-    D_0=gmean(pomellalobo_data["D_0"]) * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=mean(pomellalobo_data["E_D"]) * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(
-        htm.ureg.Quantity(min(pomellalobo_data["T"]), htm.ureg.degC),
-        htm.ureg.Quantity(max(pomellalobo_data["T"]), htm.ureg.degC),
-    ),
-    isotope="D",
-    source="pomellalobo_2022",
-    note=(
-        "Arithmetic mean for activation energies and geometric mean for "
-        "pre-exponential coefficients of experimental results; mean not "
-        "not present in original reference."
-    ),
+pomellalobo_properties.append(
+    Solubility(
+        S_0=gmean(pomellalobo_data["S_0"]) * SOLUBILITY_UNIT_MOL_VOLUME,
+        E_S=mean(pomellalobo_data["E_S"]) * htm.ureg.kJ * htm.ureg.mol**-1,
+        range=(
+            htm.ureg.Quantity(min(pomellalobo_data["T"]), htm.ureg.degC),
+            htm.ureg.Quantity(max(pomellalobo_data["T"]), htm.ureg.degC),
+        ),
+        isotope=pomellalobo_data["isotope"],
+        source=pomellalobo_data["source"],
+        note=pomellalobo_data["mean_note"],
+    )
 )
 
 properties = [
@@ -328,11 +355,7 @@ properties = [
     serra_permeability,
     serra_diffusivity,
     serra_solubility,
-    pomellalobo_diffusivity_experiment100C,
-    pomellalobo_diffusivity_experiment350C,
-    pomellalobo_diffusivity_experiment400C,
-    pomellalobo_diffusivity_mean,
-]
+] + pomellalobo_properties
 
 for prop in properties:
     prop.material = htm.STEEL_316L
