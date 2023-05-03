@@ -9,6 +9,9 @@ from h_transport_materials import (
 from h_transport_materials.property_database.iron import IRON_MOLAR_VOLUME
 from pathlib import Path
 import numpy as np
+from scipy.stats import mean, gmean
+
+SOLUBILITY_UNIT_MOL_VOLUME = htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5
 
 reiter_diffusivity = Diffusivity(
     D_0=3.70e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
@@ -16,7 +19,10 @@ reiter_diffusivity = Diffusivity(
     range=(500 * htm.ureg.K, 1200 * htm.ureg.K),
     isotope="H",
     source="reiter_compilation_1996",
-    note="this is an average of 10 papers on diffusivity from Reiter compilation review",
+    note=(
+        "This is an average of 10 papers on diffusivity from Reiter "
+        "compilation review."
+    ),
 )
 
 reiter_solubility = Solubility(
@@ -29,7 +35,10 @@ reiter_solubility = Solubility(
     range=(500 * htm.ureg.K, 1200 * htm.ureg.K),
     isotope="H",
     source="reiter_compilation_1996",
-    note="this is an average of 5 papers on diffusivity from Reiter compilation review",
+    note=(
+        "This is an average of 5 papers on diffusivity from Reiter "
+        "compilation review."
+    ),
 )
 
 houben_permeability = Permeability(
@@ -144,7 +153,7 @@ forcey_diffusivity = Diffusivity(
 )
 
 forcey_solubility = Solubility(
-    S_0=1.50 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    S_0=1.50 * SOLUBILITY_UNIT_MOL_VOLUME,
     E_S=18510 * htm.ureg.J * htm.ureg.mol**-1,
     range=(
         htm.ureg.Quantity(250, htm.ureg.degC),
@@ -246,9 +255,55 @@ serra_diffusivity = Diffusivity(
 
 serra_solubility = Solubility(
     data_T=1 / serra_data["solx"] * htm.ureg.K,
-    data_y=serra_data["soly"] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+    data_y=serra_data["soly"] * SOLUBILITY_UNIT_MOL_VOLUME,
     isotope="H",
     source="serra_hydrogen_2004",
+)
+
+pomellalobo_data = {
+    "T": [100, 350, 400],
+    "T_unit": "C",
+    "D_0": [7.17e-7, 8.18e-7, 5.14e-7],
+    "D_0_unit": "m2.s-1",
+    "E_D": [42.50, 42.50, 42.50],
+    "E_D_unit": "kJ.mol-1.K-1",
+}
+
+pomellalobo_diffusivity_experiment100C = Diffusivity(
+    D_0=pomellalobo_data["D_0"][0] * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=pomellalobo_data["E_D"][0] * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="D",
+    source="pomellalobo_2022",
+)
+
+pomellalobo_diffusivity_experiment350C = Diffusivity(
+    D_0=pomellalobo_data["D_0"][1] * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=pomellalobo_data["E_D"][1] * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="D",
+    source="pomellalobo_2022",
+)
+
+pomellalobo_diffusivity_experiment400C = Diffusivity(
+    D_0=pomellalobo_data["D_0"][2] * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=pomellalobo_data["E_D"][2] * htm.ureg.kJ * htm.ureg.mol**-1,
+    isotope="D",
+    source="pomellalobo_2022",
+)
+
+pomellalobo_diffusivity_mean = Diffusivity(
+    D_0=gmean(pomellalobo_data["D_0"]) * htm.ureg.m**2 * htm.ureg.s**-1,
+    E_D=mean(pomellalobo_data["E_D"]) * htm.ureg.kJ * htm.ureg.mol**-1,
+    range=(
+        htm.ureg.Quantity(min(pomellalobo_data["T"]), htm.ureg.degC),
+        htm.ureg.Quantity(max(pomellalobo_data["T"]), htm.ureg.degC),
+    ),
+    isotope="D",
+    source="pomellalobo_2022",
+    note=(
+        "Arithmetic mean for activation energies and geometric mean for "
+        "pre-exponential coefficients of experimental results; mean not "
+        "not present in original reference."
+    ),
 )
 
 properties = [
@@ -273,6 +328,10 @@ properties = [
     serra_permeability,
     serra_diffusivity,
     serra_solubility,
+    pomellalobo_diffusivity_experiment100C,
+    pomellalobo_diffusivity_experiment350C,
+    pomellalobo_diffusivity_experiment400C,
+    pomellalobo_diffusivity_mean,
 ]
 
 for prop in properties:
