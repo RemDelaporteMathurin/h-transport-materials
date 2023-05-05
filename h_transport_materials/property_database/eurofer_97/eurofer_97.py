@@ -34,7 +34,6 @@ montupet_leblond_permeability = Permeability(
     * u.m**-1
     * u.Pa**-0.5
     * u.s**-1,
-    range=(473 * u.K, 673 * u.K),
     source="montupet_leblond_permeation_2021",
     isotope="H",
 )
