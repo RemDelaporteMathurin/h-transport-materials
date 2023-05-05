@@ -30,6 +30,15 @@ chen_diffusivity = Diffusivity(
     isotope="D",
 )
 
+chen_solubility = Solubility(
+    S_0=4.0e2 * u.mol * u.m**-3 * u.MPa**-0.5,
+    E_S=29.2 * u.kJ * u.mol**-1,
+    range=(623 * u.K, 823 * u.K),
+    note="Given in paper chen_deuterium_2021 bbut no experimental data points",
+    source="chen_deuterium_2021",
+    isotope="D",
+)
+
 esteban_permeability_data = np.genfromtxt(
     str(Path(__file__).parent) + "/esteban_2007/permeability.csv",
     delimiter=",",
@@ -99,7 +108,12 @@ montupet_leblond_solubility = Solubility(
 )
 
 properties = [
+    chen_permeability,
+    chen_diffusivity,
+    chen_solubility,
     esteban_permeability,
+    esteban_diffusivity,
+    esteban_solubility,
     montupet_leblond_permeability,
     montupet_leblond_diffusivity,
     montupet_leblond_solubility,
