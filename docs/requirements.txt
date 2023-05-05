@@ -1,4 +1,4 @@
-sphinx
-sphinx-design
-sphinx_book_theme==0.3.3
-matplotlib
+sphinx==6.2.1
+sphinx-design==0.4.1
+sphinx_book_theme==1.0.1
+matplotlib==3.7.1
