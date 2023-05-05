@@ -6,6 +6,60 @@ import numpy as np
 
 u = htm.ureg
 
+aiello_permeability_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/aiello_2002/permeability.csv",
+    delimiter=",",
+)
+
+aiello_permeability_data_H = aiello_permeability_data[2:, :2]
+
+aiello_permeability_H = Permeability(
+    data_T=1000 / aiello_permeability_data_H[:, 0] * u.K,
+    data_y=aiello_permeability_data_H[:, 1]
+    * u.mol
+    * u.m**-1
+    * u.Pa**-0.5
+    * u.s**-1,
+    source="aiello_hydrogen_2002",
+    isotope="H",
+)
+
+aiello_permeability_data_D = aiello_permeability_data[2:, 2:]
+
+aiello_permeability_D = Permeability(
+    data_T=1000 / aiello_permeability_data_D[:, 0] * u.K,
+    data_y=aiello_permeability_data_D[:, 1]
+    * u.mol
+    * u.m**-1
+    * u.Pa**-0.5
+    * u.s**-1,
+    source="aiello_hydrogen_2002",
+    isotope="D",
+)
+
+aiello_diffusivity_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/aiello_2002/permeability.csv",
+    delimiter=",",
+)
+
+aiello_diffusivity_data_H = aiello_diffusivity_data[2:, :2]
+
+aiello_diffusivity_H = Diffusivity(
+    data_T=1000 / aiello_diffusivity_data_H[:, 0] * u.K,
+    data_y=aiello_diffusivity_data_H[:, 1] * u.m**2 * u.s**-1,
+    source="aiello_hydrogen_2002",
+    isotope="H",
+)
+
+aiello_diffusivity_data_D = aiello_diffusivity_data[2:, 2:]
+
+aiello_diffusivity_D = Diffusivity(
+    data_T=1000 / aiello_diffusivity_data_D[:, 0] * u.K,
+    data_y=aiello_diffusivity_data_D[:, 1] * u.m**2 * u.s**-1,
+    source="aiello_hydrogen_2002",
+    isotope="D",
+)
+
 chen_permeability_data = np.genfromtxt(
     str(Path(__file__).parent) + "/chen_2021/permeability.csv",
     delimiter=",",
@@ -108,6 +162,10 @@ montupet_leblond_solubility = Solubility(
 )
 
 properties = [
+    aiello_permeability_H,
+    aiello_permeability_D,
+    aiello_diffusivity_H,
+    aiello_diffusivity_D,
     chen_permeability,
     chen_diffusivity,
     chen_solubility,
