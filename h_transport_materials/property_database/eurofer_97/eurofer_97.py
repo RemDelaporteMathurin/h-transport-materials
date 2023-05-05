@@ -6,6 +6,30 @@ import numpy as np
 
 u = htm.ureg
 
+chen_permeability_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/chen_2021/permeability.csv",
+    delimiter=",",
+)
+
+chen_permeability = Permeability(
+    data_T=1000 / chen_permeability_data[:, 0] * u.K,
+    data_y=chen_permeability_data[:, 1] * u.mol * u.m**-1 * u.MPa**-0.5 * u.s**-1,
+    source="chen_deuterium_2021",
+    isotope="D",
+)
+
+chen_diffusivity_data = np.genfromtxt(
+    str(Path(__file__).parent) + "/chen_2021/diffusivity.csv",
+    delimiter=",",
+)
+
+chen_diffusivity = Diffusivity(
+    data_T=1000 / chen_diffusivity_data[:, 0] * u.K,
+    data_y=chen_diffusivity_data[:, 1] * u.m**2 * u.s**-1,
+    source="chen_deuterium_2021",
+    isotope="D",
+)
+
 esteban_permeability_data = np.genfromtxt(
     str(Path(__file__).parent) + "/esteban_2007/permeability.csv",
     delimiter=",",
