@@ -49,7 +49,7 @@ montupet_leblond_diffusivity = Diffusivity(
 )
 
 montupet_leblond_solubility = Solubility(
-    S_0=1.76e-01 * u.mol * u.m**-1 * u.Pa**-0.5,
+    S_0=1.76e-01 * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=0.27 * u.eV * u.particle**-1,
     range=(473 * u.K, 673 * u.K),
     note="Data given montupet_leblond_permeation_2021 as effective solubility",
