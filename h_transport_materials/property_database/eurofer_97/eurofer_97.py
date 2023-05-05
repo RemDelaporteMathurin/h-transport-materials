@@ -13,7 +13,11 @@ esteban_permeability_data = np.genfromtxt(
 
 esteban_permeability = Permeability(
     data_T=1000 / esteban_permeability_data[:, 0] * u.K,
-    data_y=esteban_permeability_data[:, 1] * u.mol * u.m**-1 * u.Pa**-0.5 * u.s**-1,
+    data_y=esteban_permeability_data[:, 1]
+    * u.mol
+    * u.m**-1
+    * u.Pa**-0.5
+    * u.s**-1,
     source="esteban_hydrogen_2007",
     isotope="H",
 )
@@ -25,7 +29,11 @@ montupet_leblond_permeability_data = np.genfromtxt(
 
 montupet_leblond_permeability = Permeability(
     data_T=1000 / montupet_leblond_permeability_data[:, 0] * u.K,
-    data_y=montupet_leblond_permeability_data[:, 1] * u.mol * u.m**-1 * u.Pa**-0.5 * u.s**-1,
+    data_y=montupet_leblond_permeability_data[:, 1]
+    * u.mol
+    * u.m**-1
+    * u.Pa**-0.5
+    * u.s**-1,
     source="montupet_leblond_permeation_2021",
     isotope="H",
 )
