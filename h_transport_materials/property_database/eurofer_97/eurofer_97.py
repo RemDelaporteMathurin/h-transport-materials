@@ -51,6 +51,7 @@ aiello_diffusivity_H = Diffusivity(
     data_y=aiello_diffusivity_data_H[:, 1] * u.m**2 * u.s**-1,
     source="aiello_hydrogen_2002",
     isotope="H",
+    note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
 
 aiello_diffusivity_data_D = aiello_diffusivity_data[2:, 2:]
