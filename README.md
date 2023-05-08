@@ -12,7 +12,8 @@ Installation instructions are availble in the [documentation](https://h-transpor
 An online dashboard application is availbale for [HTM](https://htm-dashboard-uan5l4xr6a-od.a.run.app/). 
 
 The web app provides and intuitive and interactive graphical user interface for the HTM database. 
-v
+
+
 # Contribute
 
 Want to contribute to HTM? Consider the [contibution workflow](https://h-transport-materials.readthedocs.io/en/latest/dev/contributing.html) in the docs.
