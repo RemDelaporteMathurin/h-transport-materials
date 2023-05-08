@@ -36,6 +36,7 @@ aiello_permeability_D = Permeability(
     * u.s**-1,
     source="aiello_hydrogen_2002",
     isotope="D",
+    note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
 
 aiello_diffusivity_data = np.genfromtxt(
