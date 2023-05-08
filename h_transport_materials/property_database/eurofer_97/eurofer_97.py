@@ -54,7 +54,7 @@ aiello_diffusivity_H = Diffusivity(
     note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
 
-aiello_diffusivity_data_D = aiello_diffusivity_data[2:, 2:]
+aiello_diffusivity_data_D = aiello_diffusivity_data[2:5, 2:]
 
 aiello_diffusivity_D = Diffusivity(
     data_T=1000 / aiello_diffusivity_data_D[:, 0] * u.K,
