@@ -3,7 +3,7 @@
 ![CI](https://github.com/RemDelaporteMathurin/h_transport_materials/actions/workflows/ci.yml/badge.svg)
 [![codecov](https://codecov.io/github/RemDelaporteMathurin/h-transport-materials/branch/main/graph/badge.svg?token=zroa7Y8If6)](https://codecov.io/github/RemDelaporteMathurin/h-transport-materials)
 
-Introduction ...
+H-transport-materials (HTM) is a comprehensive database providing accountable and transparent hydrogen transport material properties. The project aims to reduce error propagation between published experimental results and users. HTM can be used in python scripts. Complete documentation on the usage of H Transport Materials is available in the documentation.
 
 Installation instructions are availble in the [documentation](https://h-transport-materials.readthedocs.io/en/latest/getting/index.html).
 
