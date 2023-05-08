@@ -136,17 +136,34 @@ In the case where several WebPlotDigitizer projects are present::
     | | | | property1_data.csv
     | | | | property2_data.csv
 
-Depending on how the .csv file is formatted, the python code should look like::
+If the .csv file is a simple 2-column dataset without column names, the python code should look like::
+
+    import numpy as np
 
     data = np.genfromtxt(
-        str(Path(__file__).parent) + "/oishi_1989_diffusivity.csv",
+        htm.absolute_path("oishi_1989_diffusivity.csv"),
         delimiter=",",
-        names=True,
     )
 
     my_diff = Diffusivity(
-        data_T=(1 / data["X"]) * htm.ureg.K,
-        data_y=data["Y"] * htm.ureg.cm**2 * htm.ureg.s**-1,
+        data_T=(1 / data[:, 0]) * htm.ureg.K,
+        data_y=data[:, 1] * htm.ureg.cm**2 * htm.ureg.s**-1,
+        source="the_reference",
+    )
+
+If several datasets are exported at the same time using the "Export all data" option in WebPlotDigitizer, then the python code should look like::
+
+    data = htm.structure_data_from_wpd("oishi_1989_diffusivity.csv")
+
+    my_diff1 = Diffusivity(
+        data_T=(1 / data["field1"]["x"]) * htm.ureg.K,
+        data_y=data["field1"]["y"] * htm.ureg.cm**2 * htm.ureg.s**-1,
+        source="the_reference",
+    )
+
+    my_diff2 = Diffusivity(
+        data_T=(1 / data["field2"]["x"]) * htm.ureg.K,
+        data_y=data["field2"]["y"] * htm.ureg.cm**2 * htm.ureg.s**-1,
         source="the_reference",
     )
 
