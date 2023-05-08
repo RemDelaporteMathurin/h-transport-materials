@@ -22,6 +22,7 @@ aiello_permeability_H = Permeability(
     * u.s**-1,
     source="aiello_hydrogen_2002",
     isotope="H",
+    note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
 
 aiello_permeability_data_D = aiello_permeability_data[2:, 2:]
