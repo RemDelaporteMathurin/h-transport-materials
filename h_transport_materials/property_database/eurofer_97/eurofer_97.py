@@ -44,7 +44,7 @@ aiello_diffusivity_data = np.genfromtxt(
     delimiter=",",
 )
 
-aiello_diffusivity_data_H = aiello_diffusivity_data[2:, :2]
+aiello_diffusivity_data_H = aiello_diffusivity_data[2:5, :2]
 
 aiello_diffusivity_H = Diffusivity(
     data_T=1000 / aiello_diffusivity_data_H[:, 0] * u.K,
