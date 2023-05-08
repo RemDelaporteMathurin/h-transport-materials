@@ -1,13 +1,12 @@
 import h_transport_materials as htm
 from h_transport_materials import Diffusivity, Solubility, Permeability
-from pathlib import Path
 import numpy as np
 
 u = htm.ureg
 
 # Fig 6 of Young's paper
 data_diffusivity_young = np.genfromtxt(
-    str(Path(__file__).parent) + "/young_diffusivity.csv",
+    htm.absolute_path("young_diffusivity.csv"),
     delimiter=",",
 )
 

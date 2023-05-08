@@ -5,7 +5,6 @@ from h_transport_materials.property import (
     Solubility,
     Permeability,
 )
-from pathlib import Path
 import numpy as np
 
 u = htm.ureg
@@ -246,12 +245,12 @@ liang_permeability = Permeability(
 # LIU 2016 PAPER
 
 liu_permeability_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/liu_2016/permeability.csv",
+    htm.absolute_path("liu_2016/permeability.csv"),
     delimiter=",",
     names=True,
 )
 liu_diffusivity_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/liu_2016/diffusivity.csv",
+    htm.absolute_path("liu_2016/diffusivity.csv"),
     delimiter=",",
     names=True,
 )

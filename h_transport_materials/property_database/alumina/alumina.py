@@ -10,7 +10,7 @@ import numpy as np
 u = htm.ureg
 
 serra_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/serra_2005/data.csv",
+    htm.absolute_path("serra_2005/data.csv"),
     delimiter=",",
     names=True,
 )
@@ -38,7 +38,7 @@ serra_solubility = Solubility(
 
 
 belonshko_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/belonoshko_2004/data.csv",
+    htm.absolute_path("belonoshko_2004/data.csv"),
     delimiter=",",
     names=True,
 )
@@ -61,7 +61,7 @@ belonshko_diffusivity_liquid = Diffusivity(
 
 
 fowler_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/fowler_1977/data.csv",
+    htm.absolute_path("fowler_1977/data.csv"),
     delimiter=",",
     names=True,
 )

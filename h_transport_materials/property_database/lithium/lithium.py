@@ -1,7 +1,6 @@
 from h_transport_materials.property import Diffusivity, Solubility
 import h_transport_materials as htm
 from h_transport_materials import k_B
-from pathlib import Path
 import numpy as np
 
 u = htm.ureg
@@ -12,7 +11,7 @@ LITHIUM_MOLAR_VOLUME = (
 
 
 alire_diffusivity_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/alire_1976/diffusivity.csv",
+    htm.absolute_path("alire_1976/diffusivity.csv"),
     delimiter=",",
 )
 

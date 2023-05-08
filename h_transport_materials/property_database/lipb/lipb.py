@@ -1,6 +1,5 @@
 import h_transport_materials as htm
 from h_transport_materials.property import Diffusivity, Solubility, Permeability
-from pathlib import Path
 
 import numpy as np
 
@@ -88,7 +87,7 @@ fauvet_solubility = Solubility(
 
 
 schumacher_solubility_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/schumacher_1990/solubility.csv",
+    htm.absolute_path("schumacher_1990/solubility.csv"),
     delimiter=",",
 )
 
@@ -114,7 +113,7 @@ schumacher_solubility = Solubility(
 
 
 reiter_diffusivity_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/reiter_1991/diffusivity.csv",
+    htm.absolute_path("reiter_1991/diffusivity.csv"),
     delimiter=",",
 )
 
@@ -139,7 +138,7 @@ reiter_diffusivity_d = Diffusivity(
 
 
 reiter_solubility_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/reiter_1991/solubility.csv",
+    htm.absolute_path("reiter_1991/solubility.csv"),
     delimiter=",",
 )
 
@@ -182,7 +181,7 @@ reiter_solubility_t = Solubility(
 
 
 data_aiello = np.genfromtxt(
-    str(Path(__file__).parent) + "/aiello_2006/solubility_data.csv",
+    htm.absolute_path("aiello_2006/solubility_data.csv"),
     delimiter=",",
 )
 
@@ -219,7 +218,7 @@ alberro_solubility = Solubility(
 
 
 data_edao = np.genfromtxt(
-    str(Path(__file__).parent) + "/edao_2011/data.csv", delimiter=",", names=True
+    htm.absolute_path("edao_2011/data.csv"), delimiter=",", names=True
 )
 
 
@@ -336,7 +335,7 @@ okitsu_solubility_d = Solubility(
 
 
 data_okada = np.genfromtxt(
-    str(Path(__file__).parent) + "/okada_2012/data.csv", delimiter=",", names=True
+    htm.absolute_path("okada_2012/data.csv"), delimiter=",", names=True
 )
 
 

@@ -6,13 +6,12 @@ from h_transport_materials import (
     DissociationCoeff,
     RecombinationCoeff,
 )
-from pathlib import Path
 import numpy as np
 
 u = htm.ureg
 
 serra_diffusivity_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/serra_1998/diffusivity.csv",
+    htm.absolute_path("serra_1998/diffusivity.csv"),
     delimiter=",",
     names=True,
 )
@@ -32,7 +31,7 @@ serra_diffusivity_d = Diffusivity(
 )
 
 serra_solubility_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/serra_1998/solubility.csv",
+    htm.absolute_path("serra_1998/solubility.csv"),
     delimiter=",",
     names=True,
 )

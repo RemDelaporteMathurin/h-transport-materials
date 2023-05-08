@@ -5,7 +5,6 @@ from h_transport_materials.property import (
     RecombinationCoeff,
     Solubility,
 )
-from pathlib import Path
 import numpy as np
 
 u = htm.ureg

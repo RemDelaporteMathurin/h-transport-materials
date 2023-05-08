@@ -1,13 +1,12 @@
 import h_transport_materials as htm
 from h_transport_materials.property import Diffusivity, Solubility, Permeability
-from pathlib import Path
 import numpy as np
 
 u = htm.ureg
 
 # Fukada, 2006
 data_fukada = np.genfromtxt(
-    str(Path(__file__).parent) + "/fukada_2006/diffusivity/data_fukada_2006.csv",
+    htm.absolute_path("fukada_2006/diffusivity/data_fukada_2006.csv"),
     delimiter=";",
 )
 
@@ -20,7 +19,7 @@ fukada_diffusivity_h = Diffusivity(
 
 
 data_fukada_S = np.genfromtxt(
-    str(Path(__file__).parent) + "/fukada_2006/solubility/data_fukada_2006.csv",
+    htm.absolute_path("fukada_2006/solubility/data_fukada_2006.csv"),
     delimiter=";",
 )
 
@@ -33,7 +32,7 @@ fukada_solubility_h = Solubility(
 
 # nakamura 2015
 data_nakamura = np.genfromtxt(
-    str(Path(__file__).parent) + "/nakamura_2015/data.csv", delimiter=",", names=True
+    htm.absolute_path("nakamura_2015/data.csv"), delimiter=",", names=True
 )
 
 data_nakamura_diff_flinak_T = 1 / data_nakamura["diff_flinakx"] * u.K
@@ -72,7 +71,8 @@ nakamura_permeability_h = Permeability(
 
 # lam 2020
 data_lam = np.genfromtxt(
-    str(Path(__file__).parent) + "/lam_2020/data_lam_2020_t.csv", delimiter=";"
+    htm.absolute_path("lam_2020/data_lam_2020_t.csv"),
+    delimiter=";",
 )
 
 lam_diffusivity_t = Diffusivity(
@@ -84,7 +84,7 @@ lam_diffusivity_t = Diffusivity(
 
 # T ions
 data_lam_t_ions = np.genfromtxt(
-    str(Path(__file__).parent) + "/lam_2020/data_lam_2020_t_ions.csv", delimiter=";"
+    htm.absolute_path("lam_2020/data_lam_2020_t_ions.csv"), delimiter=";"
 )
 
 lam_diffusivity_t_ions = Diffusivity(
@@ -96,7 +96,7 @@ lam_diffusivity_t_ions = Diffusivity(
 
 # Zeng 2019
 data_zeng = np.genfromtxt(
-    str(Path(__file__).parent) + "/zeng_2019/diffusivity/data_zeng_2019.csv",
+    htm.absolute_path("zeng_2019/diffusivity/data_zeng_2019.csv"),
     delimiter=";",
 )
 
@@ -108,7 +108,7 @@ zeng_diffusivity_h_2019 = Diffusivity(
 )
 
 data_zeng_S = np.genfromtxt(
-    str(Path(__file__).parent) + "/zeng_2019/solubility/data_zeng_2019.csv",
+    htm.absolute_path("zeng_2019/solubility/data_zeng_2019.csv"),
     delimiter=";",
 )
 zeng_solubility_h_2019 = Solubility(
@@ -122,7 +122,7 @@ zeng_solubility_h_2019 = Solubility(
 # zeng 2014
 
 data_zeng_2014 = np.genfromtxt(
-    str(Path(__file__).parent) + "/zeng_2014/diffusivity/data_zeng_2014.csv",
+    htm.absolute_path("zeng_2014/diffusivity/data_zeng_2014.csv"),
     delimiter=";",
 )
 
@@ -134,7 +134,7 @@ zeng_diffusivity_h_2014 = Diffusivity(
 )
 
 data_zeng_2014_S = np.genfromtxt(
-    str(Path(__file__).parent) + "/zeng_2014/solubility/data_zeng_2014.csv",
+    htm.absolute_path("zeng_2014/solubility/data_zeng_2014.csv"),
     delimiter=";",
 )
 

@@ -7,7 +7,6 @@ from h_transport_materials import (
     RecombinationCoeff,
 )
 from h_transport_materials.property_database.iron import IRON_MOLAR_VOLUME
-from pathlib import Path
 import numpy as np
 
 u = htm.ureg
@@ -154,7 +153,7 @@ xiukui_diffusivity = Diffusivity(
 )
 
 lee_permeability_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/lee_2011/permeability.csv",
+    htm.absolute_path("lee_2011/permeability.csv"),
     delimiter=",",
     names=True,
 )
@@ -167,7 +166,7 @@ lee_permeability = Permeability(
 )
 
 lee_diffsol_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/lee_2011/diffusivity_solubility.csv",
+    htm.absolute_path("lee_2011/diffusivity_solubility.csv"),
     delimiter=",",
     names=True,
 )
@@ -187,7 +186,7 @@ lee_solubility = Solubility(
 )
 
 serra_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/serra_2005/data.csv",
+    htm.absolute_path("serra_2005/data.csv"),
     delimiter=",",
     names=True,
 )
