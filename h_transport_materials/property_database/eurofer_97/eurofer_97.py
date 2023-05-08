@@ -61,6 +61,7 @@ aiello_diffusivity_D = Diffusivity(
     data_y=aiello_diffusivity_data_D[:, 1] * u.m**2 * u.s**-1,
     source="aiello_hydrogen_2002",
     isotope="D",
+    note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
 
 chen_permeability_data = np.genfromtxt(
