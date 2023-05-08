@@ -74,6 +74,7 @@ chen_permeability = Permeability(
     data_y=chen_permeability_data[:, 1] * u.mol * u.m**-1 * u.MPa**-0.5 * u.s**-1,
     source="chen_deuterium_2021",
     isotope="D",
+    note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
 
 chen_diffusivity_data = np.genfromtxt(
