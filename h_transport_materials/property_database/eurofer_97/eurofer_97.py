@@ -97,6 +97,7 @@ chen_solubility = Solubility(
     note="In the paper",
     source="chen_deuterium_2021",
     isotope="D",
+    note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
 
 esteban_permeability_data = np.genfromtxt(
