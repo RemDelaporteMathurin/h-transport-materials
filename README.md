@@ -13,7 +13,6 @@ An online dashboard application is availbale for [HTM](https://htm-dashboard-uan
 
 The web app provides and intuitive and interactive graphical user interface for the HTM database. 
 
-
 # Contribute
 
 Want to contribute to HTM? Consider the [contibution workflow](https://h-transport-materials.readthedocs.io/en/latest/dev/contributing.html) in the docs.
@@ -23,7 +22,9 @@ Alternatively if you have a material property you would like to add, there is a 
 Spot a bug! or have any suggestions, feel free to raise an
 [issue](https://github.com/RemDelaporteMathurin/h-transport-materials/issues/new).
 
+# Compiled database
 
+With each release of HTM, there is a compiled version of the database in .json format. You can download the lastest release [here](https://github.com/RemDelaporteMathurin/h-transport-materials/releases/latest/download/database.json).
 
 # Citing h-transport-materials
 
