@@ -94,7 +94,6 @@ chen_solubility = Solubility(
     S_0=4.0e2 * u.mol * u.m**-3 * u.MPa**-0.5,
     E_S=29.2 * u.kJ * u.mol**-1,
     range=(623 * u.K, 823 * u.K),
-    note="In the paper",
     source="chen_deuterium_2021",
     isotope="D",
     note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
