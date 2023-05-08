@@ -28,4 +28,22 @@ With each release of HTM, there is a compiled version of the database in .json f
 
 # Citing h-transport-materials
 
-If you have used h-transport material, please consider aknowlegdement of your usage by:
+If you have used h-transport material, please consider aknowlegdement of your usage by citing the [DOI](https://doi.org/10.5281/zenodo.7888448)
+
+Or the following bibtex
+
+```bibtex
+@misc{delaporte-mathurin_remdelaportemathurinh-transport-materials_2023,
+	title = {{RemDelaporteMathurin}/h-transport-materials: {Test} release 2},
+	shorttitle = {{RemDelaporteMathurin}/h-transport-materials},
+	url = {https://zenodo.org/record/7888448},
+	abstract = {Full Changelog: https://github.com/RemDelaporteMathurin/h-transport-materials/compare/v0.12.7-alpha...v0.12.7-beta},
+	urldate = {2023-05-08},
+	publisher = {Zenodo},
+	author = {Delaporte-Mathurin, Rémi and Fuerst, Thomas and Dark, James},
+	month = may,
+	year = {2023},
+	doi = {10.5281/zenodo.7888448},
+	file = {Zenodo Snapshot:C\:\\Users\\James\\Zotero\\storage\\54QEZWDI\\7888448.html:text/html},
+}
+```
