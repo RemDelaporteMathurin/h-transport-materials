@@ -18,10 +18,11 @@ The web app provides and intuitive and interactive graphical user interface for 
 
 Want to contribute to HTM? Consider the [contibution workflow](https://h-transport-materials.readthedocs.io/en/latest/dev/contributing.html) in the docs.
 
-Alternatively if you have a material property you would like to add
+Alternatively if you have a material property you would like to add, there is a dedicated [issue form](https://github.com/RemDelaporteMathurin/h-transport-materials/issues/new?assignees=&labels=&template=PROPERTY-SUGGESTION.yml&title=Property+suggestion%3A+)
 
 Spot a bug! or have any suggestions, feel free to raise an
 [issue](https://github.com/RemDelaporteMathurin/h-transport-materials/issues/new).
+
 
 
 # Citing h-transport-materials
