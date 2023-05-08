@@ -1,32 +1,41 @@
 from pathlib import Path
+import inspect
 import numpy as np
 
 
-def import_csv(filename: str, current_file, **kwargs):
-    """_summary_
+def absolute_path(filename: str, level=1):
+    """Returns the absolute path of a file. Based on a relative path.
 
     Args:
-        filename (str): _description_
-        current_file (_type_): _description_
+        filename (str): the relative path to the file
+        level (int, optional): Level in the file call. 0 corresponds to
+            the file where absolute_path is defined, 1 correspond to the
+            file calling this function, 2 corresponds to the parent of
+            the file calling this function. Defaults to 1.
 
     Returns:
-        _type_: _description_
+        str: the absolute path of the file
     """
-    data = np.genfromtxt(str(Path(current_file).parent) + "/" + filename, **kwargs)
-    return data
+    caller_frame = inspect.stack()[level]
+    return str(Path(caller_frame.filename).parent) + "/" + filename
 
 
-def structure_data_from_wpd(data: np.ndarray):
-    """Returns a structured dataset based on a numpy array from WebPlotDigitizer
+def structure_data_from_wpd(filename: str):
+    """Returns a structured dataset based on a csv file from WebPlotDigitizer
     exported with the "Export all data" option
 
     Args:
-        data (np.ndarray): the data imported with np.genfromtxt(..., names=True)
+        filename (str): the relative path to the csv file
 
     Returns:
         dict: structured dictionary with keys corresponding to field names.
             Ex: {"fieldA": {"x": [1,2,3], "y": [1,2,3]}}
     """
+    data = np.genfromtxt(
+        absolute_path(filename, level=2),
+        delimiter=",",
+        names=True,
+    )
     if not data.dtype.names:
         raise ValueError("data.dtype.names should not be None.")
     structured_data = {}

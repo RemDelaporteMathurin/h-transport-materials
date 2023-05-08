@@ -44,10 +44,7 @@ magnusson_diffusivity_copper = Diffusivity(
 # ################# KATZ 1971 #############################
 
 katz_src = "katz_diffusion_1971"
-data_diffusivity_katz = np.genfromtxt(
-    str(Path(__file__).parent) + "/katz_1971_diffusivity.csv", delimiter=",", names=True
-)
-data_diffusivity_katz = htm.structure_data_from_wpd(data_diffusivity_katz)
+data_diffusivity_katz = htm.structure_data_from_wpd("katz_1971_diffusivity.csv")
 
 katz_diffusivity_copper_h = Diffusivity(
     data_T=1000 / data_diffusivity_katz["h"]["x"] * u.K,

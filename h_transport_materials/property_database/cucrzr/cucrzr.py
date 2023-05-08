@@ -18,12 +18,7 @@ anderl_recombination = Diffusivity(
 )
 
 # diffusivity
-data_diffusivity_serra = np.genfromtxt(
-    str(Path(__file__).parent) + "/serra_diffusivity_1998.csv",
-    delimiter=",",
-    names=True,
-)
-data_diffusivity_serra = htm.structure_data_from_wpd(data_diffusivity_serra)
+data_diffusivity_serra = htm.structure_data_from_wpd("serra_diffusivity_1998.csv")
 
 note_serra_diffusivity_h = (
     "Serra equation doesn't match the experimental points on their graph"
@@ -52,12 +47,7 @@ serra_diffusivity_d = Diffusivity(
 )
 
 # solubility
-data_solubility_serra = np.genfromtxt(
-    str(Path(__file__).parent) + "/serra_solubility_1998.csv",
-    delimiter=",",
-    names=True,
-)
-data_solubility_serra = htm.structure_data_from_wpd(data_solubility_serra)
+data_solubility_serra = htm.structure_data_from_wpd("serra_solubility_1998.csv")
 
 serra_solubility_h = Solubility(
     data_T=1000 / data_solubility_serra["elbrodur_h"]["x"] * u.K,

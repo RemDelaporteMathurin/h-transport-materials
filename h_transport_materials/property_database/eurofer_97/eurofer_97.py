@@ -1,17 +1,10 @@
 import h_transport_materials as htm
 from h_transport_materials.property import Diffusivity, Solubility, Permeability
-from pathlib import Path
 import numpy as np
 
 u = htm.ureg
 
-aiello_permeability_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/aiello_2002/permeability.csv",
-    delimiter=",",
-    names=True,
-)
-
-aiello_permeability_data = htm.structure_data_from_wpd(aiello_permeability_data)
+aiello_permeability_data = htm.structure_data_from_wpd("aiello_2002/permeability.csv")
 
 aiello_permeability_H = Permeability(
     data_T=1000 / aiello_permeability_data["H"]["x"] * u.K,
@@ -38,13 +31,7 @@ aiello_permeability_D = Permeability(
     note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
 
-aiello_diffusivity_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/aiello_2002/diffusivity.csv",
-    delimiter=",",
-    names=True,
-)
-
-aiello_diffusivity_data = htm.structure_data_from_wpd(aiello_diffusivity_data)
+aiello_diffusivity_data = htm.structure_data_from_wpd("aiello_2002/diffusivity.csv")
 
 aiello_diffusivity_H = Diffusivity(
     data_T=1000 / aiello_diffusivity_data["H"]["x"][:4] * u.K,
@@ -53,6 +40,7 @@ aiello_diffusivity_H = Diffusivity(
     isotope="H",
     note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
+
 
 aiello_diffusivity_D = Diffusivity(
     data_T=1000 / aiello_diffusivity_data["D"]["x"][:4] * u.K,
@@ -63,7 +51,7 @@ aiello_diffusivity_D = Diffusivity(
 )
 
 chen_permeability_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/chen_2021/permeability.csv",
+    htm.absolute_path("chen_2021/permeability.csv"),
     delimiter=",",
 )
 
@@ -76,7 +64,7 @@ chen_permeability = Permeability(
 )
 
 chen_diffusivity_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/chen_2021/diffusivity.csv",
+    htm.absolute_path("chen_2021/diffusivity.csv"),
     delimiter=",",
 )
 
@@ -98,7 +86,7 @@ chen_solubility = Solubility(
 )
 
 esteban_permeability_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/esteban_2007/permeability.csv",
+    htm.absolute_path("esteban_2007/permeability.csv"),
     delimiter=",",
 )
 
@@ -132,7 +120,7 @@ esteban_solubility = Solubility(
 )
 
 montupet_leblond_permeability_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/montupet_leblond_2021/permeability.csv",
+    htm.absolute_path("montupet_leblond_2021/permeability.csv"),
     delimiter=",",
 )
 
