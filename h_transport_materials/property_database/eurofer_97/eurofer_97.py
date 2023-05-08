@@ -86,6 +86,7 @@ chen_diffusivity = Diffusivity(
     data_y=chen_diffusivity_data[:, 1] * u.m**2 * u.s**-1,
     source="chen_deuterium_2021",
     isotope="D",
+    note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
 
 chen_solubility = Solubility(
