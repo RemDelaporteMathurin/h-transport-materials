@@ -9,13 +9,14 @@ u = htm.ureg
 aiello_permeability_data = np.genfromtxt(
     str(Path(__file__).parent) + "/aiello_2002/permeability.csv",
     delimiter=",",
+    names=True,
 )
 
-aiello_permeability_data_H = aiello_permeability_data[2:, :2]
+aiello_permeability_data = htm.structure_data_from_wpd(aiello_permeability_data)
 
 aiello_permeability_H = Permeability(
-    data_T=1000 / aiello_permeability_data_H[:, 0] * u.K,
-    data_y=aiello_permeability_data_H[:, 1]
+    data_T=1000 / aiello_permeability_data["H"]["x"] * u.K,
+    data_y=aiello_permeability_data["H"]["y"]
     * u.mol
     * u.m**-1
     * u.Pa**-0.5
@@ -25,11 +26,10 @@ aiello_permeability_H = Permeability(
     note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
 
-aiello_permeability_data_D = aiello_permeability_data[2:, 2:]
 
 aiello_permeability_D = Permeability(
-    data_T=1000 / aiello_permeability_data_D[:, 0] * u.K,
-    data_y=aiello_permeability_data_D[:, 1]
+    data_T=1000 / aiello_permeability_data["D"]["x"] * u.K,
+    data_y=aiello_permeability_data["D"]["y"]
     * u.mol
     * u.m**-1
     * u.Pa**-0.5
@@ -42,23 +42,22 @@ aiello_permeability_D = Permeability(
 aiello_diffusivity_data = np.genfromtxt(
     str(Path(__file__).parent) + "/aiello_2002/diffusivity.csv",
     delimiter=",",
+    names=True,
 )
 
-aiello_diffusivity_data_H = aiello_diffusivity_data[2:5, :2]
+aiello_diffusivity_data = htm.structure_data_from_wpd(aiello_diffusivity_data)
 
 aiello_diffusivity_H = Diffusivity(
-    data_T=1000 / aiello_diffusivity_data_H[:, 0] * u.K,
-    data_y=aiello_diffusivity_data_H[:, 1] * u.m**2 * u.s**-1,
+    data_T=1000 / aiello_diffusivity_data["H"]["x"][:4] * u.K,
+    data_y=aiello_diffusivity_data["H"]["y"][:4] * u.m**2 * u.s**-1,
     source="aiello_hydrogen_2002",
     isotope="H",
     note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
 
-aiello_diffusivity_data_D = aiello_diffusivity_data[2:5, 2:]
-
 aiello_diffusivity_D = Diffusivity(
-    data_T=1000 / aiello_diffusivity_data_D[:, 0] * u.K,
-    data_y=aiello_diffusivity_data_D[:, 1] * u.m**2 * u.s**-1,
+    data_T=1000 / aiello_diffusivity_data["D"]["x"][:4] * u.K,
+    data_y=aiello_diffusivity_data["D"]["y"][:4] * u.m**2 * u.s**-1,
     source="aiello_hydrogen_2002",
     isotope="D",
     note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
