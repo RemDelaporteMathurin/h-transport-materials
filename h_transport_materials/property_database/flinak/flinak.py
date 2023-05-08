@@ -3,6 +3,7 @@ from h_transport_materials.property import Diffusivity, Solubility, Permeability
 from pathlib import Path
 import numpy as np
 
+u = htm.ureg
 
 # Fukada, 2006
 data_fukada = np.genfromtxt(
@@ -11,8 +12,8 @@ data_fukada = np.genfromtxt(
 )
 
 fukada_diffusivity_h = Diffusivity(
-    data_T=1 / data_fukada[:-1, 0] * htm.ureg.K,
-    data_y=data_fukada[:-1, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
+    data_T=1 / data_fukada[:-1, 0] * u.K,
+    data_y=data_fukada[:-1, 1] * u.m**2 * u.s**-1,
     source="fukada_hydrogen_2006",
     isotope="H",
 )
@@ -24,8 +25,8 @@ data_fukada_S = np.genfromtxt(
 )
 
 fukada_solubility_h = Solubility(
-    data_T=1 / data_fukada_S[:, 0] * htm.ureg.K,
-    data_y=data_fukada_S[:, 1] * htm.ureg.mol * htm.ureg.cm**-3 * htm.ureg.atm**-1,
+    data_T=1 / data_fukada_S[:, 0] * u.K,
+    data_y=data_fukada_S[:, 1] * u.mol * u.cm**-3 * u.atm**-1,
     source="fukada_hydrogen_2006",
     isotope="H",
 )
@@ -35,10 +36,8 @@ data_nakamura = np.genfromtxt(
     str(Path(__file__).parent) + "/nakamura_2015/data.csv", delimiter=",", names=True
 )
 
-data_nakamura_diff_flinak_T = 1 / data_nakamura["diff_flinakx"] * htm.ureg.K
-data_nakamura_diff_flinak_y = (
-    data_nakamura["diff_flinaky"] * htm.ureg.m**2 * htm.ureg.s**-1
-)
+data_nakamura_diff_flinak_T = 1 / data_nakamura["diff_flinakx"] * u.K
+data_nakamura_diff_flinak_y = data_nakamura["diff_flinaky"] * u.m**2 * u.s**-1
 
 nakamura_diffusivity_h = Diffusivity(
     data_T=data_nakamura_diff_flinak_T,
@@ -47,9 +46,9 @@ nakamura_diffusivity_h = Diffusivity(
     isotope="H",
 )
 
-data_nakamura_sol_flinak_T = 1 / data_nakamura["sol_flinakx"] * htm.ureg.K
+data_nakamura_sol_flinak_T = 1 / data_nakamura["sol_flinakx"] * u.K
 data_nakamura_sol_flinak_y = (
-    data_nakamura["sol_flinaky"] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1
+    data_nakamura["sol_flinaky"] * u.mol * u.m**-3 * u.Pa**-1
 )
 nakamura_solubility_h = Solubility(
     data_T=data_nakamura_sol_flinak_T,
@@ -59,13 +58,9 @@ nakamura_solubility_h = Solubility(
 )
 
 
-data_nakamura_perm_flinak_T = 1 / data_nakamura["perm_flinakx"] * htm.ureg.K
+data_nakamura_perm_flinak_T = 1 / data_nakamura["perm_flinakx"] * u.K
 data_nakamura_perm_flinak_y = (
-    data_nakamura["perm_flinaky"]
-    * htm.ureg.mol
-    * htm.ureg.m**-1
-    * htm.ureg.s**-1
-    * htm.ureg.Pa**-1
+    data_nakamura["perm_flinaky"] * u.mol * u.m**-1 * u.s**-1 * u.Pa**-1
 )
 nakamura_permeability_h = Permeability(
     data_T=data_nakamura_perm_flinak_T,
@@ -81,8 +76,8 @@ data_lam = np.genfromtxt(
 )
 
 lam_diffusivity_t = Diffusivity(
-    data_T=1 / data_lam[:, 0] * htm.ureg.K,
-    data_y=data_lam[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
+    data_T=1 / data_lam[:, 0] * u.K,
+    data_y=data_lam[:, 1] * u.m**2 * u.s**-1,
     source="lam_impact_2021",
     isotope="T",
 )
@@ -93,8 +88,8 @@ data_lam_t_ions = np.genfromtxt(
 )
 
 lam_diffusivity_t_ions = Diffusivity(
-    data_T=1 / data_lam_t_ions[:, 0] * htm.ureg.K,
-    data_y=data_lam_t_ions[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
+    data_T=1 / data_lam_t_ions[:, 0] * u.K,
+    data_y=data_lam_t_ions[:, 1] * u.m**2 * u.s**-1,
     source="lam_impact_2021",
     isotope="T",
 )
@@ -106,8 +101,8 @@ data_zeng = np.genfromtxt(
 )
 
 zeng_diffusivity_h_2019 = Diffusivity(
-    data_T=1 / data_zeng[:, 0] * htm.ureg.K,
-    data_y=data_zeng[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
+    data_T=1 / data_zeng[:, 0] * u.K,
+    data_y=data_zeng[:, 1] * u.m**2 * u.s**-1,
     source="zeng_behavior_2019",
     isotope="H",
 )
@@ -117,8 +112,8 @@ data_zeng_S = np.genfromtxt(
     delimiter=";",
 )
 zeng_solubility_h_2019 = Solubility(
-    data_T=1 / data_zeng_S[:, 0] * htm.ureg.K,
-    data_y=data_zeng_S[:, 1] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
+    data_T=1 / data_zeng_S[:, 0] * u.K,
+    data_y=data_zeng_S[:, 1] * u.mol * u.m**-3 * u.Pa**-1,
     source="zeng_behavior_2019",
     isotope="H",
 )
@@ -132,8 +127,8 @@ data_zeng_2014 = np.genfromtxt(
 )
 
 zeng_diffusivity_h_2014 = Diffusivity(
-    data_T=data_zeng_2014[:, 0] * htm.ureg.degC,
-    data_y=data_zeng_2014[:, 1] * htm.ureg.m**2 * htm.ureg.s**-1,
+    data_T=data_zeng_2014[:, 0] * u.degC,
+    data_y=data_zeng_2014[:, 1] * u.m**2 * u.s**-1,
     source="zeng_apparatus_2014",
     isotope="H",
 )
@@ -145,8 +140,8 @@ data_zeng_2014_S = np.genfromtxt(
 
 
 zeng_solubility_h_2014 = Solubility(
-    data_T=data_zeng_2014_S[:, 0] * htm.ureg.degC,
-    data_y=data_zeng_2014_S[:, 1] * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-1,
+    data_T=data_zeng_2014_S[:, 0] * u.degC,
+    data_y=data_zeng_2014_S[:, 1] * u.mol * u.m**-3 * u.Pa**-1,
     source="zeng_apparatus_2014",
     isotope="H",
 )

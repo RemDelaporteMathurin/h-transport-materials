@@ -1,23 +1,22 @@
 import h_transport_materials as htm
 from h_transport_materials import Diffusivity, Solubility
-import h_transport_materials.conversion as c
-
 import numpy as np
 
+u = htm.ureg
+
 PALLADIUM_MOLAR_VOLUME = (
-    8.85e-6 * htm.ureg.m**3 * htm.ureg.mol**-1
+    8.85e-6 * u.m**3 * u.mol**-1
 )  # m3/mol  https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/palladium
 PALLADIUM_VOLUMIC_DENSITY = (
     8.32e-8
-    * htm.ureg.m**3
-    * htm.ureg.g
-    ** -1  # m3/g  https://www.aqua-calc.com/calculate/weight-to-volume/palladium
+    * u.m**3
+    * u.g**-1  # m3/g  https://www.aqua-calc.com/calculate/weight-to-volume/palladium
 )
 
 volkl_diffusivity = Diffusivity(
-    D_0=2.90e-7 * htm.ureg.m**2 * htm.ureg.s**-1,
-    E_D=22.2 * htm.ureg.kJ * htm.ureg.mol**-1,
-    range=(223 * htm.ureg.K, 873 * htm.ureg.K),
+    D_0=2.90e-7 * u.m**2 * u.s**-1,
+    E_D=22.2 * u.kJ * u.mol**-1,
+    range=(223 * u.K, 873 * u.K),
     source="volkl_5_1975",
     isotope="H",
 )
@@ -80,16 +79,16 @@ favreau_data_y = (
             0.1039,
         ]
     )
-    * htm.ureg.ccSTP
-    * htm.ureg.g**-1
-    * htm.ureg.cmHg**-0.5
+    * u.ccSTP
+    * u.g**-1
+    * u.cmHg**-0.5
 )  # in cc STP per gram of palladium  cmHg^-1.2
 
 # favreau_data_y = c.ccSTP_to_mol(favreau_data_y)  # mol T per gram of Pd  cmHg-1.2
 favreau_data_y *= 1 / PALLADIUM_VOLUMIC_DENSITY  # mol T m-3  cmHg-1.2
 
 favreau_solubility_t = Solubility(
-    data_T=favreau_data_T * htm.ureg.degC,
+    data_T=favreau_data_T * u.degC,
     data_y=favreau_data_y,
     # S_0=4.45e-1 * htm.avogadro_nb,
     # E_S=c.kJ_per_mol_to_eV(-8.4),
@@ -240,16 +239,16 @@ favreau_data_y_h = (
             0.1767,
         ]
     )
-    * htm.ureg.ccSTP
-    * htm.ureg.g**-1
-    * htm.ureg.cmHg**-0.5
+    * u.ccSTP
+    * u.g**-1
+    * u.cmHg**-0.5
 )  # in cc STP per gram of palladium  cmHg^-1.2
 
 
 favreau_data_y_h *= 1 / PALLADIUM_VOLUMIC_DENSITY  # mol T m-3  cmHg-1.2
 
 favreau_solubility_h = Solubility(
-    data_T=favreau_data_T_h * htm.ureg.degC,
+    data_T=favreau_data_T_h * u.degC,
     data_y=favreau_data_y_h,
     source="favreau_solubility_1954",
     isotope="H",

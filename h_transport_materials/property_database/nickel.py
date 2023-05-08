@@ -6,8 +6,9 @@ from h_transport_materials import (
     DissociationCoeff,
 )
 
-NI_MOLAR_VOLUME = 6.59e-6  # m3/mol  https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/nickel
 u = htm.ureg
+
+NI_MOLAR_VOLUME = 6.59e-6  # m3/mol  https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/nickel
 
 volkl_diffusivity = Diffusivity(
     D_0=6.87e-7 * u.m**2 * u.s**-1,
