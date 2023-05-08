@@ -40,6 +40,7 @@ from .properties_group import PropertiesGroup
 from . import conversion
 from . import fitting
 from . import plotting
+from .import_csv import *
 from .material import *
 
 database = PropertiesGroup()
