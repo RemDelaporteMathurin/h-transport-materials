@@ -187,6 +187,27 @@ All the properties in the database must have a corresponding material.
 See :ref:`Attach a material` to learn how to add a material to a property.
 If the property material doesn't exist, refer to :ref:`Adding a new material`.
 
+Add property to database
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Creating the :class:`Property() <h_transport_materials.property.Property>` object is not enough.
+It has to be appended to ``htm.database``::
+
+    my_prop = htm.Diffusivity(....)
+
+    htm.database.append(my_prop)
+
+When several properties are present in the script, it is easier to write::
+
+    prop1 = htm.Diffusivity(....)
+    prop2 = htm.Solubility(....)
+    prop3 = htm.Permeability(....)
+    prop4 = htm.Diffusivity(....)
+
+    properties = [prop1, prop2, prop3, prop4]
+
+    htm.database += properties
+
 Adding a new material
 ---------------------
 
@@ -212,6 +233,12 @@ Then, create a file in ``h_transport_materials/property_database`` with the name
 If need be, put this script in a folder with the name of the material (see :ref:`From a graph`).
 
 The new material can then be added to the properties (see :ref:`Attach a material`).
+
+All the created properties need to be appended to ``htm.database``.
+
+Don't forget to import the newly created script in ``h_transport_materials/property_database/__init__.py``. For example::
+
+    from . import tungsten
 
 Adding a feature
 ----------------
