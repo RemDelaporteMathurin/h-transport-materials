@@ -88,7 +88,7 @@ chen_solubility = Solubility(
     S_0=4.0e2 * u.mol * u.m**-3 * u.MPa**-0.5,
     E_S=29.2 * u.kJ * u.mol**-1,
     range=(623 * u.K, 823 * u.K),
-    note="Given in paper chen_deuterium_2021 bbut no experimental data points",
+    note="In the paper",
     source="chen_deuterium_2021",
     isotope="D",
 )
@@ -113,7 +113,7 @@ esteban_diffusivity = Diffusivity(
     D_0=4.57e-07 * u.m**2 * u.s**-1,
     E_D=22.3 * u.kJ * u.mol**-1,
     range=(376 * u.K, 724 * u.K),
-    note="Data given in esteban_hydrogen_2007 as effective diffusivity",
+    note="The authors also give an effective diffusivity, this is the lattice diffusivity measured at high temperature",
     source="esteban_hydrogen_2007",
     isotope="H",
 )
@@ -122,7 +122,7 @@ esteban_solubility = Solubility(
     S_0=2.25e-02 * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=15.1 * u.kJ * u.mol**-1,
     range=(376 * u.K, 724 * u.K),
-    note="Data given in esteban_hydrogen_2007 as effective solubility",
+    note="The authors also give an effective solubility, this is the lattice solubility measured at high temperature",
     source="esteban_hydrogen_2007",
     isotope="H",
 )
@@ -147,7 +147,7 @@ montupet_leblond_diffusivity = Diffusivity(
     D_0=2.52e-07 * u.m**2 * u.s**-1,
     E_D=0.16 * u.eV * u.particle**-1,
     range=(473 * u.K, 673 * u.K),
-    note="Data given in montupet_leblond_permeation_2021 as effective diffusivity",
+    note="The authors also give an effective diffusivity, this is the lattice diffusivity measured at high temperature",
     source="montupet_leblond_permeation_2021",
     isotope="H",
 )
@@ -156,7 +156,7 @@ montupet_leblond_solubility = Solubility(
     S_0=1.76e-01 * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=0.27 * u.eV * u.particle**-1,
     range=(473 * u.K, 673 * u.K),
-    note="Data given in montupet_leblond_permeation_2021 as effective solubility",
+    note="The authors also give an effective solubilty, this is the lattice solubility measured at high temperature",
     source="montupet_leblond_permeation_2021",
     isotope="H",
 )
