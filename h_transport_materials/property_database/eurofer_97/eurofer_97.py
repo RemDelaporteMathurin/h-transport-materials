@@ -25,7 +25,7 @@ aiello_permeability_H = Permeability(
     note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
 
-aiello_permeability_data_D = aiello_permeability_data[2:, 2:]
+aiello_permeability_data_D = aiello_permeability_data[2:5, 2:]
 
 aiello_permeability_D = Permeability(
     data_T=1000 / aiello_permeability_data_D[:, 0] * u.K,
