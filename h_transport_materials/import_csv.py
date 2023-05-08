@@ -18,6 +18,7 @@ def import_csv(filename: str, current_file, **kwargs):
 
 def structure_data_from_wpd(data: np.ndarray):
     """Returns a structured dataset based on a numpy array from WebPlotDigitizer
+    exported with the "Export all data" option
 
     Args:
         data (np.ndarray): the data imported with np.genfromtxt(..., names=True)
