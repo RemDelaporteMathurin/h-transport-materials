@@ -5,6 +5,8 @@ from . import copper
 
 from . import cucrzr
 
+from . import eurofer_97
+
 from . import flinak
 from . import flibe
 
