@@ -36,8 +36,6 @@ def structure_data_from_wpd(filename: str):
         delimiter=",",
         names=True,
     )
-    if not data.dtype.names:
-        raise ValueError("data.dtype.names should not be None.")
     structured_data = {}
     names = data.dtype.names
     for name_x, name_y in zip(names[0::2], names[1::2]):
