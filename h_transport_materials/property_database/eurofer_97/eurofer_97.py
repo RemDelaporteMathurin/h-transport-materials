@@ -38,7 +38,7 @@ aiello_permeability_D = Permeability(
 )
 
 aiello_diffusivity_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/aiello_2002/permeability.csv",
+    str(Path(__file__).parent) + "/aiello_2002/diffusivity.csv",
     delimiter=",",
 )
 
