@@ -59,8 +59,8 @@ Convert properties units
     1.0153714565349241e-09 mile ** 2 / month
     11.530273915309515 kilocalorie / mole
 
-Access the internal database
-----------------------------
+Accessing the internal database: basic
+--------------------------------------
 
 .. plot::
    :include-source: true
@@ -75,6 +75,9 @@ Access the internal database
     plt.legend()
     plt.yscale("log")
     plt.show()
+
+Accessing the internal database: ``colour_by``
+---------------------------------------------
 
 .. plot::
    :include-source: true
@@ -98,6 +101,9 @@ Access the internal database
     plt.yscale("log")
     plt.show()
 
+
+Accessing the internal database: advanced
+-----------------------------------------
 
 .. plot::
    :include-source: true
@@ -134,6 +140,10 @@ Access the internal database
     plt.legend(custom_lines, [mat.name for mat in materials])
     plt.xlabel(f"Inverse temperature ({axs[-1].xaxis.get_units():~P})")
     plt.show()
+
+
+Accessing the internal database: statistics
+-------------------------------------------
 
 .. plot::
    :include-source: true
