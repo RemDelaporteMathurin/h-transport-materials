@@ -33,3 +33,4 @@ To make sure that everything works, try running:
     htm.plotting.plot(tungsten_permeabilities)
     plt.yscale("log")
 
+For more examples, go to the :ref:`examples` section.
