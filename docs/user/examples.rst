@@ -53,6 +53,12 @@ Convert properties units
 
     print(my_diffusivity.act_energy.to(u.kcal * u.mol**-1))
 
+
+.. testoutput::
+
+    1.0153714565349241e-09 mile ** 2 / month
+    11.530273915309515 kilocalorie / mole
+
 Access the internal database
 ----------------------------
 
