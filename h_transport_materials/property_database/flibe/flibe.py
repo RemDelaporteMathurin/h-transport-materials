@@ -5,7 +5,6 @@ from h_transport_materials.property import (
     Permeability,
 )
 import numpy as np
-from pathlib import Path
 
 u = htm.ureg
 
@@ -62,7 +61,7 @@ anderl_solubility = Solubility(
 
 
 data_diffusivity_oishi = np.genfromtxt(
-    str(Path(__file__).parent) + "/oishi_1989_diffusivity.csv",
+    htm.absolute_path("oishi_1989_diffusivity.csv"),
     delimiter=",",
     names=True,
 )
@@ -145,7 +144,7 @@ lam_diffusivity_atoms = Diffusivity(
 
 # nakamura 2015
 data_nakamura = np.genfromtxt(
-    str(Path(__file__).parent) + "/nakamura_2015/data.csv", delimiter=",", names=True
+    htm.absolute_path("nakamura_2015/data.csv"), delimiter=",", names=True
 )
 
 data_nakamura_diff_flibe_T = 1 / data_nakamura["diff_flibex"] * u.K

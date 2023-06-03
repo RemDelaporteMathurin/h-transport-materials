@@ -5,7 +5,6 @@ from h_transport_materials.property import (
     RecombinationCoeff,
     Solubility,
 )
-from pathlib import Path
 import numpy as np
 
 u = htm.ureg
@@ -44,33 +43,27 @@ magnusson_diffusivity_copper = Diffusivity(
 # ################# KATZ 1971 #############################
 
 katz_src = "katz_diffusion_1971"
-data_diffusivity_katz = np.genfromtxt(
-    str(Path(__file__).parent) + "/katz_1971_diffusivity.csv",
-    delimiter=",",
-)
-data_diffusivity_katz_h = data_diffusivity_katz[2:, :2].astype(float)
+data_diffusivity_katz = htm.structure_data_from_wpd("katz_1971_diffusivity.csv")
 
 katz_diffusivity_copper_h = Diffusivity(
-    data_T=1000 / data_diffusivity_katz_h[:, 0] * u.K,
-    data_y=data_diffusivity_katz_h[:, 1] * u.cm**2 * u.s**-1,
+    data_T=1000 / data_diffusivity_katz["h"]["x"] * u.K,
+    data_y=data_diffusivity_katz["h"]["y"] * u.cm**2 * u.s**-1,
     source=katz_src,
     isotope="H",
 )
 
 
-data_diffusivity_katz_d = data_diffusivity_katz[2:, 2:4].astype(float)
 katz_diffusivity_copper_d = Diffusivity(
-    data_T=1000 / data_diffusivity_katz_d[:, 0] * u.K,
-    data_y=data_diffusivity_katz_d[:, 1] * u.cm**2 * u.s**-1,
+    data_T=1000 / data_diffusivity_katz["d"]["x"] * u.K,
+    data_y=data_diffusivity_katz["d"]["y"] * u.cm**2 * u.s**-1,
     source=katz_src,
     isotope="D",
 )
 
 
-data_diffusivity_katz_t = data_diffusivity_katz[2:, 4:].astype(float)
 katz_diffusivity_copper_t = Diffusivity(
-    data_T=1000 / data_diffusivity_katz_t[:, 0] * u.K,
-    data_y=data_diffusivity_katz_t[:, 1] * u.cm**2 * u.s**-1,
+    data_T=1000 / data_diffusivity_katz["t"]["x"] * u.K,
+    data_y=data_diffusivity_katz["t"]["y"] * u.cm**2 * u.s**-1,
     source=katz_src,
     isotope="T",
 )

@@ -5,8 +5,6 @@ from h_transport_materials.property import (
     Solubility,
     Permeability,
 )
-from pathlib import Path
-import numpy as np
 
 u = htm.ureg
 
@@ -18,14 +16,7 @@ anderl_recombination = Diffusivity(
 )
 
 # diffusivity
-data_diffusivity_serra = np.genfromtxt(
-    str(Path(__file__).parent) + "/serra_diffusivity_1998.csv",
-    delimiter=",",
-    dtype=str,
-)
-data_diffusivity_serra_h = data_diffusivity_serra[2:, :2].astype(float)
-data_diffusivity_serra_d = data_diffusivity_serra[2:, 2:].astype(float)
-
+data_diffusivity_serra = htm.structure_data_from_wpd("serra_diffusivity_1998.csv")
 
 note_serra_diffusivity_h = (
     "Serra equation doesn't match the experimental points on their graph"
@@ -33,8 +24,8 @@ note_serra_diffusivity_h = (
     + "ITER also gives a diffusivity but they adapted it from the wrong equations..."
 )
 serra_diffusivity_h = Diffusivity(
-    data_T=1000 / data_diffusivity_serra_h[:, 0] * u.K,
-    data_y=data_diffusivity_serra_h[:, 1] * u.m**2 * u.s**-1,
+    data_T=1000 / data_diffusivity_serra["elbrodur_h2"]["x"] * u.K,
+    data_y=data_diffusivity_serra["elbrodur_h2"]["y"] * u.m**2 * u.s**-1,
     source="serra_hydrogen_1998",
     isotope="H",
     note=note_serra_diffusivity_h,
@@ -46,31 +37,26 @@ note_serra_diffusivity_d = (
     + "ITER also gives a diffusivity but they adapted it from the wrong equations..."
 )
 serra_diffusivity_d = Diffusivity(
-    data_T=1000 / data_diffusivity_serra_d[:, 0] * u.K,
-    data_y=data_diffusivity_serra_d[:, 1] * u.m**2 * u.s**-1,
+    data_T=1000 / data_diffusivity_serra["elbrodur_d2"]["x"] * u.K,
+    data_y=data_diffusivity_serra["elbrodur_d2"]["y"] * u.m**2 * u.s**-1,
     source="serra_hydrogen_1998",
     isotope="D",
     note=note_serra_diffusivity_d,
 )
 
 # solubility
-data_solubility_serra = np.genfromtxt(
-    str(Path(__file__).parent) + "/serra_solubility_1998.csv", delimiter=","
-)
-
-data_solubility_serra_h = data_solubility_serra[2:, :2]
-data_solubility_serra_d = data_solubility_serra[2:, 2:]
+data_solubility_serra = htm.structure_data_from_wpd("serra_solubility_1998.csv")
 
 serra_solubility_h = Solubility(
-    data_T=1000 / data_solubility_serra_h[:, 0] * u.K,
-    data_y=data_solubility_serra_h[:, 1] * u.mol * u.m**-3 * u.Pa**-0.5,
+    data_T=1000 / data_solubility_serra["elbrodur_h"]["x"] * u.K,
+    data_y=data_solubility_serra["elbrodur_h"]["y"] * u.mol * u.m**-3 * u.Pa**-0.5,
     source="serra_hydrogen_1998",
     isotope="H",
 )
 
 serra_solubility_d = Solubility(
-    data_T=1000 / data_solubility_serra_d[:, 0] * u.K,
-    data_y=data_solubility_serra_d[:, 1] * u.mol * u.m**-3 * u.Pa**-0.5,
+    data_T=1000 / data_solubility_serra["elbrodur_d"]["x"] * u.K,
+    data_y=data_solubility_serra["elbrodur_d"]["y"] * u.mol * u.m**-3 * u.Pa**-0.5,
     source="serra_hydrogen_1998",
     isotope="D",
 )

@@ -8,3 +8,4 @@ API reference
     properties
     materials
     plotting
+    helpers

@@ -1,7 +1,6 @@
 import h_transport_materials as htm
 from h_transport_materials import Diffusivity, Solubility
 import numpy as np
-from pathlib import Path
 
 u = htm.ureg
 
@@ -33,7 +32,7 @@ kearns_solubility = Solubility(
 )
 
 yamanaka_solubility_data = np.genfromtxt(
-    str(Path(__file__).parent) + "/yamanaka_1989/solubility.csv",
+    htm.absolute_path("yamanaka_1989/solubility.csv"),
     delimiter=",",
 )
 

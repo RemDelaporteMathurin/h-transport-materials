@@ -136,17 +136,34 @@ In the case where several WebPlotDigitizer projects are present::
     | | | | property1_data.csv
     | | | | property2_data.csv
 
-Depending on how the .csv file is formatted, the python code should look like::
+If the .csv file is a simple 2-column dataset without column names, the python code should look like::
+
+    import numpy as np
 
     data = np.genfromtxt(
-        str(Path(__file__).parent) + "/oishi_1989_diffusivity.csv",
+        htm.absolute_path("oishi_1989_diffusivity.csv"),
         delimiter=",",
-        names=True,
     )
 
     my_diff = Diffusivity(
-        data_T=(1 / data["X"]) * htm.ureg.K,
-        data_y=data["Y"] * htm.ureg.cm**2 * htm.ureg.s**-1,
+        data_T=(1 / data[:, 0]) * htm.ureg.K,
+        data_y=data[:, 1] * htm.ureg.cm**2 * htm.ureg.s**-1,
+        source="the_reference",
+    )
+
+If several datasets are exported at the same time using the "Export all data" option in WebPlotDigitizer, then the python code should look like::
+
+    data = htm.structure_data_from_wpd("oishi_1989_diffusivity.csv")
+
+    my_diff1 = Diffusivity(
+        data_T=(1 / data["field1"]["x"]) * htm.ureg.K,
+        data_y=data["field1"]["y"] * htm.ureg.cm**2 * htm.ureg.s**-1,
+        source="the_reference",
+    )
+
+    my_diff2 = Diffusivity(
+        data_T=(1 / data["field2"]["x"]) * htm.ureg.K,
+        data_y=data["field2"]["y"] * htm.ureg.cm**2 * htm.ureg.s**-1,
         source="the_reference",
     )
 
@@ -169,6 +186,27 @@ Material
 All the properties in the database must have a corresponding material.
 See :ref:`Attach a material` to learn how to add a material to a property.
 If the property material doesn't exist, refer to :ref:`Adding a new material`.
+
+Add property to database
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Creating the :class:`Property() <h_transport_materials.property.Property>` object is not enough.
+It has to be appended to ``htm.database``::
+
+    my_prop = htm.Diffusivity(....)
+
+    htm.database.append(my_prop)
+
+When several properties are present in the script, it is easier to write::
+
+    prop1 = htm.Diffusivity(....)
+    prop2 = htm.Solubility(....)
+    prop3 = htm.Permeability(....)
+    prop4 = htm.Diffusivity(....)
+
+    properties = [prop1, prop2, prop3, prop4]
+
+    htm.database += properties
 
 Adding a new material
 ---------------------
@@ -195,6 +233,12 @@ Then, create a file in ``h_transport_materials/property_database`` with the name
 If need be, put this script in a folder with the name of the material (see :ref:`From a graph`).
 
 The new material can then be added to the properties (see :ref:`Attach a material`).
+
+All the created properties need to be appended to ``htm.database``.
+
+Don't forget to import the newly created script in ``h_transport_materials/property_database/__init__.py``. For example::
+
+    from . import tungsten
 
 Adding a feature
 ----------------
