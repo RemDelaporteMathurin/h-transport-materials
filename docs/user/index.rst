@@ -9,3 +9,4 @@ User Guide
     defining_property
     groups
     plotting
+    examples
