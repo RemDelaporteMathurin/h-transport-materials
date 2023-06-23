@@ -147,3 +147,12 @@ ZIRCONIUM = PureMetal("zirconium", "Zr")
 
 ALUMINA = Compound("alumina")
 EUROFER = Steel("eurofer_97")
+
+APMT = Alloy("apmt")
+FE22CR5AL = Alloy("fe22cr5al")
+THERMACORE = Alloy("thermacore")
+THERMACORE_OX = Alloy("thermacore_ox")
+T54Y = Alloy("t54y")
+T35Y = Alloy("t35y")
+OX_1605 = Alloy("ox_1605")
+
