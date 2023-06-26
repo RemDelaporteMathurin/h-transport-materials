@@ -147,3 +147,5 @@ ZIRCONIUM = PureMetal("zirconium", "Zr")
 
 ALUMINA = Compound("alumina")
 EUROFER = Steel("eurofer_97")
+
+APMT = Alloy("apmt")
