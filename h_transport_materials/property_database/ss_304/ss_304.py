@@ -139,6 +139,17 @@ braun_dissociation_coeff = DissociationCoeff(
     note="not given in paper, calculated in HTM using Hawkins solubility, differs from Fuerst 2020 review (Table 5)",
 )
 
+data = np.genfromtxt(
+    htm.absolute_path("Hu_STEEL_304_2015.csv"),
+    delimiter=",",
+)
+Hu_perm = Permeability(
+    data_T=(1000 / data[:,0]) * u.K,
+    data_y=data[:,1] * u.mol * u.m**(-1) * u.s**(-1) * u.MPa**(-.5),
+    source="Hu_2015",
+    isotope="H",
+)
+
 properties = [
     grant_permeability,
     grant_diffusivity,
@@ -154,6 +165,7 @@ properties = [
     braun_dissociation_coeff,
     braun_permeability,
     hawkins_solubility,
+    Hu_perm,
 ]
 
 for prop in properties:
