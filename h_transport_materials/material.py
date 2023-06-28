@@ -149,3 +149,4 @@ ALUMINA = Compound("alumina")
 EUROFER = Steel("eurofer_97")
 
 APMT = Alloy("apmt")
+T35Y = Alloy("t35y")

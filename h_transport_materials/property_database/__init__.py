@@ -64,3 +64,4 @@ from . import incoloy_800
 from . import vanadium_alloy
 
 from . import apmt
+from . import t35y
