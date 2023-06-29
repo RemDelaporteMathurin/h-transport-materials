@@ -7,6 +7,8 @@ from h_transport_materials import (
     RecombinationCoeff,
 )
 
+import numpy as np
+
 u = htm.ureg
 
 # TODO fit this ourselves
