@@ -68,3 +68,4 @@ from . import t35y
 from . import t54y
 
 from . import thermacore
+from . import thermacore_oxidized

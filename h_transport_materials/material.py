@@ -151,4 +151,6 @@ EUROFER = Steel("eurofer_97")
 APMT = Alloy("apmt")
 T35Y = Alloy("t35y")
 T54Y = Alloy("t54y")
+
 THERMACORE = Alloy("thermacore")
+THERMACORE_OXIDIZED = Alloy("thermacore_oxidized")
