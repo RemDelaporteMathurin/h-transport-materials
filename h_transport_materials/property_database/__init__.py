@@ -66,3 +66,5 @@ from . import vanadium_alloy
 from . import apmt
 from . import t35y
 from . import t54y
+
+from . import thermacore
