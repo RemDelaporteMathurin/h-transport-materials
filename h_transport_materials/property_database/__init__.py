@@ -69,3 +69,5 @@ from . import t54y
 
 from . import thermacore
 from . import thermacore_oxidized
+
+from . import fe22cr5al
