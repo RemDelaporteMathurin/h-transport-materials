@@ -156,3 +156,5 @@ THERMACORE = Alloy("thermacore")
 THERMACORE_OXIDIZED = Alloy("thermacore_oxidized")
 
 FE22CR5AL = Alloy("fe22cr5al")
+
+OXIDIZED_1605 = Alloy("oxidized_1605")
