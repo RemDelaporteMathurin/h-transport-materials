@@ -165,3 +165,21 @@ def test_no_units_preexp_raises_warning():
 def test_no_units_act_energy_raises_warning():
     with pytest.warns(UserWarning, match="no units were given with activation energy"):
         htm.ArrheniusProperty(0.1 * htm.ureg.m**2 * htm.ureg.s**-1, act_energy=0.1)
+
+
+def test_multiply_properties():
+    """Checks that two arrhenius props can be multiplied"""
+    prop1 = htm.ArrheniusProperty(
+        0.1 * htm.ureg.m**2 * htm.s**-1,
+        act_energy=0.2 * htm.ureg.eV * htm.ureg.particle**-1,
+    )
+    prop2 = htm.ArrheniusProperty(
+        0.5 * htm.ureg.m**2,
+        act_energy=0.3 * htm.ureg.eV * htm.ureg.particle**-1,
+    )
+
+    product = prop1 * prop2
+
+    assert isinstance(product, htm.ArrheniusProperty)
+    assert product.pre_exp == prop1.pre_exp * prop2.pre_exp
+    assert product.act_energy == prop1.act_energy + prop2.act_energy
