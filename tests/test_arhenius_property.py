@@ -183,3 +183,18 @@ def test_multiply_properties():
     assert isinstance(product, htm.ArrheniusProperty)
     assert product.pre_exp == prop1.pre_exp * prop2.pre_exp
     assert product.act_energy == prop1.act_energy + prop2.act_energy
+
+
+@pytest.mark.parametrize("factor", [2, 1.0, 2.0, -3, -3.0])
+def test_multiply_property_by_number(factor):
+    """Checks that an arrhenius prop can be multiplied by a number"""
+    prop1 = htm.ArrheniusProperty(
+        0.1 * htm.ureg.m**2 * htm.ureg.s**-1,
+        act_energy=0.2 * htm.ureg.eV * htm.ureg.particle**-1,
+    )
+
+    product = factor * prop1
+
+    assert isinstance(product, htm.ArrheniusProperty)
+    assert product.pre_exp == prop1.pre_exp * 2
+    assert product.act_energy == prop1.act_energy
