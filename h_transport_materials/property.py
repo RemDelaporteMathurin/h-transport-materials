@@ -206,6 +206,16 @@ class ArrheniusProperty(Property):
         return val
 
     def __mul__(self, other):
+        if isinstance(other, (int, float)):
+            product = self.__class__(
+                pre_exp=other * self.pre_exp,
+                act_energy=self.act_energy,
+            )
+            return product
+        elif not isinstance(other, ArrheniusProperty):
+            raise TypeError(
+                "ArrheniusProperty can only be multiplied by ArrheniusProperty, int or float"
+            )
         classes = [self.__class__, other.__class__]
         if Diffusivity in classes and Solubility in classes:
             product_class = Permeability
