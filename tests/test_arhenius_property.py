@@ -26,7 +26,7 @@ def test_fit(data_T, data_y):
     my_prop = htm.ArrheniusProperty(data_T=data_T, data_y=data_y)
 
     my_prop.fit()
-    computed_values = my_prop.pre_exp.magnitude, my_prop.act_energy.magnitude
+    computed_values = my_prop.pre_exp, my_prop.act_energy
     assert expected_values == computed_values
 
 
