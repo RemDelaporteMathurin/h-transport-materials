@@ -213,6 +213,8 @@ def plot_property_plotly(prop, fig, line_arg, show_datapoints=True):
         line_arg (_type_): _description_
         show_datapoints (bool, optional): _description_. Defaults to True.
     """
+    import plotly.graph_objects as go
+
     label = f"{prop.isotope} {prop.author.capitalize()} ({prop.year})"
     range = prop.range
     if prop.range is None:
