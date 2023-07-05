@@ -162,6 +162,8 @@ def get_prop_to_color_plotly(group: PropertiesGroup, colour_by: str):
     Returns:
         dict: a dictionary mapping properties to colours
     """
+    import plotly.express as px
+
     colour_cycle = px.colors.qualitative.Plotly
     if colour_by == "property":
         prop_to_colour = {
@@ -190,7 +192,6 @@ def plot_plotly(group_of_properties: PropertiesGroup, colour_by="property"):
         go.Figure: the graph
     """
     import plotly.graph_objects as go
-    import plotly.express as px
 
     prop_to_color = get_prop_to_color_plotly(group_of_properties, colour_by)
 
