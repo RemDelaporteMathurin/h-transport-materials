@@ -1,10 +1,10 @@
 from collections.abc import Iterable
 import numpy as np
+import scipy.stats as stats
 from crossref.restful import Works, Etiquette
 import pint
 from pybtex.database import BibliographyData, parse_string
 from h_transport_materials import k_B, bib_database, ureg
-from h_transport_materials.fitting import fit_arhenius
 
 import warnings
 
@@ -350,11 +350,16 @@ class ArrheniusProperty(Property):
         return ureg.Quantity(quantity_mag, quantity.units)
 
     def fit(self):
-        pre_exp, act_energy = fit_arhenius(self.data_y, self.data_T)
-        self.pre_exp, self.act_energy = (
-            pre_exp * self.units,
-            act_energy * DEFAULT_ENERGY_UNITS,
-        )
+        assert self.data_T.units == ureg.K
+
+        D_ln = np.log(self.data_y.magnitude)
+        T_inv = 1 / self.data_T.magnitude
+
+        res = stats.linregress(T_inv, D_ln)
+
+        self.pre_exp = np.exp(res.intercept) * self.data_y.units
+        self.act_energy = -(res.slope * ureg.K) * k_B
+
         self.range = (self.data_T.min(), self.data_T.max())
 
     def value(self, T, exp=np.exp):

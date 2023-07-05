@@ -38,7 +38,6 @@ from .property import (
 )
 from .properties_group import PropertiesGroup
 from . import conversion
-from . import fitting
 from . import plotting
 from .helpers import *
 from .material import *
