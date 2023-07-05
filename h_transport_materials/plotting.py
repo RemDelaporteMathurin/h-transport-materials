@@ -64,7 +64,11 @@ def plot(
 
         # compute the prop to colour mapping
         if colour_by != "property":
-            prop_to_color = get_prop_to_color(group, colour_by)
+            prop_to_color = get_prop_to_color(
+                group,
+                colour_by,
+                colour_cycle=plt.rcParams["axes.prop_cycle"].by_key()["color"],
+            )
 
         lines = []
         for single_prop in group:
@@ -128,43 +132,19 @@ def plot_property(
     return l
 
 
-def get_prop_to_color(group: PropertiesGroup, colour_by: str):
-    """Returns a dictionary mapping Property objects to a colour based on
-    a property attribute
-
-    Args:
-        group (PropertiesGroup): a group of properties
-        colour_by (str): a property attribute to colour by (eg. "author", "isotope", "material")
-
-    Returns:
-        dict: a dictionary mapping properties to colours
-    """
-    colour_cycle = plt.rcParams["axes.prop_cycle"].by_key()["color"]
-
-    all_keys = list(set([getattr(prop, colour_by) for prop in group]))
-    key_to_colour = {
-        key: colour_cycle[i % len(colour_cycle)] for i, key in enumerate(all_keys)
-    }
-    prop_to_colour = {prop: key_to_colour[getattr(prop, colour_by)] for prop in group}
-
-    return prop_to_colour
-
-
-# TODO merge the two get_prop_to_color functions
-def get_prop_to_color_plotly(group: PropertiesGroup, colour_by: str):
+def get_prop_to_color(group: PropertiesGroup, colour_by: str, colour_cycle: list):
     """Returns a dictionary mapping Property objects to a colour based on
     a property attribute
 
     Args:
         group (PropertiesGroup): a group of properties
         colour_by (str): a property attribute to colour by (eg. "property", "author", "isotope", "material")
+        colour_cycle (list): a list of colours
 
     Returns:
         dict: a dictionary mapping properties to colours
     """
-    import plotly.express as px
 
-    colour_cycle = px.colors.qualitative.Plotly
     if colour_by == "property":
         prop_to_colour = {
             prop: colour_cycle[i % len(colour_cycle)] for i, prop in enumerate(group)
@@ -192,8 +172,11 @@ def plot_plotly(group_of_properties: PropertiesGroup, colour_by="property"):
         go.Figure: the graph
     """
     import plotly.graph_objects as go
+    import plotly.express as px
 
-    prop_to_color = get_prop_to_color_plotly(group_of_properties, colour_by)
+    prop_to_color = get_prop_to_color(
+        group_of_properties, colour_by, colour_cycle=px.colors.qualitative.Plotly
+    )
 
     fig = go.Figure()
     for prop in group_of_properties:
