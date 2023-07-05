@@ -8,10 +8,7 @@ import pint
 @pytest.mark.parametrize(
     "D_0,E_D",
     [
-        (
-            D_0,
-            E_D,
-        )
+        (D_0, E_D)
         for D_0 in np.logspace(-7, 20, num=6) * htm.ureg.dimensionless
         for E_D in np.linspace(0.1, 1.5, num=5) * htm.ureg.eV * htm.ureg.particle**-1
     ],
