@@ -54,7 +54,7 @@ def test_prod_diff_sol_is_perm():
         E_D=0.2 * htm.ureg.eV * htm.ureg.particle**-1,
     )
     prop2 = htm.Solubility(
-        S_0=0.5 * htm.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+        S_0=0.5 * htm.ureg.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
         E_S=0.3 * htm.ureg.eV * htm.ureg.particle**-1,
     )
 
