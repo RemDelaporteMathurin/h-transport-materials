@@ -195,5 +195,5 @@ def test_multiply_property_by_number(factor):
 
     for product in [prop1 * factor, factor * prop1]:
         assert isinstance(product, htm.ArrheniusProperty)
-    assert product.pre_exp == prop1.pre_exp * 2
-    assert product.act_energy == prop1.act_energy
+        assert product.pre_exp == prop1.pre_exp * factor
+        assert product.act_energy == prop1.act_energy
