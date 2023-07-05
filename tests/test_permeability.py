@@ -50,12 +50,12 @@ def test_without_units_but_law():
 def test_prod_diff_sol_is_perm():
     """Checks that the product of Diffusivity and Solubility is permeability"""
     prop1 = htm.Diffusivity(
-        0.1 * htm.ureg.m**2 * htm.ureg.s**-1,
-        act_energy=0.2 * htm.ureg.eV * htm.ureg.particle**-1,
+        D_0=0.1 * htm.ureg.m**2 * htm.ureg.s**-1,
+        E_D=0.2 * htm.ureg.eV * htm.ureg.particle**-1,
     )
     prop2 = htm.Solubility(
-        0.5 * htm.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
-        act_energy=0.3 * htm.ureg.eV * htm.ureg.particle**-1,
+        S_0=0.5 * htm.mol * htm.ureg.m**-3 * htm.ureg.Pa**-0.5,
+        E_S=0.3 * htm.ureg.eV * htm.ureg.particle**-1,
     )
 
     product = prop1 * prop2
