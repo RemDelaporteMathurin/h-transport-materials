@@ -205,6 +205,14 @@ class ArrheniusProperty(Property):
         """
         return val
 
+    def __mul__(self, other):
+        product_class = ArrheniusProperty
+        product = product_class(
+            pre_exp=self.pre_exp * other.pre_exp,
+            act_energy=self.act_energy + other.act_energy,
+        )
+        return product
+
     @property
     def units(self):
         # check if data_y is set
