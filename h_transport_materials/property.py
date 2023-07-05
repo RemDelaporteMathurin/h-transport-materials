@@ -218,6 +218,18 @@ class ArrheniusProperty(Property):
         )
         return product
 
+    def __rmul__(self, other):
+        if isinstance(other, (int, float)):
+            product = self.__class__(
+                pre_exp=other * self.pre_exp,
+                act_energy=self.act_energy,
+            )
+            return product
+        else:
+            raise TypeError(
+                "ArrheniusProperty can only be multiplied by ArrheniusProperty, int or float"
+            )
+
     @property
     def units(self):
         # check if data_y is set
