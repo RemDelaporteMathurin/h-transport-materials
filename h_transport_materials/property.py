@@ -206,6 +206,7 @@ class ArrheniusProperty(Property):
         return val
 
     def __mul__(self, other):
+        """returns the result of self * other (an ArrheniusProperty)"""
         if isinstance(other, (int, float)):
             product = self.__class__(
                 pre_exp=other * self.pre_exp,
@@ -229,6 +230,7 @@ class ArrheniusProperty(Property):
         return product
 
     def __rmul__(self, other):
+        """returns the result of other * self (an ArrheniusProperty)"""
         if isinstance(other, (int, float)):
             product = self.__class__(
                 pre_exp=other * self.pre_exp,
