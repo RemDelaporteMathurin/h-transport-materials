@@ -1,8 +1,19 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pint
-from h_transport_materials import Property, PropertiesGroup, ureg
+from h_transport_materials import (
+    Property,
+    PropertiesGroup,
+    ureg,
+    Solubility,
+    Diffusivity,
+    Permeability,
+    RecombinationCoeff,
+    DissociationCoeff,
+)
 from typing import Union
+import plotly.graph_objects as go
+import plotly.express as px
 
 
 def plot(
@@ -13,7 +24,7 @@ def plot(
     show_datapoints=True,
     scatter_kwargs={},
     colour_by="property",
-    **kwargs
+    **kwargs,
 ):
     """Plots a Property object on a temperature plot
 
@@ -46,7 +57,7 @@ def plot(
             auto_label,
             show_datapoints,
             scatter_kwargs,
-            **kwargs
+            **kwargs,
         )
     elif isinstance(prop, PropertiesGroup):
         group = prop
@@ -71,7 +82,7 @@ def plot(
                 auto_label=auto_label,
                 show_datapoints=show_datapoints,
                 scatter_kwargs=scatter_kwargs,
-                **current_kwargs
+                **current_kwargs,
             )
             lines.append(l)
         return lines
@@ -84,7 +95,7 @@ def plot_property(
     auto_label=True,
     show_datapoints=True,
     scatter_kwargs={},
-    **kwargs
+    **kwargs,
 ):
     if prop.range is None:
         range = T_bounds
@@ -139,3 +150,174 @@ def get_prop_to_color(group: PropertiesGroup, colour_by: str):
     prop_to_colour = {prop: key_to_colour[getattr(prop, colour_by)] for prop in group}
 
     return prop_to_colour
+
+
+# TODO merge the two get_prop_to_color functions
+def get_prop_to_color_plotly(group: PropertiesGroup, colour_by: str):
+    """Returns a dictionary mapping Property objects to a colour based on
+    a property attribute
+
+    Args:
+        group (PropertiesGroup): a group of properties
+        colour_by (str): a property attribute to colour by (eg. "property", "author", "isotope", "material")
+
+    Returns:
+        dict: a dictionary mapping properties to colours
+    """
+    colour_cycle = px.colors.qualitative.Plotly
+    if colour_by == "property":
+        prop_to_colour = {
+            prop: colour_cycle[i % len(colour_cycle)] for i, prop in enumerate(group)
+        }
+    else:
+        all_keys = list(set([getattr(prop, colour_by) for prop in group]))
+        key_to_colour = {
+            key: colour_cycle[i % len(colour_cycle)] for i, key in enumerate(all_keys)
+        }
+        prop_to_colour = {
+            prop: key_to_colour[getattr(prop, colour_by)] for prop in group
+        }
+
+    return prop_to_colour
+
+
+def plot_plotly(group_of_properties: PropertiesGroup, colour_by="property"):
+    """Creates a plotly graph for visualising properties.
+
+    Args:
+        group_of_properties (list): a group of properties
+        colour_by (str, optional): "property", "material", "isotope", "author". Defaults to "property".
+
+    Returns:
+        go.Figure: the graph
+    """
+    prop_to_color = get_prop_to_color_plotly(group_of_properties, colour_by)
+
+    fig = go.Figure()
+    for prop in group_of_properties:
+        line_arg = {"color": prop_to_color[prop]}
+        plot_property_plotly(prop, fig, line_arg)
+
+    update_axes(fig, group_of_properties)
+    return fig
+
+
+def plot_property_plotly(prop, fig, line_arg, show_datapoints=True):
+    """Adds a property line and points to a current plotly figure
+
+    Args:
+        prop (_type_): _description_
+        fig (_type_): _description_
+        line_arg (_type_): _description_
+        show_datapoints (bool, optional): _description_. Defaults to True.
+    """
+    label = f"{prop.isotope} {prop.author.capitalize()} ({prop.year})"
+    range = prop.range
+    if prop.range is None:
+        if prop.data_T is not None:
+            range = (prop.data_T.min(), prop.data_T.max())
+        else:
+            range = (300 * ureg.K, 1200 * ureg.K)
+    T = np.linspace(range[0], range[1], num=500)
+
+    fig.add_trace(
+        go.Scatter(
+            x=1 / T.magnitude,
+            y=prop.value(T).magnitude,
+            name=label,
+            mode="lines",
+            line=line_arg,
+            text=[label] * len(T),
+            customdata=T.magnitude,
+            hovertemplate=make_hovertemplate(prop),
+        )
+    )
+
+    if prop.data_T is not None and show_datapoints:
+        fig.add_trace(
+            go.Scatter(
+                x=1 / prop.data_T.magnitude,
+                y=prop.data_y.magnitude,
+                name=label,
+                mode="markers",
+                marker=dict(color=fig.data[-1].line.color),
+            )
+        )
+
+
+def make_hovertemplate(prop):
+    # TODO refactor this
+    if isinstance(prop, Solubility):
+        return (
+            "<b>%{text}</b><br><br>"
+            + prop.material.name
+            + "<br>"
+            + "1/T: %{x:,.2e} K<sup>-1</sup><br>"
+            + "T: %{customdata:.0f} K<br>"
+            + "S: %{y:,.2e} "
+            + f"{prop.units:~H}<br>"
+            + f"S_0: {prop.pre_exp:.2e~H} <br>"
+            + f"E_S : {prop.act_energy:.2f~H}"
+            + "<extra></extra>"
+        )
+    elif isinstance(prop, Diffusivity):
+        return (
+            "<b>%{text}</b><br><br>"
+            + prop.material.name
+            + "<br>"
+            + "1/T: %{x:,.2e} K<sup>-1</sup><br>"
+            + "T: %{customdata:.0f} K<br>"
+            + "D: %{y:,.2e} "
+            + f"{prop.units:~H} <br>"
+            + f"D_0: {prop.pre_exp:.2e~H}<br>"
+            + f"E_D : {prop.act_energy:.2f~H}"
+            + "<extra></extra>"
+        )
+    else:
+        return (
+            "<b>%{text}</b><br><br>"
+            + prop.material.name
+            + "<br>"
+            + "1/T: %{x:,.2e} K<sup>-1</sup><br>"
+            + "T: %{customdata:.0f} K<br>"
+            + "value: %{y:,.2e} "
+            + f"{prop.units:~H} <br>"
+            + f"pre-exp: {prop.pre_exp:.2e~H}<br>"
+            + f"act. energy : {prop.act_energy:.2f~H}"
+            + "<extra></extra>"
+        )
+
+
+def update_axes(fig, group_of_properties):
+    if len(group_of_properties) == 0:
+        return
+
+    if isinstance(group_of_properties[0], Solubility):
+        all_units = np.unique([f"{S.units:~H}" for S in group_of_properties]).tolist()
+        if len(all_units) == 1:
+            yticks_suffix = all_units[0].replace("particle", " H")
+            title_units = f"({yticks_suffix})"
+        else:
+            # if the group contains mixed units, display nothing
+            title_units = "(mixed units)"
+            yticks_suffix = ""
+        ylabel = f"Solubility {title_units}"
+    elif isinstance(group_of_properties[0], Diffusivity):
+        ylabel = "Diffusivity"
+        yticks_suffix = f" {group_of_properties[0].units:~H}"
+    elif isinstance(group_of_properties[0], Permeability):
+        ylabel = f"Permeability {group_of_properties[0].units:~H}"
+        yticks_suffix = ""
+    elif isinstance(group_of_properties[0], RecombinationCoeff):
+        ylabel = "Recombination coefficient"
+        yticks_suffix = " m<sup>4</sup>/s"
+    elif isinstance(group_of_properties[0], DissociationCoeff):
+        ylabel = f"Dissociation coefficient {group_of_properties[0].units:~H}"
+        yticks_suffix = ""
+
+    xticks_suffix = " K<sup>-1</sup>"
+
+    fig.update_yaxes(
+        title_text=ylabel, type="log", tickformat=".0e", ticksuffix=yticks_suffix
+    )
+    fig.update_xaxes(title_text="1/T", tickformat=".2e", ticksuffix=xticks_suffix)
