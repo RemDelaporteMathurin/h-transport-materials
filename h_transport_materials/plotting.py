@@ -187,25 +187,28 @@ def plot_plotly(group_of_properties: PropertiesGroup, colour_by="property"):
     return fig
 
 
-def plot_property_plotly(prop, fig, line_arg, show_datapoints=True):
+def plot_property_plotly(
+    prop, fig, line_arg, T_bounds=(300, 1200), show_datapoints=True
+):
     """Adds a property line and points to a current plotly figure
 
     Args:
         prop (_type_): _description_
         fig (_type_): _description_
         line_arg (_type_): _description_
+        T_bounds (tuple): _description_
         show_datapoints (bool, optional): _description_. Defaults to True.
     """
     import plotly.graph_objects as go
 
     label = f"{prop.isotope} {prop.author.capitalize()} ({prop.year})"
-    range = prop.range
     if prop.range is None:
-        if prop.data_T is not None:
-            range = (prop.data_T.min(), prop.data_T.max())
-        else:
-            range = (300 * ureg.K, 1200 * ureg.K)
-    T = np.linspace(range[0], range[1], num=500)
+        range = T_bounds
+    else:
+        range = prop.range
+    T = np.linspace(*range, num=500)
+    if not isinstance(T, pint.Quantity):
+        T *= ureg.K
 
     fig.add_trace(
         go.Scatter(
