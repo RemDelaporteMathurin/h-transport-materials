@@ -44,6 +44,5 @@ Or the following bibtex
 	month = may,
 	year = {2023},
 	doi = {10.5281/zenodo.7888448},
-	file = {Zenodo Snapshot:C\:\\Users\\James\\Zotero\\storage\\54QEZWDI\\7888448.html:text/html},
 }
 ```
