@@ -170,7 +170,7 @@ def test_no_units_act_energy_raises_warning():
 def test_multiply_properties():
     """Checks that two arrhenius props can be multiplied"""
     prop1 = htm.ArrheniusProperty(
-        0.1 * htm.ureg.m**2 * htm.s**-1,
+        0.1 * htm.ureg.m**2 * htm.ureg.s**-1,
         act_energy=0.2 * htm.ureg.eV * htm.ureg.particle**-1,
     )
     prop2 = htm.ArrheniusProperty(
