@@ -206,7 +206,12 @@ class ArrheniusProperty(Property):
         return val
 
     def __mul__(self, other):
-        product_class = ArrheniusProperty
+        classes = [self.__class__, other.__class__]
+        if Diffusivity in classes and Solubility in classes:
+            product_class = Permeability
+        else:
+            product_class = ArrheniusProperty
+
         product = product_class(
             pre_exp=self.pre_exp * other.pre_exp,
             act_energy=self.act_energy + other.act_energy,
