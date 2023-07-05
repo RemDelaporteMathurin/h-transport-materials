@@ -193,8 +193,7 @@ def test_multiply_property_by_number(factor):
         act_energy=0.2 * htm.ureg.eV * htm.ureg.particle**-1,
     )
 
-    product = factor * prop1
-
-    assert isinstance(product, htm.ArrheniusProperty)
+    for product in [prop1 * factor, factor * prop1]:
+        assert isinstance(product, htm.ArrheniusProperty)
     assert product.pre_exp == prop1.pre_exp * 2
     assert product.act_energy == prop1.act_energy
