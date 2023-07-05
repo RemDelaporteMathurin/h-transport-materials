@@ -12,8 +12,6 @@ from h_transport_materials import (
     DissociationCoeff,
 )
 from typing import Union
-import plotly.graph_objects as go
-import plotly.express as px
 
 
 def plot(
@@ -191,6 +189,9 @@ def plot_plotly(group_of_properties: PropertiesGroup, colour_by="property"):
     Returns:
         go.Figure: the graph
     """
+    import plotly.graph_objects as go
+    import plotly.express as px
+
     prop_to_color = get_prop_to_color_plotly(group_of_properties, colour_by)
 
     fig = go.Figure()
