@@ -6,28 +6,33 @@ import pint
 
 
 @pytest.mark.parametrize(
-    "data_T,data_y",
+    "D_0,E_D",
     [
         (
-            T_0 + delta_T * np.random.random_sample(size=10),
-            y_0 + delta_y * np.random.random_sample(size=10),
+            D_0,
+            E_D,
         )
-        for T_0 in [300, 600]
-        for delta_T in [100, 1]
-        for y_0 in [500, 1000]
-        for delta_y in [100, 1]
+        for D_0 in np.logspace(-7, 20, num=6) * htm.ureg.dimensionless
+        for E_D in np.linspace(0.1, 1.5, num=5) * htm.ureg.eV * htm.ureg.particle**-1
     ],
 )
-def test_fit(data_T, data_y):
-    data_y *= htm.ureg.dimensionless
-    data_T *= htm.ureg.K
-    expected_values = htm.fitting.fit_arhenius(data_y, data_T)
+def test_fit_arhenius(D_0, E_D):
+    """Creates noisy data based on known D_0 and E_D coefficients.
+    Fits the noisy data with an Arhenius law and compares the
+    computed coefficients with the expected ones.
+    """
+    T = np.linspace(300, 1200) * htm.ureg.K
+    D = D_0 * np.exp(-E_D / htm.k_B / T)
 
-    my_prop = htm.ArrheniusProperty(data_T=data_T, data_y=data_y)
+    # add noise
+    noise = np.random.normal(0, 0.05, D.shape)
+    noisy_D = D * 10**noise
 
-    my_prop.fit()
-    computed_values = my_prop.pre_exp, my_prop.act_energy
-    assert expected_values == computed_values
+    my_prop = htm.ArrheniusProperty(data_T=T, data_y=noisy_D)
+
+    computed_D_0, computed_E_D = my_prop.pre_exp, my_prop.act_energy
+    assert computed_D_0.magnitude == pytest.approx(D_0.magnitude, rel=0.3)
+    assert computed_E_D.magnitude == pytest.approx(E_D.magnitude, rel=0.3)
 
 
 def test_pre_exp_getter_fit():

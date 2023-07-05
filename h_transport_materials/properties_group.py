@@ -1,11 +1,9 @@
 import numpy as np
 import json
 from pybtex.database import BibliographyData
-import pint
 import warnings
 from textwrap import dedent
 
-from h_transport_materials.fitting import fit_arhenius
 from h_transport_materials import ureg, ArrheniusProperty, __version__
 
 
