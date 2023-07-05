@@ -197,3 +197,21 @@ def test_multiply_property_by_number(factor):
         assert isinstance(product, htm.ArrheniusProperty)
         assert product.pre_exp == prop1.pre_exp * factor
         assert product.act_energy == prop1.act_energy
+
+
+@pytest.mark.parametrize("factor", ["foo", [1, 2]])
+def test_multiply_property_by_str(factor):
+    """Checks that an arrhenius prop cannot be multiplied by non valid factors"""
+    prop1 = htm.ArrheniusProperty(
+        0.1 * htm.ureg.m**2 * htm.ureg.s**-1,
+        act_energy=0.2 * htm.ureg.eV * htm.ureg.particle**-1,
+    )
+
+    error_msg = (
+        "ArrheniusProperty can only be multiplied by ArrheniusProperty, int or float"
+    )
+    with pytest.raises(TypeError, match=error_msg):
+        factor * prop1
+
+    with pytest.raises(TypeError, match=error_msg):
+        prop1 * factor
