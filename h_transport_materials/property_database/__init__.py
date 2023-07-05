@@ -64,4 +64,3 @@ from . import incoloy_800
 from . import vanadium_alloy
 
 from . import FeCrAl
-
