@@ -219,13 +219,13 @@ def plot_plotly(group_of_properties: PropertiesGroup, colour_by="property"):
     fig = go.Figure()
     for prop in group_of_properties:
         line_arg = {"color": prop_to_color[prop]}
-        plot_property_plotly(prop, fig, line_arg)
+        _plot_property_plotly(prop, fig, line_arg)
 
-    update_axes(fig, group_of_properties)
+    _update_axes(fig, group_of_properties)
     return fig
 
 
-def plot_property_plotly(
+def _plot_property_plotly(
     prop, fig, line_arg, T_bounds=(300, 1200), show_datapoints=True
 ):
     """Adds a property line and points to a current plotly figure
@@ -257,7 +257,7 @@ def plot_property_plotly(
             line=line_arg,
             text=[label] * len(T),
             customdata=T.magnitude,
-            hovertemplate=make_hovertemplate(prop),
+            hovertemplate=_make_hovertemplate(prop),
         )
     )
 
@@ -273,7 +273,7 @@ def plot_property_plotly(
         )
 
 
-def make_hovertemplate(prop):
+def _make_hovertemplate(prop):
     # TODO refactor this
     if isinstance(prop, Solubility):
         return (
@@ -316,7 +316,7 @@ def make_hovertemplate(prop):
         )
 
 
-def update_axes(fig, group_of_properties):
+def _update_axes(fig, group_of_properties):
     if len(group_of_properties) == 0:
         return
 
