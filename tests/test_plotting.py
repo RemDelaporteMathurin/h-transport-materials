@@ -105,3 +105,30 @@ def test_warning_no_colour_by_and_key_to_colour():
 )
 def test_plot_plotly_colour_by(colour_by):
     htm.plotting.plot_plotly(htm.diffusivities, colour_by=colour_by)
+
+
+@pytest.mark.parametrize(
+    "group",
+    [
+        htm.diffusivities,
+        htm.solubilities,
+        htm.permeabilities,
+        htm.recombination_coeffs,
+        htm.dissociation_coeffs,
+    ],
+)
+def test_plot_plotly_groups(group):
+    htm.plotting.plot_plotly(group)
+
+
+@pytest.mark.filterwarnings("ignore:No property")
+def test_plot_plotly_empty_group():
+    htm.plotting.plot_plotly(
+        htm.diffusivities.filter(author="author_that_doesnt_exist")
+    )
+
+
+def test_plot_plotly_solubilities_mixed_units():
+    htm.plotting.plot_plotly(
+        htm.solubilities.filter(material=[htm.TUNGSTEN, htm.FLIBE])
+    )
