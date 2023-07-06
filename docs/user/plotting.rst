@@ -206,7 +206,7 @@ When using the ``colour_by`` argument it is possible to specify the colour corre
       htm.COPPER: "tab:orange"
    }
 
-   plot(diffusivities, colour_by="material". key_to_colour=mat_to_colour)
+   plot(diffusivities, colour_by="material", key_to_colour=mat_to_colour)
 
    plt.yscale("log")
    plt.show()
