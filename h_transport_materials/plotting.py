@@ -65,12 +65,7 @@ def plot(
                 current_kwargs["color"] = prop_to_color[single_prop]
 
             # change the label based on colour_by
-            if colour_by == "material":
-                current_kwargs["label"] = f"{single_prop.material}"
-            elif colour_by == "author":
-                current_kwargs["label"] = f"{single_prop.author.capitalize()}"
-            elif colour_by == "isotope":
-                current_kwargs["label"] = f"{single_prop.isotope}"
+            current_kwargs["label"] = _label_from_colour_by(single_prop, colour_by)
 
             l = plot_property(
                 single_prop,
@@ -148,6 +143,26 @@ def get_prop_to_color(group: PropertiesGroup, colour_by: str):
     prop_to_colour = {prop: key_to_colour[getattr(prop, colour_by)] for prop in group}
 
     return prop_to_colour
+
+
+def _label_from_colour_by(prop, colour_by):
+    """Returns a label for a property based on a colour_by setting
+
+    Args:
+        prop (htm.Property): the property to label
+        colour_by (str): a property attribute to colour by (eg. "author", "isotope", "material")
+
+    Returns:
+        str: the property label
+    """
+    if colour_by == "property":
+        return f"{prop.isotope} {prop.author.capitalize()} ({prop.year})"
+    elif colour_by == "material":
+        return f"{prop.material}"
+    elif colour_by == "author":
+        return f"{prop.author.capitalize()}"
+    elif colour_by == "isotope":
+        return f"{prop.isotope}"
 
 
 def legend(**kwargs):
