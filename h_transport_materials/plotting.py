@@ -39,7 +39,7 @@ def plot(
         matplotlib.lines.Line2D: the Line2D artist
     """
     if isinstance(prop, Property):
-        return plot_property(
+        return _plot_property(
             prop,
             T_bounds,
             inverse_temperature,
@@ -67,7 +67,7 @@ def plot(
             # change the label based on colour_by
             current_kwargs["label"] = _label_from_colour_by(single_prop, colour_by)
 
-            l = plot_property(
+            l = _plot_property(
                 single_prop,
                 T_bounds=T_bounds,
                 inverse_temperature=inverse_temperature,
@@ -81,7 +81,7 @@ def plot(
         return lines
 
 
-def plot_property(
+def _plot_property(
     prop: Property,
     T_bounds=(300, 1200),
     inverse_temperature=True,
