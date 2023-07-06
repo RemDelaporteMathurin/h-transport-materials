@@ -214,11 +214,12 @@ def plot_plotly(
         T_bounds (tuple, optional): If the property doesn't have
             a temperature range, this range will be used. Defaults
             to (300, 1200).
-        colour_by (str, optional): "property", "material", "isotope", "author". Defaults to "property".
+        colour_by (str, optional): "property", "material", "isotope", "author".
+            Defaults to "property".
         show_datapoints (bool, optional): If True, the experimental datapoints will be
             scattered too. Defaults to True.
-        line_kwargs (dict): _description_
-        scatter_kwargs (dict, optional): _description_
+        line_kwargs (dict, optional): the keywords args for `line`. Defaults to {}.
+        scatter_kwargs (dict, optional): the keywords args for `marker`. Defaults to {}.
 
     Returns:
         go.Figure: the graph
