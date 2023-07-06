@@ -254,7 +254,173 @@ favreau_solubility_h = Solubility(
     isotope="H",
 )
 
-properties = [volkl_diffusivity, favreau_solubility_t, favreau_solubility_h]
+data_inv_T_h = (
+    np.array(
+        [
+            0.003354,
+            0.003354,
+            0.003354,
+            0.003094,
+            0.002679,
+            0.002374,
+            0.002113,
+            0.001744,
+            0.001485,
+            0.001293,
+            0.001293,
+            0.001145,
+            0.001027,
+            0.000852,
+        ]
+    )
+    * htm.ureg.K**-1
+)
+
+data_T_h = 1 / data_inv_T_h
+
+# measured c_s
+data_cs_h = (
+    np.array(
+        [
+            1192.0,
+            797.9,
+            102.7,
+            247.5,
+            350.6,
+            246.6,
+            181.7,
+            124.2,
+            98.8,
+            86.3,
+            85.9,
+            79.0,
+            74.3,
+            70.8,
+        ]
+    )
+    * htm.ureg.mol
+    * htm.ureg.m**-3
+)
+
+# Control pressure
+data_P_h = (
+    np.array(
+        [
+            1343.6,
+            671.6,
+            13.4,
+            134.5,
+            673.3,
+            673.4,
+            673.3,
+            673.3,
+            668.0,
+            668.0,
+            668.0,
+            668.0,
+            668.0,
+            681.3,
+        ]
+    )
+    * htm.ureg.Pa
+)
+
+data_y_h = data_cs_h / data_P_h**0.5
+
+solubility_powell_h = htm.Solubility(
+    data_T=data_T_h,
+    data_y=data_y_h,
+    isotope="H",
+    note="table I, calculated from measured cs and control pressure columns",
+    source="powell_surface_1991",
+)
+
+data_inv_T_D = (
+    np.array(
+        [
+            0.003354,
+            0.003354,
+            0.003094,
+            0.002679,
+            0.002374,
+            0.002113,
+            0.001744,
+            0.001485,
+            0.001293,
+            0.001145,
+            0.001027,
+            0.000852,
+            0.000728,
+        ]
+    )
+    * htm.ureg.K**-1
+)
+
+data_T_D = 1 / data_inv_T_D
+
+# measured c_s
+data_cs_D = (
+    np.array(
+        [
+            252.2,
+            108.4,
+            273.1,
+            184.2,
+            141.6,
+            114.8,
+            103.5,
+            71.4,
+            66.6,
+            63.4,
+            62.1,
+            62.3,
+            63.1,
+        ]
+    )
+    * htm.ureg.mol
+    * htm.ureg.m**-3
+)
+
+# Control pressure
+data_P_D = (
+    np.array(
+        [
+            684.2,
+            67.3,
+            673.4,
+            373.3,
+            373.4,
+            706.6,
+            999.3,
+            668.0,
+            668.0,
+            668.0,
+            668.0,
+            673.4,
+            681.3,
+        ]
+    )
+    * htm.ureg.Pa
+)
+
+data_y_D = data_cs_D / data_P_D**0.5
+
+solubility_powell_d = htm.Solubility(
+    data_T=data_T_D,
+    data_y=data_y_D,
+    isotope="D",
+    note="table II, calculated from measured cs and control pressure columns",
+    source="powell_surface_1991",
+)
+
+
+properties = [
+    volkl_diffusivity,
+    favreau_solubility_t,
+    favreau_solubility_h,
+    solubility_powell_h,
+    solubility_powell_d,
+]
 
 for prop in properties:
     prop.material = htm.PALLADIUM
