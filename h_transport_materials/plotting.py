@@ -68,7 +68,12 @@ def plot(
 
         # compute the prop to colour mapping
         if colour_by != "property":
-            prop_to_color = get_prop_to_color(group, colour_by, key_to_colour)
+            prop_to_color = get_prop_to_color(
+                group,
+                colour_by,
+                key_to_colour,
+                colour_cycle=plt.rcParams["axes.prop_cycle"].by_key()["color"],
+            )
         elif key_to_colour is not None:
             warnings.warn(
                 UserWarning(
@@ -164,7 +169,10 @@ def _plot_property(
 
 
 def get_prop_to_color(
-    group: PropertiesGroup, colour_by: str, key_to_colour: dict = None
+    group: PropertiesGroup,
+    colour_by: str,
+    key_to_colour: dict = None,
+    colour_cycle: list = None,
 ):
     """Returns a dictionary mapping Property objects to a colour based on
     a property attribute
@@ -174,15 +182,15 @@ def get_prop_to_color(
         colour_by (str): a property attribute to colour by (eg. "author", "isotope", "material")
         key_to_colour (dict, optional): a dictionary with keys (eg. material)
             corresponding to colours. Defaults to None
+        colour_cycle (list, optional): a list of colours used if colour_by is key_to_colour is not given
 
     Returns:
         dict: a dictionary mapping properties to colours
     """
 
     all_keys = list(set([getattr(prop, colour_by) for prop in group]))
-    if not key_to_colour:  # if key_to_colour not specified, use default colour cycle
-        colour_cycle = plt.rcParams["axes.prop_cycle"].by_key()["color"]
-
+    if not key_to_colour:  # if key_to_colour not specified, use colour_cycle
+        assert colour_cycle is not None
         key_to_colour = {
             key: colour_cycle[i % len(colour_cycle)] for i, key in enumerate(all_keys)
         }
