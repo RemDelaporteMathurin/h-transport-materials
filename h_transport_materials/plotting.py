@@ -12,6 +12,7 @@ from h_transport_materials import (
     DissociationCoeff,
 )
 from typing import Union
+import warnings
 
 
 def plot(
@@ -22,6 +23,7 @@ def plot(
     show_datapoints=True,
     scatter_kwargs={},
     colour_by="property",
+    key_to_colour=None,
     **kwargs,
 ):
     """Plots a Property object on a temperature plot
@@ -43,12 +45,14 @@ def plot(
             Defaults to {}.
         colour_by (str, optional): a property attribute to colour by (eg. "author", "isotope",
             "material"). Defaults to "property".
+        key_to_colour (dict, optional): a dictionary with keys (eg. material)
+            corresponding to colours. Defaults to None
         kwargs: other matplotlib.pyplot.plot arguments
     Returns:
         matplotlib.lines.Line2D: the Line2D artist
     """
     if isinstance(prop, Property):
-        return plot_property(
+        return _plot_property(
             prop,
             T_bounds,
             inverse_temperature,
@@ -64,10 +68,12 @@ def plot(
 
         # compute the prop to colour mapping
         if colour_by != "property":
-            prop_to_color = get_prop_to_color(
-                group,
-                colour_by,
-                colour_cycle=plt.rcParams["axes.prop_cycle"].by_key()["color"],
+            prop_to_color = get_prop_to_color(group, colour_by, key_to_colour)
+        elif key_to_colour is not None:
+            warnings.warn(
+                UserWarning(
+                    "key_to_colour specified with colour_by='property' will be ignored"
+                )
             )
 
         lines = []
@@ -77,7 +83,10 @@ def plot(
             if colour_by != "property" and "color" not in kwargs:
                 current_kwargs["color"] = prop_to_color[single_prop]
 
-            l = plot_property(
+            # change the label based on colour_by
+            current_kwargs["label"] = _label_from_colour_by(single_prop, colour_by)
+
+            l = _plot_property(
                 single_prop,
                 T_bounds=T_bounds,
                 inverse_temperature=inverse_temperature,
@@ -87,10 +96,11 @@ def plot(
                 **current_kwargs,
             )
             lines.append(l)
+        legend()
         return lines
 
 
-def plot_property(
+def _plot_property(
     prop: Property,
     T_bounds=(300, 1200),
     inverse_temperature=True,
@@ -99,6 +109,27 @@ def plot_property(
     scatter_kwargs={},
     **kwargs,
 ):
+    """Plots a Property object on a temperature plot
+
+    Args:
+        prop (Property): the property (or group of properties)
+            to plot.
+        T_bounds (tuple, optional): If the property doesn't have
+            a temperature range, this range will be used. Defaults
+            to (300, 1200).
+        inverse_temperature (bool, optional): If True, the x axis
+            will be the inverse temperature (in K^-1). Defaults to True.
+        auto_label (bool, optional): If True, a label will be automatically
+            generated from the isotope, author and year. Ignored if label is set in kwargs.
+            Defaults to True.
+        show_datapoints (bool, optional): If True, the experimental datapoints will be
+            scattered too. Defaults to True.
+        scatter_kwargs (dict, optional): other matplotlib.pyplot.scatter arguments.
+            Defaults to {}.
+        kwargs: other matplotlib.pyplot.plot arguments
+    Returns:
+        matplotlib.lines.Line2D: the Line2D artist
+    """
     if prop.range is None:
         range = T_bounds
     else:
@@ -132,31 +163,30 @@ def plot_property(
     return l
 
 
-def get_prop_to_color(group: PropertiesGroup, colour_by: str, colour_cycle: list):
+def get_prop_to_color(
+    group: PropertiesGroup, colour_by: str, key_to_colour: dict = None
+):
     """Returns a dictionary mapping Property objects to a colour based on
     a property attribute
 
     Args:
         group (PropertiesGroup): a group of properties
-        colour_by (str): a property attribute to colour by (eg. "property", "author", "isotope", "material")
-        colour_cycle (list): a list of colours
+        colour_by (str): a property attribute to colour by (eg. "author", "isotope", "material")
+        key_to_colour (dict, optional): a dictionary with keys (eg. material)
+            corresponding to colours. Defaults to None
 
     Returns:
         dict: a dictionary mapping properties to colours
     """
 
-    if colour_by == "property":
-        prop_to_colour = {
-            prop: colour_cycle[i % len(colour_cycle)] for i, prop in enumerate(group)
-        }
-    else:
-        all_keys = list(set([getattr(prop, colour_by) for prop in group]))
+    all_keys = list(set([getattr(prop, colour_by) for prop in group]))
+    if not key_to_colour:  # if key_to_colour not specified, use default colour cycle
+        colour_cycle = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+
         key_to_colour = {
             key: colour_cycle[i % len(colour_cycle)] for i, key in enumerate(all_keys)
         }
-        prop_to_colour = {
-            prop: key_to_colour[getattr(prop, colour_by)] for prop in group
-        }
+    prop_to_colour = {prop: key_to_colour[getattr(prop, colour_by)] for prop in group}
 
     return prop_to_colour
 
@@ -311,3 +341,36 @@ def update_axes(fig, group_of_properties):
         title_text=ylabel, type="log", tickformat=".0e", ticksuffix=yticks_suffix
     )
     fig.update_xaxes(title_text="1/T", tickformat=".2e", ticksuffix=xticks_suffix)
+
+
+def _label_from_colour_by(prop, colour_by):
+    """Returns a label for a property based on a colour_by setting
+
+    Args:
+        prop (htm.Property): the property to label
+        colour_by (str): a property attribute to colour by (eg. "author", "isotope", "material")
+
+    Returns:
+        str: the property label
+    """
+    if colour_by == "property":
+        return f"{prop.isotope} {prop.author.capitalize()} ({prop.year})"
+    elif colour_by == "material":
+        return f"{prop.material}"
+    elif colour_by == "author":
+        return f"{prop.author.capitalize()}"
+    elif colour_by == "isotope":
+        return f"{prop.isotope}"
+
+
+def legend(**kwargs):
+    """Adds a legend to an existing plot.
+    Should be used in combination with htm.plotting.plot(PropertiesGroup)
+    """
+    all_lines = plt.gca().get_lines()
+    all_labels = [l.get_label() for l in all_lines]
+
+    unique_labels = np.unique(all_labels)
+    unique_lines = [all_lines[all_labels.index(label)] for label in unique_labels]
+
+    plt.gca().legend(unique_lines, unique_labels, **kwargs)

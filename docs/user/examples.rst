@@ -110,10 +110,12 @@ Accessing the internal database: advanced
 
     import h_transport_materials as htm
     import matplotlib.pyplot as plt
-    from matplotlib.lines import Line2D
 
-    materials = [htm.COPPER, htm.CUCRZR, htm.TUNGSTEN]
-    colours = ["tab:orange", "tab:brown", "tab:grey"]
+    mat_to_colour = {
+        htm.COPPER: "tab:orange",
+        htm.CUCRZR: "tab:brown",
+        htm.TUNGSTEN: "tab:grey",
+    }
 
     fig, axs = plt.subplots(ncols=1, nrows=3, figsize=(6.4, 8), sharex=True)
 
@@ -122,22 +124,20 @@ Accessing the internal database: advanced
 
     for i, group in enumerate([htm.diffusivities, htm.solubilities, htm.permeabilities]):
         plt.sca(axs[i])
-        for mat, colour in zip(materials, colours):
-            # filter diffusivities
-            filtered_group = group.filter(material=mat)
-
-            # plot group
-            htm.plotting.plot(filtered_group, alpha=0.6, auto_label=False, color=colour)
-
+        filtered_group = group.filter(material=list(mat_to_colour.keys()))
+        htm.plotting.plot(
+            filtered_group, alpha=0.6, colour_by="material", key_to_colour=mat_to_colour
+        )
         plt.yscale("log")
-        plt.xlabel("") # remove default xlabel
+        plt.xlabel("")  # remove default xlabel
+
+    axs[0].get_legend().remove()
+    axs[1].get_legend().remove()
 
     axs[0].set_title("Diffusivity")
     axs[1].set_title("Solubility")
     axs[2].set_title("Permeability")
 
-    custom_lines = [Line2D([0], [0], color=colour, lw=4) for colour in colours]
-    plt.legend(custom_lines, [mat.name for mat in materials])
     plt.xlabel(f"Inverse temperature ({axs[-1].xaxis.get_units():~P})")
     plt.show()
 
