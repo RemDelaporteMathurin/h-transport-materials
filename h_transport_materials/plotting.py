@@ -3,6 +3,7 @@ import numpy as np
 import pint
 from h_transport_materials import Property, PropertiesGroup, ureg
 from typing import Union
+import warnings
 
 
 def plot(
@@ -13,6 +14,7 @@ def plot(
     show_datapoints=True,
     scatter_kwargs={},
     colour_by="property",
+    key_to_colour=None,
     **kwargs,
 ):
     """Plots a Property object on a temperature plot
@@ -34,6 +36,8 @@ def plot(
             Defaults to {}.
         colour_by (str, optional): a property attribute to colour by (eg. "author", "isotope",
             "material"). Defaults to "property".
+        key_to_colour (dict, optional): a dictionary with keys (eg. material)
+            corresponding to colours. Defaults to None
         kwargs: other matplotlib.pyplot.plot arguments
     Returns:
         matplotlib.lines.Line2D: the Line2D artist
@@ -55,7 +59,13 @@ def plot(
 
         # compute the prop to colour mapping
         if colour_by != "property":
-            prop_to_color = get_prop_to_color(group, colour_by)
+            prop_to_color = get_prop_to_color(group, colour_by, key_to_colour)
+        elif key_to_colour is not None:
+            warnings.warn(
+                UserWarning(
+                    "key_to_colour specified with colour_by='property' will be ignored"
+                )
+            )
 
         lines = []
         for single_prop in group:
@@ -144,23 +154,29 @@ def _plot_property(
     return l
 
 
-def get_prop_to_color(group: PropertiesGroup, colour_by: str):
+def get_prop_to_color(
+    group: PropertiesGroup, colour_by: str, key_to_colour: dict = None
+):
     """Returns a dictionary mapping Property objects to a colour based on
     a property attribute
 
     Args:
         group (PropertiesGroup): a group of properties
         colour_by (str): a property attribute to colour by (eg. "author", "isotope", "material")
+        key_to_colour (dict, optional): a dictionary with keys (eg. material)
+            corresponding to colours. Defaults to None
 
     Returns:
         dict: a dictionary mapping properties to colours
     """
-    colour_cycle = plt.rcParams["axes.prop_cycle"].by_key()["color"]
 
     all_keys = list(set([getattr(prop, colour_by) for prop in group]))
-    key_to_colour = {
-        key: colour_cycle[i % len(colour_cycle)] for i, key in enumerate(all_keys)
-    }
+    if not key_to_colour:  # if key_to_colour not specified, use default colour cycle
+        colour_cycle = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+
+        key_to_colour = {
+            key: colour_cycle[i % len(colour_cycle)] for i, key in enumerate(all_keys)
+        }
     prop_to_colour = {prop: key_to_colour[getattr(prop, colour_by)] for prop in group}
 
     return prop_to_colour
