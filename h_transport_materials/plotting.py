@@ -225,10 +225,10 @@ def plot_plotly(
         go.Figure: the graph
     """
     import plotly.graph_objects as go
-    import plotly.express as px
 
+    colour_cycle = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52']
     prop_to_color = get_prop_to_color(
-        group_of_properties, colour_by, colour_cycle=px.colors.qualitative.Plotly
+        group_of_properties, colour_by, colour_cycle=colour_cycle
     )
 
     fig = go.Figure()
