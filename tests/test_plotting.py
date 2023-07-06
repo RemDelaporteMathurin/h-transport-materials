@@ -104,6 +104,7 @@ def test_warning_no_colour_by_and_key_to_colour():
     ["isotope", "material", "isotope", "author", "property"],
 )
 def test_plot_plotly_colour_by(colour_by):
+    pytest.importorskip("plotly")
     htm.plotting.plot_plotly(htm.diffusivities, colour_by=colour_by)
 
 
@@ -118,17 +119,20 @@ def test_plot_plotly_colour_by(colour_by):
     ],
 )
 def test_plot_plotly_groups(group):
+    pytest.importorskip("plotly")
     htm.plotting.plot_plotly(group)
 
 
 @pytest.mark.filterwarnings("ignore:No property")
 def test_plot_plotly_empty_group():
+    pytest.importorskip("plotly")
     htm.plotting.plot_plotly(
         htm.diffusivities.filter(author="author_that_doesnt_exist")
     )
 
 
 def test_plot_plotly_solubilities_mixed_units():
+    pytest.importorskip("plotly")
     htm.plotting.plot_plotly(
         htm.solubilities.filter(material=[htm.TUNGSTEN, htm.FLIBE])
     )
