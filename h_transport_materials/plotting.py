@@ -204,6 +204,8 @@ def plot_plotly(
     T_bounds=(300, 1200),
     colour_by="property",
     show_datapoints=True,
+    line_kwargs={},
+    scatter_kwargs={},
 ):
     """Creates a plotly graph for visualising properties.
 
@@ -215,6 +217,8 @@ def plot_plotly(
         colour_by (str, optional): "property", "material", "isotope", "author". Defaults to "property".
         show_datapoints (bool, optional): If True, the experimental datapoints will be
             scattered too. Defaults to True.
+        line_kwargs (dict): _description_
+        scatter_kwargs (dict, optional): _description_
 
     Returns:
         go.Figure: the graph
@@ -228,9 +232,14 @@ def plot_plotly(
 
     fig = go.Figure()
     for prop in group_of_properties:
-        line_arg = {"color": prop_to_color[prop]}
+        line_kwargs["color"] = prop_to_color[prop]
         _plot_property_plotly(
-            prop, fig, line_arg, T_bounds=T_bounds, show_datapoints=show_datapoints
+            prop,
+            fig,
+            line_kwargs,
+            scatter_kwargs=scatter_kwargs,
+            T_bounds=T_bounds,
+            show_datapoints=show_datapoints,
         )
 
     _update_axes(fig, group_of_properties)
@@ -238,14 +247,20 @@ def plot_plotly(
 
 
 def _plot_property_plotly(
-    prop, fig, line_arg, T_bounds=(300, 1200), show_datapoints=True
+    prop,
+    fig,
+    line_kwargs,
+    scatter_kwargs={},
+    T_bounds=(300, 1200),
+    show_datapoints=True,
 ):
     """Adds a property line and points to a current plotly figure
 
     Args:
         prop (_type_): _description_
         fig (_type_): _description_
-        line_arg (_type_): _description_
+        line_kwargs (dict): _description_
+        scatter_kwargs (dict, optional): _description_
         T_bounds (tuple, optional): If the property doesn't have
             a temperature range, this range will be used. Defaults
             to (300, 1200).
@@ -269,7 +284,7 @@ def _plot_property_plotly(
             y=prop.value(T).magnitude,
             name=label,
             mode="lines",
-            line=line_arg,
+            line=line_kwargs,
             text=[label] * len(T),
             customdata=T.magnitude,
             hovertemplate=_make_hovertemplate(prop),
@@ -277,13 +292,14 @@ def _plot_property_plotly(
     )
 
     if prop.data_T is not None and show_datapoints:
+        scatter_kwargs["color"] = fig.data[-1].line.color
         fig.add_trace(
             go.Scatter(
                 x=1 / prop.data_T.magnitude,
                 y=prop.data_y.magnitude,
                 name=label,
                 mode="markers",
-                marker=dict(color=fig.data[-1].line.color),
+                marker=scatter_kwargs,
             )
         )
 
