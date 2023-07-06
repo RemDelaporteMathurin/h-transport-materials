@@ -167,3 +167,53 @@ def test_no_units_preexp_raises_warning():
 def test_no_units_act_energy_raises_warning():
     with pytest.warns(UserWarning, match="no units were given with activation energy"):
         htm.ArrheniusProperty(0.1 * htm.ureg.m**2 * htm.ureg.s**-1, act_energy=0.1)
+
+
+def test_multiply_properties():
+    """Checks that two arrhenius props can be multiplied"""
+    prop1 = htm.ArrheniusProperty(
+        0.1 * htm.ureg.m**2 * htm.ureg.s**-1,
+        act_energy=0.2 * htm.ureg.eV * htm.ureg.particle**-1,
+    )
+    prop2 = htm.ArrheniusProperty(
+        0.5 * htm.ureg.m**2,
+        act_energy=0.3 * htm.ureg.eV * htm.ureg.particle**-1,
+    )
+
+    product = prop1 * prop2
+
+    assert isinstance(product, htm.ArrheniusProperty)
+    assert product.pre_exp == prop1.pre_exp * prop2.pre_exp
+    assert product.act_energy == prop1.act_energy + prop2.act_energy
+
+
+@pytest.mark.parametrize("factor", [2, 1.0, 2.0, -3, -3.0])
+def test_multiply_property_by_number(factor):
+    """Checks that an arrhenius prop can be multiplied by a number"""
+    prop1 = htm.ArrheniusProperty(
+        0.1 * htm.ureg.m**2 * htm.ureg.s**-1,
+        act_energy=0.2 * htm.ureg.eV * htm.ureg.particle**-1,
+    )
+
+    for product in [prop1 * factor, factor * prop1]:
+        assert isinstance(product, htm.ArrheniusProperty)
+        assert product.pre_exp == prop1.pre_exp * factor
+        assert product.act_energy == prop1.act_energy
+
+
+@pytest.mark.parametrize("factor", ["foo", [1, 2]])
+def test_multiply_property_by_str(factor):
+    """Checks that an arrhenius prop cannot be multiplied by non valid factors"""
+    prop1 = htm.ArrheniusProperty(
+        0.1 * htm.ureg.m**2 * htm.ureg.s**-1,
+        act_energy=0.2 * htm.ureg.eV * htm.ureg.particle**-1,
+    )
+
+    error_msg = (
+        "ArrheniusProperty can only be multiplied by ArrheniusProperty, int or float"
+    )
+    with pytest.raises(TypeError, match=error_msg):
+        factor * prop1
+
+    with pytest.raises(TypeError, match=error_msg):
+        prop1 * factor

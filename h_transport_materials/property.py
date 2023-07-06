@@ -205,6 +205,43 @@ class ArrheniusProperty(Property):
         """
         return val
 
+    def __mul__(self, other):
+        """returns the result of self * other (an ArrheniusProperty)"""
+        if isinstance(other, (int, float)):
+            product = self.__class__(
+                pre_exp=other * self.pre_exp,
+                act_energy=self.act_energy,
+            )
+            return product
+        elif not isinstance(other, ArrheniusProperty):
+            raise TypeError(
+                "ArrheniusProperty can only be multiplied by ArrheniusProperty, int or float"
+            )
+        classes = [self.__class__, other.__class__]
+        if Diffusivity in classes and Solubility in classes:
+            product_class = Permeability
+        else:
+            product_class = ArrheniusProperty
+
+        product = product_class(
+            pre_exp=self.pre_exp * other.pre_exp,
+            act_energy=self.act_energy + other.act_energy,
+        )
+        return product
+
+    def __rmul__(self, other):
+        """returns the result of other * self (an ArrheniusProperty)"""
+        if isinstance(other, (int, float)):
+            product = self.__class__(
+                pre_exp=other * self.pre_exp,
+                act_energy=self.act_energy,
+            )
+            return product
+        else:
+            raise TypeError(
+                "ArrheniusProperty can only be multiplied by ArrheniusProperty, int or float"
+            )
+
     @property
     def units(self):
         # check if data_y is set
