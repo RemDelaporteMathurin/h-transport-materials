@@ -90,6 +90,27 @@ def plot_property(
     scatter_kwargs={},
     **kwargs,
 ):
+    """Plots a Property object on a temperature plot
+
+    Args:
+        prop (Property): the property (or group of properties)
+            to plot.
+        T_bounds (tuple, optional): If the property doesn't have
+            a temperature range, this range will be used. Defaults
+            to (300, 1200).
+        inverse_temperature (bool, optional): If True, the x axis
+            will be the inverse temperature (in K^-1). Defaults to True.
+        auto_label (bool, optional): If True, a label will be automatically
+            generated from the isotope, author and year. Ignored if label is set in kwargs.
+            Defaults to True.
+        show_datapoints (bool, optional): If True, the experimental datapoints will be
+            scattered too. Defaults to True.
+        scatter_kwargs (dict, optional): other matplotlib.pyplot.scatter arguments.
+            Defaults to {}.
+        kwargs: other matplotlib.pyplot.plot arguments
+    Returns:
+        matplotlib.lines.Line2D: the Line2D artist
+    """
     if prop.range is None:
         range = T_bounds
     else:
