@@ -97,3 +97,7 @@ def test_warning_no_colour_by_and_key_to_colour():
     with pytest.warns(UserWarning):
         htm.plotting.plot(htm.diffusivities, key_to_colour=key_to_colour)
         plt.clf()
+
+
+def test_plot_plotly():
+    htm.plotting.plot_plotly(htm.diffusivities)
