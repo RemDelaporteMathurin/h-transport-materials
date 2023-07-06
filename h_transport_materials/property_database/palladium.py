@@ -84,14 +84,11 @@ favreau_data_y = (
     * u.cmHg**-0.5
 )  # in cc STP per gram of palladium  cmHg^-1.2
 
-# favreau_data_y = c.ccSTP_to_mol(favreau_data_y)  # mol T per gram of Pd  cmHg-1.2
 favreau_data_y *= 1 / PALLADIUM_VOLUMIC_DENSITY  # mol T m-3  cmHg-1.2
 
 favreau_solubility_t = Solubility(
     data_T=favreau_data_T * u.degC,
     data_y=favreau_data_y,
-    # S_0=4.45e-1 * htm.avogadro_nb,
-    # E_S=c.kJ_per_mol_to_eV(-8.4),
     source="favreau_solubility_1954",
     isotope="T",
 )
@@ -325,13 +322,45 @@ data_P_h = (
     * htm.ureg.Pa
 )
 
-data_y_h = data_cs_h / data_P_h**0.5
+data_solubility_h = data_cs_h / data_P_h**0.5
 
 solubility_powell_h = htm.Solubility(
     data_T=data_T_h,
-    data_y=data_y_h,
+    data_y=data_solubility_h,
     isotope="H",
     note="table I, calculated from measured cs and control pressure columns",
+    source="powell_surface_1991",
+)
+
+
+data_diffusivity_h = (
+    np.array(
+        [
+            3.248e-11,
+            3.339e-11,
+            3.467e-11,
+            7.053e-11,
+            2.097e-10,
+            4.870e-10,
+            1.033e-9,
+            2.910e-9,
+            5.880e-9,
+            9.943e-9,
+            9.901e-9,
+            1.482e-8,
+            2.061e-8,
+            3.286e-8,
+        ]
+    )
+    * htm.ureg.m**2
+    * htm.ureg.s**-1
+)
+
+diffusivity_powell_h = Diffusivity(
+    data_T=data_T_h,
+    data_y=data_diffusivity_h,
+    isotope="H",
+    note="table I, with h column",
     source="powell_surface_1991",
 )
 
@@ -403,13 +432,43 @@ data_P_D = (
     * htm.ureg.Pa
 )
 
-data_y_D = data_cs_D / data_P_D**0.5
+data_solubility_D = data_cs_D / data_P_D**0.5
 
 solubility_powell_d = htm.Solubility(
     data_T=data_T_D,
-    data_y=data_y_D,
+    data_y=data_solubility_D,
     isotope="D",
     note="table II, calculated from measured cs and control pressure columns",
+    source="powell_surface_1991",
+)
+
+data_diffusivity_d = (
+    np.array(
+        [
+            4.561e-11,
+            4.601e-11,
+            8.552e-11,
+            2.395e-10,
+            5.324e-10,
+            1.037e-9,
+            2.657e-9,
+            4.933e-9,
+            8.115e-9,
+            1.218e-8,
+            1.646e-8,
+            2.572e-8,
+            3.333e-8,
+        ]
+    )
+    * htm.ureg.m**2
+    * htm.ureg.s**-1
+)
+
+diffusivity_powell_d = Diffusivity(
+    data_T=data_T_D,
+    data_y=data_diffusivity_d,
+    isotope="D",
+    note="table II, with h column",
     source="powell_surface_1991",
 )
 
@@ -420,6 +479,8 @@ properties = [
     favreau_solubility_h,
     solubility_powell_h,
     solubility_powell_d,
+    diffusivity_powell_h,
+    diffusivity_powell_d,
 ]
 
 for prop in properties:
