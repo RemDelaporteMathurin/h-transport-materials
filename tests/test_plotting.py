@@ -56,7 +56,7 @@ def test_plot_group_with_colour_by():
     plt.clf()
 
 
-def test_plot_group_with_key_to_colour():
+def test_plot_group_with_key_to_colour_material():
     """Tests that a group can be plotted with a non-default colour_by argument and key_to_colour"""
 
     key_to_colour = {
@@ -70,3 +70,31 @@ def test_plot_group_with_key_to_colour():
         key_to_colour=key_to_colour,
     )
     plt.clf()
+
+
+def test_plot_group_with_key_to_colour_isotope():
+
+    key_to_colour = {
+        "H": "tab:grey",
+        "D": "tab:orange",
+        "T": "tab:blue",
+    }
+
+    htm.plotting.plot(
+        htm.diffusivities,
+        colour_by="isotope",
+        key_to_colour=key_to_colour,
+    )
+    plt.clf()
+
+
+def test_warning_no_colour_by_and_key_to_colour():
+    """Checks that a warning is raised when specifying key_to_colour with colour_by=property"""
+    key_to_colour = {
+        "H": "tab:grey",
+        "D": "tab:orange",
+        "T": "tab:blue",
+    }
+    with pytest.warns(UserWarning):
+        htm.plotting.plot(htm.diffusivities, key_to_colour=key_to_colour)
+        plt.clf()
