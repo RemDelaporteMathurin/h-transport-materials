@@ -43,7 +43,7 @@ reiter_solubility = Solubility(
 malo_permeability = Permeability(
     pre_exp=1.27e-04 * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5,
     act_energy=8667 * u.K * htm.k_B,
-    source="malo_membranes_2022",
+    source="malo_experimental_2022",
     range=(
         u.Quantity(250, u.degC),
         u.Quantity(550, u.degC),
