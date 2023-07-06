@@ -56,33 +56,32 @@ def test_plot_group_with_colour_by():
     plt.clf()
 
 
-def test_plot_group_with_key_to_colour_material():
+dict_mat = {
+    htm.TUNGSTEN: "tab:grey",
+    htm.COPPER: "tab:orange",
+}
+dict_isotope = {
+    "H": "tab:grey",
+    "D": "tab:orange",
+    "T": "tab:blue",
+}
+dict_author = {
+    "frauenfelder": "tab:grey",
+}
+
+
+@pytest.mark.parametrize(
+    "colour_by,key_to_colour",
+    [["material", dict_mat], ["isotope", dict_isotope], ["author", dict_author]],
+)
+def test_plot_group_with_key_to_colour_material(colour_by, key_to_colour):
     """Tests that a group can be plotted with a non-default colour_by argument and key_to_colour"""
 
-    key_to_colour = {
-        htm.TUNGSTEN: "tab:grey",
-        htm.COPPER: "tab:orange",
-    }
-
     htm.plotting.plot(
-        htm.diffusivities.filter(material=list(key_to_colour.keys())),
-        colour_by="material",
-        key_to_colour=key_to_colour,
-    )
-    plt.clf()
-
-
-def test_plot_group_with_key_to_colour_isotope():
-
-    key_to_colour = {
-        "H": "tab:grey",
-        "D": "tab:orange",
-        "T": "tab:blue",
-    }
-
-    htm.plotting.plot(
-        htm.diffusivities,
-        colour_by="isotope",
+        htm.diffusivities.filter(
+            material=list(dict_mat.keys()), author=list(dict_author.keys())
+        ),
+        colour_by=colour_by,
         key_to_colour=key_to_colour,
     )
     plt.clf()
