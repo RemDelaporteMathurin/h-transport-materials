@@ -54,3 +54,19 @@ def test_plot_group_with_colour_by():
 
     htm.plotting.plot(htm.diffusivities, colour_by="material")
     plt.clf()
+
+
+def test_plot_group_with_key_to_colour():
+    """Tests that a group can be plotted with a non-default colour_by argument and key_to_colour"""
+
+    key_to_colour = {
+        htm.TUNGSTEN: "tab:grey",
+        htm.COPPER: "tab:orange",
+    }
+
+    htm.plotting.plot(
+        htm.diffusivities.filter(material=list(key_to_colour.keys())),
+        colour_by="material",
+        key_to_colour=key_to_colour,
+    )
+    plt.clf()
