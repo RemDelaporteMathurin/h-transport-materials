@@ -13,7 +13,7 @@ def plot(
     show_datapoints=True,
     scatter_kwargs={},
     colour_by="property",
-    **kwargs
+    **kwargs,
 ):
     """Plots a Property object on a temperature plot
 
@@ -46,7 +46,7 @@ def plot(
             auto_label,
             show_datapoints,
             scatter_kwargs,
-            **kwargs
+            **kwargs,
         )
     elif isinstance(prop, PropertiesGroup):
         group = prop
@@ -64,6 +64,14 @@ def plot(
             if colour_by != "property" and "color" not in kwargs:
                 current_kwargs["color"] = prop_to_color[single_prop]
 
+            # change the label based on colour_by
+            if colour_by == "material":
+                current_kwargs["label"] = f"{single_prop.material}"
+            elif colour_by == "author":
+                current_kwargs["label"] = f"{single_prop.author.capitalize()}"
+            elif colour_by == "isotope":
+                current_kwargs["label"] = f"{single_prop.isotope}"
+
             l = plot_property(
                 single_prop,
                 T_bounds=T_bounds,
@@ -71,9 +79,10 @@ def plot(
                 auto_label=auto_label,
                 show_datapoints=show_datapoints,
                 scatter_kwargs=scatter_kwargs,
-                **current_kwargs
+                **current_kwargs,
             )
             lines.append(l)
+        legend()
         return lines
 
 
@@ -84,7 +93,7 @@ def plot_property(
     auto_label=True,
     show_datapoints=True,
     scatter_kwargs={},
-    **kwargs
+    **kwargs,
 ):
     if prop.range is None:
         range = T_bounds
@@ -139,3 +148,16 @@ def get_prop_to_color(group: PropertiesGroup, colour_by: str):
     prop_to_colour = {prop: key_to_colour[getattr(prop, colour_by)] for prop in group}
 
     return prop_to_colour
+
+
+def legend(**kwargs):
+    """Adds a legend to an existing plot.
+    Should be used in combination with htm.plotting.plot(PropertiesGroup)
+    """
+    all_lines = plt.gca().get_lines()
+    all_labels = [l.get_label() for l in all_lines]
+
+    unique_labels = np.unique(all_labels)
+    unique_lines = [all_lines[all_labels.index(label)] for label in unique_labels]
+
+    plt.gca().legend(unique_lines, unique_labels, **kwargs)
