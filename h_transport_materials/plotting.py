@@ -199,12 +199,22 @@ def get_prop_to_color(
     return prop_to_colour
 
 
-def plot_plotly(group_of_properties: PropertiesGroup, colour_by="property"):
+def plot_plotly(
+    group_of_properties: PropertiesGroup,
+    T_bounds=(300, 1200),
+    colour_by="property",
+    show_datapoints=True,
+):
     """Creates a plotly graph for visualising properties.
 
     Args:
         group_of_properties (list): a group of properties
+        T_bounds (tuple, optional): If the property doesn't have
+            a temperature range, this range will be used. Defaults
+            to (300, 1200).
         colour_by (str, optional): "property", "material", "isotope", "author". Defaults to "property".
+        show_datapoints (bool, optional): If True, the experimental datapoints will be
+            scattered too. Defaults to True.
 
     Returns:
         go.Figure: the graph
@@ -219,7 +229,9 @@ def plot_plotly(group_of_properties: PropertiesGroup, colour_by="property"):
     fig = go.Figure()
     for prop in group_of_properties:
         line_arg = {"color": prop_to_color[prop]}
-        _plot_property_plotly(prop, fig, line_arg)
+        _plot_property_plotly(
+            prop, fig, line_arg, T_bounds=T_bounds, show_datapoints=show_datapoints
+        )
 
     _update_axes(fig, group_of_properties)
     return fig
@@ -234,8 +246,11 @@ def _plot_property_plotly(
         prop (_type_): _description_
         fig (_type_): _description_
         line_arg (_type_): _description_
-        T_bounds (tuple): _description_
-        show_datapoints (bool, optional): _description_. Defaults to True.
+        T_bounds (tuple, optional): If the property doesn't have
+            a temperature range, this range will be used. Defaults
+            to (300, 1200).
+        show_datapoints (bool, optional): If True, the experimental datapoints will be
+            scattered too. Defaults to True.
     """
     import plotly.graph_objects as go
 
