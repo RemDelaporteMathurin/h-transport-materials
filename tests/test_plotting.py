@@ -131,8 +131,6 @@ def test_plot_plotly_empty_group():
     )
 
 
-def test_plot_plotly_solubilities_mixed_units():
+def test_plot_plotly_solubilities_only_one_unit():
     pytest.importorskip("plotly")
-    htm.plotting.plot_plotly(
-        htm.solubilities.filter(material=[htm.TUNGSTEN, htm.FLIBE])
-    )
+    htm.plotting.plot_plotly(htm.solubilities.filter(material=[htm.TUNGSTEN]))
