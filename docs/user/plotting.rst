@@ -162,7 +162,7 @@ Calculate the mean value and plot it too:
    import matplotlib.pyplot as plt
 
    # filter only tungsten and H
-   diffusivities = htm.diffusivities.filter(material="tungsten")
+   diffusivities = htm.diffusivities.filter(material=htm.TUNGSTEN)
 
    plot(diffusivities, alpha=0.5)
    plot(diffusivities.mean(), color="black", linewidth=3)
@@ -171,7 +171,7 @@ Calculate the mean value and plot it too:
    plt.yscale("log")
    plt.show()
 
-The properties can be coloured according to different attributes like ``materials``, ``author``...
+The properties can be coloured according to different attributes like ``materials``, ``author`` with the ``colour_by`` argument...
 
 .. plot::
    :include-source: true
@@ -181,11 +181,33 @@ The properties can be coloured according to different attributes like ``material
    import matplotlib.pyplot as plt
 
    # filter only tungsten and H
-   diffusivities = htm.diffusivities.filter(material="tungsten")
+   diffusivities = htm.diffusivities.filter(material=htm.TUNGSTEN)
 
    plot(diffusivities, colour_by="author")
 
    plt.title("Tungsten diffusivity")
+   plt.yscale("log")
+   plt.show()
+
+When using the ``colour_by`` argument it is possible to specify the colour correspondence as a dictionary in ``key_to_colour``:
+
+.. plot::
+   :include-source: true
+
+   import h_transport_materials as htm
+   from h_transport_materials.plotting import plot
+   import matplotlib.pyplot as plt
+
+   # filter only tungsten and H
+   diffusivities = htm.diffusivities.filter(material=[htm.TUNGSTEN, htm.COPPER])
+
+   mat_to_colour = {
+      htm.TUNGSTEN: "tab:grey",
+      htm.COPPER: "tab:orange"
+   }
+
+   plot(diffusivities, colour_by="material", key_to_colour=mat_to_colour)
+
    plt.yscale("log")
    plt.show()
 

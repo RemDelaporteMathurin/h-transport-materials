@@ -54,3 +54,46 @@ def test_plot_group_with_colour_by():
 
     htm.plotting.plot(htm.diffusivities, colour_by="material")
     plt.clf()
+
+
+dict_mat = {
+    htm.TUNGSTEN: "tab:grey",
+    htm.COPPER: "tab:orange",
+}
+dict_isotope = {
+    "H": "tab:grey",
+    "D": "tab:orange",
+    "T": "tab:blue",
+}
+dict_author = {
+    "frauenfelder": "tab:grey",
+}
+
+
+@pytest.mark.parametrize(
+    "colour_by,key_to_colour",
+    [["material", dict_mat], ["isotope", dict_isotope], ["author", dict_author]],
+)
+def test_plot_group_with_key_to_colour_material(colour_by, key_to_colour):
+    """Tests that a group can be plotted with a non-default colour_by argument and key_to_colour"""
+
+    htm.plotting.plot(
+        htm.diffusivities.filter(
+            material=list(dict_mat.keys()), author=list(dict_author.keys())
+        ),
+        colour_by=colour_by,
+        key_to_colour=key_to_colour,
+    )
+    plt.clf()
+
+
+def test_warning_no_colour_by_and_key_to_colour():
+    """Checks that a warning is raised when specifying key_to_colour with colour_by=property"""
+    key_to_colour = {
+        "H": "tab:grey",
+        "D": "tab:orange",
+        "T": "tab:blue",
+    }
+    with pytest.warns(UserWarning):
+        htm.plotting.plot(htm.diffusivities, key_to_colour=key_to_colour)
+        plt.clf()
