@@ -99,5 +99,9 @@ def test_warning_no_colour_by_and_key_to_colour():
         plt.clf()
 
 
-def test_plot_plotly():
-    htm.plotting.plot_plotly(htm.diffusivities)
+@pytest.mark.parametrize(
+    "colour_by",
+    ["isotope", "material", "isotope", "author", "property"],
+)
+def test_plot_plotly_colour_by(colour_by):
+    htm.plotting.plot_plotly(htm.diffusivities, colour_by=colour_by)
