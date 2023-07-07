@@ -14,7 +14,7 @@ data = np.genfromtxt(
 Hu_perm = Permeability(
     data_T=(1000 / data[:,0]) * u.K,
     data_y=data[:,1] * u.mol * u.m**(-1) * u.s**(-1) * u.MPa**(-.5),
-    source="HU_2015",
+    source="hu_hydrogen_2015",
     isotope="H",
     note="Figure 6",
 )
