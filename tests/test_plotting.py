@@ -97,3 +97,40 @@ def test_warning_no_colour_by_and_key_to_colour():
     with pytest.warns(UserWarning):
         htm.plotting.plot(htm.diffusivities, key_to_colour=key_to_colour)
         plt.clf()
+
+
+@pytest.mark.parametrize(
+    "colour_by",
+    ["isotope", "material", "isotope", "author", "property"],
+)
+def test_plot_plotly_colour_by(colour_by):
+    pytest.importorskip("plotly")
+    htm.plotting.plot_plotly(htm.diffusivities, colour_by=colour_by)
+
+
+@pytest.mark.parametrize(
+    "group",
+    [
+        htm.diffusivities,
+        htm.solubilities,
+        htm.permeabilities,
+        htm.recombination_coeffs,
+        htm.dissociation_coeffs,
+    ],
+)
+def test_plot_plotly_groups(group):
+    pytest.importorskip("plotly")
+    htm.plotting.plot_plotly(group)
+
+
+@pytest.mark.filterwarnings("ignore:No property")
+def test_plot_plotly_empty_group():
+    pytest.importorskip("plotly")
+    htm.plotting.plot_plotly(
+        htm.diffusivities.filter(author="author_that_doesnt_exist")
+    )
+
+
+def test_plot_plotly_solubilities_only_one_unit():
+    pytest.importorskip("plotly")
+    htm.plotting.plot_plotly(htm.solubilities.filter(material=[htm.TUNGSTEN]))
