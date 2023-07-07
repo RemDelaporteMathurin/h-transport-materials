@@ -14,7 +14,7 @@ data = np.genfromtxt(
 van_perm = Permeability(
     data_T=(1000 / data[:,0]) * u.K,
     data_y=data[:,1] * u.micromol * u.m**(-1) * u.s**(-1) * u.kPa**(-.5),
-    source="VANDEVENTER_1980",
+    source="vandeventer_hydrogen_1980",
     isotope="H",
     note="Figure 2",
 )
