@@ -109,6 +109,8 @@ class Carbon(PureMetal, PlasmaFacing):
 class MoltenSalt(Material):
     family = "molten salt"
 
+class FeCrAl(Steel):
+    family = "fecral"
 
 TUNGSTEN = Tungsten()
 BERYLLIUM = Beryllium()
@@ -148,13 +150,10 @@ ZIRCONIUM = PureMetal("zirconium", "Zr")
 ALUMINA = Compound("alumina")
 EUROFER = Steel("eurofer_97")
 
-APMT = Alloy("apmt")
-T35Y = Alloy("t35y")
-T54Y = Alloy("t54y")
-
-THERMACORE = Alloy("thermacore")
-THERMACORE_OXIDIZED = Alloy("thermacore_oxidized")
-
-FE22CR5AL = Alloy("fe22cr5al")
-
-OXIDIZED_1605 = Alloy("oxidized_1605")
+APMT = FeCrAl("apmt")
+T35Y = FeCrAl("t35y")
+T54Y = FeCrAl("t54y")
+THERMACORE = FeCrAl("thermacore")
+THERMACORE_OXIDIZED = FeCrAl("thermacore_oxidized")
+FE22CR5AL = FeCrAl("fe22cr5al")
+OXIDIZED_1605 = FeCrAl("oxidized_1605")
