@@ -14,7 +14,7 @@ data = np.genfromtxt(
 xu_perm = Permeability(
     data_T=(1000 / data[:,0]) * u.K,
     data_y=data[:,1] * u.mol * u.m**(-1) * u.s**(-1) * u.Pa**(-.5),
-    source="XU_2016",
+    source="xu_studies_2016",
     isotope="D",
     note="Figure 1, oxidised",
 )
