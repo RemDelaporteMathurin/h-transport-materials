@@ -16,6 +16,7 @@ xu_perm = Permeability(
     data_y=data[:,1] * u.mol * u.m**(-1) * u.s**(-1) * u.Pa**(-.5),
     source="XU_2016",
     isotope="D",
+    note="Figure 1, oxidised",
 )
 
 properties = [
