@@ -5,32 +5,28 @@ from pybtex.database import BibliographyData
 import pytest
 
 
-source_bib_as_string = """@article{HU_2015,
-title = {Hydrogen permeation in FeCrAl alloys for LWR cladding application},
-journal = {Journal of Nuclear Materials},
-volume = {461},
-pages = {282-291},
-year = {2015},
-author = {Xunxiang Hu and Kurt A. Terrani and Brian D. Wirth and Lance L. Snead},
-
-}
+source_bib_as_string = """@article{article-minimal,
+    author = "L[eslie] B. Lamport",
+    title = "The Gnats and Gnus Document Preparation System",
+    journal = "G-Animal's Journal",
+    year = "1986"
 }
 """
 
-source_bib_from_file = "Hu_2015"
+source_bib_from_file = "alberro_experimental_2015"
 
 
 def test_author_year_from_bib_source():
     my_prop = htm.Property(source=source_bib_as_string)
 
-    assert my_prop.author == "hu"
-    assert my_prop.year == 2015
+    assert my_prop.author == "lamport"
+    assert my_prop.year == 1986
 
 
 def test_author_year_from_bib_file():
     my_prop = htm.Property(source=source_bib_from_file)
 
-    assert my_prop.author == "hu"
+    assert my_prop.author == "alberro"
     assert my_prop.year == 2015
 
 
