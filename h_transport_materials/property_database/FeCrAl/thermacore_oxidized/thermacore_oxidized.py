@@ -13,10 +13,10 @@ data = np.genfromtxt(
 
 van_perm = Permeability(
     data_T=(1000 / data[:,0]) * u.K,
-    #this data is given in micro mol: convert to mol
-    data_y=data[:,1] *1e-6 * u.mol * u.m**(-1) * u.s**(-1) * u.kPa**(-.5),
+    data_y=data[:,1] * u.micromol * u.m**(-1) * u.s**(-1) * u.kPa**(-.5),
     source="VANDEVENTER_1980",
     isotope="H",
+    note="Figure 2",
 )
 
 properties = [
