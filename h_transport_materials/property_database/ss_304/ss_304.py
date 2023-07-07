@@ -1,3 +1,4 @@
+import numpy as np
 import h_transport_materials as htm
 from h_transport_materials import (
     Diffusivity,
@@ -6,8 +7,6 @@ from h_transport_materials import (
     DissociationCoeff,
     RecombinationCoeff,
 )
-
-import numpy as np
 
 u = htm.ureg
 
