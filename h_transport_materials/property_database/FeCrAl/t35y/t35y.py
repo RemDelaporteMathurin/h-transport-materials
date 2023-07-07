@@ -16,6 +16,7 @@ Hu_perm = Permeability(
     data_y=data[:,1] * u.mol * u.m**(-1) * u.s**(-1) * u.MPa**(-.5),
     source="HU_2015",
     isotope="H",
+    note="Figure 6",
 )
 
 properties = [
