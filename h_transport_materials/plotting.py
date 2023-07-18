@@ -188,6 +188,13 @@ def get_prop_to_color(
         dict: a dictionary mapping properties to colours
     """
 
+    if colour_by == "property":
+        assert colour_cycle is not None
+        prop_to_colour = {
+            prop: colour_cycle[i % len(colour_cycle)] for i, prop in enumerate(group)
+        }
+        return prop_to_colour
+
     all_keys = list(set([getattr(prop, colour_by) for prop in group]))
     if not key_to_colour:  # if key_to_colour not specified, use colour_cycle
         assert colour_cycle is not None
@@ -226,27 +233,26 @@ def plot_plotly(
     """
     import plotly.graph_objects as go
 
-    if colour_by != "property":
-        colour_cycle = [
-            "#636EFA",
-            "#EF553B",
-            "#00CC96",
-            "#AB63FA",
-            "#FFA15A",
-            "#19D3F3",
-            "#FF6692",
-            "#B6E880",
-            "#FF97FF",
-            "#FECB52",
-        ]
-        prop_to_color = get_prop_to_color(
-            group_of_properties, colour_by, colour_cycle=colour_cycle
-        )
+    colour_cycle = [
+        "#636EFA",
+        "#EF553B",
+        "#00CC96",
+        "#AB63FA",
+        "#FFA15A",
+        "#19D3F3",
+        "#FF6692",
+        "#B6E880",
+        "#FF97FF",
+        "#FECB52",
+    ]
+    prop_to_color = get_prop_to_color(
+        group_of_properties, colour_by, colour_cycle=colour_cycle
+    )
 
     fig = go.Figure()
     for prop in group_of_properties:
-        if colour_by != "property":
-            line_kwargs["color"] = prop_to_color[prop]
+        line_kwargs["color"] = prop_to_color[prop]
+
         _plot_property_plotly(
             prop,
             fig,
