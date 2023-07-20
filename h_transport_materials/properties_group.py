@@ -127,19 +127,19 @@ class PropertiesGroup(list):
     def to_latex_table(self):
         """Exports to simple latex table"""
         begin_center = r"\begin{center}"
-        begin_tabular = r"\begin{tabular}{ c c c }"
+        begin_tabular = r"\begin{tabular}{ c c c c}"
         end_tabular = r"\end{tabular}"
         end_center = r"\end{center}"
 
         # TODO expose the columns to the users
 
         header = f"""
-                Material & pre-exp. factor & Act. energy \\\\"""
+                Material & pre-exp. factor & Act. energy & Reference \\\\"""
         core = [header]
         for prop in self:
             core.append(
                 f"""
-                {prop.material} & ${prop.pre_exp:.2e~L}$ & {prop.act_energy:.2f~P} \\\\"""
+                {prop.material} & ${prop.pre_exp:.2e~L}$ & {prop.act_energy:.2f~P} & \cite{{{prop.source}}} \\\\"""
             )
 
         latex_table = f"""

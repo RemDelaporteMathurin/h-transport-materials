@@ -175,10 +175,12 @@ It is also possible to export some of the data to a latex table with:
     :options: +NORMALIZE_WHITESPACE
 
     \begin{center}
-        \begin{tabular}{ c c c }
+        \begin{tabular}{ c c c c}
 
-            Material & pre-exp. factor & Act. energy \\
-             & $1.00\times 10^{0}\ \frac{\mathrm{m}^{2}}{\mathrm{s}}$ & 0.10 eV/particle \\        
-             & $2.00\times 10^{0}\ \frac{\mathrm{particle}}{\left(\mathrm{Pa} \cdot \mathrm{m}^{3}\right)}$ & 0.20 eV/particle \\
+            Material & pre-exp. factor & Act. energy & Reference \\
+            & $1.00\times 10^{0}\ \frac{\mathrm{m}^{2}}{\mathrm{s}}$ & 0.10 eV/particle & \cite{} \\     
+            & $2.00\times 10^{0}\ \frac{\mathrm{particle}}{\left(\mathrm{Pa} \cdot \mathrm{m}^{3}\right)}$ & 0.20 eV/particle & \cite{} \\
         \end{tabular}
     \end{center}
+
+Note that if bibtex references are given as `source` they will appear in the table too.
