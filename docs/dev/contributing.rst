@@ -60,6 +60,8 @@ Rules for adding a property
 Best practices
 ^^^^^^^^^^^^^^
 
+* Use only original references as literature reviews sometimes contain typos or conversion errors. Whenever the original reference is available, use it.
+
 * Use the units given by the author, minimise manual conversions. See :ref:`user_units` for more information on units in HTM.
 
 * Whenever possible use the experimental data provided by the authors. If for some reason it isn't possible, leave a ``note`` and/or a ``# TODO`` comment.
