@@ -29,6 +29,57 @@ reiter_solubility = Solubility(
     note="this is an average of 5 papers on diffusivity from Reiter compilation review",
 )
 
+# TODO fit this ourselves
+reiter_1985_solubility_h = Solubility(
+    S_0=1.84e-6 / IRON_MOLAR_VOLUME * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=6880 * u.J * u.mol**-1,
+    range=(600 * u.K, 900 * u.K),
+    isotope="h",
+    source="reiter_interaction_1985",
+    note="probably a unit mistake in the activation energies in original paper",
+)
+
+reiter_1985_solubility_d = Solubility(
+    S_0=1.96e-6 / IRON_MOLAR_VOLUME * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=8090 * u.J * u.mol**-1,
+    range=(600 * u.K, 900 * u.K),
+    isotope="d",
+    source="reiter_interaction_1985",
+    note="probably a unit mistake in the activation energies in original paper",
+)
+
+reiter_1985_diffusivity_h = Diffusivity(
+    D_0=2.99e-6 * u.m**2 * u.s**-1,
+    E_D=59700 * u.J * u.mol**-1,
+    range=(600 * u.K, 900 * u.K),
+    isotope="h",
+    source="reiter_interaction_1985",
+    note="probably a unit mistake in the activation energies in original paper",
+)
+
+reiter_1985_diffusivity_d = Diffusivity(
+    D_0=1.74e-6 * u.m**2 * u.s**-1,
+    E_D=58100 * u.J * u.mol**-1,
+    range=(600 * u.K, 900 * u.K),
+    isotope="d",
+    source="reiter_interaction_1985",
+    note="probably a unit mistake in the activation energies in original paper",
+)
+
+reiter_1985_permeability_h = reiter_1985_diffusivity_h * reiter_1985_solubility_h
+reiter_1985_permeability_h.range = reiter_1985_diffusivity_h.range
+reiter_1985_permeability_h.isotope = reiter_1985_diffusivity_h.isotope
+reiter_1985_permeability_h.source = reiter_1985_diffusivity_h.source
+reiter_1985_permeability_h.note = "calculated in HTM"
+
+
+reiter_1985_permeability_d = reiter_1985_diffusivity_d * reiter_1985_solubility_d
+reiter_1985_permeability_d.range = reiter_1985_diffusivity_d.range
+reiter_1985_permeability_d.isotope = reiter_1985_diffusivity_d.isotope
+reiter_1985_permeability_d.source = reiter_1985_diffusivity_d.source
+reiter_1985_permeability_d.note = "calculated in HTM"
+
+
 houben_permeability = Permeability(
     pre_exp=8e-7 * u.mol * u.m**-1 * u.s**-1 * u.mbar**-0.5,
     act_energy=58 * u.kJ * u.mol**-1,
@@ -234,6 +285,12 @@ properties = [
     serra_permeability,
     serra_diffusivity,
     serra_solubility,
+    reiter_1985_solubility_h,
+    reiter_1985_solubility_d,
+    reiter_1985_diffusivity_h,
+    reiter_1985_diffusivity_d,
+    reiter_1985_permeability_h,
+    reiter_1985_permeability_d,
 ]
 
 for prop in properties:
