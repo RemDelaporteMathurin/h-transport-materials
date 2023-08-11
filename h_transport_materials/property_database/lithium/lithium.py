@@ -19,7 +19,6 @@ alire_diffusivity_data = np.genfromtxt(
 alire_diffusivity = Diffusivity(
     data_T=(1 / alire_diffusivity_data[:, 0]) * u.K,
     data_y=alire_diffusivity_data[:, 1] * u.cm**2 * u.s**-1,
-    range=(898 * u.K, 1178 * u.K),
     isotope="H",
     source="alire_transport_1976",
     note="in Shimada 2020, there is an error in Table 1 Lithium (lq.) line E_D column it should be 105.0 kJ/mol",
