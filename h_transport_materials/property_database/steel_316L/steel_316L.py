@@ -52,6 +52,15 @@ houben_permeability_2019 = Permeability(
     source="houben_comparison_2019",
 )
 
+houben_permeability_2019_rough = Permeability(
+    pre_exp=7e-7 * u.mol * u.m**-1 * u.ms**-1 * u.mbar**-0.5,
+    act_energy=63 * u.kJ * u.mol**-1,
+    range=(u.Quantity(400, u.degC), u.Quantity(500, u.degC)),
+    isotope="d",
+    source="houben_comparison_2019",
+    note="rough",
+)
+
 houben_solubility_2019 = Solubility(
     S_0=1 * u.mol * u.m**-3 * u.mbar**-0.5,
     E_S=7 * u.kJ * u.mol**-1,
@@ -244,6 +253,7 @@ properties = [
     houben_diffusivity_2019,
     houben_solubility_2019,
     houben_permeability_2019,
+    houben_permeability_2019_rough,
     kishimoto_permeability,
     kishimoto_diffusivity,
     kishimoto_solubility,
