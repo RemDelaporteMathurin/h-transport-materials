@@ -37,38 +37,14 @@ class Property:
         note: str = None,
     ) -> None:
         self.material = material
-        self.source = source
         self.range = range
         self.isotope = isotope
         self.note = note
 
         self.nb_citations = None
-
-        # make bibsource
-        if source in bib_database.entries:
-            self.bibsource = bib_database.entries[source]
-        elif self.source.startswith("@"):
-            self.bibsource = list(
-                parse_string(self.source, bib_format="bibtex").entries.values()
-            )[0]
-        else:
-            self.bibsource = None
-
-        # try get year and author from bibsource
-        if self.bibsource:
-            self.year = int(self.bibsource.fields["year"])
-            if year is not None:
-                warnings.warn(
-                    "year argument will be ignored since a bib source was found"
-                )
-            self.author = self.bibsource.persons["author"][0].last_names[0].lower()
-            if author != "":
-                warnings.warn(
-                    "author argument will be ignored since a bib source was found"
-                )
-        else:
-            self.author = author
-            self.year = year
+        self.author = author
+        self.year = year
+        self.source = source
 
     @property
     def bibdata(self):
@@ -94,6 +70,33 @@ class Property:
                 raise ValueError("temperature range must be stricly positive (Kelvin)")
 
         self._range = value
+
+    @property
+    def source(self):
+        return self._source
+
+    @source.setter
+    def source(self, value):
+        self._source = value
+        # try to set bibsource
+        if value in bib_database.entries:
+            self.bibsource = bib_database.entries[value]
+        elif value.startswith("@"):
+            self.bibsource = list(
+                parse_string(self.source, bib_format="bibtex").entries.values()
+            )[0]
+        else:
+            self.bibsource = None
+
+    @property
+    def bibsource(self):
+        return self._bibsource
+
+    @bibsource.setter
+    def bibsource(self, value):
+        self._bibsource = value
+        if value is not None:
+            self.get_author_and_year_from_bibsource()
 
     @property
     def doi(self):
@@ -160,6 +163,18 @@ class Property:
         as_json["type"] = self.__class__.__name__
 
         return as_json
+
+    def get_author_and_year_from_bibsource(self):
+        year_from_source = int(self.bibsource.fields["year"])
+        if self.year is not None:
+            warnings.warn("year argument will be ignored since a bib source was found")
+        self.year = year_from_source
+        author_from_source = self.bibsource.persons["author"][0].last_names[0].lower()
+        if self.author != "":
+            warnings.warn(
+                "author argument will be ignored since a bib source was found"
+            )
+        self.author = author_from_source
 
     def value(self, T):
         pass
