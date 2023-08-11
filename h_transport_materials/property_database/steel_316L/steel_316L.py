@@ -29,12 +29,37 @@ reiter_solubility = Solubility(
     note="this is an average of 5 papers on diffusivity from Reiter compilation review",
 )
 
-houben_permeability = Permeability(
+houben_permeability_2022 = Permeability(
     pre_exp=8e-7 * u.mol * u.m**-1 * u.s**-1 * u.mbar**-0.5,
     act_energy=58 * u.kJ * u.mol**-1,
     source="houben_comparison_2022",
     isotope="D",
 )
+
+houben_diffusivity_2019 = Diffusivity(
+    D_0=6e-7 * u.m**2 * u.s**-1,
+    E_D=51 * u.kJ * u.mol**-1,
+    range=(u.Quantity(400, u.degC), u.Quantity(500, u.degC)),
+    isotope="d",
+    source="houben_comparison_2019",
+)
+
+houben_permeability_2019 = Permeability(
+    pre_exp=8e-7 * u.mol * u.m**-1 * u.ms**-1 * u.mbar**-0.5,
+    act_energy=58 * u.kJ * u.mol**-1,
+    range=(u.Quantity(400, u.degC), u.Quantity(500, u.degC)),
+    isotope="d",
+    source="houben_comparison_2019",
+)
+
+houben_solubility_2019 = Solubility(
+    S_0=1 * u.mol * u.m**-3 * u.mbar**-0.5,
+    E_S=7 * u.kJ * u.mol**-1,
+    range=(u.Quantity(400, u.degC), u.Quantity(500, u.degC)),
+    isotope="d",
+    source="houben_comparison_2019",
+)
+
 
 kishimoto_permeability = Permeability(
     pre_exp=7.1e3 * u.ccNTP * u.mm * u.cm**-2 * u.h**-1 * u.MPa**-0.5,
@@ -215,7 +240,10 @@ serra_solubility = Solubility(
 properties = [
     reiter_diffusivity,
     reiter_solubility,
-    houben_permeability,
+    houben_permeability_2022,
+    houben_diffusivity_2019,
+    houben_solubility_2019,
+    houben_permeability_2019,
     kishimoto_permeability,
     kishimoto_diffusivity,
     kishimoto_solubility,
