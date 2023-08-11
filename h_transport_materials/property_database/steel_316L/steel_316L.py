@@ -311,14 +311,17 @@ shan_diffusivity_t = Diffusivity(
 shan_solubility_h = Solubility(
     S_0=shan_permeability_h.pre_exp / shan_diffusivity_h.pre_exp,
     E_S=shan_permeability_h.act_energy - shan_diffusivity_h.act_energy,
+    range=shan_permeability_h.range,
     isotope="h",
     source="shan_behavior_1991",
     note="calculated in HTM",
 )
 
+
 shan_solubility_t = Solubility(
     S_0=shan_permeability_t.pre_exp / shan_diffusivity_t.pre_exp,
     E_S=shan_permeability_t.act_energy - shan_diffusivity_t.act_energy,
+    range=shan_permeability_t.range,
     isotope="t",
     source="shan_behavior_1991",
     note="calculated in HTM",
