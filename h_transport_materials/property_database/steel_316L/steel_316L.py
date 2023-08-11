@@ -265,7 +265,7 @@ serra_solubility = Solubility(
 
 
 shan_permeability_h = Permeability(
-    data_T=[500, 550, 600, 650, 700, 723] * u.K,
+    data_T=[500.0, 550.0, 600.0, 650.0, 700.0, 723.0] * u.K,
     data_y=[8.95e-11, 3.46e-10, 1.07e-9, 2.78e-9, 6.30e-9, 8.84e-9]
     * u.mol
     * u.m**-1
@@ -277,7 +277,7 @@ shan_permeability_h = Permeability(
 )
 
 shan_permeability_t = Permeability(
-    data_T=[500, 550, 600, 650, 700, 723] * u.K,
+    data_T=[500.0, 550.0, 600.0, 650.0, 700.0, 723.0] * u.K,
     data_y=[1.72e-11, 6.39e-11, 1.91e-10, 4.82e-10, 1.07e-9, 1.48e-9]
     * u.mol
     * u.m**-1
@@ -289,7 +289,7 @@ shan_permeability_t = Permeability(
 )
 
 shan_diffusivity_h = Diffusivity(
-    data_T=[500, 550, 600, 650, 700, 723] * u.K,
+    data_T=[500.0, 550.0, 600.0, 650.0, 700.0, 723.0] * u.K,
     data_y=[1.39e-12, 4.51e-12, 1.20e-11, 2.76e-11, 5.64e-11, 7.57e-11]
     * u.m**2
     * u.s**-1,
@@ -299,7 +299,7 @@ shan_diffusivity_h = Diffusivity(
 )
 
 shan_diffusivity_t = Diffusivity(
-    data_T=[500, 550, 600, 650, 700, 723] * u.K,
+    data_T=[500.0, 550.0, 600.0, 650.0, 700.0, 723.0] * u.K,
     data_y=[6.00e-12, 8.35e-12, 1.10e-11, 1.39e-11, 1.70e-11, 1.84e-11]
     * u.m**2
     * u.s**-1,
