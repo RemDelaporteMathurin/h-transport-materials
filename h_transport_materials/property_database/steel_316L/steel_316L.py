@@ -327,6 +327,24 @@ shan_solubility_t = Solubility(
     note="calculated in HTM",
 )
 
+penzhorn_diffusivity_1 = Diffusivity(
+    D_0=1.9e-2 * u.cm**2 * u.s**-1,
+    E_D=61300 * u.J * u.mol**-1,
+    range=(373, 473) * u.K,
+    isotope="T",
+    source="penzhorn_distribution_2010",
+    note="Section III.B, temperature range is unclear",
+)
+
+penzhorn_diffusivity_2 = Diffusivity(
+    D_0=1.5e-2 * u.cm**2 * u.s**-1,
+    E_D=57300 * u.J * u.mol**-1,
+    range=(373, 473) * u.K,
+    isotope="T",
+    source="penzhorn_distribution_2010",
+    note="Section III.C, temperature range is unclear",
+)
+
 properties = [
     reiter_diffusivity,
     reiter_solubility,
@@ -361,6 +379,8 @@ properties = [
     shan_diffusivity_t,
     shan_solubility_h,
     shan_solubility_t,
+    penzhorn_diffusivity_1,
+    penzhorn_diffusivity_2,
 ]
 
 for prop in properties:
