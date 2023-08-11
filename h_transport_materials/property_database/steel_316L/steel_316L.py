@@ -263,6 +263,67 @@ serra_solubility = Solubility(
     source="serra_hydrogen_2004",
 )
 
+
+shan_permeability_h = Permeability(
+    data_T=[500, 550, 600, 650, 700, 723] * u.K,
+    data_y=[8.95e-11, 3.46e-10, 1.07e-9, 2.78e-9, 6.30e-9, 8.84e-9]
+    * u.mol
+    * u.m**-1
+    * u.s**-1
+    * u.MPa**-0.5,
+    isotope="h",
+    source="shan_behavior_1991",
+    note="Table 1",
+)
+
+shan_permeability_t = Permeability(
+    data_T=[500, 550, 600, 650, 700, 723] * u.K,
+    data_y=[1.72e-11, 6.39e-11, 1.91e-10, 4.82e-10, 1.07e-9, 1.48e-9]
+    * u.mol
+    * u.m**-1
+    * u.s**-1
+    * u.MPa**-0.5,
+    isotope="t",
+    source="shan_behavior_1991",
+    note="Table 1",
+)
+
+shan_diffusivity_h = Diffusivity(
+    data_T=[500, 550, 600, 650, 700, 723] * u.K,
+    data_y=[1.39e-12, 4.51e-12, 1.20e-11, 2.76e-11, 5.64e-11, 7.57e-11]
+    * u.m**2
+    * u.s**-1,
+    isotope="h",
+    source="shan_behavior_1991",
+    note="Table 1",
+)
+
+shan_diffusivity_t = Diffusivity(
+    data_T=[500, 550, 600, 650, 700, 723] * u.K,
+    data_y=[6.00e-12, 8.35e-12, 1.10e-11, 1.39e-11, 1.70e-11, 1.84e-11]
+    * u.m**2
+    * u.s**-1,
+    isotope="t",
+    source="shan_behavior_1991",
+    note="Table 1",
+)
+
+shan_solubility_h = Solubility(
+    S_0=shan_permeability_h.pre_exp / shan_diffusivity_h.pre_exp,
+    E_S=shan_permeability_h.act_energy - shan_diffusivity_h.act_energy,
+    isotope="h",
+    source="shan_behavior_1991",
+    note="calculated in HTM",
+)
+
+shan_solubility_t = Solubility(
+    S_0=shan_permeability_t.pre_exp / shan_diffusivity_t.pre_exp,
+    E_S=shan_permeability_t.act_energy - shan_diffusivity_t.act_energy,
+    isotope="t",
+    source="shan_behavior_1991",
+    note="calculated in HTM",
+)
+
 properties = [
     reiter_diffusivity,
     reiter_solubility,
@@ -291,6 +352,12 @@ properties = [
     reiter_1985_diffusivity_d,
     reiter_1985_permeability_h,
     reiter_1985_permeability_d,
+    shan_permeability_h,
+    shan_permeability_t,
+    shan_diffusivity_h,
+    shan_diffusivity_t,
+    shan_solubility_h,
+    shan_solubility_t,
 ]
 
 for prop in properties:
