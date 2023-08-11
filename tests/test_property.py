@@ -86,3 +86,11 @@ def test_has_doi():
     """Checks that Property has a doi attribute"""
     prop = htm.Property(source=source_bib_from_file)
     assert prop.doi
+
+
+def test_bibsource_added_after():
+    """tests that when a source is added after instanciation, a bibsource is generated if possible"""
+    my_prop = htm.Property(source="")
+    my_prop.source = source_bib_as_string
+
+    assert my_prop.bibsource is not None
