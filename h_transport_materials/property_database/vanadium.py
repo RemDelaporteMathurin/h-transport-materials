@@ -32,13 +32,6 @@ qi_diffusivity = Diffusivity(
     isotope="H",
 )  # TODO get data from experimental points, see issue #64
 
-reiter_solubility = Solubility(
-    S_0=2.1e-6 / VANADIUM_MOLAR_VOLUME * u.mol * u.m**-3 * u.Pa**-0.5,
-    E_S=-32.2 * u.kJ * u.mol**-1,
-    source="reiter_compilation_1996",
-    isotope="H",
-)
-
 malo_permeability = Permeability(
     pre_exp=1.27e-04 * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5,
     act_energy=8667 * u.K * htm.k_B,
@@ -54,7 +47,6 @@ properties = [
     volk_diffusivity,
     veleckis_solubility,
     qi_diffusivity,
-    reiter_solubility,
     malo_permeability,
 ]
 
