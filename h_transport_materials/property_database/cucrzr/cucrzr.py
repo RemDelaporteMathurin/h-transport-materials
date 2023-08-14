@@ -116,6 +116,7 @@ anderl_recombination = RecombinationCoeff(
 houben_permeability = Permeability(
     pre_exp=6e-6 * u.mol * u.m**-1 * u.s**-1 * u.mbar**-0.5,
     act_energy=79 * u.kJ * u.mol**-1,
+    range=(u.Quantity(300, u.degC), u.Quantity(550, u.degC)),
     source="houben_comparison_2022",
     isotope="D",
 )
