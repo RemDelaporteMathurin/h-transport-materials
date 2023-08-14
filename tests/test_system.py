@@ -58,4 +58,5 @@ def test_all_diffusivities_have_reasonable_pre_exp():
 
 def test_all_props_have_range():
     for prop in htm.database:
+        print(prop)
         assert prop.range is not None
