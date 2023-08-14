@@ -8,13 +8,6 @@ from h_transport_materials.property import (
 
 u = htm.ureg
 
-anderl_recombination = Diffusivity(
-    D_0=2.9e-14 * u.m**2 * u.s**-1,
-    E_D=1.92 * u.eV * u.particle**-1,
-    source="anderl_deuterium_1999",
-    isotope="D",
-)
-
 # diffusivity
 data_diffusivity_serra = htm.structure_data_from_wpd("serra_diffusivity_1998.csv")
 
