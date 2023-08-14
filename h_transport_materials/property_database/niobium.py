@@ -33,18 +33,10 @@ veleckis_solubility = Solubility(
     isotope="H",
 )
 
-reiter_solubility = Solubility(
-    S_0=3.6e-6 / NIOBIUM_MOLAR_VOLUME * u.mol * u.m**-3 * u.Pa**-0.5,
-    E_S=-33.9 * u.kJ * u.mol**-1,
-    source="reiter_compilation_1996",
-    isotope="H",
-)
-
 properties = [
     volkl_diffusivity,
     qi_diffusivity,
     veleckis_solubility,
-    reiter_solubility,
 ]
 
 for prop in properties:
