@@ -107,6 +107,7 @@ penalva_solubility_cucrzr_h = Solubility(
 anderl_recombination = RecombinationCoeff(
     pre_exp=2.9e-14 * u.meter**4 * u.second**-1 * u.particle**-1,
     act_energy=1.92 * u.eV * u.particle**-1,
+    range=(700.0 * u.K, 800.0 * u.K),
     isotope="D",
     source="anderl_deuterium_1999",
 )
