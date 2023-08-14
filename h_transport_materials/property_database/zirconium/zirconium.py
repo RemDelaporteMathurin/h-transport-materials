@@ -14,15 +14,6 @@ kearns_diffusivity = Diffusivity(
     source="kearns_diffusion_1972",
 )
 
-# TODO: should we remove this property?
-hsu_diffusivity = Diffusivity(
-    D_0=2.7e-8 * u.m**2 * u.s**-1,
-    E_D=5940 * u.cal * u.mol**-1,
-    isotope="T",
-    source="hsu_palladium-catalyzed_1986",
-    note="this is from a review paper, cannot find original data in ref [12, 13]. Ref 12 doesn't mention Zr.",
-)
-
 kearns_solubility = Solubility(
     S_0=4.30e-1 * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=-49.5 * u.kJ * u.mol**-1,
@@ -51,7 +42,6 @@ yamanaka_solubility = Solubility(
 
 properties = [
     kearns_diffusivity,
-    hsu_diffusivity,
     kearns_solubility,
     yamanaka_solubility,
 ]
