@@ -40,14 +40,17 @@ heinola_src = "heinola_diffusion_2010"
 heinola_diffusivity_tungsten = Diffusivity(
     D_0=5.2e-8 * u.m**2 * u.s**-1,
     E_D=0.21 * u.eV * u.particle**-1,
+    range=(300 * u.K, 1200 * u.K),
     source=heinola_src,
     isotope="H",
+    note="temperature range not given by author. DFT",
 )
 
 johnson_src = "johnson_hydrogen_2010"
 johnson_diffusivity_tungsten_h = Diffusivity(
     D_0=6.32e-7 * u.m**2 * u.s**-1,
     E_D=0.39 * u.eV * u.particle**-1,
+    range=(500 * u.K, 1450 * u.K),
     source=johnson_src,
     isotope="H",
 )
@@ -55,6 +58,7 @@ johnson_diffusivity_tungsten_h = Diffusivity(
 johnson_diffusivity_tungsten_t = Diffusivity(
     D_0=5.16e-7 * u.m**2 * u.s**-1,
     E_D=0.40 * u.eV * u.particle**-1,
+    range=(500 * u.K, 1450 * u.K),
     source=johnson_src,
     isotope="T",
 )
