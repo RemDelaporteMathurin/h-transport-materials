@@ -215,3 +215,10 @@ def test_cannot_compute_mean_on_mixed_groups():
 
     with pytest.raises(ValueError, match="Can't compute mean on mixed units groups"):
         my_group.mean()
+
+
+def test_mean_of_large_numbers_properties():
+    """This test catches bug reported in issue #242"""
+
+    perm = htm.permeabilities.filter(material="steel").mean()
+    assert not np.isinf(perm.pre_exp)

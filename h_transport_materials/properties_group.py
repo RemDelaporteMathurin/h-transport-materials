@@ -94,7 +94,11 @@ class PropertiesGroup(list):
 
         # geometric mean of pre-exponential factor
         pre_exps = np.array([prop.pre_exp.magnitude for prop in self])
-        pre_exp = pre_exps.prod() ** (1.0 / len(pre_exps))
+        scaling_factor = np.max(pre_exps)
+        pre_exps = pre_exps / scaling_factor  # scale pre-exps to avoid inf
+
+        pre_exp = pre_exps.prod() ** (1.0 / len(pre_exps))  # compute mean
+        pre_exp = pre_exp * scaling_factor  # re-scale
 
         # arithmetic mean of activation energy
         act_energy = np.array([prop.act_energy.magnitude for prop in self]).mean()
