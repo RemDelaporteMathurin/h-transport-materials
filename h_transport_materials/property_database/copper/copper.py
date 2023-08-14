@@ -233,6 +233,7 @@ mclellan_solubility = Solubility(
 anderl_recombination = RecombinationCoeff(
     pre_exp=9.1e-18 * u.m**4 * u.s**-1 * u.particle**-1,
     act_energy=0.99 * u.eV * u.particle**-1,
+    range=(700.0 * u.K, 800.0 * u.K),
     isotope="D",
     source="anderl_deuterium_1999",
 )
