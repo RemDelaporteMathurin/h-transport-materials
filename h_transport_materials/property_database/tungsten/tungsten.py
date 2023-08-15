@@ -415,8 +415,8 @@ bauchenaeur_permeability_foil = Permeability(
 )
 
 bauchenaeur_permeability_iter_grade = Permeability(
-    data_T=1000 / (buchenauer_data["ITER grade"]["x"] * u.K**-1),
-    data_y=buchenauer_data["ITER grade"]["y"]
+    data_T=1000 / (buchenauer_data["ITER_grade"]["x"] * u.K**-1),
+    data_y=buchenauer_data["ITER_grade"]["y"]
     * u.mol
     * u.m**-1
     * u.s**-1
