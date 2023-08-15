@@ -6,10 +6,16 @@ from h_transport_materials import (
     DissociationCoeff,
     RecombinationCoeff,
 )
-from h_transport_materials.property_database.iron import IRON_MOLAR_VOLUME
 import numpy as np
 
 u = htm.ureg
+
+STEEL_316L_DENSITY = (
+    8.0 * u.g * u.cm**-3
+)  # ref https://doi.org/10.31399/asm.hb.mhde2.9781627081993
+STEEL_316L_MOLAR_MASS = 56.52 * u.g * u.mol**-1  # TODO compute it from composition
+STEEL_316L_MOLAR_VOLUME = STEEL_316L_DENSITY / STEEL_316L_MOLAR_MASS
+
 
 reiter_diffusivity = Diffusivity(
     D_0=3.70e-7 * u.m**2 * u.s**-1,
@@ -21,13 +27,64 @@ reiter_diffusivity = Diffusivity(
 )
 
 reiter_solubility = Solubility(
-    S_0=5.8e-6 / IRON_MOLAR_VOLUME * u.mol * u.m**-3 * u.Pa**-0.5,
+    S_0=5.8e-6 * u.Pa**-0.5 * STEEL_316L_MOLAR_VOLUME,
     E_S=13.1 * u.kJ * u.mol**-1,
     range=(500 * u.K, 1200 * u.K),
     isotope="H",
     source="reiter_compilation_1996",
     note="this is an average of 5 papers on diffusivity from Reiter compilation review",
 )
+
+# TODO fit this ourselves
+reiter_1985_solubility_h = Solubility(
+    S_0=1.84e-6 * u.Pa**-0.5 * STEEL_316L_MOLAR_VOLUME,
+    E_S=6880 * u.J * u.mol**-1,
+    range=(600 * u.K, 900 * u.K),
+    isotope="h",
+    source="reiter_interaction_1985",
+    note="probably a unit mistake in the activation energies in original paper",
+)
+
+reiter_1985_solubility_d = Solubility(
+    S_0=1.96e-6 * u.Pa**-0.5 * STEEL_316L_MOLAR_VOLUME,
+    E_S=8090 * u.J * u.mol**-1,
+    range=(600 * u.K, 900 * u.K),
+    isotope="d",
+    source="reiter_interaction_1985",
+    note="probably a unit mistake in the activation energies in original paper",
+)
+
+reiter_1985_diffusivity_h = Diffusivity(
+    D_0=2.99e-6 * u.m**2 * u.s**-1,
+    E_D=59700 * u.J * u.mol**-1,
+    range=(600 * u.K, 900 * u.K),
+    isotope="h",
+    source="reiter_interaction_1985",
+    note="probably a unit mistake in the activation energies in original paper",
+)
+
+reiter_1985_diffusivity_d = Diffusivity(
+    D_0=1.74e-6 * u.m**2 * u.s**-1,
+    E_D=58100 * u.J * u.mol**-1,
+    range=(600 * u.K, 900 * u.K),
+    isotope="d",
+    source="reiter_interaction_1985",
+    note="probably a unit mistake in the activation energies in original paper",
+)
+
+reiter_1985_permeability_h = reiter_1985_diffusivity_h * reiter_1985_solubility_h
+reiter_1985_permeability_h.range = reiter_1985_diffusivity_h.range
+reiter_1985_permeability_h.isotope = reiter_1985_diffusivity_h.isotope
+reiter_1985_permeability_h.source = reiter_1985_diffusivity_h.source
+reiter_1985_permeability_h.note = "calculated in HTM"
+
+
+reiter_1985_permeability_d = reiter_1985_diffusivity_d * reiter_1985_solubility_d
+reiter_1985_permeability_d.range = reiter_1985_diffusivity_d.range
+reiter_1985_permeability_d.isotope = reiter_1985_diffusivity_d.isotope
+reiter_1985_permeability_d.source = reiter_1985_diffusivity_d.source
+reiter_1985_permeability_d.note = "calculated in HTM"
+
 
 houben_permeability = Permeability(
     pre_exp=8e-7 * u.mol * u.m**-1 * u.s**-1 * u.mbar**-0.5,
@@ -212,6 +269,88 @@ serra_solubility = Solubility(
     source="serra_hydrogen_2004",
 )
 
+
+shan_permeability_h = Permeability(
+    data_T=[500.0, 550.0, 600.0, 650.0, 700.0, 723.0] * u.K,
+    data_y=[8.95e-11, 3.46e-10, 1.07e-9, 2.78e-9, 6.30e-9, 8.84e-9]
+    * u.mol
+    * u.m**-1
+    * u.s**-1
+    * u.MPa**-0.5,
+    isotope="h",
+    source="shan_behavior_1991",
+    note="Table 1",
+)
+
+shan_permeability_t = Permeability(
+    data_T=[500.0, 550.0, 600.0, 650.0, 700.0, 723.0] * u.K,
+    data_y=[1.72e-11, 6.39e-11, 1.91e-10, 4.82e-10, 1.07e-9, 1.48e-9]
+    * u.mol
+    * u.m**-1
+    * u.s**-1
+    * u.MPa**-0.5,
+    isotope="t",
+    source="shan_behavior_1991",
+    note="Table 1",
+)
+
+shan_diffusivity_h = Diffusivity(
+    data_T=[500.0, 550.0, 600.0, 650.0, 700.0, 723.0] * u.K,
+    data_y=[1.39e-12, 4.51e-12, 1.20e-11, 2.76e-11, 5.64e-11, 7.57e-11]
+    * u.m**2
+    * u.s**-1,
+    isotope="h",
+    source="shan_behavior_1991",
+    note="Table 1",
+)
+
+shan_diffusivity_t = Diffusivity(
+    data_T=[500.0, 550.0, 600.0, 650.0, 700.0, 723.0] * u.K,
+    data_y=[6.00e-12, 8.35e-12, 1.10e-11, 1.39e-11, 1.70e-11, 1.84e-11]
+    * u.m**2
+    * u.s**-1,
+    isotope="t",
+    source="shan_behavior_1991",
+    note="Table 1",
+)
+
+shan_solubility_h = Solubility(
+    S_0=shan_permeability_h.pre_exp / shan_diffusivity_h.pre_exp,
+    E_S=shan_permeability_h.act_energy - shan_diffusivity_h.act_energy,
+    range=shan_permeability_h.range,
+    isotope="h",
+    source="shan_behavior_1991",
+    note="calculated in HTM",
+)
+
+
+shan_solubility_t = Solubility(
+    S_0=shan_permeability_t.pre_exp / shan_diffusivity_t.pre_exp,
+    E_S=shan_permeability_t.act_energy - shan_diffusivity_t.act_energy,
+    range=shan_permeability_t.range,
+    isotope="t",
+    source="shan_behavior_1991",
+    note="calculated in HTM",
+)
+
+penzhorn_diffusivity_1 = Diffusivity(
+    D_0=1.9e-2 * u.cm**2 * u.s**-1,
+    E_D=61300 * u.J * u.mol**-1,
+    range=(373.0, 473.0) * u.K,
+    isotope="T",
+    source="penzhorn_distribution_2010",
+    note="Section III.B, temperature range is unclear",
+)
+
+penzhorn_diffusivity_2 = Diffusivity(
+    D_0=1.5e-2 * u.cm**2 * u.s**-1,
+    E_D=57300 * u.J * u.mol**-1,
+    range=(373.0, 473.0) * u.K,
+    isotope="T",
+    source="penzhorn_distribution_2010",
+    note="Section III.C, temperature range is unclear",
+)
+
 properties = [
     reiter_diffusivity,
     reiter_solubility,
@@ -234,6 +373,20 @@ properties = [
     serra_permeability,
     serra_diffusivity,
     serra_solubility,
+    reiter_1985_solubility_h,
+    reiter_1985_solubility_d,
+    reiter_1985_diffusivity_h,
+    reiter_1985_diffusivity_d,
+    reiter_1985_permeability_h,
+    reiter_1985_permeability_d,
+    shan_permeability_h,
+    shan_permeability_t,
+    shan_diffusivity_h,
+    shan_diffusivity_t,
+    shan_solubility_h,
+    shan_solubility_t,
+    penzhorn_diffusivity_1,
+    penzhorn_diffusivity_2,
 ]
 
 for prop in properties:
