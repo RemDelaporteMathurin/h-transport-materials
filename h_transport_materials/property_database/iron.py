@@ -36,7 +36,6 @@ tahara_diffusivity_D = Diffusivity(
     source="tahara_measurements_1985",
 )
 
-# FIXME there is something wrong in the calculation here
 eichenauer_solubility = Solubility(
     S_0=4.90e-6 / IRON_MOLAR_VOLUME * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=24.3 * u.kJ * u.mol**-1,
