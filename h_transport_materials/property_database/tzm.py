@@ -22,13 +22,13 @@ tominetti_permeability_h = Permeability(
     act_energy=72.8 * u.kJ * u.mol**-1,
     range=(1000 / 1.5 * u.K, 873 * u.K),
     isotope="H",
-    source="tominetti_permeability_1990",
+    source="tominetti_solubility_1990",
     note="Equation 14",
 )
 
 forcey_diffusivity_d = Diffusivity(
-    pre_exp=3.18e-4 * u.m**2 * u.s**-1,
-    act_energy=88.1 * u.kJ * u.mol**-1,
+    D_0=3.18e-4 * u.m**2 * u.s**-1,
+    E_D=88.1 * u.kJ * u.mol**-1,
     range=(515 * u.K, 742 * u.K),
     isotope="D",
     source="forcey_permeability_1993",
@@ -36,26 +36,26 @@ forcey_diffusivity_d = Diffusivity(
 )
 
 tominetti_diffusivity_d = Diffusivity(
-    pre_exp=1.96e-4 * u.m**2 * u.s**-1,
-    act_energy=95.5 * u.kJ * u.mol**-1,
+    D_0=1.96e-4 * u.m**2 * u.s**-1,
+    E_D=95.5 * u.kJ * u.mol**-1,
     range=(1000 / 1.5 * u.K, 873 * u.K),
     isotope="D",
-    source="tominetti_permeability_1990",
+    source="tominetti_solubility_1990",
     note="Equation 9",
 )
 
 tominetti_diffusivity_h = Diffusivity(
-    pre_exp=5.53e-5 * u.m**2 * u.s**-1,
-    act_energy=84.6 * u.kJ * u.mol**-1,
+    D_0=5.53e-5 * u.m**2 * u.s**-1,
+    E_D=84.6 * u.kJ * u.mol**-1,
     range=(1000 / 1.5 * u.K, 873 * u.K),
     isotope="H",
-    source="tominetti_permeability_1990",
+    source="tominetti_solubility_1990",
     note="Equation 8",
 )
 
 forcey_solubility_d = Solubility(
-    pre_exp=2.62e-4 * u.mol * u.m**-3 * u.Pa**-0.5,
-    act_energy=12.6 * u.kJ * u.mol**-1,
+    S_0=2.62e-4 * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=12.6 * u.kJ * u.mol**-1,
     range=(515 * u.K, 742 * u.K),
     isotope="D",
     source="forcey_permeability_1993",
@@ -63,20 +63,20 @@ forcey_solubility_d = Solubility(
 )
 
 tominetti_solubility_d = Solubility(
-    pre_exp=3.58e-4 * u.mol * u.m**-3 * u.Pa**-0.5,
-    act_energy=16.9 * u.kJ * u.mol**-1,
+    S_0=3.58e-4 * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=16.9 * u.kJ * u.mol**-1,
     range=(1000 / 1.5 * u.K, 873 * u.K),
     isotope="D",
-    source="tominetti_permeability_1990",
+    source="tominetti_solubility_1990",
     note="Equation 13",
 )
 
 tominetti_solubility_h = Solubility(
-    pre_exp=6.90e-4 * u.mol * u.m**-3 * u.Pa**-0.5,
-    act_energy=11.8 * u.kJ * u.mol**-1,
+    S_0=6.90e-4 * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=11.8 * u.kJ * u.mol**-1,
     range=(1000 / 1.5 * u.K, 873 * u.K),
     isotope="H",
-    source="tominetti_permeability_1990",
+    source="tominetti_solubility_1990",
     note="Equation 12",
 )
 
