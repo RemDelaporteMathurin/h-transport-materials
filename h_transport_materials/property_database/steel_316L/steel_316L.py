@@ -6,10 +6,16 @@ from h_transport_materials import (
     DissociationCoeff,
     RecombinationCoeff,
 )
-from h_transport_materials.property_database.iron import IRON_MOLAR_VOLUME
 import numpy as np
 
 u = htm.ureg
+
+STEEL_316L_DENSITY = (
+    8.0 * u.g * u.cm**-3
+)  # ref https://doi.org/10.31399/asm.hb.mhde2.9781627081993
+STEEL_316L_MOLAR_MASS = 56.52 * u.g * u.mol**-1  # TODO compute it from composition
+STEEL_316L_MOLAR_VOLUME = STEEL_316L_DENSITY / STEEL_316L_MOLAR_MASS
+
 
 reiter_diffusivity = Diffusivity(
     D_0=3.70e-7 * u.m**2 * u.s**-1,
@@ -21,7 +27,7 @@ reiter_diffusivity = Diffusivity(
 )
 
 reiter_solubility = Solubility(
-    S_0=5.8e-6 / IRON_MOLAR_VOLUME * u.mol * u.m**-3 * u.Pa**-0.5,
+    S_0=5.8e-6 * u.Pa**-0.5 * STEEL_316L_MOLAR_VOLUME,
     E_S=13.1 * u.kJ * u.mol**-1,
     range=(500 * u.K, 1200 * u.K),
     isotope="H",
@@ -31,7 +37,7 @@ reiter_solubility = Solubility(
 
 # TODO fit this ourselves
 reiter_1985_solubility_h = Solubility(
-    S_0=1.84e-6 / IRON_MOLAR_VOLUME * u.mol * u.m**-3 * u.Pa**-0.5,
+    S_0=1.84e-6 * u.Pa**-0.5 * STEEL_316L_MOLAR_VOLUME,
     E_S=6880 * u.J * u.mol**-1,
     range=(600 * u.K, 900 * u.K),
     isotope="h",
@@ -40,7 +46,7 @@ reiter_1985_solubility_h = Solubility(
 )
 
 reiter_1985_solubility_d = Solubility(
-    S_0=1.96e-6 / IRON_MOLAR_VOLUME * u.mol * u.m**-3 * u.Pa**-0.5,
+    S_0=1.96e-6 * u.Pa**-0.5 * STEEL_316L_MOLAR_VOLUME,
     E_S=8090 * u.J * u.mol**-1,
     range=(600 * u.K, 900 * u.K),
     isotope="d",
