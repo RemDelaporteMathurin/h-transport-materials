@@ -405,9 +405,7 @@ liu_diffusivity_recrystallized_250um = Diffusivity(
     isotope="H",
 )
 
-buchenauer_data = htm.structure_data_from_wpd(
-    filename=htm.absolute_path("buchenauer_2016/data.csv")
-)
+buchenauer_data = htm.structure_data_from_wpd("buchenauer_2016/data.csv")
 
 bauchenaeur_permeability_foil = Permeability(
     data_T=1000 / (buchenauer_data["foil"]["x"] * u.K**-1),
@@ -477,7 +475,7 @@ properties = [
     liu_diffusivity_recrystallized_250um,
     bauchenaeur_permeability_foil,
     bauchenaeur_permeability_iter_grade,
-    bauchenaeur_permeability_ufg
+    bauchenaeur_permeability_ufg,
 ]
 
 for prop in properties:
