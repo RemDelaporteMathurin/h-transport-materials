@@ -6,6 +6,8 @@ from textwrap import dedent
 
 from h_transport_materials import ureg, ArrheniusProperty, __version__
 
+warnings.filterwarnings("always", message="No property matching the requirements")
+
 
 class PropertiesGroup(list):
     @property
