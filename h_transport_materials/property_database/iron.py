@@ -8,7 +8,9 @@ from h_transport_materials import (
 
 u = htm.ureg
 
-IRON_MOLAR_VOLUME = 7.09e-6  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/iron
+# TODO give units to IRON_MOLAR_VOLUME
+# https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/iron
+IRON_MOLAR_VOLUME = 7.09e-6  # m3/mol
 
 volkl_diffusivity = Diffusivity(
     D_0=4.00e-8 * u.m**2 * u.s**-1,
