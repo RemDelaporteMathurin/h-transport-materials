@@ -375,7 +375,7 @@ okuno_diffusivity_li7pb2 = Diffusivity(
     data_T=1000 / (data_okuno["li7pb2"]["x"] * u.K**-1),
     data_y=data_okuno["li7pb2"]["y"] * u.cm**2 * u.s**-1,
     isotope="T",
-    note="Li7Pb2",
+    note="Li7Pb2, figure 6",
     source="okuno_thermal_1986",
 )
 
@@ -383,7 +383,7 @@ okuno_diffusivity_li45pb55 = Diffusivity(
     data_T=1000 / (data_okuno["li45pb55"]["x"] * u.K**-1),
     data_y=data_okuno["li45pb55"]["y"] * u.cm**2 * u.s**-1,
     isotope="T",
-    note="Li45Pb55",
+    note="Li45Pb55, figure 6",
     source="okuno_thermal_1986",
 )
 
