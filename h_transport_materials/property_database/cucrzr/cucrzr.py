@@ -8,13 +8,6 @@ from h_transport_materials.property import (
 
 u = htm.ureg
 
-anderl_recombination = Diffusivity(
-    D_0=2.9e-14 * u.m**2 * u.s**-1,
-    E_D=1.92 * u.eV * u.particle**-1,
-    source="anderl_deuterium_1999",
-    isotope="D",
-)
-
 # diffusivity
 data_diffusivity_serra = htm.structure_data_from_wpd("serra_diffusivity_1998.csv")
 
@@ -114,6 +107,7 @@ penalva_solubility_cucrzr_h = Solubility(
 anderl_recombination = RecombinationCoeff(
     pre_exp=2.9e-14 * u.meter**4 * u.second**-1 * u.particle**-1,
     act_energy=1.92 * u.eV * u.particle**-1,
+    range=(700.0 * u.K, 800.0 * u.K),
     isotope="D",
     source="anderl_deuterium_1999",
 )
@@ -122,6 +116,7 @@ anderl_recombination = RecombinationCoeff(
 houben_permeability = Permeability(
     pre_exp=6e-6 * u.mol * u.m**-1 * u.s**-1 * u.mbar**-0.5,
     act_energy=79 * u.kJ * u.mol**-1,
+    range=(u.Quantity(300, u.degC), u.Quantity(550, u.degC)),
     source="houben_comparison_2022",
     isotope="D",
 )

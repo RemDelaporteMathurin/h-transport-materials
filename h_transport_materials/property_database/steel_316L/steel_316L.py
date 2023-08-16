@@ -89,6 +89,10 @@ reiter_1985_permeability_d.note = "calculated in HTM"
 houben_permeability = Permeability(
     pre_exp=8e-7 * u.mol * u.m**-1 * u.s**-1 * u.mbar**-0.5,
     act_energy=58 * u.kJ * u.mol**-1,
+    range=(
+        u.Quantity(300, u.degC),
+        u.Quantity(550, u.degC),
+    ),
     source="houben_comparison_2022",
     isotope="D",
 )
