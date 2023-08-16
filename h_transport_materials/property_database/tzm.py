@@ -57,7 +57,7 @@ tominetti_diffusivity_h = Diffusivity(
 
 forcey_solubility_d = Solubility(
     S_0=2.62e-4 * u.mol * u.m**-3 * u.Pa**-0.5,
-    E_S=12.6 * u.kJ * u.mol**-1,
+    E_S=-12.6 * u.kJ * u.mol**-1,
     range=(515 * u.K, 742 * u.K),
     isotope="D",
     source="forcey_permeability_1993",
