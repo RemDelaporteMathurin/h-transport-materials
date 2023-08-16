@@ -96,7 +96,7 @@ grant_recombination_oxidised = RecombinationCoeff(
 # TODO fit this ourselves
 braun_diffusivity = Diffusivity(
     D_0=0.18 * u.cm**2 * u.s**-1,
-    E_D=14800 * u.J * u.mol**-1,
+    E_D=14800 * u.cal * u.mol**-1,
     range=(u.Quantity(100, u.degC), u.Quantity(600, u.degC)),
     isotope="D",
     source="braun_determination_1980",
@@ -105,7 +105,7 @@ braun_diffusivity = Diffusivity(
 
 hawkins_solubility = Solubility(
     S_0=2.2e19 * u.particle * u.cm**-3 * u.bar**-0.5,
-    E_S=1700 * u.J * u.mol**-1,
+    E_S=1700 * u.cal * u.mol**-1,
     range=(u.Quantity(300, u.degC), u.Quantity(800, u.degC)),
     source="N.L. Hawkins, Report KAPL 863 (1953)",
     author="N.L. Hawkins",
@@ -126,7 +126,7 @@ braun_permeability = Permeability(
 # TODO fit this ourselves
 braun_recombination_coeff = RecombinationCoeff(
     pre_exp=5.4e-19 * u.particle * u.cm**4 * u.particle**-2 * u.s**-1,
-    act_energy=15600 * u.J * u.mol**-1,
+    act_energy=15600 * u.cal * u.mol**-1,
     range=(u.Quantity(150, u.degC), u.Quantity(400, u.degC)),
     isotope="D",
     source="braun_determination_1980",
