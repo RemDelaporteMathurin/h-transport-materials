@@ -19,15 +19,6 @@ forcey_permeability_d = Permeability(
     note="Equation 8",
 )
 
-tominetti_permeability_h = Permeability(
-    pre_exp=5.53e-5 * 6.90e-4 * u.mol * u.m**-1 * u.Pa**-0.5 * u.s**-1,
-    act_energy=(84.6 - 11.8) * u.kJ * u.mol**-1,
-    range=(673 * u.K, 873 * u.K),
-    isotope="H",
-    source="tominetti_solubility_1990",
-    note="D*Ks",
-)
-
 forcey_diffusivity_d = Diffusivity(
     D_0=3.18e-4 * u.m**2 * u.s**-1,
     E_D=88.1 * u.kJ * u.mol**-1,
@@ -118,9 +109,13 @@ tominetti_recombination_h = RecombinationCoeff(
     note="Equation 15",
 )
 
+tominetti_permeability_h = tominetti_diffusivity_h * tominetti_solubility_h
+tominetti_permeability_h.source = "tominetti_solubility_1990"
+tominetti_permeability_h.isotope = "H"
+tominetti_permeability_h.range = (673 * u.K, 873 * u.K)
+
 properties = [
     forcey_permeability_d,
-    tominetti_permeability_h,
     forcey_diffusivity_d,
     tominetti_diffusivity_d,
     tominetti_diffusivity_h,
@@ -131,6 +126,7 @@ properties = [
     tominetti_dissociation_h,
     tominetti_recombination_d,
     tominetti_recombination_h,
+    tominetti_permeability_h,
 ]
 
 for prop in properties:
