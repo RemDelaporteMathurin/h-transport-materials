@@ -83,7 +83,7 @@ tominetti_solubility_h = Solubility(
 )
 
 tominetti_dissociation_d = DissociationCoeff(
-    pre_exp=0.71e-6 * u.mol * u.m**2 * u.s*-1 * u.Pa**-1,
+    pre_exp=0.71e-6 * u.mol * u.m**-2 * u.s*-1 * u.Pa**-1,
     act_energy=75.9 * u.kJ * u.mol**-1,
     range=(673 * u.K, 873 * u.K),
     isotope="D",
@@ -92,7 +92,7 @@ tominetti_dissociation_d = DissociationCoeff(
 )
 
 tominetti_dissociation_h = DissociationCoeff(
-    pre_exp=8.81e-8 * u.mol * u.m**2 * u.s*-1 * u.Pa**-1,
+    pre_exp=8.81e-8 * u.mol * u.m**-2 * u.s*-1 * u.Pa**-1,
     act_energy=61.2 * u.kJ * u.mol**-1,
     range=(673 * u.K, 873 * u.K),
     isotope="H",
