@@ -75,7 +75,7 @@ tominetti_solubility_d = Solubility(
 
 tominetti_solubility_h = Solubility(
     S_0=6.90e-4 * u.mol * u.m**-3 * u.Pa**-0.5,
-    E_S=11.8 * u.kJ * u.mol**-1,
+    E_S=-11.8 * u.kJ * u.mol**-1,
     range=(673 * u.K, 873 * u.K),
     isotope="H",
     source="tominetti_solubility_1990",
