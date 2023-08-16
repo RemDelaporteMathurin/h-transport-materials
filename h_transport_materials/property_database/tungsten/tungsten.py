@@ -410,6 +410,35 @@ liu_diffusivity_recrystallized_250um = Diffusivity(
     isotope="H",
 )
 
+buchenauer_data = htm.structure_data_from_wpd("buchenauer_2016/data.csv")
+
+bauchenaeur_permeability_foil = Permeability(
+    data_T=1000 / (buchenauer_data["foil"]["x"] * u.K**-1),
+    data_y=buchenauer_data["foil"]["y"] * u.mol * u.m**-1 * u.s**-1 * u.MPa**-0.5,
+    source="buchenauer_permeation_2016",
+    isotope="D",
+)
+
+bauchenaeur_permeability_iter_grade = Permeability(
+    data_T=1000 / (buchenauer_data["ITER_grade"]["x"] * u.K**-1),
+    data_y=buchenauer_data["ITER_grade"]["y"]
+    * u.mol
+    * u.m**-1
+    * u.s**-1
+    * u.MPa**-0.5,
+    source="buchenauer_permeation_2016",
+    isotope="D",
+    note="ITER grade Tungsten",
+)
+
+bauchenaeur_permeability_ufg = Permeability(
+    data_T=1000 / (buchenauer_data["UFG"]["x"] * u.K**-1),
+    data_y=buchenauer_data["UFG"]["y"] * u.mol * u.m**-1 * u.s**-1 * u.MPa**-0.5,
+    source="buchenauer_permeation_2016",
+    isotope="D",
+    note="Ultra-Fine-Grain (UFG) tungsten",
+)
+
 
 otsuka_diffusivity = Diffusivity(
     D_0=3e-7 * u.m**2 * u.s**-1,
@@ -466,6 +495,9 @@ properties = [
     liu_diffusivity_annealed_102um,
     liu_diffusivity_annealed_250um,
     liu_diffusivity_recrystallized_250um,
+    bauchenaeur_permeability_foil,
+    bauchenaeur_permeability_iter_grade,
+    bauchenaeur_permeability_ufg,
     otsuka_diffusivity,
     ikeda_diffusivity,
 ]
