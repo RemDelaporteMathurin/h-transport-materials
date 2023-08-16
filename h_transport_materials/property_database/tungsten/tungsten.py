@@ -406,6 +406,15 @@ liu_diffusivity_recrystallized_250um = Diffusivity(
 )
 
 
+otsuka_diffusivity = Diffusivity(
+    D_0=3e-7 * u.m**2 * u.s**-1,
+    E_D=0.39 * u.eV * u.particle**-1,
+    range=(473.0 * u.K, 673.0 * u.K),
+    isotope="T",
+    note="likely an apparent diffusivity",
+    source="otsuka_visualization_2009",
+)
+
 properties = [
     frauenfelder_diffusivity,
     liu_diffusivity_tungsten,
@@ -444,6 +453,7 @@ properties = [
     liu_diffusivity_annealed_102um,
     liu_diffusivity_annealed_250um,
     liu_diffusivity_recrystallized_250um,
+    otsuka_diffusivity,
 ]
 
 for prop in properties:
