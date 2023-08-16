@@ -26,6 +26,10 @@ atsumi_diffusivity = Diffusivity(
 atsumi_solubility = Solubility(
     S_0=1.9e-1 * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=-19.2 * u.kJ * u.mol**-1,
+    range=(
+        u.Quantity(850, u.degC),
+        u.Quantity(1050, u.degC),
+    ),
     source="atsumi_absorption_1988",
     isotope="H",
 )
