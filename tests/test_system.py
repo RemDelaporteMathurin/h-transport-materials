@@ -54,3 +54,9 @@ def test_all_diffusivities_have_reasonable_pre_exp():
     for prop in htm.diffusivities:
         print(prop)
         assert abs(prop.pre_exp) < 100 * htm.ureg.m**2 * htm.ureg.s**-1
+
+
+def test_all_props_have_range():
+    for prop in htm.database:
+        print(prop)
+        assert prop.range is not None

@@ -233,6 +233,7 @@ mclellan_solubility = Solubility(
 anderl_recombination = RecombinationCoeff(
     pre_exp=9.1e-18 * u.m**4 * u.s**-1 * u.particle**-1,
     act_energy=0.99 * u.eV * u.particle**-1,
+    range=(700.0 * u.K, 800.0 * u.K),
     isotope="D",
     source="anderl_deuterium_1999",
 )
@@ -242,6 +243,7 @@ houben_permeability = Permeability(
     pre_exp=3e-6 * u.mol * u.m**-1 * u.s**-1 * u.mbar**-0.5,
     act_energy=77 * u.kJ * u.mol**-1,
     source="houben_comparison_2022",
+    range=(u.Quantity(300, u.degC), u.Quantity(550, u.degC)),
     isotope="D",
 )
 

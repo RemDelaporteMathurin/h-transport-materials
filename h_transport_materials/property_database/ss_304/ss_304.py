@@ -96,21 +96,22 @@ grant_recombination_oxidised = RecombinationCoeff(
 # TODO fit this ourselves
 braun_diffusivity = Diffusivity(
     D_0=0.18 * u.cm**2 * u.s**-1,
-    E_D=14800 * u.J * u.mol**-1,
+    E_D=14800 * u.cal * u.mol**-1,
     range=(u.Quantity(100, u.degC), u.Quantity(600, u.degC)),
     isotope="D",
     source="braun_determination_1980",
-    note="Braun doesn't plot the permeability and assumes a solubility from N.L. Hawkins, Report KAPL 863 (1953)",
+    note="Braun doesn't plot the permeability and assumes a solubility from N.L. Hawkins, Report KAPL 863 (1953). However we can't find this report.",
 )
 
 hawkins_solubility = Solubility(
     S_0=2.2e19 * u.particle * u.cm**-3 * u.bar**-0.5,
-    E_S=1700 * u.J * u.mol**-1,
+    E_S=1700 * u.cal * u.mol**-1,
+    range=(u.Quantity(300, u.degC), u.Quantity(800, u.degC)),
     source="N.L. Hawkins, Report KAPL 863 (1953)",
     author="N.L. Hawkins",
     isotope="H",
     year=1953,
-    note="Found in Braun 1980 paper but couldn't find the original reference",
+    note="Found in Braun 1980 braun_determination_1980 paper but couldn't find the original reference. Range is assumed from https://doi.org/10.2172/4414215",
 )
 
 braun_permeability = Permeability(
@@ -125,12 +126,13 @@ braun_permeability = Permeability(
 # TODO fit this ourselves
 braun_recombination_coeff = RecombinationCoeff(
     pre_exp=5.4e-19 * u.particle * u.cm**4 * u.particle**-2 * u.s**-1,
-    act_energy=15600 * u.J * u.mol**-1,
+    act_energy=15600 * u.cal * u.mol**-1,
     range=(u.Quantity(150, u.degC), u.Quantity(400, u.degC)),
     isotope="D",
     source="braun_determination_1980",
 )
 
+# @FuerstT: I'm having a hard time finding the original ref for Hawkins solubility. This differs from your review. Any thoughts?
 braun_dissociation_coeff = DissociationCoeff(
     pre_exp=braun_recombination_coeff.pre_exp * hawkins_solubility.pre_exp**2,
     act_energy=braun_recombination_coeff.act_energy + 2 * hawkins_solubility.act_energy,
@@ -145,8 +147,8 @@ data = np.genfromtxt(
     delimiter=",",
 )
 Hu_perm = Permeability(
-    data_T=(1000 / data[:,0]) * u.K,
-    data_y=data[:,1] * u.mol * u.m**(-1) * u.s**(-1) * u.MPa**(-0.5),
+    data_T=(1000 / data[:, 0]) * u.K,
+    data_y=data[:, 1] * u.mol * u.m ** (-1) * u.s ** (-1) * u.MPa ** (-0.5),
     source="hu_hydrogen_2015",
     isotope="H",
     note="Figure 6",

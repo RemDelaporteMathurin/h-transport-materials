@@ -40,14 +40,17 @@ heinola_src = "heinola_diffusion_2010"
 heinola_diffusivity_tungsten = Diffusivity(
     D_0=5.2e-8 * u.m**2 * u.s**-1,
     E_D=0.21 * u.eV * u.particle**-1,
+    range=(300 * u.K, 1200 * u.K),
     source=heinola_src,
     isotope="H",
+    note="temperature range not given by author. DFT",
 )
 
 johnson_src = "johnson_hydrogen_2010"
 johnson_diffusivity_tungsten_h = Diffusivity(
     D_0=6.32e-7 * u.m**2 * u.s**-1,
     E_D=0.39 * u.eV * u.particle**-1,
+    range=(500 * u.K, 1450 * u.K),
     source=johnson_src,
     isotope="H",
 )
@@ -55,6 +58,7 @@ johnson_diffusivity_tungsten_h = Diffusivity(
 johnson_diffusivity_tungsten_t = Diffusivity(
     D_0=5.16e-7 * u.m**2 * u.s**-1,
     E_D=0.40 * u.eV * u.particle**-1,
+    range=(500 * u.K, 1450 * u.K),
     source=johnson_src,
     isotope="T",
 )
@@ -166,6 +170,7 @@ fernandez_diffusivity_tungsten_h = Diffusivity(
 anderl_recomb = RecombinationCoeff(
     pre_exp=3.2e-15 * u.m**4 * u.s**-1 * u.particle**-1,
     act_energy=1.16 * u.eV * u.particle**-1,
+    range=(610 * u.K, 823 * u.K),
     isotope="D",
     source="anderl_deuterium_1992",
 )
@@ -406,6 +411,15 @@ liu_diffusivity_recrystallized_250um = Diffusivity(
 )
 
 
+otsuka_diffusivity = Diffusivity(
+    D_0=3e-7 * u.m**2 * u.s**-1,
+    E_D=0.39 * u.eV * u.particle**-1,
+    range=(473.0 * u.K, 673.0 * u.K),
+    isotope="T",
+    note="likely an apparent diffusivity",
+    source="otsuka_visualization_2009",
+)
+
 data_ikeda = np.genfromtxt(htm.absolute_path("ikeda_2011/data.csv"), delimiter=",")
 ikeda_diffusivity = Diffusivity(
     data_T=1000 / (data_ikeda[:, 0] * u.K**-1),
@@ -452,6 +466,7 @@ properties = [
     liu_diffusivity_annealed_102um,
     liu_diffusivity_annealed_250um,
     liu_diffusivity_recrystallized_250um,
+    otsuka_diffusivity,
     ikeda_diffusivity,
 ]
 
