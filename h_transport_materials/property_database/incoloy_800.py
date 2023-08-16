@@ -25,6 +25,7 @@ schmidt_permeability = Permeability(
     act_energy=56.6 * u.kJ * u.mol**-1,
     isotope="H",
     source="schmidt_studies_1985",
+    range=(1023 * u.K, 1223 * u.K),
     note="sample No. 1.2 Material 1.4876 (second line of Table 2 in Schmidt's paper)"
     + "in Shimada 2020 review, the S_0 factor is wrong",
 )
