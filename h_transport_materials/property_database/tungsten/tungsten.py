@@ -420,6 +420,14 @@ otsuka_diffusivity = Diffusivity(
     source="otsuka_visualization_2009",
 )
 
+data_ikeda = np.genfromtxt(htm.absolute_path("ikeda_2011/data.csv"), delimiter=",")
+ikeda_diffusivity = Diffusivity(
+    data_T=1000 / (data_ikeda[:, 0] * u.K**-1),
+    data_y=data_ikeda[:, 1] * u.m**2 * u.s**-1,
+    source="ikeda_application_2011",
+    isotope="T",
+)
+
 properties = [
     frauenfelder_diffusivity,
     liu_diffusivity_tungsten,
@@ -459,6 +467,7 @@ properties = [
     liu_diffusivity_annealed_250um,
     liu_diffusivity_recrystallized_250um,
     otsuka_diffusivity,
+    ikeda_diffusivity,
 ]
 
 for prop in properties:
