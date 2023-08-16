@@ -86,7 +86,58 @@ reiter_1985_permeability_d.source = reiter_1985_diffusivity_d.source
 reiter_1985_permeability_d.note = "calculated in HTM"
 
 
-houben_permeability = Permeability(
+# TODO fit this ourselves
+reiter_1985_solubility_h = Solubility(
+    S_0=1.84e-6 * u.Pa**-0.5 * STEEL_316L_MOLAR_VOLUME,
+    E_S=6880 * u.J * u.mol**-1,
+    range=(600 * u.K, 900 * u.K),
+    isotope="h",
+    source="reiter_interaction_1985",
+    note="probably a unit mistake in the activation energies in original paper",
+)
+
+reiter_1985_solubility_d = Solubility(
+    S_0=1.96e-6 * u.Pa**-0.5 * STEEL_316L_MOLAR_VOLUME,
+    E_S=8090 * u.J * u.mol**-1,
+    range=(600 * u.K, 900 * u.K),
+    isotope="d",
+    source="reiter_interaction_1985",
+    note="probably a unit mistake in the activation energies in original paper",
+)
+
+reiter_1985_diffusivity_h = Diffusivity(
+    D_0=2.99e-6 * u.m**2 * u.s**-1,
+    E_D=59700 * u.J * u.mol**-1,
+    range=(600 * u.K, 900 * u.K),
+    isotope="h",
+    source="reiter_interaction_1985",
+    note="probably a unit mistake in the activation energies in original paper",
+)
+
+reiter_1985_diffusivity_d = Diffusivity(
+    D_0=1.74e-6 * u.m**2 * u.s**-1,
+    E_D=58100 * u.J * u.mol**-1,
+    range=(600 * u.K, 900 * u.K),
+    isotope="d",
+    source="reiter_interaction_1985",
+    note="probably a unit mistake in the activation energies in original paper",
+)
+
+reiter_1985_permeability_h = reiter_1985_diffusivity_h * reiter_1985_solubility_h
+reiter_1985_permeability_h.range = reiter_1985_diffusivity_h.range
+reiter_1985_permeability_h.isotope = reiter_1985_diffusivity_h.isotope
+reiter_1985_permeability_h.source = reiter_1985_diffusivity_h.source
+reiter_1985_permeability_h.note = "calculated in HTM"
+
+
+reiter_1985_permeability_d = reiter_1985_diffusivity_d * reiter_1985_solubility_d
+reiter_1985_permeability_d.range = reiter_1985_diffusivity_d.range
+reiter_1985_permeability_d.isotope = reiter_1985_diffusivity_d.isotope
+reiter_1985_permeability_d.source = reiter_1985_diffusivity_d.source
+reiter_1985_permeability_d.note = "calculated in HTM"
+
+
+houben_permeability_2022 = Permeability(
     pre_exp=8e-7 * u.mol * u.m**-1 * u.s**-1 * u.mbar**-0.5,
     act_energy=58 * u.kJ * u.mol**-1,
     range=(
@@ -96,6 +147,40 @@ houben_permeability = Permeability(
     source="houben_comparison_2022",
     isotope="D",
 )
+
+houben_diffusivity_2019 = Diffusivity(
+    D_0=6e-7 * u.m**2 * u.s**-1,
+    E_D=51 * u.kJ * u.mol**-1,
+    range=(u.Quantity(400, u.degC), u.Quantity(500, u.degC)),
+    isotope="d",
+    source="houben_comparison_2019",
+)
+
+houben_permeability_2019 = Permeability(
+    pre_exp=8e-7 * u.mol * u.m**-1 * u.ms**-1 * u.mbar**-0.5,
+    act_energy=58 * u.kJ * u.mol**-1,
+    range=(u.Quantity(300, u.degC), u.Quantity(550, u.degC)),
+    isotope="d",
+    source="houben_comparison_2019",
+)
+
+houben_permeability_2019_rough = Permeability(
+    pre_exp=7e-7 * u.mol * u.m**-1 * u.ms**-1 * u.mbar**-0.5,
+    act_energy=63 * u.kJ * u.mol**-1,
+    range=(u.Quantity(300, u.degC), u.Quantity(550, u.degC)),
+    isotope="d",
+    source="houben_comparison_2019",
+    note="rough",
+)
+
+houben_solubility_2019 = Solubility(
+    S_0=1 * u.mol * u.m**-3 * u.mbar**-0.5,
+    E_S=7 * u.kJ * u.mol**-1,
+    range=(u.Quantity(400, u.degC), u.Quantity(500, u.degC)),
+    isotope="d",
+    source="houben_comparison_2019",
+)
+
 
 kishimoto_permeability = Permeability(
     pre_exp=7.1e3 * u.ccNTP * u.mm * u.cm**-2 * u.h**-1 * u.MPa**-0.5,
@@ -358,7 +443,11 @@ penzhorn_diffusivity_2 = Diffusivity(
 properties = [
     reiter_diffusivity,
     reiter_solubility,
-    houben_permeability,
+    houben_permeability_2022,
+    houben_diffusivity_2019,
+    houben_solubility_2019,
+    houben_permeability_2019,
+    houben_permeability_2019_rough,
     kishimoto_permeability,
     kishimoto_diffusivity,
     kishimoto_solubility,
