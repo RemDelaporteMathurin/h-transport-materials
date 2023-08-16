@@ -109,8 +109,10 @@ class Carbon(PureMetal, PlasmaFacing):
 class MoltenSalt(Material):
     family = "molten salt"
 
+
 class FeCrAl(Steel):
     family = "fecral"
+
 
 TUNGSTEN = Tungsten()
 BERYLLIUM = Beryllium()
@@ -146,6 +148,7 @@ LIPB = Alloy("lipb")
 LITHIUM = PureMetal("lithium", "Li")
 PDAG = Alloy("pdag")
 ZIRCONIUM = PureMetal("zirconium", "Zr")
+YTTRIUM = PureMetal("yttrium", "Y")
 
 ALUMINA = Compound("alumina")
 EUROFER = Steel("eurofer_97")

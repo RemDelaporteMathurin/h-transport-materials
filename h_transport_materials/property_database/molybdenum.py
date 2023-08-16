@@ -32,6 +32,7 @@ katsuta_solubility = Solubility(
     S_0=np.exp(8.703) * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=7.863e3 * u.K * htm.k_B,
     isotope="H",
+    range=(833 * u.K, 1193 * u.K),
     source="katsuta_diffusivity_1982",
 )
 

@@ -21,24 +21,16 @@ veleckis_solubility = Solubility(
     source="veleckis_thermodynamic_1969",
 )
 
-schober_diffusivity = Diffusivity(
+qi_diffusivity = Diffusivity(
     D_0=5.6e-8 * u.m**2 * u.s**-1,
     E_D=9.1 * u.kJ * u.mol**-1,
     range=(
         u.Quantity(-150, u.degC),
         u.Quantity(200, u.degC),
     ),
-    source="schober_h_1990",
+    source="qi_tritium_1983",
     isotope="H",
-    note="found in Assessment of Database for Interaction of Tritium with ITER Plasma Facing Materials",
 )  # TODO get data from experimental points, see issue #64
-
-reiter_solubility = Solubility(
-    S_0=2.1e-6 / VANADIUM_MOLAR_VOLUME * u.mol * u.m**-3 * u.Pa**-0.5,
-    E_S=-32.2 * u.kJ * u.mol**-1,
-    source="reiter_compilation_1996",
-    isotope="H",
-)
 
 malo_permeability = Permeability(
     pre_exp=1.27e-04 * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5,
@@ -54,8 +46,7 @@ malo_permeability = Permeability(
 properties = [
     volk_diffusivity,
     veleckis_solubility,
-    schober_diffusivity,
-    reiter_solubility,
+    qi_diffusivity,
     malo_permeability,
 ]
 
