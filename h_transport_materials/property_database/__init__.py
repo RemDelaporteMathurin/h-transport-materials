@@ -65,4 +65,6 @@ from . import vanadium_alloy
 
 from . import FeCrAl
 
+from . import yttrium
+
 from . import tzm

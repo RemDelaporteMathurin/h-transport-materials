@@ -14,13 +14,6 @@ kearns_diffusivity = Diffusivity(
     source="kearns_diffusion_1972",
 )
 
-hsu_diffusivity = Diffusivity(
-    D_0=2.7e-8 * u.m**2 * u.s**-1,
-    E_D=24.9 * u.kJ * u.mol**-1,
-    isotope="T",
-    source="hsu_palladium-catalyzed_1986",
-)
-
 kearns_solubility = Solubility(
     S_0=4.30e-1 * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=-49.5 * u.kJ * u.mol**-1,
@@ -49,7 +42,6 @@ yamanaka_solubility = Solubility(
 
 properties = [
     kearns_diffusivity,
-    hsu_diffusivity,
     kearns_solubility,
     yamanaka_solubility,
 ]

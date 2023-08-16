@@ -37,8 +37,10 @@ jones_diffusivity = Diffusivity(
 dolan_recombination = RecombinationCoeff(
     pre_exp=1.46e-29 * u.m**4 * u.s**-1 * u.particle**-1,
     act_energy=0.214 * u.eV * u.particle**-1,
+    range=(333 * u.K, 800 * u.K),
     source="dolan_assessment_1994",
     isotope="H",
+    note="Comes from a review (p. 14). The data from Hsu 1990 https://doi.org/10.1016/0022-3115(90)90049-S (range taking from them) seems to have been used by the PERI code to extract D/2kr then using D from another source Dolan obtained Kr.",
 )
 
 
