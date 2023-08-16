@@ -368,6 +368,25 @@ okada_solubility_d = Solubility(
     source="okada_analysis_2012",
 )
 
+
+data_okuno = htm.structure_data_from_wpd("okuno_1986/data.csv")
+
+okuno_diffusivity_li7pb2 = Diffusivity(
+    data_T=1000 / (data_okuno["li7pb2"]["x"] * u.K**-1),
+    data_y=data_okuno["li7pb2"]["y"] * u.cm**2 * u.s**-1,
+    isotope="T",
+    note="Li7Pb2",
+    source="okuno_thermal_1986",
+)
+
+okuno_diffusivity_li45pb55 = Diffusivity(
+    data_T=1000 / (data_okuno["li45pb55"]["x"] * u.K**-1),
+    data_y=data_okuno["li45pb55"]["y"] * u.cm**2 * u.s**-1,
+    isotope="T",
+    note="Li45Pb55",
+    source="okuno_thermal_1986",
+)
+
 properties = [
     fauvet_diffusivity,
     reiter_diffusivity_h,
@@ -400,6 +419,8 @@ properties = [
     okada_diffusivity_d,
     okada_solubility_h,
     okada_solubility_d,
+    okuno_diffusivity_li7pb2,
+    okuno_diffusivity_li45pb55,
 ]
 
 for prop in properties:
