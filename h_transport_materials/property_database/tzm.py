@@ -66,7 +66,7 @@ forcey_solubility_d = Solubility(
 
 tominetti_solubility_d = Solubility(
     S_0=3.58e-4 * u.mol * u.m**-3 * u.Pa**-0.5,
-    E_S=16.9 * u.kJ * u.mol**-1,
+    E_S=-16.9 * u.kJ * u.mol**-1,
     range=(673 * u.K, 873 * u.K),
     isotope="D",
     source="tominetti_solubility_1990",
