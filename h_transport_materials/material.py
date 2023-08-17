@@ -160,3 +160,5 @@ THERMACORE = FeCrAl("thermacore")
 THERMACORE_OXIDIZED = FeCrAl("thermacore_oxidized")
 FE22CR5AL = FeCrAl("fe22cr5al")
 OXIDIZED_1605 = FeCrAl("oxidized_1605")
+
+TZM = Alloy("tzm")
