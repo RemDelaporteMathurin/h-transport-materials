@@ -113,6 +113,8 @@ class MoltenSalt(Material):
 class FeCrAl(Steel):
     family = "fecral"
 
+class PalladiumAlloy(Alloy):
+    family = "palladium alloy"
 
 TUNGSTEN = Tungsten()
 BERYLLIUM = Beryllium()
@@ -162,3 +164,6 @@ FE22CR5AL = FeCrAl("fe22cr5al")
 OXIDIZED_1605 = FeCrAl("oxidized_1605")
 
 TZM = Alloy("tzm")
+
+PD25AG = PalladiumAlloy("pd25ag")
+PD52CU = PalladiumAlloy("pd52cu")

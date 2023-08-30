@@ -1,5 +1,5 @@
 import h_transport_materials as htm
-from h_transport_materials import Diffusivity, Solubility
+from h_transport_materials import Diffusivity, Solubility, RecombinationCoeff
 import numpy as np
 
 u = htm.ureg
@@ -472,6 +472,14 @@ diffusivity_powell_d = Diffusivity(
     source="powell_surface_1991",
 )
 
+takagi_recombination_h = RecombinationCoeff(
+    pre_exp=1.5e-27 * 6.022e23 * u.m**4 * u.s**-1 * u.mol**-1,  #convert to mols
+    act_energy=0.48 * 6.022e23 * u.eV * u.mol**-1, #convert to mols
+    range=(280 * u.K, 568 * u.K),
+    isotope="H",
+    source="takagi_asymmetric_2003",
+    note="Equation 6",
+)
 
 properties = [
     volkl_diffusivity,
@@ -481,6 +489,7 @@ properties = [
     solubility_powell_d,
     diffusivity_powell_h,
     diffusivity_powell_d,
+    takagi_recombination_h,
 ]
 
 for prop in properties:
