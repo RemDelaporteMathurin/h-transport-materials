@@ -69,5 +69,4 @@ from . import yttrium
 
 from . import tzm
 
-from . import palladium_silver
 from . import palladium_copper
