@@ -148,7 +148,7 @@ FLIBE = MoltenSalt("flibe")
 FLINAK = MoltenSalt("flinak")
 LIPB = Alloy("lipb")
 LITHIUM = PureMetal("lithium", "Li")
-PDAG = Alloy("pdag")
+PDAG = PalladiumAlloy("pdag")
 ZIRCONIUM = PureMetal("zirconium", "Zr")
 YTTRIUM = PureMetal("yttrium", "Y")
 
@@ -165,5 +165,4 @@ OXIDIZED_1605 = FeCrAl("oxidized_1605")
 
 TZM = Alloy("tzm")
 
-PD25AG = PalladiumAlloy("pd25ag")
 PD52CU = PalladiumAlloy("pd52cu")

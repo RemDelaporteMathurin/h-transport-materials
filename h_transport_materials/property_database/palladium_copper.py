@@ -42,10 +42,10 @@ li_permeability_h = Permeability(
 piper_diffusivity_h = Diffusivity(
     D_0=3e-3 * u.cm**2 * u.s**-1,
     E_D=2400 * u.cal * u.mol**-1,
-    range=((50 + 273.15) * u.K, (600 + 273.15) * u.K),
+    range=(u.Quantity(50, u.degC), u.Quantity(600, u.degC)),
     isotope="H",
     source="piper_diffusion_2004",
-    note="Equation 6 - this Arrhenius fit holds for when the alloy is in the beta phase",
+    note="Equation 6 - this Arrhenius fit holds for when the alloy is in the beta phase for 52.5 percent copper",
 )
 
 properties = [

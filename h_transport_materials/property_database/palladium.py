@@ -472,10 +472,10 @@ diffusivity_powell_d = Diffusivity(
     source="powell_surface_1991",
 )
 
-takagi_recombination_h = RecombinationCoeff(
+takagi_recombination_d = RecombinationCoeff(
     pre_exp=1.5e-27 * u.m**4 * u.s**-1 * u.particle**-1,
     act_energy=0.48 * u.eV * u.particle**-1,
-    range=(280 * u.K, 568 * u.K),
+    range=(398 * u.K, 571 * u.K),
     isotope="D",
     source="takagi_asymmetric_2003",
     note="Equation 6",
@@ -489,7 +489,7 @@ properties = [
     solubility_powell_d,
     diffusivity_powell_h,
     diffusivity_powell_d,
-    takagi_recombination_h,
+    takagi_recombination_d,
 ]
 
 for prop in properties:
