@@ -113,6 +113,8 @@ class MoltenSalt(Material):
 class FeCrAl(Steel):
     family = "fecral"
 
+class PalladiumAlloy(Alloy):
+    family = "palladium alloy"
 
 TUNGSTEN = Tungsten()
 BERYLLIUM = Beryllium()
@@ -146,7 +148,7 @@ FLIBE = MoltenSalt("flibe")
 FLINAK = MoltenSalt("flinak")
 LIPB = Alloy("lipb")
 LITHIUM = PureMetal("lithium", "Li")
-PDAG = Alloy("pdag")
+PDAG = PalladiumAlloy("pdag")
 ZIRCONIUM = PureMetal("zirconium", "Zr")
 YTTRIUM = PureMetal("yttrium", "Y")
 
@@ -162,3 +164,5 @@ FE22CR5AL = FeCrAl("fe22cr5al")
 OXIDIZED_1605 = FeCrAl("oxidized_1605")
 
 TZM = Alloy("tzm")
+
+PD52CU = PalladiumAlloy("pd52cu")
