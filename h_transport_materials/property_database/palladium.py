@@ -476,7 +476,7 @@ takagi_recombination_h = RecombinationCoeff(
     pre_exp=1.5e-27 * u.m**4 * u.s**-1 * u.particle**-1,
     act_energy=0.48 * u.eV * u.particle**-1,
     range=(280 * u.K, 568 * u.K),
-    isotope="H",
+    isotope="D",
     source="takagi_asymmetric_2003",
     note="Equation 6",
 )
