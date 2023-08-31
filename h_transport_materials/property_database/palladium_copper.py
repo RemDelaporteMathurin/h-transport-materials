@@ -14,7 +14,7 @@ li_data_T = np.array(
         400,
         425,
     ]
-)  # in degC
+) * u.degC
 
 li_data_y = (
     np.array(
