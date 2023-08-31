@@ -32,7 +32,7 @@ li_data_y = (
 )
 
 li_permeability_h = Permeability(
-    data_T=li_data_T * u.degC,
+    data_T=li_data_T,
     data_y=li_data_y,
     source="li_low_2023",
     isotope="H",
