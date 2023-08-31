@@ -45,7 +45,7 @@ piper_diffusivity_h = Diffusivity(
     range=(u.Quantity(50, u.degC), u.Quantity(600, u.degC)),
     isotope="H",
     source="piper_diffusion_2004",
-    note="Equation 6 - this Arrhenius fit holds for when the alloy is in the beta phase for 52.5 percent copper",
+    note="Equation 6 - this Arrhenius fit holds for when the alloy is in the beta phase for 52.5 percent copper. These range values were found outside of the paper.",
 )
 
 properties = [
