@@ -473,8 +473,8 @@ diffusivity_powell_d = Diffusivity(
 )
 
 takagi_recombination_h = RecombinationCoeff(
-    pre_exp=1.5e-27 * 6.022e23 * u.m**4 * u.s**-1 * u.mol**-1,  #convert to mols
-    act_energy=0.48 * 6.022e23 * u.eV * u.mol**-1, #convert to mols
+    pre_exp=1.5e-27 * u.m**4 * u.s**-1 * u.particle**-1,
+    act_energy=0.48 * u.eV * u.particle**-1,
     range=(280 * u.K, 568 * u.K),
     isotope="H",
     source="takagi_asymmetric_2003",
