@@ -24,7 +24,7 @@ qi_diffusivity_h_low_temp = Diffusivity(
     D_0=0.028 * u.cm**2 * u.s**-1,
     E_D=0.042 * u.eV * u.particle**-1,
     range=(
-        u.Quantity(-140, u.degC),
+        u.Quantity(-180, u.degC),
         250 * u.K,
     ),
     source="qi_tritium_1983",
