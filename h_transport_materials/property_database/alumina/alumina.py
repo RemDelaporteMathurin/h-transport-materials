@@ -4,7 +4,6 @@ from h_transport_materials import (
     Solubility,
     Permeability,
 )
-from pathlib import Path
 import numpy as np
 
 u = htm.ureg
