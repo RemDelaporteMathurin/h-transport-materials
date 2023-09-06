@@ -4,9 +4,6 @@ import numpy as np
 
 u = htm.ureg
 
-PALLADIUM_MOLAR_VOLUME = (
-    8.85e-6 * u.m**3 * u.mol**-1
-)  # m3/mol  https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/palladium
 PALLADIUM_VOLUMIC_DENSITY = (
     8.32e-8
     * u.m**3
