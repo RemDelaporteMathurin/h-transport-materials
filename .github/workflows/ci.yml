@@ -62,11 +62,11 @@ jobs:
         run: pip install vulture
 
       - name: Check for unused variables
-        run: vulture h_transport_materials\property_database\
+        run: vulture h_transport_materials/property_database
 
       - name: Check vulture output
         run: |
-          if [ -n "$(vulture h_transport_materials\property_database\ )" ]; then
+          if [ -n "$(vulture h_transport_materials/property_database )" ]; then
             echo "unused variable"
             exit 1
           fi
