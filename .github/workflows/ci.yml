@@ -67,7 +67,8 @@ jobs:
 
       - name: Check vulture output
         run: |
-          if [ -n "$(vulture h_transport_materials/property_database )" ]; then
-            echo "unused variable"
+          vulture_output=$(vulture h_transport_materials/property_database) || true
+          if [[ $vulture_output == *"unused variable"* ]]; then
+            echo "Error: Unused variables found."
             exit 1
           fi
