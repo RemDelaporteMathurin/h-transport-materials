@@ -61,8 +61,8 @@ jobs:
       - name: Install vulture
         run: pip install vulture
 
-      - name: Check for unused variables
-        run: vulture h_transport_materials/property_database
+      # - name: Check for unused variables
+      #   run: vulture h_transport_materials/property_database
 
       - name: Check vulture output
         run: |
