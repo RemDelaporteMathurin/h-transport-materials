@@ -19,7 +19,7 @@ qi_diffusivity_t = Diffusivity(
         u.Quantity(100, u.degC),
     ),
     source="qi_tritium_1983",
-    note="table 1",
+    note="table 1, temperature range from Fig 1",
     isotope="T",
 )
 
@@ -31,7 +31,7 @@ qi_diffusivity_d = Diffusivity(
         u.Quantity(100, u.degC),
     ),
     source="qi_tritium_1983",
-    note="table 1",
+    note="table 1, temperature range from Fig 1",
     isotope="D",
 )
 
@@ -43,7 +43,7 @@ qi_diffusivity_h_high_temp = Diffusivity(
         u.Quantity(100, u.degC),
     ),
     source="qi_tritium_1983",
-    note="table 1",
+    note="table 1, temperature range from Fig 1",
     isotope="H",
 )
 
@@ -55,7 +55,7 @@ qi_diffusivity_h_low_temp = Diffusivity(
         250 * u.K,
     ),
     source="qi_tritium_1983",
-    note="table 1",
+    note="table 1, temperature range from Fig 1",
     isotope="H",
 )
 
