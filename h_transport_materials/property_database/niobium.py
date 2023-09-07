@@ -3,8 +3,6 @@ from h_transport_materials import Diffusivity, Solubility
 
 u = htm.ureg
 
-NIOBIUM_MOLAR_VOLUME = 1.08e-8  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/niobium
-
 volkl_diffusivity = Diffusivity(
     D_0=5.00e-8 * u.m**2 * u.s**-1,
     E_D=10.2 * u.kJ * u.mol**-1,
