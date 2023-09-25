@@ -19,15 +19,40 @@ veleckis_solubility = Solubility(
     source="veleckis_thermodynamic_1969",
 )
 
-qi_diffusivity = Diffusivity(
-    D_0=5.6e-8 * u.m**2 * u.s**-1,
-    E_D=9.1 * u.kJ * u.mol**-1,
+qi_diffusivity_h = Diffusivity(
+    D_0=3.1e-4 * u.cm**2 * u.s**-1,
+    E_D=0.045 * u.eV * u.particle**-1,
     range=(
-        u.Quantity(-150, u.degC),
+        u.Quantity(-130, u.degC),
         u.Quantity(200, u.degC),
     ),
     source="qi_tritium_1983",
+    note="table 1, temperature range from Fig 1",
     isotope="H",
+)
+
+qi_diffusivity_d = Diffusivity(
+    D_0=3.8e-4 * u.cm**2 * u.s**-1,
+    E_D=0.073 * u.eV * u.particle**-1,
+    range=(
+        u.Quantity(-130, u.degC),
+        u.Quantity(200, u.degC),
+    ),
+    source="qi_tritium_1983",
+    note="table 1, temperature range from Fig 1",
+    isotope="D",
+)
+
+qi_diffusivity_t = Diffusivity(
+    D_0=5.6e-4 * u.cm**2 * u.s**-1,
+    E_D=0.094 * u.eV * u.particle**-1,
+    range=(
+        u.Quantity(-130, u.degC),
+        u.Quantity(200, u.degC),
+    ),
+    source="qi_tritium_1983",
+    note="table 1, temperature range from Fig 1",
+    isotope="T",
 )  # TODO get data from experimental points, see issue #64
 
 malo_permeability = Permeability(
@@ -44,7 +69,9 @@ malo_permeability = Permeability(
 properties = [
     volk_diffusivity,
     veleckis_solubility,
-    qi_diffusivity,
+    qi_diffusivity_h,
+    qi_diffusivity_d,
+    qi_diffusivity_t,
     malo_permeability,
 ]
 
