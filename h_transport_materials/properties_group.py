@@ -130,17 +130,22 @@ class PropertiesGroup(list):
         with open(filename, "w") as outfile:
             json.dump(data, outfile, indent=4)
 
-    def to_latex_table(self):  # TODO make siunitx optional
+    def to_latex_table(self):
+        # TODO expose the columns to the users
+        # TODO make siunitx optional
         """Exports to simple latex table. Requires to load the siunitx package"""
         begin_center = r"\begin{center}"
         begin_tabular = r"\begin{tabular}{ c c c c}"
         end_tabular = r"\end{tabular}"
         end_center = r"\end{center}"
 
-        # TODO expose the columns to the users
+        if self.units == "mixed units":
+            raise ValueError(
+                "Can't export to latex table on mixed units groups. Export several tables instead."
+            )
         num = r"\num"
         header = f"""
-                Material & pre-exp. factor {self.units:~Lx} & Act. energy {self[0].act_energy.units:~Lx}& Reference \\\\"""
+                Material & pre-exp. factor ({self.units:~Lx}) & Act. energy ({self[0].act_energy.units:~Lx}) & Reference \\\\"""
         core = [header]
         for prop in self:
             core.append(
