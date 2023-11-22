@@ -138,14 +138,14 @@ class PropertiesGroup(list):
         end_center = r"\end{center}"
 
         # TODO expose the columns to the users
-
+        num = r"\num"
         header = f"""
-                Material & pre-exp. factor & Act. energy & Reference \\\\"""
+                Material & pre-exp. factor {self.units:~Lx} & Act. energy {self[0].act_energy.units:~Lx}& Reference \\\\"""
         core = [header]
         for prop in self:
             core.append(
                 f"""
-                {prop.material} & ${prop.pre_exp:.2e~L}$ & {prop.act_energy:.2f~P} & \cite{{{prop.source}}} \\\\"""
+                {prop.material} & {num}{{{prop.pre_exp.magnitude:.2e}}} & {prop.act_energy.magnitude:.2f} & \cite{{{prop.source}}} \\\\"""
             )
 
         latex_table = f"""
