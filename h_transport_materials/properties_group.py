@@ -130,8 +130,8 @@ class PropertiesGroup(list):
         with open(filename, "w") as outfile:
             json.dump(data, outfile, indent=4)
 
-    def to_latex_table(self):
-        """Exports to simple latex table"""
+    def to_latex_table(self):  # TODO make siunitx optional
+        """Exports to simple latex table. Requires to load the siunitx package"""
         begin_center = r"\begin{center}"
         begin_tabular = r"\begin{tabular}{ c c c c}"
         end_tabular = r"\end{tabular}"
