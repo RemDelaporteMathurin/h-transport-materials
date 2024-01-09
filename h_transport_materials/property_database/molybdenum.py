@@ -49,6 +49,8 @@ frauenfelder_permeability = Permeability(
     source="frauenfelder_permeation_1968",
 )
 
+guthrie_p_0 = 3.8e-3 * u.ccSTP * u.cm**-1 * u.s**-1 * u.atm**-0.5
+
 properties = [
     tanabe_diffusivity,
     katsuta_diffusivity,
