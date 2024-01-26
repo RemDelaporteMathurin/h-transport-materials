@@ -67,6 +67,7 @@ properties = [
     tanabe_solubility,
     katsuta_solubility,
     frauenfelder_permeability,
+    guthrie_permeability
 ]
 
 for prop in properties:
