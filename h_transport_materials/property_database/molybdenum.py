@@ -59,6 +59,7 @@ guthrie_permeability = Permeability(
         u.Quantity(640, u.degC),
     ),
     source="guthrie_permeation_1974",
+    note="Figure 7",
 )
 
 properties = [
