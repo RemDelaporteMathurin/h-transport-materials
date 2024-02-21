@@ -49,9 +49,8 @@ frauenfelder_permeability = Permeability(
     source="frauenfelder_permeation_1968",
 )
 
-guthrie_p_0 = 3.8e-3 * u.ccSTP * u.cm**-1 * u.s**-1 * u.atm**-0.5
 guthrie_permeability = Permeability(
-    pre_exp=guthrie_p_0,
+    pre_exp=3.8e-3 * u.ccSTP * u.cm**-1 * u.s**-1 * u.atm**-0.5,
     act_energy=17.4 * u.kcal * u.mol**-1,
     isotope="D",
     range=(
