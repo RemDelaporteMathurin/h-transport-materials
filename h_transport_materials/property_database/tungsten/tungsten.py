@@ -457,6 +457,15 @@ ikeda_diffusivity = Diffusivity(
     isotope="T",
 )
 
+shimada_permeability = Permeability(
+    pre_exp=2.13e-9 * u.mol * u.m**-1 * u.Pa**-0.5 * u.s**-1,
+    act_energy=93.32 * u.kJ * u.mol**-1,
+    isotope="T",
+    range=(573 * u.K, 873 * u.K),
+    note="polycristalline tungsten, pressure range 5.8e-2-6.8e-2 Pa, details in table 1",
+    source="shimada_tritium_2018"
+)
+
 properties = [
     frauenfelder_diffusivity,
     liu_diffusivity_tungsten,
@@ -500,6 +509,7 @@ properties = [
     bauchenaeur_permeability_ufg,
     otsuka_diffusivity,
     ikeda_diffusivity,
+    shimada_permeability,
 ]
 
 for prop in properties:
