@@ -66,9 +66,7 @@ johnson_diffusivity_tungsten_t = Diffusivity(
 
 moore_diffusivity_tungsten_h = Diffusivity(
     data_T=[1783.0, 1890.0, 1960.0, 2045.0, 2175.0] * u.K,
-    data_y=np.array([6.45e-9, 1.26e-8, 1.81e-8, 3.01e-8, 5.15e-8])
-    * u.cm**2
-    * u.s**-1,
+    data_y=np.array([6.45e-9, 1.26e-8, 1.81e-8, 3.01e-8, 5.15e-8]) * u.cm**2 * u.s**-1,
     source="moore_thermal_2004",
     isotope="H",
     note="data in table IV. Units are not given but on page 2651 the equation indiquates that D is in cm2/s",
@@ -77,9 +75,7 @@ moore_diffusivity_tungsten_h = Diffusivity(
 
 zakharov_diffusivity_tungsten_h = Diffusivity(
     data_T=u.Quantity(np.array([400, 600, 800, 1000, 1200]), u.degC),
-    data_y=np.array([6.43e-8, 4.22e-6, 5.99e-5, 3.67e-4, 1.38e-3])
-    * u.cm**2
-    * u.s**-1,
+    data_y=np.array([6.43e-8, 4.22e-6, 5.99e-5, 3.67e-4, 1.38e-3]) * u.cm**2 * u.s**-1,
     source="zakharov_hydrogen_1975",
     isotope="H",
     note="the author gives activation energies in cal",
@@ -274,11 +270,7 @@ liu_permeability_rolled_50um = Permeability(
 
 rolled_114um_data_invT = liu_permeability_data["rolled_114umX"] * u.K**-1
 rolled_114um_data_y = (
-    liu_permeability_data["rolled_114umY"]
-    * u.mol
-    * u.m**-1
-    * u.s**-1
-    * u.Pa**-0.5
+    liu_permeability_data["rolled_114umY"] * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5
 )
 liu_permeability_rolled_114um = Permeability(
     data_T=1 / rolled_114um_data_invT,
@@ -290,11 +282,7 @@ liu_permeability_rolled_114um = Permeability(
 
 rolled_240um_data_invT = liu_permeability_data["rolled_240umX"] * u.K**-1
 rolled_240um_data_y = (
-    liu_permeability_data["rolled_240umY"]
-    * u.mol
-    * u.m**-1
-    * u.s**-1
-    * u.Pa**-0.5
+    liu_permeability_data["rolled_240umY"] * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5
 )
 liu_permeability_rolled_240um = Permeability(
     data_T=1 / rolled_240um_data_invT,
@@ -306,11 +294,7 @@ liu_permeability_rolled_240um = Permeability(
 
 annealed_50um_data_invT = liu_permeability_data["annealed_50umX"] * u.K**-1
 annealed_50um_data_y = (
-    liu_permeability_data["annealed_50umY"]
-    * u.mol
-    * u.m**-1
-    * u.s**-1
-    * u.Pa**-0.5
+    liu_permeability_data["annealed_50umY"] * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5
 )
 liu_permeability_annealed_50um = Permeability(
     data_T=1 / annealed_50um_data_invT,
@@ -322,11 +306,7 @@ liu_permeability_annealed_50um = Permeability(
 
 annealed_250um_data_invT = liu_permeability_data["annealed_250umX"] * u.K**-1
 annealed_250um_data_y = (
-    liu_permeability_data["annealed_250umY"]
-    * u.mol
-    * u.m**-1
-    * u.s**-1
-    * u.Pa**-0.5
+    liu_permeability_data["annealed_250umY"] * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5
 )
 liu_permeability_annealed_250um = Permeability(
     data_T=1 / annealed_250um_data_invT,
@@ -396,9 +376,7 @@ liu_diffusivity_annealed_250um = Diffusivity(
 )
 
 
-recrystallized_250um_data_invT = (
-    liu_diffusivity_data["recrystallized_250umX"] * u.K**-1
-)
+recrystallized_250um_data_invT = liu_diffusivity_data["recrystallized_250umX"] * u.K**-1
 recrystallized_250um_data_y = (
     liu_diffusivity_data["recrystallized_250umY"] * u.m**2 * u.s**-1
 )
@@ -421,11 +399,7 @@ bauchenaeur_permeability_foil = Permeability(
 
 bauchenaeur_permeability_iter_grade = Permeability(
     data_T=1000 / (buchenauer_data["ITER_grade"]["x"] * u.K**-1),
-    data_y=buchenauer_data["ITER_grade"]["y"]
-    * u.mol
-    * u.m**-1
-    * u.s**-1
-    * u.MPa**-0.5,
+    data_y=buchenauer_data["ITER_grade"]["y"] * u.mol * u.m**-1 * u.s**-1 * u.MPa**-0.5,
     source="buchenauer_permeation_2016",
     isotope="D",
     note="ITER grade Tungsten",
@@ -463,7 +437,7 @@ shimada_permeability = Permeability(
     isotope="T",
     range=(573 * u.K, 873 * u.K),
     note="polycristalline tungsten, pressure range 5.8e-2-6.8e-2 Pa, details in table 1",
-    source="shimada_tritium_2018"
+    source="shimada_tritium_2019",
 )
 
 properties = [
