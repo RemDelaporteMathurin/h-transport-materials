@@ -87,7 +87,7 @@ sherman_diffusivity_d = Diffusivity(
         u.Quantity(1012, u.degC),
     ),
     source="sherman_hydrogen_1983",
-    note="equation after 15, range taken from figure 9",
+    note="equation after 14, range taken from figure 9",
     isotope="D",
 )
 
