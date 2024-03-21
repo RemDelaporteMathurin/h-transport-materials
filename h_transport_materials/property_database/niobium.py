@@ -67,6 +67,30 @@ veleckis_solubility = Solubility(
     isotope="H",
 )
 
+sherman_diffusivity_h = Diffusivity(
+    D_0=4.4e-8 * u.m**2 * u.s**-1,
+    E_D=12.8 * u.kJ * u.mol**-1,
+    range=(
+        u.Quantity(860, u.degC),
+        u.Quantity(1120, u.degC),
+    ),
+    source="sherman_hydrogen_1983",
+    note="equation 13, range taken from figure 9",
+    isotope="H",
+)
+
+sherman_diffusivity_d = Diffusivity(
+    D_0=3.1e-8 * u.m**2 * u.s**-1,
+    E_D=14.0 * u.kJ * u.mol**-1,
+    range=(
+        u.Quantity(860, u.degC),
+        u.Quantity(1012, u.degC),
+    ),
+    source="sherman_hydrogen_1983",
+    note="equation after 15, range taken from figure 9",
+    isotope="D",
+)
+
 properties = [
     volkl_diffusivity,
     qi_diffusivity_t,
@@ -74,6 +98,8 @@ properties = [
     qi_diffusivity_h_low_temp,
     qi_diffusivity_h_high_temp,
     veleckis_solubility,
+    sherman_diffusivity_h,
+    sherman_diffusivity_d,
 ]
 
 for prop in properties:
