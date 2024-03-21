@@ -36,6 +36,24 @@ tahara_diffusivity_D = Diffusivity(
     source="tahara_measurements_1985",
 )
 
+tahara_permeability_h = Permeability(
+    pre_exp=1.77e-5 * u.mol * u.m**-1 * u.s**-1 * u.MPa**-0.5,
+    act_energy=31.6 * u.kJ * u.mol**-1,
+    isotope="H",
+    range=(500 * u.K, 1000 * u.K),
+    source="tahara_measurements_1985",
+    note="equation 4",
+)
+
+tahara_permeability_d = Permeability(
+    pre_exp=1.05e-5 * u.mol * u.m**-1 * u.s**-1 * u.MPa**-0.5,
+    act_energy=32.4 * u.kJ * u.mol**-1,
+    isotope="D",
+    range=(500 * u.K, 1000 * u.K),
+    source="tahara_measurements_1985",
+    note="equation 5",
+)
+
 eichenauer_solubility = Solubility(
     S_0=4.90e-6 / IRON_MOLAR_VOLUME * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=24.3 * u.kJ * u.mol**-1,
@@ -110,6 +128,8 @@ properties = [
     volkl_diffusivity,
     tahara_diffusivity_H,
     tahara_diffusivity_D,
+    tahara_permeability_h,
+    tahara_permeability_d,
     eichenauer_solubility,
     nagasaki_recombination_alpha,
     nagasaki_recombination_gamma,
