@@ -9,19 +9,22 @@ import numpy as np
 
 u = htm.ureg
 
-frauenfelder_src = "frauenfelder_solution_1969"
 frauenfelder_diffusivity = Diffusivity(
-    D_0=4.1e-7 * u.m**2 * u.s**-1,
-    E_D=0.39 * u.eV * u.particle**-1,
+    D_0=4.1e-3 * u.cm**2 * u.s**-1,
+    E_D=9000 * u.cal * u.mol**-1,
     range=(1100 * u.K, 2400 * u.K),
-    source=frauenfelder_src,
+    source="frauenfelder_solution_1969",
     isotope="H",
 )
+
+S_0 = 2.9e-1 * u.torr * u.liter * u.cm**-3 * u.torr**-0.5
+T_ref = 273 * u.K
+S_0 = S_0 / (htm.Rg * T_ref)
 frauenfelder_solubility = Solubility(
-    S_0=1.87e24 * u.particle * u.m**-3 * u.Pa**-0.5,
-    E_S=1.04 * u.eV * u.particle**-1,
+    S_0=S_0,
+    E_S=24000 * u.cal * u.mol**-1,
     range=(1100 * u.K, 2400 * u.K),
-    source=frauenfelder_src,
+    source="frauenfelder_solution_1969",
     isotope="H",
 )
 
