@@ -175,14 +175,13 @@ anderl_recomb = RecombinationCoeff(
 )
 
 frauenfelder_p_0 = 1.5e-3 * u.torr * u.liter * u.cm**-1 * u.s**-1 * u.torr**-0.5
+T_ref = 273 * u.K
+frauenfelder_p_0 *= 1 / (htm.Rg * T_ref)
 frauenfelder_permeability = Permeability(
-    pre_exp=frauenfelder_p_0 / (htm.Rg * 300 * u.K),
+    pre_exp=frauenfelder_p_0,
     act_energy=31.5 * u.kcal * u.mol**-1,
     isotope="H",
-    range=(
-        u.Quantity(1050, u.degC),
-        u.Quantity(2400, u.degC),
-    ),
+    range=(1050 * u.K, 2400 * u.K),
     source="frauenfelder_permeation_1968",
 )
 
