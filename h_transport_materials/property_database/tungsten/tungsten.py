@@ -70,7 +70,7 @@ johnson_diffusivity_tungsten_t = Diffusivity(
 moore_diffusivity_tungsten_h = Diffusivity(
     data_T=[1783.0, 1890.0, 1960.0, 2045.0, 2175.0] * u.K,
     data_y=np.array([6.45e-9, 1.26e-8, 1.81e-8, 3.01e-8, 5.15e-8]) * u.cm**2 * u.s**-1,
-    source="moore_thermal_2004",
+    source="moore_thermal_1964",
     isotope="H",
     note="data in table IV. Units are not given but on page 2651 the equation indiquates that D is in cm2/s",
 )
