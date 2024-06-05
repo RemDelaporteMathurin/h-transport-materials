@@ -120,11 +120,11 @@ properties = [
     zhang_solubility_h,
     zhang_solubility_d,
     fuerst_permeability_h,
-	fuerst_permeability_d,
-	fuerst_solubility_h,
-	fuerst_solubility_d,
-	fuerst_diffusivity_h,
-	fuerst_diffusivity_d,
+    fuerst_permeability_d,
+    fuerst_solubility_h,
+    fuerst_solubility_d,
+    fuerst_diffusivity_h,
+    fuerst_diffusivity_d,
 ]
 
 for prop in properties:
