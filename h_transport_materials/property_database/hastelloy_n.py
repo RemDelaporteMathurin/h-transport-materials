@@ -68,6 +68,49 @@ zhang_solubility_d = Solubility(
     source="zhang_diffusion_2020",
 )
 
+fuerst_permeability_h = Permeability(
+    pre_exp=5.70e-7 * u.mol * u.m**-1 * u.Pa**-0.5 * u.s**-1,
+    act_energy=66.2 * u.kJ * u.mol**-1,
+    range=(u.Quantity(500, u.degC), u.Quantity(700, u.degC)),
+    isotope="H",
+    source="fuerst_hastelloyn_2024",
+)
+fuerst_permeability_d = Permeability(
+    pre_exp=2.40e-7 * u.mol * u.m**-1 * u.Pa**-0.5 * u.s**-1,
+    act_energy=62.3 * u.kJ * u.mol**-1,
+    range=(u.Quantity(500, u.degC), u.Quantity(700, u.degC)),
+    isotope="D",
+    source="fuerst_hastelloyn_2024",
+)
+fuerst_diffusivity_h = Diffusivity(
+    D_0=2.89e-6 * u.m**2 * u.s**-1,
+    E_D=55.9 * u.kJ * u.mol**-1,
+    range=(u.Quantity(500, u.degC), u.Quantity(700, u.degC)),
+    isotope="H",
+    source="fuerst_hastelloyn_2024",
+)
+fuerst_diffusivity_d = Diffusivity(
+    D_0=1.95e-6 * u.m**2 * u.s**-1,
+    E_D=54.7 * u.kJ * u.mol**-1,
+    range=(u.Quantity(500, u.degC), u.Quantity(700, u.degC)),
+    isotope="D",
+    source="fuerst_hastelloyn_2024",
+)
+fuerst_solubility_h = Solubility(
+    S_0=1.97e-1 * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=10.2 * u.kJ * u.mol**-1,
+    range=(u.Quantity(500, u.degC), u.Quantity(700, u.degC)),
+    isotope="H",
+    source="fuerst_hastelloyn_2024",
+)
+fuerst_solubility_d = Solubility(
+    S_0=1.23e-1 * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=7.50 * u.kJ * u.mol**-1,
+    range=(u.Quantity(500, u.degC), u.Quantity(700, u.degC)),
+    isotope="D",
+    source="fuerst_hastelloyn_2024",
+)
+
 properties = [
     webb_permeability,
     zhang_permeability_h,
@@ -76,6 +119,12 @@ properties = [
     zhang_diffusivity_d,
     zhang_solubility_h,
     zhang_solubility_d,
+    fuerst_permeability_h,
+    fuerst_permeability_d,
+    fuerst_solubility_h,
+    fuerst_solubility_d,
+    fuerst_diffusivity_h,
+    fuerst_diffusivity_d,
 ]
 
 for prop in properties:

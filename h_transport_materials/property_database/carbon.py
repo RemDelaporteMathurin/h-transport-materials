@@ -82,7 +82,7 @@ petucci_diffusivity_graphite = Diffusivity(
     data_y=data_y_petucci_graphite,
     source="petucci_diffusion_2013",
     isotope="H",
-    note="graphite MD data from table III",
+    note="H2 diffusion in graphite calculated by molecular dynamics. Data from table III",
 )
 
 
@@ -95,7 +95,7 @@ petucci_diffusivity_graphene = Diffusivity(
     data_y=data_y_petucci_graphene,
     source="petucci_diffusion_2013",
     isotope="H",
-    note="graphene MD data from table III",
+    note="H2 diffusion in graphene calculated by molecular dynamics. Data from table III",
 )
 
 import numpy as np

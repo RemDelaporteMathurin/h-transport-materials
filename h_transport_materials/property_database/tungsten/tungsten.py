@@ -442,6 +442,52 @@ shimada_permeability = Permeability(
     source="shimada_tritium_2019",
 )
 
+
+data_T_byeon = u.Quantity([650, 700, 750, 850], u.degC)
+data_y_byeon_diff_IG = [3.13e-11, 4.88e-11, 7.31e-11, 1.70e-10] * u.m**2 * u.s**-1
+
+byeon_diffusivity_IG = Diffusivity(
+    data_T=data_T_byeon,
+    data_y=data_y_byeon_diff_IG,
+    isotope="D",
+    source="byeon_deuterium_2021",
+    note="Table 2, ITER grade",
+)
+
+data_y_byeon_diff_CR = [1.38e-11, 2.79e-11, 4.76e-11, 1.24e-10] * u.m**2 * u.s**-1
+
+byeon_diffusivity_CR = Diffusivity(
+    data_T=data_T_byeon,
+    data_y=data_y_byeon_diff_CR,
+    isotope="D",
+    source="byeon_deuterium_2021",
+    note="Table 2 CR",
+)
+
+data_y_byeon_perm_IG = (
+    [7.12e-15, 1.77e-14, 4.08e-14, 2.12e-13] * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5
+)
+
+byeon_permeability_IG = Permeability(
+    data_T=data_T_byeon,
+    data_y=data_y_byeon_perm_IG,
+    isotope="D",
+    source="byeon_deuterium_2021",
+    note="Table 2, ITER grade",
+)
+
+data_y_byeon_perm_CR = (
+    [2.12e-14, 4.54e-14, 9.50e-14, 3.45e-13] * u.mol * u.m**-1 * u.s**-1 * u.Pa**-0.5
+)
+
+byeon_permeability_CR = Permeability(
+    data_T=data_T_byeon,
+    data_y=data_y_byeon_perm_CR,
+    isotope="D",
+    source="byeon_deuterium_2021",
+    note="Table 2 CR",
+)
+
 properties = [
     frauenfelder_diffusivity,
     liu_diffusivity_tungsten,
@@ -486,6 +532,10 @@ properties = [
     otsuka_diffusivity,
     ikeda_diffusivity,
     shimada_permeability,
+    byeon_diffusivity_IG,
+    byeon_diffusivity_CR,
+    byeon_permeability_IG,
+    byeon_permeability_CR,
 ]
 
 for prop in properties:
