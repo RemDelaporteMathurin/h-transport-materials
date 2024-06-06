@@ -34,7 +34,78 @@ atsumi_solubility = Solubility(
     isotope="H",
 )
 
-properties = [causey_diffusivity, atsumi_diffusivity, atsumi_solubility]
+data_T_petucci_graphite = [
+    90.0,
+    100.0,
+    110.0,
+    125.0,
+    150.0,
+    175.0,
+    200.0,
+    250.0,
+    300.0,
+    350.0,
+    400.0,
+    450.0,
+    500.0,
+    550.0,
+    600.0,
+    650.0,
+    700.0,
+] * u.K
+data_y_petucci_graphite = (
+    [
+        2.16,
+        2.97,
+        3.16,
+        3.56,
+        4.08,
+        6.10,
+        10.95,
+        16.96,
+        25.76,
+        33.61,
+        38.41,
+        43.77,
+        60.75,
+        69.45,
+        82.01,
+        86.16,
+        89.95,
+    ]
+    * u.angstrom**2
+    * u.ps**-1
+)
+
+petucci_diffusivity_graphite = Diffusivity(
+    data_T=data_T_petucci_graphite,
+    data_y=data_y_petucci_graphite,
+    source="petucci_diffusion_2013",
+    isotope="H",
+    note="H2 diffusion in graphite calculated by molecular dynamics. Data from table III",
+)
+
+
+data_T_petucci_graphene = [40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0] * u.K
+data_y_petucci_graphene = (
+    [175.71, 385.92, 490.17, 656.99, 789.03, 849.91, 1082.79] * u.angstrom**2 * u.ps**-1
+)
+petucci_diffusivity_graphene = Diffusivity(
+    data_T=data_T_petucci_graphene,
+    data_y=data_y_petucci_graphene,
+    source="petucci_diffusion_2013",
+    isotope="H",
+    note="H2 diffusion in graphene calculated by molecular dynamics. Data from table III",
+)
+
+
+properties = [
+    causey_diffusivity,
+    atsumi_diffusivity,
+    atsumi_solubility,
+    petucci_diffusivity_graphite,
+    petucci_diffusivity_graphene,
+]
 
 for prop in properties:
     prop.material = htm.CARBON
