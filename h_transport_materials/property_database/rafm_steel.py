@@ -222,6 +222,69 @@ kulsartov_solubility_d = htm.Solubility(
 )
 
 
+xu_permeability_h = htm.Permeability(
+    pre_exp=1.0e-9 * u.mol * u.cm**-1 * u.s**-1 * u.Pa**-0.5,
+    act_energy=0.46 * u.eV * u.particle**-1,
+    range=(u.Quantity(150, u.degC), u.Quantity(500, u.degC)),
+    isotope="H",
+    source="xu_bi-directional_2017",
+    note="Eq 2, F82H",
+)
+
+xu_permeability_d = htm.Permeability(
+    pre_exp=6.8e-10 * u.mol * u.cm**-1 * u.s**-1 * u.Pa**-0.5,
+    act_energy=0.46 * u.eV * u.particle**-1,
+    range=(u.Quantity(150, u.degC), u.Quantity(500, u.degC)),
+    isotope="D",
+    source="xu_bi-directional_2017",
+    note="Eq 3, F82H",
+)
+
+xu_diffusivity_h = htm.Diffusivity(
+    D_0=9.9e-4 * u.cm**2 * u.s**-1,
+    E_D=0.14 * u.eV * u.particle**-1,
+    range=(u.Quantity(250, u.degC), u.Quantity(500, u.degC)),
+    isotope="H",
+    source="xu_bi-directional_2017",
+    note="Eq 5, F82H, effective diffusivity",
+)
+
+xu_diffusivity_d = htm.Diffusivity(
+    D_0=7.2e-4 * u.cm**2 * u.s**-1,
+    E_D=0.14 * u.eV * u.particle**-1,
+    range=(u.Quantity(250, u.degC), u.Quantity(500, u.degC)),
+    isotope="D",
+    source="xu_bi-directional_2017",
+    note="Eq 6, F82H, effective diffusivity",
+)
+
+xu_solubility_h = htm.Solubility(
+    S_0=1.0e-6 * u.mol * u.cm**-3 * u.Pa**-0.5,
+    E_S=0.32 * u.eV * u.particle**-1,
+    range=(u.Quantity(250, u.degC), u.Quantity(500, u.degC)),
+    isotope="H",
+    source="xu_bi-directional_2017",
+    note="Eq 8, F82H",
+)
+
+xu_solubility_d = htm.Solubility(
+    S_0=9.4e-7 * u.mol * u.cm**-3 * u.Pa**-0.5,
+    E_S=0.32 * u.eV * u.particle**-1,
+    range=(u.Quantity(250, u.degC), u.Quantity(500, u.degC)),
+    isotope="D",
+    source="xu_bi-directional_2017",
+    note="Eq 9, F82H",
+)
+
+xu_recombination_coeff_d = htm.RecombinationCoeff(
+    pre_exp=3.8e-17 * u.particle**-1 * u.cm**4 * u.s**-1,
+    act_energy=-0.20 * u.eV * u.particle**-1,
+    range=(u.Quantity(250, u.degC), u.Quantity(510, u.degC)),
+    isotope="D",
+    source="xu_bi-directional_2017",
+    note="Eq 11, F82H",
+)
+
 properties = [
     causey_diffusivity,
     forcey_diffusivity,
@@ -245,6 +308,13 @@ properties = [
     kulsartov_solubility_d,
     serra_solubility_f82h,
     serra_solubility_batman,
+    xu_permeability_h,
+    xu_permeability_d,
+    xu_diffusivity_h,
+    xu_diffusivity_d,
+    xu_solubility_h,
+    xu_solubility_d,
+    xu_recombination_coeff_d,
 ]
 
 for prop in properties:
