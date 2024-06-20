@@ -178,8 +178,8 @@ It is also possible to export some of the data to a latex table with:
         \begin{tabular}{ c c c c}
 
             Material & pre-exp. factor & Act. energy & Reference \\
-            & $1.00\times 10^{0}\ \frac{\mathrm{m}^{2}}{\mathrm{s}}$ & 0.10 eV/particle & \cite{} \\     
-            & $2.00\times 10^{0}\ \frac{\mathrm{particle}}{\left(\mathrm{Pa} \cdot \mathrm{m}^{3}\right)}$ & 0.20 eV/particle & \cite{} \\
+             & $1.00\times 10^{0}\ \frac{\mathrm{m}^{2}}{\mathrm{s}}$ & 0.10 eV/particle & \cite{} \\
+             & $2.00\times 10^{0}\ \frac{\mathrm{particle}}{\left(\mathrm{m}^{3} \cdot \mathrm{Pa}\right)}$ & 0.20 eV/particle & \cite{} \\
         \end{tabular}
     \end{center}
 
