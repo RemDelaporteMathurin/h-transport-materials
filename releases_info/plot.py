@@ -135,4 +135,6 @@ for ax in (ax_refs, ax_mats, ax_props):
     ax.yaxis.grid(alpha=0.3)
 
 plt.tight_layout()
+
+plt.savefig("evolution.png", dpi=300)
 plt.show()
