@@ -224,6 +224,28 @@
         "nb_mats": 46,
         "nb_refs": 152
     },
+    "0.16": {
+        "date": "2024-06-20 13:41:52",
+        "nb_diffs": 178,
+        "nb_sols": 124,
+        "nb_props": 438,
+        "nb_perm": 94,
+        "nb_recomb": 24,
+        "nb_diss": 18,
+        "nb_mats": 46,
+        "nb_refs": 157
+    },
+    "0.16.1": {
+        "date": "2024-06-20 14:08:18",
+        "nb_diffs": 178,
+        "nb_sols": 124,
+        "nb_props": 438,
+        "nb_perm": 94,
+        "nb_recomb": 24,
+        "nb_diss": 18,
+        "nb_mats": 46,
+        "nb_refs": 157
+    },
     "0.2": {
         "date": "2022-06-03 14:58:27"
     },
