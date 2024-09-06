@@ -8,11 +8,13 @@ tags:
 authors:
   - name: Remi Delaporte-Mathurin
     corresponding: true
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0003-1064-8882
     affiliation: 1
   - name: James Dark
+    orcid: 0000-0002-0456-7210
     affiliation: "2, 3"
   - name: Thomas Fuerst
+    orcid: 0000-0002-4719-141X
     affiliation: 4
 
 affiliations:
