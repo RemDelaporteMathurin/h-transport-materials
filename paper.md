@@ -68,7 +68,8 @@ In this paper, we will discuss the key hydrogen transport properties, describe t
 We will also explore the future directions for HTM, including potential improvements and applications.
 
 ![Interactive Dashboard for HTM.\label{fig:dashboard}](dashboard.png)
-![Caption.\label{fig:application_case}](application_case.png)
+
+![HTM improves reproducibility of research.\label{fig:application_case}](application_case.png)
 
 
 # Acknowledgements
