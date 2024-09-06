@@ -29,15 +29,11 @@ affiliations:
 date: 6 September 2024
 bibliography: paper.bib
 
-# Optional fields if submitting to a AAS journal too, see this blog post:
-# https://blog.joss.theoj.org/2018/12/a-new-collaboration-with-aas-publishing
-aas-doi: 10.3847/xxxxx <- update this with the DOI from AAS once you know it.
-aas-journal: Astrophysical Journal <- The name of the AAS journal.
 ---
 
 # Summary
 
-`hydrogen_transport_materials` is designed to streamline and automate the analysis of hydrogen transport properties. By integrating a variety of features such as unit conversion with `pint`, data fitting, and comprehensive bibliographic support, the module simplifies workflows that traditionally involve a variety of manual steps. It provides a robust API for seamless integration into existing research pipelines and allows users to interact with both raw and processed data through a user-friendly online dashboard built using Plotly Dash (see \autoref{fig:dashboard}). The module supports exporting analysis results in various formats, including JSON and LaTeX, enhancing its utility for generating reports, publications, or further analysis. With an emphasis on open-source development and version control, it promotes community collaboration and continuous improvement, allowing for quick resolution of issues and the release of patch versions when necessary. This tool is highly versatile, designed to support researchers in the field by automating repetitive tasks and ensuring the reproducibility of their analyses (see \autoref{fig:advantages}).
+`hydrogen_transport_materials` is designed to streamline and automate the analysis of hydrogen transport properties. By integrating a variety of features such as unit conversion with `pint`, data fitting, and comprehensive bibliographic support, the module simplifies workflows that traditionally involve a variety of manual steps. It provides a robust API for seamless integration into existing research pipelines and allows users to interact with both raw and processed data through a user-friendly online dashboard built using Plotly Dash (see \autoref{fig:dashboard}). The module supports exporting analysis results in various formats, including JSON and LaTeX, enhancing its utility for generating reports, publications, or further analysis. With an emphasis on open-source development and version control, it promotes community collaboration and continuous improvement, allowing for quick resolution of issues and the release of patch versions when necessary. This tool is highly versatile, designed to support researchers in the field by automating repetitive tasks and ensuring the reproducibility of their analyses.
 
 # Statement of need
 
@@ -61,7 +57,7 @@ This paper proposes the HTM database as a modern solution to these problems.
 HTM is an online, open-source database designed to provide accurate, transparent, and continuously updated data on hydrogen transport properties.
 
 Unlike traditional literature reviews, HTM offers several key advantages.
-It automates unit conversion and data fitting processes, significantly reducing the potential for human error.
+It automates unit conversion and data fitting processes, significantly reducing the potential for human error (see \autoref{fig:application_case}).
 The database is also designed to be transparent, with all sources and methodologies clearly documented.
 Furthermore, HTM is a living database that can be continuously updated with new data, ensuring that researchers always have access to the most current information.
 The open-source nature of HTM allows for community contributions and corrections, fostering a collaborative and dynamic research environment.
@@ -70,20 +66,11 @@ In this paper, we will discuss the key hydrogen transport properties, describe t
 We will also explore the future directions for HTM, including potential improvements and applications.
 
 ![Interactive Dashboard for HTM.\label{fig:dashboard}](dashboard.png)
-![Caption.\label{fig:advantages}](advantages.pdf)
-![Caption.\label{fig:application_case}](application_case.pdf)
+![Caption.\label{fig:application_case}](application_case.png)
 
-# Figures
-
-Figures can be included like this:
-![Caption for example figure.\label{fig:example}](figure.png)
-and referenced from text using \autoref{fig:example}.
-
-Figure sizes can be customized by adding an optional second parameter:
-![Caption for example figure.](figure.png){ width=20% }
 
 # Acknowledgements
 
-We acknowledge contributions from [insert HTM contributions]
+We acknowledge contributions from Nate Gehmlich, Paul Barron, and Christian Hill.
 
 # References
