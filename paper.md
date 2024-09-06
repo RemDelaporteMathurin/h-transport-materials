@@ -37,15 +37,7 @@ aas-journal: Astrophysical Journal <- The name of the AAS journal.
 
 # Summary
 
-The forces on stars, galaxies, and dark matter under external gravitational
-fields lead to the dynamical evolution of structures in the universe. The orbits
-of these bodies are therefore key to understanding the formation, history, and
-future state of galaxies. The field of "galactic dynamics," which aims to model
-the gravitating components of galaxies to study their structure and evolution,
-is now well-established, commonly taught, and frequently used in astronomy.
-Aside from toy problems and demonstrations, the majority of problems require
-efficient numerical tools, many of which require the same base code (e.g., for
-performing numerical orbit integration).
+`hydrogen_transport_materials` is designed to streamline and automate the analysis of hydrogen transport properties. By integrating a variety of features such as unit conversion with `pint`, data fitting, and comprehensive bibliographic support, the module simplifies workflows that traditionally involve a variety of manual steps. It provides a robust API for seamless integration into existing research pipelines and allows users to interact with both raw and processed data through a user-friendly online dashboard built using Plotly Dash (see \autoref{fig:dashboard}). The module supports exporting analysis results in various formats, including JSON and LaTeX, enhancing its utility for generating reports, publications, or further analysis. With an emphasis on open-source development and version control, it promotes community collaboration and continuous improvement, allowing for quick resolution of issues and the release of patch versions when necessary. This tool is highly versatile, designed to support researchers in the field by automating repetitive tasks and ensuring the reproducibility of their analyses (see \autoref{fig:advantages}).
 
 # Statement of need
 
@@ -65,7 +57,7 @@ Moreover, once published, these reviews become static documents that do not acco
 As new research emerges, the reviews quickly become outdated, and errors that are identified post-publication are rarely, if ever, corrected.
 
 Given these challenges, there is a pressing need for a more reliable, accessible, and up-to-date approach to aggregating hydrogen transport properties.
-This paper proposes the Hydrogen Transport Materials (HTM) database as a modern solution to these problems.
+This paper proposes the HTM database as a modern solution to these problems.
 HTM is an online, open-source database designed to provide accurate, transparent, and continuously updated data on hydrogen transport properties.
 
 Unlike traditional literature reviews, HTM offers several key advantages.
@@ -77,22 +69,9 @@ The open-source nature of HTM allows for community contributions and corrections
 In this paper, we will discuss the key hydrogen transport properties, describe the features and architecture of the HTM database, outline the workflow for contributing to and maintaining the database, and compare HTM with traditional literature reviews.
 We will also explore the future directions for HTM, including potential improvements and applications.
 
-# Mathematics
-
-Single dollars ($) are required for inline mathematics e.g. $f(x) = e^{\pi/x}$
-
-Double dollars make self-standing equations:
-
-$$\Theta(x) = \left\{\begin{array}{l}
-0\textrm{ if } x < 0\cr
-1\textrm{ else}
-\end{array}\right.$$
-
-You can also use plain \LaTeX for equations
-\begin{equation}\label{eq:fourier}
-\hat f(\omega) = \int_{-\infty}^{\infty} f(x) e^{i\omega x} dx
-\end{equation}
-and refer to \autoref{eq:fourier} from text.
+![Interactive Dashboard for HTM.\label{fig:dashboard}](dashboard.png)
+![Caption.\label{fig:advantages}](advantages.pdf)
+![Caption.\label{fig:application_case}](application_case.pdf)
 
 # Figures
 
