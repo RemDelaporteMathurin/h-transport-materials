@@ -42,7 +42,7 @@ Hydrogen transport properties are critical for a wide range of applications, fro
 Researchers in these fields are highly dependent on accurate and comprehensive data on properties such as diffusivity, solubility, and recombination and dissociation coefficients.
 Traditionally, these data have been scattered across numerous research papers, creating significant challenges for those who need to aggregate, standardise and interpret the information.
 
-To address this issue, some researchers have undertaken the task of compiling review papers that aggregate data from various sources [REFs].
+To address this issue, some researchers have undertaken the task of compiling review papers that aggregate data from various sources.
 However, these traditional literature reviews suffer from several critical drawbacks.
 Firstly, the manual aggregation process is prone to errors, including copy-paste mistakes, typos, and unit conversion errors.
 Additionally, inconsistencies in data fitting and referencing often arise, further complicating the reliability of these reviews.
