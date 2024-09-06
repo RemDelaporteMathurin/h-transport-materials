@@ -49,25 +49,33 @@ performing numerical orbit integration).
 
 # Statement of need
 
-`Gala` is an Astropy-affiliated Python package for galactic dynamics. Python
-enables wrapping low-level languages (e.g., C) for speed without losing
-flexibility or ease-of-use in the user-interface. The API for `Gala` was
-designed to provide a class-based and user-friendly interface to fast (C or
-Cython-optimized) implementations of common operations such as gravitational
-potential and force evaluation, orbit integration, dynamical transformations,
-and chaos indicators for nonlinear dynamics. `Gala` also relies heavily on and
-interfaces well with the implementations of physical units and astronomical
-coordinate systems in the `Astropy` package [@astropy] (`astropy.units` and
-`astropy.coordinates`).
+Hydrogen transport properties are critical for a wide range of applications, from energy storage and fuel cells [@H-Storage_Schlapbach_2001][@H-Storage_Ren_2017], hydrogen embrittlement studies in materials science 
+[@Embrittlement_Oriani_1978][@Embrittlement_Li_2020], to safety studies in nuclear applications [@forsberg2017tritium][@osti_1777267][@abdou2020physics].
+Researchers in these fields are highly dependent on accurate and comprehensive data on properties such as diffusivity, solubility, and recombination and dissociation coefficients.
+Traditionally, these data have been scattered across numerous research papers, creating significant challenges for those who need to aggregate, standardise and interpret the information.
 
-`Gala` was designed to be used by both astronomical researchers and by
-students in courses on gravitational dynamics or astronomy. It has already been
-used in a number of scientific publications [@Pearson:2017] and has also been
-used in graduate courses on Galactic dynamics to, e.g., provide interactive
-visualizations of textbook material [@Binney:2008]. The combination of speed,
-design, and support for Astropy functionality in `Gala` will enable exciting
-scientific explorations of forthcoming data releases from the *Gaia* mission
-[@gaia] by students and experts alike.
+To address this issue, some researchers have undertaken the task of compiling review papers that aggregate data from various sources [REFs].
+However, these traditional literature reviews suffer from several critical drawbacks.
+Firstly, the manual aggregation process is prone to errors, including copy-paste mistakes, typos, and unit conversion errors.
+Additionally, inconsistencies in data fitting and referencing often arise, further complicating the reliability of these reviews.
+
+Another major issue is the lack of transparency in traditional reviews.
+The methodologies and sources used are not always clear, making it difficult for other researchers to verify the accuracy of the compiled data. For example, whether a property is given in units of H atoms or H2 molecules, various unit conversions with undefined parameters such as temperature or density, or as simple as a paper not including the units of the properties.  
+Moreover, once published, these reviews become static documents that do not accommodate new data or corrections, leading to obsolescence.
+As new research emerges, the reviews quickly become outdated, and errors that are identified post-publication are rarely, if ever, corrected.
+
+Given these challenges, there is a pressing need for a more reliable, accessible, and up-to-date approach to aggregating hydrogen transport properties.
+This paper proposes the Hydrogen Transport Materials (HTM) database as a modern solution to these problems.
+HTM is an online, open-source database designed to provide accurate, transparent, and continuously updated data on hydrogen transport properties.
+
+Unlike traditional literature reviews, HTM offers several key advantages.
+It automates unit conversion and data fitting processes, significantly reducing the potential for human error.
+The database is also designed to be transparent, with all sources and methodologies clearly documented.
+Furthermore, HTM is a living database that can be continuously updated with new data, ensuring that researchers always have access to the most current information.
+The open-source nature of HTM allows for community contributions and corrections, fostering a collaborative and dynamic research environment.
+
+In this paper, we will discuss the key hydrogen transport properties, describe the features and architecture of the HTM database, outline the workflow for contributing to and maintaining the database, and compare HTM with traditional literature reviews.
+We will also explore the future directions for HTM, including potential improvements and applications.
 
 # Mathematics
 
@@ -86,20 +94,6 @@ You can also use plain \LaTeX for equations
 \end{equation}
 and refer to \autoref{eq:fourier} from text.
 
-# Citations
-
-Citations to entries in paper.bib should be in
-[rMarkdown](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
-format.
-
-If you want to cite a software repository URL (e.g. something on GitHub without a preferred
-citation) then you can do it with the example BibTeX entry below for @fidgit.
-
-For a quick reference, the following citation commands can be used:
-- `@author:2001`  ->  "Author et al. (2001)"
-- `[@author:2001]` -> "(Author et al., 2001)"
-- `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
-
 # Figures
 
 Figures can be included like this:
@@ -111,7 +105,6 @@ Figure sizes can be customized by adding an optional second parameter:
 
 # Acknowledgements
 
-We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
-Oh, and support from Kathryn Johnston during the genesis of this project.
+We acknowledge contributions from [insert HTM contributions]
 
 # References
