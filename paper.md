@@ -63,9 +63,6 @@ The database is also designed to be transparent, with all sources and methodolog
 Furthermore, HTM is a living database that can be continuously updated with new data, ensuring that researchers always have access to the most current information.
 The open-source nature of HTM allows for community contributions and corrections, fostering a collaborative and dynamic research environment.
 
-In this paper, we will discuss the key hydrogen transport properties, describe the features and architecture of the HTM database, outline the workflow for contributing to and maintaining the database, and compare HTM with traditional literature reviews.
-We will also explore the future directions for HTM, including potential improvements and applications.
-
 ![Interactive Dashboard for HTM.\label{fig:dashboard}](dashboard.png)
 
 ![HTM improves reproducibility of research.\label{fig:application_case}](application_case.png)
