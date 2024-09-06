@@ -20,7 +20,6 @@ authors:
 affiliations:
  - name: Plasma Science and Fusion Center, MIT, USA
    index: 1
-   ror: 00hx57361
  - name: IRFM, CEA, France
    index: 2
  - name: LSPM, CNRS, France
