@@ -25,7 +25,7 @@ affiliations:
  - name: LSPM, CNRS, France
    index: 3
  - name: Idaho National Lab, USA
-   index:
+   index: 4
  
 date: 6 September 2024
 bibliography: paper.bib
