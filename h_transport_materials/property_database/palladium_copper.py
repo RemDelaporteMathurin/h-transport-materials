@@ -2,19 +2,22 @@ import h_transport_materials as htm
 from h_transport_materials import (
     Permeability,
     Diffusivity,
-) 
+)
 import numpy as np
 
 u = htm.ureg
 
-li_data_T = np.array(
-    [
-        350,
-        375,
-        400,
-        425,
-    ]
-) * u.degC
+li_data_T = (
+    np.array(
+        [
+            350,
+            375,
+            400,
+            425,
+        ]
+    )
+    * u.degC
+)
 
 li_data_y = (
     np.array(
@@ -25,9 +28,9 @@ li_data_y = (
             1.60e-8,
         ]
     )
-    * u.mol 
-    * u.m**-1 
-    * u.Pa**-0.5 
+    * u.mol
+    * u.m**-1
+    * u.Pa**-0.5
     * u.s**-1
 )
 
@@ -36,7 +39,7 @@ li_permeability_h = Permeability(
     data_y=li_data_y,
     source="li_low_2023",
     isotope="H",
-    note="SI Table 1 (supporting information)"
+    note="SI Table 1 (supporting information)",
 )
 
 piper_diffusivity_h = Diffusivity(

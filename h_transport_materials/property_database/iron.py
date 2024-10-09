@@ -124,6 +124,69 @@ masui_permeability_gamma = Permeability(
     note="gamma phase",
 )
 
+zhou_diffusivity_iron_h_model1 = Diffusivity(
+    D_0=1.458e-7 * u.m**2 * u.s**-1,
+    E_D=0.0817 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_hydrogen_isotopes_2024",
+    isotope="H",
+    note="Table 2. Model 1 considering only hydrogen isotope vibrations",
+)
+
+zhou_diffusivity_iron_h_model4 = Diffusivity(
+    D_0=1.076e-7 * u.m**2 * u.s**-1,
+    E_D=0.0734 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_hydrogen_isotopes_2024",
+    isotope="H",
+    note=(
+        "Table 2. Model 4 considering lattice pDOS coupled "
+        "with hydrogen isotope vibrations and thermal expansion"
+    ),
+)
+
+zhou_diffusivity_iron_d_model1 = Diffusivity(
+    D_0=1.143e-7 * u.m**2 * u.s**-1,
+    E_D=0.0874 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_hydrogen_isotopes_2024",
+    isotope="D",
+    note="Table S2 of suplementary materials. Model 1 considering only hydrogen isotope vibrations",
+)
+
+zhou_diffusivity_iron_d_model4 = Diffusivity(
+    D_0=8.482e-8 * u.m**2 * u.s**-1,
+    E_D=0.0810 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_hydrogen_isotopes_2024",
+    isotope="D",
+    note=(
+        "Table S2 of suplementary materials. Model 4 considering lattice pDOS coupled "
+        "with hydrogen isotope vibrations and thermal expansion"
+    ),
+)
+
+zhou_diffusivity_iron_t_model1 = Diffusivity(
+    D_0=9.754e-8 * u.m**2 * u.s**-1,
+    E_D=0.0889 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_hydrogen_isotopes_2024",
+    isotope="T",
+    note="Table S2 of suplementary materials. Model 1 considering only hydrogen isotope vibrations",
+)
+
+zhou_diffusivity_iron_t_model4 = Diffusivity(
+    D_0=7.190e-8 * u.m**2 * u.s**-1,
+    E_D=0.0833 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_hydrogen_isotopes_2024",
+    isotope="T",
+    note=(
+        "Table S2 of suplementary materials. Model 4 considering lattice pDOS coupled "
+        "with hydrogen isotope vibrations and thermal expansion"
+    ),
+)
+
 properties = [
     volkl_diffusivity,
     tahara_diffusivity_H,
@@ -136,6 +199,12 @@ properties = [
     addach_diffusivity,
     masui_permeability_alpha,
     masui_permeability_gamma,
+    zhou_diffusivity_iron_h_model1,
+    zhou_diffusivity_iron_h_model4,
+    zhou_diffusivity_iron_d_model1,
+    zhou_diffusivity_iron_d_model4,
+    zhou_diffusivity_iron_t_model1,
+    zhou_diffusivity_iron_t_model4,
 ]
 
 for prop in properties:
