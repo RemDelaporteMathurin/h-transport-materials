@@ -8,11 +8,7 @@ aiello_permeability_data = htm.structure_data_from_wpd("aiello_2002/permeability
 
 aiello_permeability_H = Permeability(
     data_T=1000 / aiello_permeability_data["H"]["x"] * u.K,
-    data_y=aiello_permeability_data["H"]["y"]
-    * u.mol
-    * u.m**-1
-    * u.Pa**-0.5
-    * u.s**-1,
+    data_y=aiello_permeability_data["H"]["y"] * u.mol * u.m**-1 * u.Pa**-0.5 * u.s**-1,
     source="aiello_hydrogen_2002",
     isotope="H",
     note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
@@ -21,11 +17,7 @@ aiello_permeability_H = Permeability(
 
 aiello_permeability_D = Permeability(
     data_T=1000 / aiello_permeability_data["D"]["x"] * u.K,
-    data_y=aiello_permeability_data["D"]["y"]
-    * u.mol
-    * u.m**-1
-    * u.Pa**-0.5
-    * u.s**-1,
+    data_y=aiello_permeability_data["D"]["y"] * u.mol * u.m**-1 * u.Pa**-0.5 * u.s**-1,
     source="aiello_hydrogen_2002",
     isotope="D",
     note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
@@ -92,11 +84,7 @@ esteban_permeability_data = np.genfromtxt(
 
 esteban_permeability = Permeability(
     data_T=1000 / esteban_permeability_data[:, 0] * u.K,
-    data_y=esteban_permeability_data[:, 1]
-    * u.mol
-    * u.m**-1
-    * u.Pa**-0.5
-    * u.s**-1,
+    data_y=esteban_permeability_data[:, 1] * u.mol * u.m**-1 * u.Pa**-0.5 * u.s**-1,
     source="esteban_hydrogen_2007",
     isotope="H",
 )

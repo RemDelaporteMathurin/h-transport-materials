@@ -619,12 +619,8 @@ class Permeability(ArrheniusProperty):
         self._data_y = value
 
     def set_law_from_quantity(self, quantity):
-        sievert_units = (
-            ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
-        )
-        henry_units = (
-            ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-1
-        )
+        sievert_units = ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
+        henry_units = ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-1
         if quantity.check(sievert_units):
             self.law = "sievert"
         elif quantity.check(henry_units):
@@ -637,9 +633,7 @@ class Permeability(ArrheniusProperty):
     @property
     def units(self):
         if self.law == "sievert":
-            return (
-                ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
-            )
+            return ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-0.5
         elif self.law == "henry":
             return ureg.particle * ureg.meter**-1 * ureg.second**-1 * ureg.Pa**-1
 
