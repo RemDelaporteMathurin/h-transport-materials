@@ -31,7 +31,7 @@ wille_diffusivity_1 = Diffusivity(
         "Table 3-1, item a, Commercial Pure Ti, alpha phase. "
         "Range is unknown and not specified in the report, "
         "assuming same as for Reiter 1996. The report cites "
-        "another paper from 1958 but don't have access to it."
+        "another paper from 1958, but don't have access to it."
     ),
 )
 
