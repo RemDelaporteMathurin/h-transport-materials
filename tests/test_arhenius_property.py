@@ -159,9 +159,7 @@ def test_no_units_preexp_raises_warning():
     with pytest.warns(
         UserWarning, match="no units were given with pre-exponential factor"
     ):
-        htm.ArrheniusProperty(
-            0.1, act_energy=0.1 * htm.ureg.eV * htm.ureg.particle**-1
-        )
+        htm.ArrheniusProperty(0.1, act_energy=0.1 * htm.ureg.eV * htm.ureg.particle**-1)
 
 
 def test_no_units_act_energy_raises_warning():

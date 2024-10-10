@@ -72,3 +72,5 @@ from . import tzm
 from . import palladium_copper
 
 from . import sic
+
+from . import chromium
