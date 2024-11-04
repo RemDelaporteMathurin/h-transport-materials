@@ -23,6 +23,8 @@ aiello_permeability_D = Permeability(
     note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
 )
 
+
+
 aiello_diffusivity_data = htm.structure_data_from_wpd("aiello_2002/diffusivity.csv")
 
 aiello_diffusivity_H = Diffusivity(
@@ -40,6 +42,24 @@ aiello_diffusivity_D = Diffusivity(
     source="aiello_hydrogen_2002",
     isotope="D",
     note="in the paper, only the 3 hottest points are fitted to measure lattice diffusion only",
+)
+
+aiello_solubility_D = Solubility(
+    S_0=aiello_permeability_D.pre_exp/aiello_diffusivity_D.pre_exp,
+    E_S=aiello_permeability_D.act_energy - aiello_diffusivity_D.act_energy,
+    range=aiello_permeability_D.range,
+    source="aiello_hydrogen_2002",
+    isotope="D",
+    note="there is a typo in Eq 2 of the paper. This property is obtained by dividing the permeability by the diffusivity.",
+)
+
+aiello_solubility_H = Solubility(
+    S_0=aiello_permeability_H.pre_exp/aiello_diffusivity_H.pre_exp,
+    E_S=aiello_permeability_H.act_energy - aiello_diffusivity_H.act_energy,
+    range=aiello_permeability_H.range,
+    source="aiello_hydrogen_2002",
+    isotope="H",
+    note="there is a typo in Eq 2 of the paper. This property is obtained by dividing the permeability by the diffusivity.",
 )
 
 chen_permeability_data = np.genfromtxt(
@@ -163,6 +183,8 @@ properties = [
     aiello_permeability_D,
     aiello_diffusivity_H,
     aiello_diffusivity_D,
+    aiello_solubility_H,
+    aiello_solubility_D,
     chen_permeability,
     chen_diffusivity,
     chen_solubility,
