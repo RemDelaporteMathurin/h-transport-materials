@@ -59,7 +59,7 @@ aiello_solubility_H = Solubility(
     range=aiello_permeability_H.range,
     source="aiello_hydrogen_2002",
     isotope="H",
-    note="there is a typo in Eq 2 of the paper. This property is obtained by dividing the permeability by the diffusivity.",
+    note="This property is obtained by dividing the permeability by the diffusivity.",
 )
 
 chen_permeability_data = np.genfromtxt(
