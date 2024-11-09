@@ -168,5 +168,6 @@ OXIDIZED_1605 = FeCrAl("oxidized_1605")
 
 TZM = Alloy("tzm")
 
+PD60CU40 = PalladiumAlloy("60pd40cu")
 PD52CU = PalladiumAlloy("pd52cu")
 SIC = Compound("sic")
