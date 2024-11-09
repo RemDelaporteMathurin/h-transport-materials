@@ -47,9 +47,7 @@ nakamura_diffusivity_h = Diffusivity(
 )
 
 data_nakamura_sol_flinak_T = 1 / data_nakamura["sol_flinakx"] * u.K
-data_nakamura_sol_flinak_y = (
-    data_nakamura["sol_flinaky"] * u.mol * u.m**-3 * u.Pa**-1
-)
+data_nakamura_sol_flinak_y = data_nakamura["sol_flinaky"] * u.mol * u.m**-3 * u.Pa**-1
 nakamura_solubility_h = Solubility(
     data_T=data_nakamura_sol_flinak_T,
     data_y=data_nakamura_sol_flinak_y,

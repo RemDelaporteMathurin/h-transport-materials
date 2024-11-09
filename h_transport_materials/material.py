@@ -153,6 +153,7 @@ LITHIUM = PureMetal("lithium", "Li")
 PDAG = PalladiumAlloy("pdag")
 ZIRCONIUM = PureMetal("zirconium", "Zr")
 YTTRIUM = PureMetal("yttrium", "Y")
+CHROMIUM = PureMetal("chromium", "Cr")
 
 ALUMINA = Compound("alumina")
 EUROFER = Steel("eurofer_97")

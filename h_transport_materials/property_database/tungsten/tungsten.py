@@ -488,6 +488,69 @@ byeon_permeability_CR = Permeability(
     note="Table 2 CR",
 )
 
+zhou_diffusivity_tungsten_h_model1 = Diffusivity(
+    D_0=1.934e-7 * u.m**2 * u.s**-1,
+    E_D=0.201 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_thermal_2024",
+    isotope="H",
+    note="Table 2. Model 1 considering only hydrogen isotope vibrations",
+)
+
+zhou_diffusivity_tungsten_h_model4 = Diffusivity(
+    D_0=1.876e-7 * u.m**2 * u.s**-1,
+    E_D=0.201 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_thermal_2024",
+    isotope="H",
+    note=(
+        "Table 2. Model 4 considering lattice pDOS coupled "
+        "with hydrogen isotope vibrations and thermal expansion"
+    ),
+)
+
+zhou_diffusivity_tungsten_d_model1 = Diffusivity(
+    D_0=1.509e-7 * u.m**2 * u.s**-1,
+    E_D=0.206 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_thermal_2024",
+    isotope="D",
+    note="Table S2 of suplementary materials. Model 1 considering only hydrogen isotope vibrations",
+)
+
+zhou_diffusivity_tungsten_d_model4 = Diffusivity(
+    D_0=1.460e-7 * u.m**2 * u.s**-1,
+    E_D=0.206 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_thermal_2024",
+    isotope="D",
+    note=(
+        "Table S2 of suplementary materials. Model 4 considering lattice pDOS coupled "
+        "with hydrogen isotope vibrations and thermal expansion"
+    ),
+)
+
+zhou_diffusivity_tungsten_t_model1 = Diffusivity(
+    D_0=1.270e-7 * u.m**2 * u.s**-1,
+    E_D=0.207 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_thermal_2024",
+    isotope="T",
+    note="Table S2 of suplementary materials. Model 1 considering only hydrogen isotope vibrations",
+)
+
+zhou_diffusivity_tungsten_t_model4 = Diffusivity(
+    D_0=1.226e-7 * u.m**2 * u.s**-1,
+    E_D=0.207 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_thermal_2024",
+    isotope="T",
+    note=(
+        "Table S2 of suplementary materials. Model 4 considering lattice pDOS coupled "
+        "with hydrogen isotope vibrations and thermal expansion"
+    ),
+)
+
 properties = [
     frauenfelder_diffusivity,
     liu_diffusivity_tungsten,
@@ -536,6 +599,12 @@ properties = [
     byeon_diffusivity_CR,
     byeon_permeability_IG,
     byeon_permeability_CR,
+    zhou_diffusivity_tungsten_h_model1,
+    zhou_diffusivity_tungsten_h_model4,
+    zhou_diffusivity_tungsten_d_model1,
+    zhou_diffusivity_tungsten_d_model4,
+    zhou_diffusivity_tungsten_t_model1,
+    zhou_diffusivity_tungsten_t_model4,
 ]
 
 for prop in properties:

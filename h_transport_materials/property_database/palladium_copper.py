@@ -40,7 +40,7 @@ li_permeability_h = Permeability(
     source="li_low_2023",
     isotope="H",
     note="SI Table 1 (supporting information)",
-    material=htm.PD52CU,
+    material=htm.PD60CU40,
 )
 
 piper_diffusivity_h = Diffusivity(
