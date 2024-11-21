@@ -8,7 +8,9 @@ from h_transport_materials import (
 
 u = htm.ureg
 
-IRON_MOLAR_VOLUME = 7.09e-6  # m3/mol https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/iron
+# TODO give units to IRON_MOLAR_VOLUME
+# https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/iron
+IRON_MOLAR_VOLUME = 7.09e-6  # m3/mol
 
 volkl_diffusivity = Diffusivity(
     D_0=4.00e-8 * u.m**2 * u.s**-1,
@@ -32,6 +34,24 @@ tahara_diffusivity_D = Diffusivity(
     isotope="D",
     range=(500 * u.K, 1000 * u.K),
     source="tahara_measurements_1985",
+)
+
+tahara_permeability_h = Permeability(
+    pre_exp=1.77e-5 * u.mol * u.m**-1 * u.s**-1 * u.MPa**-0.5,
+    act_energy=31.6 * u.kJ * u.mol**-1,
+    isotope="H",
+    range=(500 * u.K, 1000 * u.K),
+    source="tahara_measurements_1985",
+    note="equation 4",
+)
+
+tahara_permeability_d = Permeability(
+    pre_exp=1.05e-5 * u.mol * u.m**-1 * u.s**-1 * u.MPa**-0.5,
+    act_energy=32.4 * u.kJ * u.mol**-1,
+    isotope="D",
+    range=(500 * u.K, 1000 * u.K),
+    source="tahara_measurements_1985",
+    note="equation 5",
 )
 
 eichenauer_solubility = Solubility(
@@ -104,16 +124,87 @@ masui_permeability_gamma = Permeability(
     note="gamma phase",
 )
 
+zhou_diffusivity_iron_h_model1 = Diffusivity(
+    D_0=1.458e-7 * u.m**2 * u.s**-1,
+    E_D=0.0817 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_thermal_2024",
+    isotope="H",
+    note="Table 2. Model 1 considering only hydrogen isotope vibrations",
+)
+
+zhou_diffusivity_iron_h_model4 = Diffusivity(
+    D_0=1.076e-7 * u.m**2 * u.s**-1,
+    E_D=0.0734 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_thermal_2024",
+    isotope="H",
+    note=(
+        "Table 2. Model 4 considering lattice pDOS coupled "
+        "with hydrogen isotope vibrations and thermal expansion"
+    ),
+)
+
+zhou_diffusivity_iron_d_model1 = Diffusivity(
+    D_0=1.143e-7 * u.m**2 * u.s**-1,
+    E_D=0.0874 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_thermal_2024",
+    isotope="D",
+    note="Table S2 of suplementary materials. Model 1 considering only hydrogen isotope vibrations",
+)
+
+zhou_diffusivity_iron_d_model4 = Diffusivity(
+    D_0=8.482e-8 * u.m**2 * u.s**-1,
+    E_D=0.0810 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_thermal_2024",
+    isotope="D",
+    note=(
+        "Table S2 of suplementary materials. Model 4 considering lattice pDOS coupled "
+        "with hydrogen isotope vibrations and thermal expansion"
+    ),
+)
+
+zhou_diffusivity_iron_t_model1 = Diffusivity(
+    D_0=9.754e-8 * u.m**2 * u.s**-1,
+    E_D=0.0889 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_thermal_2024",
+    isotope="T",
+    note="Table S2 of suplementary materials. Model 1 considering only hydrogen isotope vibrations",
+)
+
+zhou_diffusivity_iron_t_model4 = Diffusivity(
+    D_0=7.190e-8 * u.m**2 * u.s**-1,
+    E_D=0.0833 * u.eV * u.particle**-1,
+    range=(297 * u.K, 1000 * u.K),
+    source="zhou_thermal_2024",
+    isotope="T",
+    note=(
+        "Table S2 of suplementary materials. Model 4 considering lattice pDOS coupled "
+        "with hydrogen isotope vibrations and thermal expansion"
+    ),
+)
+
 properties = [
     volkl_diffusivity,
     tahara_diffusivity_H,
     tahara_diffusivity_D,
+    tahara_permeability_h,
+    tahara_permeability_d,
     eichenauer_solubility,
     nagasaki_recombination_alpha,
     nagasaki_recombination_gamma,
     addach_diffusivity,
     masui_permeability_alpha,
     masui_permeability_gamma,
+    zhou_diffusivity_iron_h_model1,
+    zhou_diffusivity_iron_h_model4,
+    zhou_diffusivity_iron_d_model1,
+    zhou_diffusivity_iron_d_model4,
+    zhou_diffusivity_iron_t_model1,
+    zhou_diffusivity_iron_t_model4,
 ]
 
 for prop in properties:

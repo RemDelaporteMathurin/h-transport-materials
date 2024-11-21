@@ -19,7 +19,63 @@ veleckis_solubility = Solubility(
     source="veleckis_thermodynamic_1969",
 )
 
-properties = [volkl_diffusivity, veleckis_solubility]
+
+qi_diffusivity_h_low_temp = Diffusivity(
+    D_0=0.028e-4 * u.cm**2 * u.s**-1,
+    E_D=0.042 * u.eV * u.particle**-1,
+    range=(
+        u.Quantity(-180, u.degC),
+        250 * u.K,
+    ),
+    note="table 1, temperature range from Fig 1",
+    source="qi_tritium_1983",
+    isotope="H",
+)
+
+qi_diffusivity_h_high_temp = Diffusivity(
+    D_0=4.2e-4 * u.cm**2 * u.s**-1,
+    E_D=0.136 * u.eV * u.particle**-1,
+    range=(
+        250 * u.K,
+        u.Quantity(100, u.degC),
+    ),
+    note="table 1, temperature range from Fig 1",
+    source="qi_tritium_1983",
+    isotope="H",
+)
+
+qi_diffusivity_d = Diffusivity(
+    D_0=3.8e-4 * u.cm**2 * u.s**-1,
+    E_D=0.153 * u.eV * u.particle**-1,
+    range=(
+        u.Quantity(-140, u.degC),
+        u.Quantity(100, u.degC),
+    ),
+    note="table 1, temperature range from Fig 1",
+    source="qi_tritium_1983",
+    isotope="D",
+)
+
+qi_diffusivity_t = Diffusivity(
+    D_0=3.7e-4 * u.cm**2 * u.s**-1,
+    E_D=0.162 * u.eV * u.particle**-1,
+    range=(
+        u.Quantity(-140, u.degC),
+        u.Quantity(100, u.degC),
+    ),
+    note="table 1, temperature range from Fig 1",
+    source="qi_tritium_1983",
+    isotope="T",
+)
+
+properties = [
+    volkl_diffusivity,
+    veleckis_solubility,
+    qi_diffusivity_h_low_temp,
+    qi_diffusivity_h_high_temp,
+    qi_diffusivity_d,
+    qi_diffusivity_t,
+]
 
 for prop in properties:
     prop.material = htm.TANTALUM

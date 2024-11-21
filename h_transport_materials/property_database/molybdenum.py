@@ -32,6 +32,7 @@ katsuta_solubility = Solubility(
     S_0=np.exp(8.703) * u.mol * u.m**-3 * u.Pa**-0.5,
     E_S=7.863e3 * u.K * htm.k_B,
     isotope="H",
+    range=(833 * u.K, 1193 * u.K),
     source="katsuta_diffusivity_1982",
 )
 
@@ -48,12 +49,25 @@ frauenfelder_permeability = Permeability(
     source="frauenfelder_permeation_1968",
 )
 
+guthrie_permeability = Permeability(
+    pre_exp=3.8e-3 * u.ccSTP * u.cm**-1 * u.s**-1 * u.atm**-0.5,
+    act_energy=17.4 * u.kcal * u.mol**-1,
+    isotope="D",
+    range=(
+        u.Quantity(270, u.degC),
+        u.Quantity(640, u.degC),
+    ),
+    source="guthrie_permeation_1974",
+    note="Figure 7",
+)
+
 properties = [
     tanabe_diffusivity,
     katsuta_diffusivity,
     tanabe_solubility,
     katsuta_solubility,
     frauenfelder_permeability,
+    guthrie_permeability,
 ]
 
 for prop in properties:

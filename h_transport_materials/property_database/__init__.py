@@ -64,3 +64,13 @@ from . import incoloy_800
 from . import vanadium_alloy
 
 from . import FeCrAl
+
+from . import yttrium
+
+from . import tzm
+
+from . import palladium_copper
+
+from . import sic
+
+from . import chromium

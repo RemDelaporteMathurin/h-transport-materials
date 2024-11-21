@@ -109,8 +109,14 @@ class Carbon(PureMetal, PlasmaFacing):
 class MoltenSalt(Material):
     family = "molten salt"
 
+
 class FeCrAl(Steel):
     family = "fecral"
+
+
+class PalladiumAlloy(Alloy):
+    family = "palladium alloy"
+
 
 TUNGSTEN = Tungsten()
 BERYLLIUM = Beryllium()
@@ -144,8 +150,10 @@ FLIBE = MoltenSalt("flibe")
 FLINAK = MoltenSalt("flinak")
 LIPB = Alloy("lipb")
 LITHIUM = PureMetal("lithium", "Li")
-PDAG = Alloy("pdag")
+PDAG = PalladiumAlloy("pdag")
 ZIRCONIUM = PureMetal("zirconium", "Zr")
+YTTRIUM = PureMetal("yttrium", "Y")
+CHROMIUM = PureMetal("chromium", "Cr")
 
 ALUMINA = Compound("alumina")
 EUROFER = Steel("eurofer_97")
@@ -157,3 +165,9 @@ THERMACORE = FeCrAl("thermacore")
 THERMACORE_OXIDIZED = FeCrAl("thermacore_oxidized")
 FE22CR5AL = FeCrAl("fe22cr5al")
 OXIDIZED_1605 = FeCrAl("oxidized_1605")
+
+TZM = Alloy("tzm")
+
+PD60CU40 = PalladiumAlloy("60pd40cu")
+PD52CU = PalladiumAlloy("pd52cu")
+SIC = Compound("sic")

@@ -45,3 +45,30 @@ jobs:
 
         chmod +x codecov
         ./codecov -t ${{ secrets.CODECOV_TOKEN }}
+
+  check_unused_variables:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x  # Choose your desired Python version
+
+      - name: Install vulture
+        run: pip install vulture
+
+      - name: Check for unused variables
+        continue-on-error: true
+        run: vulture h_transport_materials/property_database
+
+      - name: Check vulture output
+        run: |
+          vulture_output=$(vulture h_transport_materials/property_database) || true
+          if [[ $vulture_output == *"unused variable"* ]]; then
+            echo "Error: Unused variables found."
+            exit 1
+          fi

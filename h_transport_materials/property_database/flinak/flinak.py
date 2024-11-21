@@ -15,6 +15,7 @@ fukada_diffusivity_h = Diffusivity(
     data_y=data_fukada[:-1, 1] * u.m**2 * u.s**-1,
     source="fukada_hydrogen_2006",
     isotope="H",
+    note="in original paper, the equation displayed on Fig 5 doesn't match the plotted line.",
 )
 
 
@@ -46,9 +47,7 @@ nakamura_diffusivity_h = Diffusivity(
 )
 
 data_nakamura_sol_flinak_T = 1 / data_nakamura["sol_flinakx"] * u.K
-data_nakamura_sol_flinak_y = (
-    data_nakamura["sol_flinaky"] * u.mol * u.m**-3 * u.Pa**-1
-)
+data_nakamura_sol_flinak_y = data_nakamura["sol_flinaky"] * u.mol * u.m**-3 * u.Pa**-1
 nakamura_solubility_h = Solubility(
     data_T=data_nakamura_sol_flinak_T,
     data_y=data_nakamura_sol_flinak_y,
@@ -105,6 +104,7 @@ zeng_diffusivity_h_2019 = Diffusivity(
     data_y=data_zeng[:, 1] * u.m**2 * u.s**-1,
     source="zeng_behavior_2019",
     isotope="H",
+    note="in original paper, the legend of Fig 5 is mixed up: red points correspond to Fukada and Morisaki.",
 )
 
 data_zeng_S = np.genfromtxt(

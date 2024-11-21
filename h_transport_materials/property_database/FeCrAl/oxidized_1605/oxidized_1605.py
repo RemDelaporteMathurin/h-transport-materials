@@ -1,7 +1,7 @@
 import h_transport_materials as htm
 from h_transport_materials import (
     Permeability,
-) 
+)
 import numpy as np
 
 u = htm.ureg
@@ -12,8 +12,8 @@ data = np.genfromtxt(
 )
 
 ash_perm = Permeability(
-    data_T=(1000 / data[:,0]) * u.K,
-    data_y=data[:,1] * u.micromol * u.m**(-1) * u.s**(-1) * u.kPa**(-.5),
+    data_T=(1000 / data[:, 0]) * u.K,
+    data_y=data[:, 1] * u.micromol * u.m ** (-1) * u.s ** (-1) * u.kPa ** (-0.5),
     source="ashdown_alloy_1980",
     isotope="H",
 )

@@ -114,6 +114,23 @@ vadrucci_dissociation_h = DissociationCoeff(
     note="equation 17 + probably an error in the units of the activation energy in the original paper",
 )
 
+serra_permeability_h = Permeability(
+    pre_exp=5.58e-8 * u.mol * u.m**-1 * u.Pa**-0.5 * u.s**-1,
+    act_energy=6304 * u.J * u.mol**-1,
+    range=(373 * u.K, 773 * u.K),
+    isotope="H",
+    source="serra_hydrogen_1998-2",
+    note="Figure 2 or Equation 6",
+)
+
+serra_permeability_d = Permeability(
+    pre_exp=3.43e-8 * u.mol * u.m**-1 * u.Pa**-0.5 * u.s**-1,
+    act_energy=6156 * u.J * u.mol**-1,
+    range=(373 * u.K, 773 * u.K),
+    isotope="D",
+    source="serra_hydrogen_1998-2",
+    note="Figure 2 or Equation 7",
+)
 properties = [
     serra_diffusivity_h,
     serra_diffusivity_d,
@@ -127,6 +144,8 @@ properties = [
     vadrucci_permeability_wt150,
     vadrucci_permeability_wt200,
     vadrucci_dissociation_h,
+    serra_permeability_h,
+    serra_permeability_d,
 ]
 
 for prop in properties:
