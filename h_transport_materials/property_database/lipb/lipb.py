@@ -389,7 +389,7 @@ okuno_diffusivity_li45pb55 = Diffusivity(
 
 
 penalva_solubility = Solubility(
-    data_T=[241, 369, 475, 579] * u.degC,
+    data_T=u.Quantity([241, 369, 475, 579], u.degC),
     data_y=[1.83e-2, 1.29e-2, 3.18e-2, 1.49e-2] * u.mol * u.m**-3 * u.Pa**-0.5,
     isotope="H",
     source="penalva_experimental_2024",
