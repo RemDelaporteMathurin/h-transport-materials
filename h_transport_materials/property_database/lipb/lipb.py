@@ -387,6 +387,16 @@ okuno_diffusivity_li45pb55 = Diffusivity(
     source="okuno_thermal_1986",
 )
 
+
+penalva_solubility = Solubility(
+    data_T=[241, 369, 475, 579] * u.degC,
+    data_y=[1.83e-2, 1.29e-2, 3.18e-2, 1.49e-2] * u.mol * u.m**-3 * u.Pa**-0.5,
+    isotope="H",
+    source="penalva_experimental_2024",
+    note="Table 4, PbLi, absorption method",
+)
+
+
 properties = [
     fauvet_diffusivity,
     reiter_diffusivity_h,
@@ -421,6 +431,7 @@ properties = [
     okada_solubility_d,
     okuno_diffusivity_li7pb2,
     okuno_diffusivity_li45pb55,
+    penalva_solubility,
 ]
 
 for prop in properties:
