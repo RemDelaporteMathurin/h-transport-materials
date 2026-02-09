@@ -267,7 +267,7 @@ liu_permeability_rolled_50um = Permeability(
     data_y=rolled_50um_data_y,
     source="liu_gas-driven_2016",
     note="rolled_50um",
-    isotope="H",
+    isotope="D",
 )
 
 rolled_114um_data_invT = liu_permeability_data["rolled_114umX"] * u.K**-1
@@ -279,7 +279,7 @@ liu_permeability_rolled_114um = Permeability(
     data_y=rolled_114um_data_y,
     source="liu_gas-driven_2016",
     note="rolled_144um",
-    isotope="H",
+    isotope="D",
 )
 
 rolled_240um_data_invT = liu_permeability_data["rolled_240umX"] * u.K**-1
@@ -291,7 +291,7 @@ liu_permeability_rolled_240um = Permeability(
     data_y=rolled_240um_data_y,
     source="liu_gas-driven_2016",
     note="rolled_240um",
-    isotope="H",
+    isotope="D",
 )
 
 annealed_50um_data_invT = liu_permeability_data["annealed_50umX"] * u.K**-1
@@ -302,7 +302,7 @@ liu_permeability_annealed_50um = Permeability(
     data_T=1 / annealed_50um_data_invT,
     data_y=annealed_50um_data_y,
     source="liu_gas-driven_2016",
-    isotope="H",
+    isotope="D",
     note="annealed_50um",
 )
 
@@ -314,7 +314,7 @@ liu_permeability_annealed_250um = Permeability(
     data_T=1 / annealed_250um_data_invT,
     data_y=annealed_250um_data_y,
     source="liu_gas-driven_2016",
-    isotope="H",
+    isotope="D",
     note="annealed_250um",
 )
 
@@ -332,7 +332,7 @@ liu_permeability_recrystallized_250um = Permeability(
     data_T=1 / recrystallized_250um_data_invT,
     data_y=recrystallized_250um_data_y,
     source="liu_gas-driven_2016",
-    isotope="H",
+    isotope="D",
     note="recrystallized_250um",
 )
 
@@ -344,7 +344,7 @@ liu_diffusivity_rolled_114um = Diffusivity(
     data_y=rolled_114um_data_y,
     source="liu_gas-driven_2016",
     note="rolled_144um",
-    isotope="H",
+    isotope="D",
 )
 
 rolled_240um_data_invT = liu_diffusivity_data["rolled_240umX"] * u.K**-1
@@ -354,7 +354,7 @@ liu_diffusivity_rolled_240um = Diffusivity(
     data_y=rolled_240um_data_y,
     source="liu_gas-driven_2016",
     note="rolled_240um",
-    isotope="H",
+    isotope="D",
 )
 
 annealed_102um_data_invT = liu_diffusivity_data["annealed_102umX"] * u.K**-1
@@ -364,7 +364,7 @@ liu_diffusivity_annealed_102um = Diffusivity(
     data_y=annealed_102um_data_y,
     source="liu_gas-driven_2016",
     note="annealed_102um",
-    isotope="H",
+    isotope="D",
 )
 
 annealed_250um_data_invT = liu_diffusivity_data["annealed_250umX"] * u.K**-1
@@ -374,7 +374,7 @@ liu_diffusivity_annealed_250um = Diffusivity(
     data_y=annealed_250um_data_y,
     source="liu_gas-driven_2016",
     note="annealed_250um",
-    isotope="H",
+    isotope="D",
 )
 
 
@@ -387,7 +387,7 @@ liu_diffusivity_recrystallized_250um = Diffusivity(
     data_y=recrystallized_250um_data_y,
     source="liu_gas-driven_2016",
     note="recrystallized_250um",
-    isotope="H",
+    isotope="D",
 )
 
 buchenauer_data = htm.structure_data_from_wpd("buchenauer_2016/data.csv")
