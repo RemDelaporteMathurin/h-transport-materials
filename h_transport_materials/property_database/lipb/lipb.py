@@ -16,14 +16,14 @@ def molar_mass_lipb(nb_li: int, nb_pb: int):
     """Returns the molar mass (kg/mol) of a LiPb compound
 
     Args:
-        nb_li (int): the number of Li atoms
-        nb_pb (int): the number of Pb atoms
+        nb_li (int): Li atom %
+        nb_pb (int): Pb atom %
 
     Returns:
         float: the molar mass in kg/mol
     """
 
-    return nb_pb * molar_mass_Pb + nb_li * molar_mass_li
+    return nb_pb / 100 * molar_mass_Pb + nb_li / 100 * molar_mass_li
 
 
 def atom_density_lipb(nb_li: int, nb_pb: int):
@@ -50,7 +50,7 @@ wu_solubility = Solubility(
 
 
 chan_solubility = Solubility(
-    S_0=4.7e-07 * atom_density_lipb(nb_li=17, nb_pb=1) * u.Pa**-0.5,
+    S_0=4.7e-07 * atom_density_lipb(nb_li=17, nb_pb=83) * u.Pa**-0.5,
     E_S=9000 * u.J * u.mol**-1,
     range=(573 * u.K, 773 * u.K),
     source="chan_thermodynamic_1984",
@@ -146,7 +146,7 @@ reiter_solubility_data_H = reiter_solubility_data[2:, :2]
 
 reiter_solubility_data_H_y = reiter_solubility_data_H[:, 1] * u.atfr * u.Pa**-0.5
 
-reiter_solubility_data_H_y *= atom_density_lipb(nb_li=17, nb_pb=1)  # m-3 Pa-1/2
+reiter_solubility_data_H_y *= atom_density_lipb(nb_li=17, nb_pb=83)  # m-3 Pa-1/2
 
 reiter_solubility_h = Solubility(
     data_T=1000 / reiter_solubility_data_H[:, 0] * u.K,
@@ -162,7 +162,7 @@ reiter_solubility_data_D_T = 1000 / reiter_solubility_data_D_T  # K
 reiter_solubility_data_D_y = (
     reiter_solubility_data_D[:, 1] * u.atfr * u.Pa**-0.5
 )  # at.fr. Pa-1/2
-reiter_solubility_data_D_y *= atom_density_lipb(nb_li=17, nb_pb=1)  # m-3 Pa-1/2
+reiter_solubility_data_D_y *= atom_density_lipb(nb_li=17, nb_pb=83)  # m-3 Pa-1/2
 
 reiter_solubility_d = Solubility(
     data_T=reiter_solubility_data_D_T[np.isfinite(reiter_solubility_data_D_T)] * u.K,
@@ -172,7 +172,7 @@ reiter_solubility_d = Solubility(
 )
 
 reiter_solubility_t = Solubility(
-    S_0=2.32e-08 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=1),
+    S_0=2.32e-08 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
     E_S=1350 * u.J * u.mol**-1,
     range=(508 * u.K, 700 * u.K),
     source="reiter_solubility_1991",
