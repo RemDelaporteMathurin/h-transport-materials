@@ -157,6 +157,9 @@ CHROMIUM = PureMetal("chromium", "Cr")
 
 ALUMINA = Compound("alumina")
 EUROFER = Steel("eurofer_97")
+STEEL_1020 = Steel("1020_steel")
+STEEL_1050 = Steel("1050_steel")
+STEEL_1095 = Steel("1095_steel")
 
 APMT = FeCrAl("apmt")
 T35Y = FeCrAl("t35y")

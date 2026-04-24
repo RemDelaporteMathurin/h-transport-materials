@@ -74,3 +74,7 @@ from . import palladium_copper
 from . import sic
 
 from . import chromium
+
+from . import steel_1020
+from . import steel_1050
+from . import steel_1095
