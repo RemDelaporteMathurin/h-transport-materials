@@ -162,7 +162,7 @@ montupet_leblond_solubility = Solubility(
 )
 
 houben_permeability = Permeability(
-    pre_exp=5.7e-7 * u.mol * u.m**-1 * u.ms**-1 * u.mbar**-0.5,
+    pre_exp=5.7e-7 * u.mol * u.m**-1 * u.s**-1 * u.mbar**-0.5,
     act_energy=41.6 * u.kJ * u.mol**-1,
     range=(u.Quantity(300, u.degC), u.Quantity(550, u.degC)),
     isotope="d",
@@ -170,7 +170,7 @@ houben_permeability = Permeability(
 )
 
 houben_permeability_oxidised = Permeability(
-    pre_exp=5.0e-7 * u.mol * u.m**-1 * u.ms**-1 * u.mbar**-0.5,
+    pre_exp=5.0e-7 * u.mol * u.m**-1 * u.s**-1 * u.mbar**-0.5,
     act_energy=46 * u.kJ * u.mol**-1,
     range=(u.Quantity(300, u.degC), u.Quantity(600, u.degC)),
     isotope="d",

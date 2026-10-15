@@ -157,7 +157,7 @@ houben_diffusivity_2019 = Diffusivity(
 )
 
 houben_permeability_2019 = Permeability(
-    pre_exp=8e-7 * u.mol * u.m**-1 * u.ms**-1 * u.mbar**-0.5,
+    pre_exp=8e-7 * u.mol * u.m**-1 * u.s**-1 * u.mbar**-0.5,
     act_energy=58 * u.kJ * u.mol**-1,
     range=(u.Quantity(300, u.degC), u.Quantity(550, u.degC)),
     isotope="d",
@@ -165,7 +165,7 @@ houben_permeability_2019 = Permeability(
 )
 
 houben_permeability_2019_rough = Permeability(
-    pre_exp=7e-7 * u.mol * u.m**-1 * u.ms**-1 * u.mbar**-0.5,
+    pre_exp=7e-7 * u.mol * u.m**-1 * u.s**-1 * u.mbar**-0.5,
     act_energy=63 * u.kJ * u.mol**-1,
     range=(u.Quantity(300, u.degC), u.Quantity(550, u.degC)),
     isotope="d",
