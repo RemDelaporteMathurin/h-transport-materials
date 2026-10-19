@@ -397,6 +397,27 @@ penalva_solubility = Solubility(
 )
 
 
+candido_solubility_absorption = Solubility(
+    S_0=4.16e-07 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
+    E_S=0 * u.eV * u.particle**-1,
+    range=(572 * u.K, 574 * u.K),  # single temperature, 300 C
+    isotope="H",
+    source="candido_tritium_2022",
+    note="Table 3.21, absorption technique, mean of 3 tests at 573 K and 25 hPa."
+    + " Single temperature only. Sample is Pb-15.7Li in the thesis",
+)
+
+candido_solubility_desorption = Solubility(
+    S_0=3.18e-07 * u.atfr * u.Pa**-0.5 * atom_density_lipb(nb_li=17, nb_pb=83),
+    E_S=0 * u.eV * u.particle**-1,
+    range=(572 * u.K, 574 * u.K),  # single temperature, 300 C
+    isotope="H",
+    source="candido_tritium_2022",
+    note="Table 3.21, desorption technique, single test (test 3a) at 573 K and 25 hPa."
+    + " Same rig as the absorption value. Sample is Pb-15.7Li in the thesis",
+)
+
+
 properties = [
     fauvet_diffusivity,
     reiter_diffusivity_h,
@@ -432,6 +453,8 @@ properties = [
     okuno_diffusivity_li7pb2,
     okuno_diffusivity_li45pb55,
     penalva_solubility,
+    candido_solubility_absorption,
+    candido_solubility_desorption,
 ]
 
 for prop in properties:
