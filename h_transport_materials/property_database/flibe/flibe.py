@@ -41,7 +41,8 @@ calderoni_solubility = Solubility(
     ),
     source="calderoni_measurement_2008",
     isotope="T",
-    note="2LiF–BeF_2 ; there's a unit inconsistency in the paper",
+    note="2LiF–BeF_2 ; there's a unit inconsistency in the paper ; "
+    "derived from a permeation experiment, not a direct solubility measurement (see Dolan 2021, MIT PhD, Table 2.6)",
 )
 
 
@@ -57,6 +58,7 @@ anderl_solubility = Solubility(
     data_y=[3.1e-4, 1.0e-4] * u.mol * u.m**-3 * u.Pa**-1,
     source="anderl_deuteriumtritium_2004",
     isotope="D",
+    note="derived from a permeation experiment, not a direct solubility measurement (see Dolan 2021, MIT PhD, Table 2.6)",
 )
 
 
@@ -115,6 +117,7 @@ maulinauskas_solubility_h = Solubility(
     data_y=data_maulinauskas_sol_h,
     isotope="H",
     source="malinauskas_solubilities_1974",
+    note="direct measurement (saturation and stripping), see Dolan 2021, MIT PhD, Fig. 2.15",
 )
 
 maulinauskas_solubility_d = Solubility(
@@ -122,6 +125,7 @@ maulinauskas_solubility_d = Solubility(
     data_y=data_maulinauskas_sol_d,
     isotope="D",
     source="malinauskas_solubilities_1974",
+    note="direct measurement (saturation and stripping), see Dolan 2021, MIT PhD, Fig. 2.15",
 )
 
 
@@ -164,6 +168,7 @@ nakamura_solubility_h = Solubility(
     data_y=data_nakamura_sol_flibe_y,
     source="nakamura_hydrogen_2015",
     isotope="H",
+    note="derived from a permeation experiment, not a direct solubility measurement (see Dolan 2021, MIT PhD, Table 2.6)",
 )
 
 
