@@ -99,16 +99,16 @@ schumacher_solubility_data_y = (
     np.exp(schumacher_solubility_data_y) * u.atfr * u.bar**-0.5
 )  # solubility * sqrt(bar)
 
-schumacher_solubility_data_y *= atom_density_lipb(nb_li=1, nb_pb=1)
+schumacher_solubility_data_y *= atom_density_lipb(nb_li=50, nb_pb=50)
 
 schumacher_solubility = Solubility(
     data_T=1000 / schumacher_solubility_data[:, 0] * u.K,
     data_y=schumacher_solubility_data_y,
     source="schumacher_hydrogen_1990",
     isotope="H",
-    note="in the review of E.Mas de les Valls there's a mistake in the conversion and"
-    + "the activation energy of solubility should be positive"
-    + "We decided to refit Schumacher's data",
+    note="measured on equiatomic Li50Pb50, not Pb-17Li. "
+    + "in the review of E.Mas de les Valls there's a mistake in the conversion, "
+    + "so we refit Schumacher's data",
 )
 
 
