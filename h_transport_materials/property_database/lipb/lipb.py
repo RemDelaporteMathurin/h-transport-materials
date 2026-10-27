@@ -194,7 +194,7 @@ aiello_solubility = Solubility(
 
 
 shibuya_diffusivity = Diffusivity(
-    data_T=np.array([300, 400, 500]) * u.degC,
+    data_T=u.Quantity([300, 400, 500], u.degC),
     data_y=np.array([6.6e-6, 7.8e-6, 9.5e-6]) * u.cm**2 * u.s**-1,
     source="shibuya_isothermal_1987",
     isotope="T",

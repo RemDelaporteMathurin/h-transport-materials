@@ -1,11 +1,4 @@
-try:
-    # Python 3.8+
-    from importlib import metadata
-except ImportError:
-    try:
-        import importlib_metadata as metadata
-    except ImportError:
-        __version__ = "unknown"
+from importlib import metadata
 
 try:
     __version__ = metadata.version("h-transport-materials")

@@ -9,6 +9,15 @@ from h_transport_materials import ureg, ArrheniusProperty, __version__
 warnings.filterwarnings("always", message="No property matching the requirements")
 
 
+def _lower(value):
+    """Lowercases a string or the strings in a list, leaves anything else as is"""
+    if isinstance(value, str):
+        return value.lower()
+    if isinstance(value, list):
+        return [v.lower() if isinstance(v, str) else v for v in value]
+    return value
+
+
 class PropertiesGroup(list):
     @property
     def units(self):
@@ -50,7 +59,7 @@ class PropertiesGroup(list):
             exclude (bool, optional): if True, the searched
                 keys will be excluded. Defaults to False.
             kwargs: attributes of properties (ex: material="tungsten").
-                String values must be lowercase to ensure good comparison.
+                String comparisons are case-insensitive.
 
         Returns:
             PropertiesGroup: the resulting properties
@@ -65,8 +74,9 @@ class PropertiesGroup(list):
                 prop_attr = getattr(prop, attr)
 
                 if isinstance(prop_attr, str):
-                    # make sure prop_attr are lower
+                    # case-insensitive comparison of strings
                     prop_attr = prop_attr.lower()
+                    value = _lower(value)
 
                 if isinstance(value, list):
                     if prop_attr not in value:
@@ -145,7 +155,7 @@ class PropertiesGroup(list):
         for prop in self:
             core.append(
                 f"""
-                {prop.material} & ${prop.pre_exp:.2e~L}$ & {prop.act_energy:.2f~P} & \cite{{{prop.source}}} \\\\"""
+                {prop.material} & ${prop.pre_exp:.2e~L}$ & {prop.act_energy:.2f~P} & \\cite{{{prop.source}}} \\\\"""
             )
 
         latex_table = f"""

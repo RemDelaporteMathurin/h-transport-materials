@@ -1,9 +1,9 @@
 name: CI
 
-on: 
+on:
   - push
   - pull_request
- 
+
 permissions:
   contents: read
 
@@ -12,18 +12,27 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python-version: "3.11"
+            pint: "pint==0.24.4"
+          - python-version: "3.14"
+            pint: "pint"
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
+    - uses: actions/checkout@v5
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v6
       with:
-        python-version: "3.10"
+        python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         python -m pip install .[tests,plotly]
-        pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        python -m pip install --upgrade "${{ matrix.pint }}"
+        pip install flake8
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -40,21 +49,21 @@ jobs:
         python -c "import h_transport_materials"
 
     - name: Upload to codecov
-      run: |
-        curl -Os https://uploader.codecov.io/latest/linux/codecov
-
-        chmod +x codecov
-        ./codecov -t ${{ secrets.CODECOV_TOKEN }}
+      if: matrix.python-version == '3.14'
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage.xml
 
   check_unused_variables:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x  # Choose your desired Python version
 

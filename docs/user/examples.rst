@@ -48,16 +48,16 @@ Convert properties units
     )
 
 
-    print(my_diffusivity.pre_exp.to(u.miles**2 * u.month**-1))
+    print(f"{my_diffusivity.pre_exp.to(u.miles**2 * u.month**-1):.4e}")
     # please don't do this...
 
-    print(my_diffusivity.act_energy.to(u.kcal * u.mol**-1))
+    print(f"{my_diffusivity.act_energy.to(u.kcal * u.mol**-1):.4f}")
 
 
 .. testoutput::
 
-    1.0153714565349241e-09 mile ** 2 / month
-    11.530273915309515 kilocalorie / mole
+    1.0154e-09 mile ** 2 / month
+    11.5303 kilocalorie / mole
 
 Accessing the internal database: basic
 --------------------------------------

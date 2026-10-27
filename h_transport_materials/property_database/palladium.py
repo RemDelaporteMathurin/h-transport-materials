@@ -84,7 +84,7 @@ favreau_data_y = (
 favreau_data_y *= 1 / PALLADIUM_VOLUMIC_DENSITY  # mol T m-3  cmHg-1.2
 
 favreau_solubility_t = Solubility(
-    data_T=favreau_data_T * u.degC,
+    data_T=u.Quantity(favreau_data_T, u.degC),
     data_y=favreau_data_y,
     source="favreau_solubility_1954",
     isotope="T",
@@ -242,7 +242,7 @@ favreau_data_y_h = (
 favreau_data_y_h *= 1 / PALLADIUM_VOLUMIC_DENSITY  # mol T m-3  cmHg-1.2
 
 favreau_solubility_h = Solubility(
-    data_T=favreau_data_T_h * u.degC,
+    data_T=u.Quantity(favreau_data_T_h, u.degC),
     data_y=favreau_data_y_h,
     source="favreau_solubility_1954",
     isotope="H",

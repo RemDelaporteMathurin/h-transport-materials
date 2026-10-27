@@ -127,7 +127,7 @@ data_zeng_2014 = np.genfromtxt(
 )
 
 zeng_diffusivity_h_2014 = Diffusivity(
-    data_T=data_zeng_2014[:, 0] * u.degC,
+    data_T=u.Quantity(data_zeng_2014[:, 0], u.degC),
     data_y=data_zeng_2014[:, 1] * u.m**2 * u.s**-1,
     source="zeng_apparatus_2014",
     isotope="H",
@@ -140,7 +140,7 @@ data_zeng_2014_S = np.genfromtxt(
 
 
 zeng_solubility_h_2014 = Solubility(
-    data_T=data_zeng_2014_S[:, 0] * u.degC,
+    data_T=u.Quantity(data_zeng_2014_S[:, 0], u.degC),
     data_y=data_zeng_2014_S[:, 1] * u.mol * u.m**-3 * u.Pa**-1,
     source="zeng_apparatus_2014",
     isotope="H",

@@ -1,11 +1,54 @@
 [build-system]
-requires = [
-    "setuptools >= 45",
-    "wheel",
-    "setuptools_scm[toml] >= 6.2",
-    "setuptools_scm_git_archive",
-]
+requires = ["setuptools >= 77", "setuptools_scm[toml] >= 8"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "h_transport_materials"
+dynamic = ["version"]
+description = "Handle H transport properties"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Remi Delaporte-Mathurin", email = "rdelaportemathurin@gmail.com" },
+]
+requires-python = ">=3.11"
+classifiers = [
+    "Natural Language :: English",
+    "Topic :: Scientific/Engineering",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy >= 1.9",
+    "matplotlib >= 3.2.2",
+    "pybtex >= 0.24",
+    "crossrefapi >= 1.5",
+    "scipy >= 1.8",
+    "pint >= 0.24",
+]
+
+[project.optional-dependencies]
+tests = ["pytest", "pytest-cov"]
+plotly = ["plotly"]
+
+[project.urls]
+Source = "https://github.com/RemDelaporteMathurin/h_transport_materials"
+Tracker = "https://github.com/RemDelaporteMathurin/h_transport_materials/issues"
+
+[tool.setuptools.packages.find]
+include = ["h_transport_materials*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+"*" = ["*.csv", "*.bib"]
+
+[tool.setuptools]
+include-package-data = false
+
 [tool.setuptools_scm]
-write_to = "h_transport_materials/_version.py"
+version_file = "h_transport_materials/_version.py"
