@@ -18,7 +18,7 @@ reported:
   temperature: {value: 450, unit: degC}
   uncertainty: {value: 0.2e-8, unit: "atfr / Pa^0.5", kind: absolute}
 transformations:
-  - op: atom_fraction_to_concentration
+  - op: mole_fraction_to_concentration
     params:
       density_at: "300 K"
     origin: htm

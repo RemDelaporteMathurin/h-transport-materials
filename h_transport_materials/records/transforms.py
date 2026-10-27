@@ -9,6 +9,7 @@ Fitting data points is not one either: the build always fits them (see
 fit_arrhenius) and the record says which law is used.
 """
 
+import re
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -81,59 +82,126 @@ def density(material, T=None):
     return ureg.Quantity(rho.a + rho.b * T, ureg.Unit(rho.unit))
 
 
+def parse_formula(formula):
+    """'BeF2' -> {'Be': 1, 'F': 2}"""
+    parts = re.findall(r"([A-Z][a-z]?)(\d*\.?\d*)", formula)
+    if not parts or "".join(el + n for el, n in parts) != formula:
+        raise ValueError(f"cannot parse chemical formula {formula!r}")
+    counts = {}
+    for el, n in parts:
+        counts[el] = counts.get(el, 0) + (float(n) if n else 1)
+    return counts
+
+
 def molar_mass(composition, elements):
-    """Molar mass of a composition given in at.%"""
+    """Mean molar mass of a mixture given in mol %.
+
+    ``composition`` maps elements (at.%) or formulas (mol % of formula
+    units) to their percentage: {"Li": 17, "Pb": 83} or {"LiF": 66, "BeF2": 34}.
+    """
     weights = elements.atomic_weights
-    missing = set(composition) - set(weights)
-    if missing:
-        raise ValueError(f"no atomic weight for {sorted(missing)} in the element table")
     unit = ureg.Unit(elements.unit)
-    return sum(
-        (at / 100 * ureg.Quantity(weights[el], unit) for el, at in composition.items()),
-        start=ureg.Quantity(0, unit),
-    )
+    total = ureg.Quantity(0, unit)
+    for formula, percent in composition.items():
+        counts = parse_formula(formula)
+        missing = set(counts) - set(weights)
+        if missing:
+            raise ValueError(f"no atomic weight for {sorted(missing)} in the element table")
+        M = sum(n * weights[el] for el, n in counts.items())
+        total = total + percent / 100 * ureg.Quantity(M, unit)
+    return total
 
 
-def atom_fraction_to_concentration(state, params, applies_to):
-    """c = x * rho / M: atom fraction to concentration.
+def _composition(ctx, params, per):
+    """The composition a fraction refers to: per atom or per formula unit"""
+    key = "composition" if per == "atom" else "formula_units"
+    if "molar_mass_from" in params:
+        candidates = [ctx["materials"][params["molar_mass_from"]]]
+    else:
+        candidates = [ctx["record"].sample, ctx["materials"][ctx["record"].material]]
+    for c in candidates:
+        if getattr(c, key) is not None:
+            return getattr(c, key)
+    raise ValueError(f"no {key.replace('_', ' ')} to compute the molar mass per {per} from")
+
+
+def _density(ctx, params):
+    if "density" in params:
+        return parse_quantity_string(params["density"])
+    material = ctx["materials"][params.get("density_from", ctx["record"].material)]
+    T = parse_quantity_string(params["density_at"]) if "density_at" in params else None
+    return density(material, T)
+
+
+def mole_fraction_to_concentration(state, params, applies_to):
+    """c = x * rho / M: mole fraction to concentration.
 
     The density and molar mass come from the material registry unless given
     explicitly (``density``, ``molar_mass``: quantity strings, for values
     cited from the paper). Params:
 
+    - ``per``: ``atom`` (default; x per atom of the material, M is the mean
+      atomic mass) or ``formula_unit`` (x per formula unit, e.g. per LiF or
+      BeF2 in FLiBe)
     - ``density_from``: material id (default: the record's material)
     - ``density_at``: temperature at which a temperature-dependent density
       is evaluated
-    - ``molar_mass_from``: material id (default: the record's sample
-      composition, else its material)
+    - ``molar_mass_from``: material id (default: the record's sample, else
+      its material)
     """
     ctx = state.context
-    if "density" in params:
-        rho = parse_quantity_string(params["density"])
-    else:
-        material = ctx["materials"][params.get("density_from", ctx["record"].material)]
-        T = parse_quantity_string(params["density_at"]) if "density_at" in params else None
-        rho = density(material, T)
-
+    per = params.get("per", "atom")
+    if per not in ("atom", "formula_unit"):
+        raise ValueError(f"per must be atom or formula_unit, not {per!r}")
+    rho = _density(ctx, params)
     if "molar_mass" in params:
         M = parse_quantity_string(params["molar_mass"])
     else:
-        if "molar_mass_from" in params:
-            composition = ctx["materials"][params["molar_mass_from"]].composition
-        else:
-            composition = (
-                ctx["record"].sample.composition
-                or ctx["materials"][ctx["record"].material].composition
-            )
-        if composition is None:
-            raise ValueError("no composition to compute the molar mass from")
-        M = molar_mass(composition, ctx["elements"])
+        M = molar_mass(_composition(ctx, params, per), ctx["elements"])
 
-    atom_density = (rho / M).to(ureg.mol * ureg.m**-3)
+    number_density = (rho / M).to(ureg.mol * ureg.m**-3)
     state.derived["density"] = rho
     state.derived["molar_mass"] = M.to(ureg.kg / ureg.mol)
-    state.derived["atom_density"] = atom_density
-    return state.map_values(lambda y: y * atom_density, applies_to)
+    state.derived["number_density"] = number_density
+    return state.map_values(lambda y: y * number_density, applies_to)
+
+
+def mass_to_volume_basis(state, params, applies_to):
+    """c_volume = c_mass * rho: from per unit mass (e.g. per gram) to per unit volume"""
+    rho = _density(state.context, params)
+    state.derived["density"] = rho
+    return state.map_values(lambda y: y * rho, applies_to)
+
+
+def concentration_ratio_to_solubility(state, params, applies_to):
+    """S = K / (R T): Henry solubility from K = c_dissolved / c_gas (dimensionless).
+
+    Evaluated at each data point's temperature, or at the temperature of a
+    constant, so it does not apply to an Arrhenius law.
+    """
+    if state.points_y is not None:
+        state.points_y = state.points_y / (htm.Rg * state.points_T)
+        return ["points"]
+    if state.temperature is not None:
+        state.reported = state.reported / (htm.Rg * state.temperature.to(ureg.K))
+        return ["reported"]
+    raise ValueError("needs data points or a constant at a given temperature")
+
+
+NOMINAL_MASSES = {"H": 1, "D": 2, "T": 3}
+
+
+def isotope_scaling(state, params, applies_to):
+    """y_isotope = y_from * (m_isotope / m_from) ** exponent
+
+    For diffusivities the classical scaling is exponent -0.5. Nominal masses
+    (1, 2, 3) are used.
+    """
+    from_isotope = params["from_isotope"]
+    to_isotope = state.context["record"].isotope
+    factor = (NOMINAL_MASSES[to_isotope] / NOMINAL_MASSES[from_isotope]) ** params["exponent"]
+    state.derived["isotope_factor"] = ureg.Quantity(factor)
+    return state.map_values(lambda y: y * factor, applies_to)
 
 
 def fit_arrhenius(T, y, unit):
@@ -182,7 +250,10 @@ def assume_range(state, params, applies_to):
 REGISTRY = {
     "gas_volume_to_amount": gas_volume_to_amount,
     "sieverts_constant_to_solubility": sieverts_constant_to_solubility,
-    "atom_fraction_to_concentration": atom_fraction_to_concentration,
+    "mole_fraction_to_concentration": mole_fraction_to_concentration,
+    "mass_to_volume_basis": mass_to_volume_basis,
+    "concentration_ratio_to_solubility": concentration_ratio_to_solubility,
+    "isotope_scaling": isotope_scaling,
     "assume_range": assume_range,
 }
 

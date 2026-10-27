@@ -16,6 +16,7 @@ from . import build, schema, sources
 
 SOURCES_DIR = build.DATA_DIR / "sources"
 RECORDS_DIR = build.DATA_DIR / "records"
+MATERIALS_DIR = build.DATA_DIR / "materials"
 
 
 def _email(args):
@@ -39,7 +40,7 @@ def source_sync(args):
         for s in sources.existing_sources(args.sources).values()
         if s.doi
     }
-    cited = sources.cited_dois(args.records)
+    cited = sources.cited_dois(args.records, args.materials)
     missing = [cited[d] for d in sorted(set(cited) - known)]
     if not missing:
         print("all cited DOIs have a source file")
@@ -76,9 +77,9 @@ def main(argv=None):
         return p
 
     common(src.add_parser("add", help="from one or more DOIs")).add_argument("doi", nargs="+")
-    common(src.add_parser("sync", help="add DOIs cited by records")).add_argument(
-        "--records", type=Path, default=RECORDS_DIR
-    )
+    sync = common(src.add_parser("sync", help="add DOIs cited by records and materials"))
+    sync.add_argument("--records", type=Path, default=RECORDS_DIR)
+    sync.add_argument("--materials", type=Path, default=MATERIALS_DIR)
     common(src.add_parser("from-bib", help="from a BibTeX file")).add_argument("file")
 
     args = parser.parse_args(argv)

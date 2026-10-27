@@ -88,6 +88,12 @@ The blocks:
 ### `reported` forms
 
 - `arrhenius`: `pre_exp`, `act_energy`, optional `range` and uncertainties.
+- `log_linear`: the law as many papers print it,
+  log_base(y / y_unit) = intercept + slope / T, with `base` e or 10 and
+  either a `slope` (in K) or an `act_energy` as printed (for
+  ln S = -14.5 + 18.2 kJ/mol / RT). Molybdenum (Katsuta), lithium
+  (Veleckis) and graphite (Shirasu) are printed this way; the current code
+  hides it as `np.exp(-14.5)`.
 - `constant`: a single `value` at a single `temperature` (Fauvet 1988).
   No fake temperature range.
 - `points`: a CSV next to the record, with an axis description for each
@@ -95,8 +101,8 @@ The blocks:
   axes like 1000/T) so the file holds what was digitised, not a
   pre-converted copy. Optional `digitised_from` (figure), `wpd_project`, and
   `author_fit`.
-- `author_fit` takes the form printed: `arrhenius` (pre-factor and energy)
-  or `ln_linear` (ln y = intercept + slope / T, as Schumacher prints it).
+- `author_fit` takes the form printed: `arrhenius` or `log_linear`
+  (Schumacher prints ln y = -A + B/T).
 
 ### Author fit or data points
 
@@ -148,33 +154,41 @@ Each transformation is `{op, params, origin, rationale, applies_to}`:
   fitting points: the build always does it, and the record only says which
   law is used (section 3).
 
-Initial vocabulary, each a small tested function in
-`records/transforms.py`:
+The vocabulary, each a small tested function in `records/transforms.py`.
+It comes from the computed patterns actually found in the current
+database, not from a wish list:
 
-| op | does | params |
-|---|---|---|
-| `gas_volume_to_amount` | n = pV / (R T_ref) | `T_ref` |
-| `sieverts_constant_to_solubility` | S = 1 / Ks | `concentration_unit` |
-| `atom_fraction_to_concentration` | c = x rho / M | `density_from`, `density_at`, `molar_mass_from` (registry lookups), or explicit `density`, `molar_mass` when the paper gives them |
-| `assume_range` | validity range not given in the paper | `range`, `unit` |
+| op | does | params | used by |
+|---|---|---|---|
+| `gas_volume_to_amount` | n = pV / (R T_ref) | `T_ref` | Frauenfelder (W, Mo) |
+| `sieverts_constant_to_solubility` | S = 1 / Ks | `concentration_unit` | Schumacher |
+| `mole_fraction_to_concentration` | c = x rho / M | `per` (`atom` or `formula_unit`), `density_from`, `density_at`, `molar_mass_from`, or explicit `density`, `molar_mass` | Pb-17Li, Li, graphite, SiC, FLiBe (Field) |
+| `mass_to_volume_basis` | c = c_mass rho | `density_from`, `density_at` | palladium (Favreau, per gram) |
+| `concentration_ratio_to_solubility` | S = K / (R T), at each point's T | none | FLiBe (Malinauskas, Kc) |
+| `isotope_scaling` | y (m_iso / m_from) ^ exponent, nominal masses | `from_isotope`, `exponent` | nickel (Louthan, D and T from H) |
+| `assume_range` | validity range not given in the paper | `range`, `unit` | Heinola |
 
-To come with the migration: `extrapolate_composition` (Chan 1984),
-`isotope_scaling`, `average` (only in the evaluations layer, section 8).
+An `extrapolate_composition` op is not needed: where a value is
+extrapolated to another composition (Chan 1984), the paper did it, so it
+is the record's method and note, not an HTM step. Averages belong to the
+evaluations layer (section 8).
 
 Material properties are not typed into records. A transformation names
 where they come from and the build looks them up:
 
 ```yaml
-- op: atom_fraction_to_concentration
+- op: mole_fraction_to_concentration
   params:
+    per: atom               # or formula_unit (x per LiF or BeF2 in FLiBe)
     density_from: lipb      # default: the record's material
     density_at: "300 K"     # needed when the density depends on T
   origin: htm
 ```
 
-The molar mass is computed from the sample composition (or the material's)
-and the element table; the build reports the density, molar mass and atom
-density it used for each record. So every record that relies on the
+The molar mass is computed from the sample composition (or the
+material's), per atom or per formula unit, with the element table; the
+build reports the density, molar mass and number density it used for each
+record. So every record that relies on the
 Pb-17Li density says so, a density borrowed from another material is
 visible, and a correction to a material fixes every record that uses it.
 
@@ -182,14 +196,19 @@ visible, and a correction to a material fixes every record that uses it.
 
 `data/materials/<id>.yaml`: id, code (used in record ids), name,
 `families` as a list (fixes `Compound` being a subclass of `Metal`),
-symbol, composition (must sum to 100 at.%), aliases, `density` and
-`htm_legacy` (the `htm` material object used by the compatibility layer).
-Li50Pb50 and Pb-17Li are separate materials grouped by the
-`lithium-lead` family.
+symbol, `composition` (at.% of elements) and, for compounds and salts,
+`formula_units` (mol % of formulas: `{LiF: 66, BeF2: 34}`), both summing
+to 100, aliases, `density` and `htm_legacy` (the `htm` material object used
+by the compatibility layer). Li50Pb50 and Pb-17Li are separate materials
+grouped by the `lithium-lead` family. The prototype registers tungsten,
+Pb-17Li, Li50Pb50, graphite, FLiBe, palladium, SiC, lithium, nickel and
+molybdenum.
 
 A `density` is `constant` or `linear` in temperature (rho = a + b T, with
 an optional validity range the build enforces) and cites its source like a
-record does:
+record does. Several current constants come from web pages (aqua-calc,
+PubChem) or have no source at all; those carry a `url` or a `flags` entry,
+and the build refuses a density with neither a source, a URL nor a flag:
 
 ```yaml
 density:
@@ -274,11 +293,13 @@ pyyaml (the library reads one JSON file at import). Anyone who wants to
 rebuild with different choices, say densities at the measurement
 temperature, gets `data/` from the repository or a release.
 
-**Constants.** HTM defines its own rounded `k_B = 8.617e-5 eV/K` and
-`R = 8.314 J/mol/K`, while pint converts kJ/mol to eV with exact values. The
-records build will use `scipy.constants` (CODATA). This moves values by
-at most about 0.1% (for 1 eV at 500 K) and is noted in the release notes;
-the equivalence test allows for it.
+**Constants.** HTM defined its own rounded `k_B = 8.617e-5 eV/K` and
+`R = 8.314 J/mol/K`, while pint converts kJ/mol to eV with exact values, so
+a law gave slightly different values depending on how its activation
+energy was entered. `htm.k_B`, `htm.Rg` and `htm.avogadro_nb` now come from
+`scipy.constants` (CODATA; branch `fix/codata-constants`). Values move by
+at most 0.15% over each validity range (median 0.016%). The records build
+uses the same `htm` constants, so the equivalence test is unaffected.
 
 **Versioning.** Data releases use calendar versions (`2026.11`), the
 library keeps semantic versions. Each library release declares the data
@@ -323,8 +344,9 @@ passes on all of them.
 
 ## 9. What the prototype showed
 
-Five sources were chosen because each stresses a different part of the
-model. They give 12 records:
+Five sources were first chosen because each stresses a different part of
+the model; six more were added to exercise every form and transformation
+the migration needs. 19 records:
 
 | Source | Records | Stresses |
 |---|---|---|
@@ -333,16 +355,25 @@ model. They give 12 records:
 | Heinola 2010, W | D (H) | DFT, no range in the paper |
 | Fauvet 1988, Pb-17Li | D, S (H) | single temperature |
 | Schumacher 1990, Li50Pb50 | S (H) | digitised points, author fit, composition |
+| Louthan 1975, Ni | D (D, T) | isotope scaling |
+| Favreau 1954, Pd | S (T) | per gram data, temperatures in degC |
+| Malinauskas 1974, FLiBe | S (H) | Henry constant as a concentration ratio |
+| Shirasu 1993, graphite | S (H), IG-110U | log form with an energy, one grade of several |
+| Katsuta 1982, Mo | D (H) | log form with a slope |
+| Veleckis 1974, Li | S (H) | log form, atom fraction in a liquid metal |
 
-**Equivalence.** Built and converted back to property objects, the 12
+**Equivalence.** Built and converted back to property objects, the 19
 records reproduce the current database (pre-exponential factors to 1e-12,
-activation energies to 1e-17 eV) except for intended differences, each
+activation energies to 1e-15 eV) except for intended differences, each
 listed in `tests/test_records.py`:
 
 - Fauvet's range is now the 450 degC (723.15 K) of the paper instead of a
   fake 722 to 724 K (issue #37).
 - Schumacher uses the authors' fit instead of HTM's refit of the
   digitised points; the two agree within 2.4% over the measured range.
+- Lithium (+0.014%) and palladium (-0.0003%): the registry stores the
+  densities the cited pages give, where the code stored a molar volume
+  and a specific volume derived from them.
 
 **Findings the current format was hiding:**
 
@@ -374,6 +405,21 @@ listed in `tests/test_records.py`:
    a cited table instead of typed by hand. Fixed on `main` in #318 (after
    0.18.3); the existing test had missed it because it checked HTM's value
    with the same faulty helper.
+7. **Room temperature densities are used for liquids and hot solids.**
+   Besides Pb-17Li (finding 2), lithium solubilities (Veleckis, 983 to
+   1176 K) use the density of solid lithium at room temperature
+   (534 kg/m3), about 10% above the liquid's. FLiBe solubilities from
+   Field 1967 use a mole-fraction average of the densities of solid LiF
+   and BeF2 (2.42 g/cm3), about 20% above liquid FLiBe at 500 to 700 degC
+   (about 2.0 g/cm3, Romatoski and Hu 2017).
+8. **Graphite uses the crystal density.** The Shirasu solubilities are
+   converted with 2.266 g/cm3, the theoretical density of graphite; the
+   IG-110U and other grades are about 1.7 to 1.9 g/cm3. Whether the bulk
+   density applies depends on how the paper defines its H/C ratio, which
+   a verifier needs to check.
+9. **Frauenfelder's reference temperature differs between papers.** The W
+   solubility uses 273 K and the Mo permeability 300 K for the gas volume
+   conversion. Both may be right; each needs checking against its paper.
 
 ## 10. Migration
 
@@ -390,11 +436,11 @@ listed in `tests/test_records.py`:
 
 1. Schumacher: find a Li50Pb50 density, or keep the Pb-17Li one as a
    labelled assumption.
-2. Pb-17Li density: evaluate it at the measurement temperature
-   (`density_at` per point or at the record's temperature) instead of
-   300 K. The transformation supports it; it is a value change of a few
-   percent for every Pb-17Li solubility, so it should ship as its own
-   labelled change.
+2. Densities of liquids (Pb-17Li, lithium, FLiBe): evaluate a liquid
+   correlation at the measurement temperature instead of a room
+   temperature value. The transformations support it (`density_at`); it
+   changes every affected solubility by 5 to 20%, so it should ship as its
+   own labelled change.
 3. Fauvet: confirm the diffusivity unit from the body of the paper.
 4. Fit tolerance: is 10% over the measured range the right threshold
    before a curator has to choose between an author fit and the points?
@@ -403,6 +449,5 @@ listed in `tests/test_records.py`:
    law with zero activation energy over a zero-width range.
 
 Decided: the authors' fit is used unless it disagrees with the points
-(section 3); the wheel ships the compiled JSON only and the CODATA
-constants come with the records build (section 6); the Li molar mass is
-fixed (#318).
+(section 3); the wheel ships the compiled JSON only and `htm` uses CODATA
+constants (section 6); the Li molar mass is fixed (#318).

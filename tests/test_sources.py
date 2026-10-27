@@ -107,7 +107,7 @@ def test_generated_source_files_are_valid():
     """The committed source files load and match the DOIs records cite"""
     existing = sources.existing_sources(build.DATA_DIR / "sources")
     known = {sources.normalize_doi(s.doi) for s in existing.values() if s.doi}
-    assert set(sources.cited_dois(build.DATA_DIR / "records")) <= known
+    assert set(sources.cited_dois(build.DATA_DIR / "records", build.DATA_DIR / "materials")) <= known
 
 
 def test_sync_reports_nothing_missing(capsys):

@@ -62,8 +62,12 @@ def load(data_dir=DATA_DIR):
 
     dois = {normalize_doi(s.doi): k for k, s in sources.items() if s.doi}
     for m in materials.values():
-        if m.composition and set(m.composition) - set(elements.atomic_weights):
-            raise BuildError(f"material {m.id}: element missing from elements.yaml")
+        try:
+            for composition in (m.composition, m.formula_units):
+                if composition:
+                    transforms.molar_mass(composition, elements)
+        except ValueError as e:
+            raise BuildError(f"material {m.id}: {e}") from e
         ref = m.density.source if m.density else None
         if ref and (normalize_doi(ref.doi) not in dois if ref.doi else ref.key not in sources):
             raise BuildError(
@@ -121,7 +125,8 @@ def _read_points(reported, folder):
             col = np.exp(col)
         elif axis.scale == "log10":
             col = 10**col
-        return col / axis.factor * ureg.Unit(axis.unit)
+        # Quantity() rather than multiplication: works with offset units (degC)
+        return ureg.Quantity(col / axis.factor, ureg.Unit(axis.unit))
 
     x, y = physical(reported.x), physical(reported.y)
     if reported.x.quantity == "inverse_temperature":
@@ -133,14 +138,19 @@ def _read_points(reported, folder):
     return T.to(ureg.K), y
 
 
-def _author_fit(fit):
-    if fit.form == "arrhenius":
+def _arrhenius_law(law):
+    """(pre_exp, act_energy) of an arrhenius or log_linear law"""
+    if law.form == "arrhenius":
         return (
-            quantity(fit.pre_exp.value, fit.pre_exp.unit),
-            quantity(fit.act_energy.value, fit.act_energy.unit),
+            quantity(law.pre_exp.value, law.pre_exp.unit),
+            quantity(law.act_energy.value, law.act_energy.unit),
         )
-    slope = quantity(fit.slope.value, fit.slope.unit).to(ureg.K)
-    return np.exp(fit.intercept) * ureg.Unit(fit.y_unit), -slope * htm.k_B
+    ln_base = 1.0 if law.base == "e" else np.log(10)
+    pre_exp = np.exp(law.intercept * ln_base) * ureg.Unit(law.y_unit)
+    if law.act_energy is not None:
+        return pre_exp, quantity(law.act_energy.value, law.act_energy.unit)
+    slope = quantity(law.slope.value, law.slope.unit).to(ureg.K)
+    return pre_exp, -slope * ln_base * htm.k_B
 
 
 def _q(q, unit):
@@ -218,9 +228,8 @@ def _initial_state(record, folder, target):
     """Parses the reported values into pint quantities"""
     state = transforms.State(target_unit=target)
     rep = record.reported
-    if rep.form == "arrhenius":
-        state.reported = quantity(rep.pre_exp.value, rep.pre_exp.unit)
-        state.act_energy = quantity(rep.act_energy.value, rep.act_energy.unit)
+    if rep.form in ("arrhenius", "log_linear"):
+        state.reported, state.act_energy = _arrhenius_law(rep)
         if rep.range is not None:
             state.range = tuple(quantity(v, rep.range.unit) for v in rep.range.value)
     elif rep.form == "constant":
@@ -229,7 +238,7 @@ def _initial_state(record, folder, target):
     else:
         state.points_T, state.points_y = _read_points(rep, folder)
         if rep.author_fit is not None:
-            state.author_fit_pre_exp, state.author_fit_act_energy = _author_fit(
+            state.author_fit_pre_exp, state.author_fit_act_energy = _arrhenius_law(
                 rep.author_fit
             )
     return state
@@ -238,7 +247,7 @@ def _initial_state(record, folder, target):
 def _normalize(record, state, target):
     rep = record.reported
     n = {}
-    if rep.form == "arrhenius":
+    if rep.form in ("arrhenius", "log_linear"):
         n["selected"] = "reported"
         n["pre_exp"] = _q(state.reported, target)
         n["act_energy"] = _q(state.act_energy, ENERGY_UNIT)

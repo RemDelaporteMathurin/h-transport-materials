@@ -17,7 +17,7 @@ reported:
   digitised_from: null
   wpd_project: h_transport_materials/property_database/lipb/schumacher_1990/schumacher.tar
   author_fit:
-    form: ln_linear
+    form: log_linear
     intercept: -8.17
     slope: {value: 734, unit: K}
     y_unit: "atfr / bar^0.5"
@@ -30,7 +30,7 @@ transformations:
     rationale: >-
       The figure plots ln(Ks) with Ks the Sieverts constant (sqrt(p) / x_H),
       so the solubility is 1 / Ks. The author fit is already written for x_H / sqrt(p).
-  - op: atom_fraction_to_concentration
+  - op: mole_fraction_to_concentration
     params:
       density_from: lipb
       density_at: "300 K"

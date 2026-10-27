@@ -23,6 +23,10 @@ EXPECTED_DIFFERENCES = {
     "htm:LiPb-S-H-fauvet1988": "range",
     # the authors' fit is used; the current entry refits the digitised points
     "htm:Li50Pb50-S-H-schumacher1990": "author_fit",
+    # registry densities are the cited values, the current code used values
+    # derived from them (molar volume 1.3e-5 m3/mol, specific volume 8.32e-8 m3/g)
+    "htm:Li-S-H-veleckis1974": ("rel", 2e-4),
+    "htm:Pd-S-T-favreau1954": ("rel", 1e-5),
 }
 
 
@@ -42,12 +46,16 @@ def _legacy_match(prop):
         for p in htm.database
         if type(p) is type(prop) and p.source == prop.source and p.isotope == prop.isotope
     ]
+    # several samples from one source (e.g. graphite grades): match the sample form
+    sample_form = prop.record["sample"].get("form")
+    if len(matches) > 1 and sample_form:
+        matches = [p for p in matches if p.note and sample_form in p.note]
     assert len(matches) == 1, f"{prop.record_id}: {len(matches)} matches"
     return matches[0]
 
 
 def test_all_records_built(db):
-    assert len(db["records"]) == 12
+    assert len(db["records"]) == 19
 
 
 def test_equivalence_with_current_database(group):
@@ -67,8 +75,9 @@ def test_equivalence_with_current_database(group):
             assert new_range == pytest.approx(old_range, rel=1e-12)
             continue
 
+        rel = difference[1] if isinstance(difference, tuple) else 1e-12
         assert new.pre_exp.to(old.pre_exp.units).magnitude == pytest.approx(
-            old.pre_exp.magnitude, rel=1e-12
+            old.pre_exp.magnitude, rel=rel
         )
         assert new.act_energy.m_as("eV/particle") == pytest.approx(
             old.act_energy.m_as("eV/particle"), rel=1e-12, abs=1e-15
@@ -100,7 +109,7 @@ def test_schumacher_uses_author_fit_and_keeps_both(db):
     assert "htm_refit" in n
     assert n["fit_discrepancy"]["max_relative"] < build.FIT_TOLERANCE
     assert len(n["points"]["T"]["value"]) == len(n["points"]["y"]["value"]) > 0
-    assert [a["op"] for a in record["htm_assumptions"]] == ["atom_fraction_to_concentration"]
+    assert [a["op"] for a in record["htm_assumptions"]] == ["mole_fraction_to_concentration"]
 
 
 def test_heinola_range_is_an_htm_assumption(db):
@@ -273,4 +282,125 @@ def test_curator_can_select_the_refit(data_copy):
 def test_explicit_selection_needs_a_note(data_copy):
     _edit(data_copy, SCHUMACHER, _set(["reported", "selected"], "htm_refit"))
     with pytest.raises(build.BuildError, match="needs a selection_note"):
+        build.build(data_copy)
+
+
+# --- forms, transformations and registries used by the migration -------------
+
+
+def _law(**fields):
+    return models.LogLinear(form="log_linear", y_unit="m^2/s", **fields)
+
+
+def test_log_linear_base_10_with_slope():
+    pre_exp, act_energy = build._arrhenius_law(
+        _law(base="10", intercept=-2, slope={"value": -1000, "unit": "K"})
+    )
+    assert pre_exp.m_as("m^2/s") == pytest.approx(1e-2)
+    assert act_energy.m_as("eV/particle") == pytest.approx(
+        (1000 * np.log(10) * htm.ureg.K * htm.k_B).m_as("eV/particle")
+    )
+
+
+def test_log_linear_with_activation_energy():
+    _, act_energy = build._arrhenius_law(
+        _law(intercept=-14.5, act_energy={"value": -18.2, "unit": "kJ/mol"})
+    )
+    assert act_energy.m_as("kJ/mol") == pytest.approx(-18.2)
+
+
+def test_log_linear_needs_slope_or_energy():
+    with pytest.raises(ValueError, match="exactly one of slope or act_energy"):
+        _law(intercept=1)
+    with pytest.raises(ValueError, match="exactly one of slope or act_energy"):
+        _law(intercept=1, slope={"value": 1, "unit": "K"}, act_energy={"value": 1, "unit": "eV"})
+
+
+@pytest.fixture(scope="module")
+def registry():
+    elements, materials, _, _ = build.load()
+    return elements, materials
+
+
+def test_molar_mass_per_formula_unit(registry):
+    """FLiBe and SiC molar masses from formulas match the values in the current code"""
+    elements, materials = registry
+    flibe = transforms.molar_mass(materials["flibe"].formula_units, elements).m_as("g/mol")
+    assert flibe == pytest.approx(0.66 * 25.9394 + 0.34 * 47.0089884, rel=1e-6)
+    sic = transforms.molar_mass(materials["sic"].formula_units, elements).m_as("g/mol")
+    assert sic == pytest.approx(40.096, rel=1e-6)
+
+
+@pytest.mark.parametrize("formula", ["Lif", "2LiF", "Li-F", ""])
+def test_bad_formula_rejected(formula):
+    with pytest.raises(ValueError, match="cannot parse chemical formula"):
+        transforms.parse_formula(formula)
+
+
+def test_density_correlation(registry):
+    _, materials = registry
+    rho = transforms.density(materials["flibe"], 873 * htm.ureg.K)
+    assert rho.m_as("kg/m^3") == pytest.approx(2413 - 0.488 * 873)
+    with pytest.raises(ValueError, match="set density_at"):
+        transforms.density(materials["flibe"])
+
+
+def test_registry_densities_match_current_code(registry):
+    """Registry densities reproduce the constants hard-coded in the current modules"""
+    from h_transport_materials.property_database import carbon, palladium, sic
+    from h_transport_materials.property_database.lithium import lithium
+
+    _, materials = registry
+
+    def rho(name):
+        return transforms.density(materials[name]).m_as("kg/m^3")
+
+    assert rho("graphite") == pytest.approx(carbon.graphite_density.m_as("kg/m^3"), rel=1e-12)
+    assert rho("sic") == pytest.approx(sic.sic_density.m_as("kg/m^3"), rel=1e-12)
+    assert rho("palladium") == pytest.approx(
+        (1 / palladium.PALLADIUM_VOLUMIC_DENSITY).m_as("kg/m^3"), rel=1e-5
+    )
+    molar_volume = (6.941 * htm.ureg.g / htm.ureg.mol) / (rho("lithium") * htm.ureg("kg/m^3"))
+    assert molar_volume.m_as("m^3/mol") == pytest.approx(
+        lithium.LITHIUM_MOLAR_VOLUME.m_as("m^3/mol"), rel=2e-4
+    )
+
+
+def test_isotope_scaling_factor(db):
+    record = next(r for r in db["records"] if r["id"] == "htm:Ni-D-T-louthan1975")
+    assert record["derived"]["isotope_factor"]["value"] == pytest.approx(3**-0.5)
+    assert record["htm_assumptions"][0]["op"] == "isotope_scaling"
+
+
+@pytest.mark.parametrize(
+    "name,edit,message",
+    [
+        (
+            "W-D-H-esteban2001",
+            _set(
+                ["transformations"],
+                [{"op": "concentration_ratio_to_solubility", "origin": "paper", "rationale": "test"}],
+            ),
+            "needs data points or a constant",
+        ),
+        (
+            "Li-S-H-veleckis1974",
+            _set(["transformations", 0, "params"], {"per": "formula_unit"}),
+            "no formula units",
+        ),
+        (
+            "Li-S-H-veleckis1974",
+            _set(["transformations", 0, "params"], {"per": "molecule"}),
+            "per must be atom or formula_unit",
+        ),
+        (
+            "Mo-D-H-katsuta1982",
+            _set(["reported", "act_energy"], {"value": 1, "unit": "eV"}),
+            "exactly one of slope or act_energy",
+        ),
+    ],
+)
+def test_invalid_migration_record_rejected(data_copy, name, edit, message):
+    _edit(data_copy, name, edit)
+    with pytest.raises(build.BuildError, match=message):
         build.build(data_copy)

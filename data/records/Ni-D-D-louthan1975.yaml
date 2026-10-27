@@ -1,0 +1,25 @@
+id: htm:Ni-D-D-louthan1975
+property: diffusivity
+material: nickel
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/0001-6160(75)90057-7
+  location: null
+reported:
+  form: arrhenius
+  pre_exp: {value: 7.0e-7, unit: "m^2/s"}
+  act_energy: {value: 39.5, unit: "kJ/mol"}
+  range: {value: [300, 500], unit: K}
+transformations:
+  - op: isotope_scaling
+    params: {from_isotope: H, exponent: -0.5}
+    origin: htm
+    rationale: >-
+      The reported law is for protium. HTM derives the D diffusivity with the
+      classical 1/sqrt(mass) scaling of the pre-exponential factor (nominal
+      masses), keeping the activation energy.
+curation:
+  status: draft
+  flags:
+    - check whether the paper gives deuterium or tritium values itself

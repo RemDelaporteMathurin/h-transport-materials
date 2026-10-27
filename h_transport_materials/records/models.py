@@ -48,7 +48,10 @@ Method = Literal[
 TransformationOp = Literal[
     "gas_volume_to_amount",
     "sieverts_constant_to_solubility",
-    "atom_fraction_to_concentration",
+    "mole_fraction_to_concentration",
+    "mass_to_volume_basis",
+    "concentration_ratio_to_solubility",
+    "isotope_scaling",
     "assume_range",
 ]
 
@@ -101,18 +104,33 @@ class ArrheniusFit(_Strict):
     location: str | None = None
 
 
-class LnLinearFit(_Strict):
-    """ln(value / y_unit) = intercept + slope / T, as some papers print it"""
+class LogLinear(_Strict):
+    """A law printed in log form, as many papers do:
 
-    form: Literal["ln_linear"]
+    log_base(value / y_unit) = intercept + slope / T
+    or  log_base(value / y_unit) = intercept - act_energy / (R T ln(base))
+
+    Give exactly one of ``slope`` (a temperature) or ``act_energy`` (the
+    activation energy as printed, e.g. in kJ/mol).
+    """
+
+    form: Literal["log_linear"]
+    base: Literal["e", "10"] = "e"
     intercept: float
-    slope: Quantity = Field(description="in K")
+    slope: Quantity | None = Field(None, description="in K")
+    act_energy: Quantity | None = None
     y_unit: str
     range: Range | None = None
     location: str | None = None
 
+    @model_validator(mode="after")
+    def slope_or_energy(self):
+        if (self.slope is None) == (self.act_energy is None):
+            raise ValueError("log_linear needs exactly one of slope or act_energy")
+        return self
 
-AuthorFit = Annotated[Union[ArrheniusFit, LnLinearFit], Field(discriminator="form")]
+
+AuthorFit = Annotated[Union[ArrheniusFit, LogLinear], Field(discriminator="form")]
 
 
 class Axis(_Strict):
@@ -180,7 +198,7 @@ class PointsReported(_Strict):
 
 
 Reported = Annotated[
-    Union[ArrheniusReported, ConstantReported, PointsReported],
+    Union[ArrheniusReported, LogLinear, ConstantReported, PointsReported],
     Field(discriminator="form"),
 ]
 
@@ -220,11 +238,14 @@ def _check_composition(composition):
 
 class Sample(_Strict):
     composition: dict[str, float] | None = Field(None, description="atomic %")
-
-    _composition = field_validator("composition")(_check_composition)
+    formula_units: dict[str, float] | None = Field(
+        None, description="mol % of formula units, e.g. {LiF: 66, BeF2: 34}"
+    )
     form: str | None = None
     purity: str | None = None
     surface: str | None = None
+
+    _composition = field_validator("composition", "formula_units")(_check_composition)
 
 
 class Curation(_Strict):
@@ -287,8 +308,10 @@ class Density(_Strict):
     unit: str = "kg/m^3"
     T_unit: str = "K"
     range: Range | None = None
-    source: SourceRef
+    source: SourceRef | None = None
+    url: str | None = Field(None, description="for values taken from a web page")
     note: str | None = None
+    flags: list[str] = []
 
     @model_validator(mode="after")
     def coefficients(self):
@@ -296,6 +319,8 @@ class Density(_Strict):
             raise ValueError("a constant density needs value")
         if self.form == "linear" and (self.a is None or self.b is None):
             raise ValueError("a linear density needs a and b")
+        if self.source is None and self.url is None and not self.flags:
+            raise ValueError("a density needs a source, a url, or a flag saying one is missing")
         return self
 
 
@@ -306,6 +331,9 @@ class Material(_Strict):
     families: list[str] = []
     symbol: str | None = None
     composition: dict[str, float] | None = Field(None, description="atomic %")
+    formula_units: dict[str, float] | None = Field(
+        None, description="mol % of formula units, for compounds and salts"
+    )
     density: Density | None = None
     aliases: list[str] = []
     htm_legacy: str | None = Field(
@@ -313,7 +341,7 @@ class Material(_Strict):
     )
     note: str | None = None
 
-    _composition = field_validator("composition")(_check_composition)
+    _composition = field_validator("composition", "formula_units")(_check_composition)
 
 
 class ElementTable(_Strict):

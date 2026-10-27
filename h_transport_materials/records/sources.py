@@ -231,12 +231,25 @@ def add_doi(doi, sources_dir, email=None, fetch=fetch_csl):
     return source, write_source(source, sources_dir), True
 
 
-def cited_dois(records_dir) -> dict:
-    """DOIs cited by records (source.doi), as normalized DOI -> DOI as cited"""
+def _source_dois(node):
+    """DOIs in every ``source: {doi: ...}`` block of a loaded YAML document"""
+    if isinstance(node, dict):
+        source = node.get("source")
+        if isinstance(source, dict) and source.get("doi"):
+            yield source["doi"]
+        for value in node.values():
+            yield from _source_dois(value)
+    elif isinstance(node, list):
+        for value in node:
+            yield from _source_dois(value)
+
+
+def cited_dois(*dirs) -> dict:
+    """DOIs cited by records or materials (any source.doi), as normalized DOI -> DOI as cited"""
     dois = {}
-    for path in sorted(Path(records_dir).glob("*.yaml")):
-        with open(path, encoding="utf-8") as f:
-            doi = (yaml.safe_load(f).get("source") or {}).get("doi")
-        if doi:
-            dois.setdefault(normalize_doi(doi), strip_doi(doi))
+    for directory in dirs:
+        for path in sorted(Path(directory).glob("*.yaml")):
+            with open(path, encoding="utf-8") as f:
+                for doi in _source_dois(yaml.safe_load(f)):
+                    dois.setdefault(normalize_doi(doi), strip_doi(doi))
     return dois

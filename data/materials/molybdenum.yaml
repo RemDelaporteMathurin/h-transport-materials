@@ -1,0 +1,7 @@
+id: molybdenum
+code: Mo
+name: molybdenum
+families: [metal, pure metal]
+symbol: Mo
+composition: {Mo: 100}
+htm_legacy: MOLYBDENUM
