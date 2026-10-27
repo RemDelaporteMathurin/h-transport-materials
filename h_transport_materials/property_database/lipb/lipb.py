@@ -5,7 +5,7 @@ import numpy as np
 
 u = htm.ureg
 
-molar_mass_li = 0.06941 * u.kg * u.mol**-1
+molar_mass_li = 0.006941 * u.kg * u.mol**-1
 molar_mass_Pb = 0.2072 * u.kg * u.mol**-1
 
 # NOTE: this gives a temperature dependent density of LiPb https://publikationen.bibliothek.kit.edu/270023422/3813094
