@@ -171,11 +171,11 @@ It is possible to evaluate the value of a property at a given temperature.
         D_0=1 * ureg.cm**2 * ureg.s**-1,
         E_D=20 * ureg.kJ * ureg.mol**-1,
     )
-    print(D.value(400 * ureg.K))
+    print(f"{D.value(400 * ureg.K):.4e}")
 
 .. testoutput::
 
-    2.4446573022139513e-07 meter ** 2 / second
+    2.4452e-07 meter ** 2 / second
 
 To visualise the temperature dependency of an Arrhenius property, see :ref:`plotting_user`.
 
