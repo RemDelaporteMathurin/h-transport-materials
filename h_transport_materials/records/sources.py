@@ -16,6 +16,7 @@ from pathlib import Path
 
 import yaml
 
+from .doi import normalize_doi, strip_doi  # noqa: F401  re-exported
 from .models import Source
 
 USER_AGENT = "h-transport-materials (https://github.com/RemDelaporteMathurin/h-transport-materials)"
@@ -50,18 +51,6 @@ BIBTEX_TYPES = {
 }
 
 _DASHES = dict.fromkeys(map(ord, "‐‑‒–—−"), "-")
-
-
-def strip_doi(doi: str) -> str:
-    """Strips URL and 'doi:' prefixes, keeping the publisher's case"""
-    doi = doi.strip()
-    doi = re.sub(r"^(https?://)?(dx\.)?doi\.org/", "", doi, flags=re.I)
-    return re.sub(r"^doi:\s*", "", doi, flags=re.I)
-
-
-def normalize_doi(doi: str) -> str:
-    """For comparisons: DOIs are case-insensitive"""
-    return strip_doi(doi).lower()
 
 
 def clean_given(given: str | None) -> str | None:

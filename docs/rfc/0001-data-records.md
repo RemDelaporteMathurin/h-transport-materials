@@ -285,6 +285,15 @@ validated without Python (editors, other languages).
 | sdist and GitHub release | `data/` (YAML, CSV) plus the compiled JSON, later Parquet and CSV tables |
 | Zenodo | each GitHub release, with a DOI |
 
+How the JSON gets into the wheel: the release workflow runs
+`htm build --out h_transport_materials/_data/htm-data.json` before
+`python -m build`, and `_data/*.json` is package data. The file is never
+committed (`.gitignore`). From a git checkout or an editable install,
+`htm.get` and `htm.load` build it from `data/` on first use (with the
+`build` extra), cache it next to the package, and rebuild it when a file
+in `data/` changes. A CI job builds a wheel, installs it in a clean
+environment and reads a record with pydantic and pyyaml absent.
+
 The compiled JSON already holds every record in full (as printed,
 transformations, curation, points), so the YAML would add nothing to the
 wheel. Leaving it out avoids a second copy that could disagree, about
@@ -312,15 +321,20 @@ The current API keeps working: `htm.database`, `htm.diffusivities`,
 turns built records into today's property objects, with the record
 attached (`prop.record_id`, `prop.record`).
 
-New:
+New (implemented, reading the compiled JSON):
 
 ```python
-D = htm.get("htm:W-D-H-frauenfelder1969")
-D.reported          # as printed
-D.transformations   # what HTM did
-D.htm_assumptions   # HTM's own choices only
-db = htm.load(version="2026.11")
+D = htm.get("htm:W-D-H-frauenfelder1969")   # a Diffusivity, as today
+D.record["reported"]          # as printed
+D.record["transformations"]   # what HTM did
+D.record["htm_assumptions"]   # HTM's own choices only
+records = htm.load()                         # PropertiesGroup of all records
+older = htm.load("htm-data-v0.19.0.json")    # a release's compiled file
 ```
+
+`htm.load(version=...)` downloading a release's file is left for later;
+for now a downloaded file is passed by path. Reading needs no extra
+dependencies (no pydantic, no pyyaml).
 
 The `property_database/` modules are removed once every record is
 migrated, after one release where both exist and the equivalence test

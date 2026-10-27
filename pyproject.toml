@@ -50,6 +50,7 @@ namespaces = false
 
 [tool.setuptools.package-data]
 "*" = ["*.csv", "*.bib"]
+"h_transport_materials" = ["_data/*.json"]
 
 [tool.setuptools]
 include-package-data = false

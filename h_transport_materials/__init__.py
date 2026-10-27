@@ -58,3 +58,36 @@ recombination_coeffs = PropertiesGroup(
 dissociation_coeffs = PropertiesGroup(
     prop for prop in database if isinstance(prop, DissociationCoeff)
 )
+
+
+def get(record_id: str, path=None):
+    """Returns a property from the record database by its id.
+
+    Usage::
+
+        D = htm.get("htm:W-D-H-frauenfelder1969")
+        D.record["reported"]  # as published
+
+    Args:
+        record_id (str): the permanent record id
+        path (str, optional): a compiled database file (e.g. attached to a
+            GitHub release). Defaults to the one shipped with the package.
+
+    Returns:
+        ArrheniusProperty: the property, with the full record in ``.record``
+    """
+    from .records.loader import get as _get
+
+    return _get(record_id, path)
+
+
+def load(path=None):
+    """Returns the record database as a PropertiesGroup.
+
+    Args:
+        path (str, optional): a compiled database file (e.g. attached to a
+            GitHub release). Defaults to the one shipped with the package.
+    """
+    from .records.loader import properties
+
+    return properties(path)

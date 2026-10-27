@@ -1,5 +1,6 @@
-"""Prototype of the file-based record format (see docs/rfc/0001-data-records.md).
+"""File-based records (see docs/rfc/0001-data-records.md).
 
-Not imported by ``h_transport_materials`` itself: the existing database is
-unchanged. Needs the ``build`` extra (pydantic, pyyaml).
+Reading the compiled database (``loader``, ``compat``) needs no extra
+dependencies. Building it from ``data/`` (``build``, ``sources``, ``cli``)
+needs the ``build`` extra (pydantic, pyyaml).
 """

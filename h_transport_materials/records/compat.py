@@ -6,7 +6,7 @@ keeps working when the database is loaded from compiled records.
 
 import h_transport_materials as htm
 
-from .sources import normalize_doi
+from .doi import normalize_doi
 from .units import ENERGY_UNIT, ureg
 
 CLASSES = {

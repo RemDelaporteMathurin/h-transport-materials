@@ -21,7 +21,7 @@ import h_transport_materials as htm
 
 from . import transforms
 from .models import ID_PATTERN, SCHEMA_VERSION, ElementTable, Material, Record, Source
-from .sources import normalize_doi
+from .doi import normalize_doi
 from .units import ENERGY_UNIT, NORMALIZED_UNITS, quantity, ureg
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
