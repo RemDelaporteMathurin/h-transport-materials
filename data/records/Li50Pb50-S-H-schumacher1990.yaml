@@ -1,0 +1,54 @@
+id: htm:Li50Pb50-S-H-schumacher1990
+property: solubility
+law: sieverts
+material: li50pb50
+isotope: H
+method: gas-absorption
+sample:
+  composition: {Li: 50, Pb: 50}
+source:
+  key: schumacher1990
+  location: null
+reported:
+  form: points
+  file: Li50Pb50-S-H-schumacher1990.csv
+  x: {column: 0, quantity: inverse_temperature, unit: "1/K", factor: 1000}
+  y: {column: 1, quantity: value, unit: "bar^0.5", scale: ln}
+  digitised_from: null
+  wpd_project: h_transport_materials/property_database/lipb/schumacher_1990/schumacher.tar
+  author_fit:
+    form: ln_linear
+    intercept: -8.17
+    slope: {value: 734, unit: K}
+    y_unit: "atfr / bar^0.5"
+    location: abstract, ln(x_H sqrt(1e5 Pa) / sqrt(p_H2)) = -A + B/T with A = 8.17, B = 734 K (LiPb)
+transformations:
+  - op: sieverts_constant_to_solubility
+    params: {concentration_unit: atfr}
+    origin: paper
+    applies_to: [points]
+    rationale: >-
+      The figure plots ln(Ks) with Ks the Sieverts constant (sqrt(p) / x_H),
+      so the solubility is 1 / Ks. The author fit is already written for x_H / sqrt(p).
+  - op: atom_fraction_to_concentration
+    params:
+      density: "10163.197 kg/m^3"
+      molar_mass: "0.138305 kg/mol"
+    origin: htm
+    rationale: >-
+      The paper gives atom fractions. HTM converts them with the Li50Pb50 molar
+      mass (0.5 M_Pb + 0.5 M_Li) but the Pb-17Li density, since HTM has no
+      Li50Pb50 density. Open point: find a Li50Pb50 density.
+  - op: refit_arrhenius
+    origin: htm
+    rationale: >-
+      Reproduces the current HTM entry, which refits the digitised points
+      (unweighted, ln y against 1/T). The authors' own fit is kept in
+      reported.author_fit; selecting it instead is an open point.
+note: >-
+  Measured on equiatomic Li50Pb50, not Pb-17Li. The review of E. Mas de les
+  Valls has a mistake in the conversion, so HTM uses the original data.
+curation:
+  status: draft
+  flags:
+    - fill digitised_from (figure number) and location

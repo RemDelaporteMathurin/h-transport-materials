@@ -1,0 +1,24 @@
+id: htm:LiPb-D-H-fauvet1988
+property: diffusivity
+material: lipb
+isotope: H
+method: unknown
+sample:
+  composition: {Li: 17, Pb: 83}
+source:
+  key: fauvet1988
+  location: abstract
+reported:
+  form: constant
+  value:
+    value: 1.5e-9
+    unit: "m^2/s"
+    unit_as_printed: "mm2 s-1 (abstract)"
+  temperature: {value: 450, unit: degC}
+curation:
+  status: disputed
+  flags:
+    - >-
+      The abstract prints 1.5e-9 mm2/s. HTM uses m2/s, which is consistent with
+      other Pb-17Li diffusivities near 723 K (about 1e-9 m2/s). Check the body
+      of the paper and record the location of the value used.

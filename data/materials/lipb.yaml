@@ -1,0 +1,10 @@
+id: lipb
+code: LiPb
+name: Pb-17Li
+families: [liquid metal, lithium-lead]
+composition: {Li: 17, Pb: 83}
+aliases: [lipb, Pb-17Li, Li17Pb83, PbLi]
+htm_legacy: LIPB
+note: >-
+  Eutectic lithium-lead used as breeder. Papers report Li content between
+  about 15.7 and 17 at.%; the actual composition belongs in each record's sample.

@@ -1,0 +1,17 @@
+id: htm:W-D-H-frauenfelder1969
+property: diffusivity
+material: tungsten
+isotope: H
+method: unknown
+source:
+  key: frauenfelder1969
+  location: null
+reported:
+  form: arrhenius
+  pre_exp: {value: 4.1e-3, unit: "cm^2/s"}
+  act_energy: {value: 9000, unit: "cal/mol"}
+  range: {value: [1100, 2400], unit: K}
+curation:
+  status: draft
+  flags:
+    - fill method and location (table or equation) from the paper

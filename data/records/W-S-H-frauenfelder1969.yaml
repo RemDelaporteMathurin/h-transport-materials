@@ -1,0 +1,26 @@
+id: htm:W-S-H-frauenfelder1969
+property: solubility
+law: sieverts
+material: tungsten
+isotope: H
+method: unknown
+source:
+  key: frauenfelder1969
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 2.9e-1
+    unit: "torr * L / cm^3 / torr^0.5"
+  act_energy: {value: 24000, unit: "cal/mol"}
+  range: {value: [1100, 2400], unit: K}
+transformations:
+  - op: gas_volume_to_amount
+    params: {T_ref: "273 K"}
+    origin: paper
+    rationale: the paper gives the dissolved amount as a gas volume (torr L) at 273 K
+curation:
+  status: draft
+  flags:
+    - fill method and location from the paper
+    - check that 273 K (not 273.15 K) is the reference temperature printed

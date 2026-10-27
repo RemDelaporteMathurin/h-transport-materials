@@ -1,0 +1,17 @@
+id: htm:W-S-T-esteban2001
+property: solubility
+law: sieverts
+material: tungsten
+isotope: T
+method: isotope-extrapolation
+source:
+  key: esteban2001
+  location: null
+reported:
+  form: arrhenius
+  pre_exp: {value: 2.25e-2, unit: "mol / m^3 / Pa^0.5"}
+  act_energy: {value: 27.8, unit: "kJ/mol"}
+  range: {value: [673, 1073], unit: K}
+note: >-
+  Extrapolated by the authors from the protium and deuterium results using the
+  oscillation temperatures of a harmonic oscillator model (abstract), not measured.

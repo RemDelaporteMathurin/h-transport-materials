@@ -35,6 +35,7 @@ dependencies = [
 [project.optional-dependencies]
 tests = ["pytest", "pytest-cov"]
 plotly = ["plotly"]
+build = ["pydantic >= 2", "pyyaml", "jsonschema"]
 
 [project.urls]
 Source = "https://github.com/RemDelaporteMathurin/h_transport_materials"

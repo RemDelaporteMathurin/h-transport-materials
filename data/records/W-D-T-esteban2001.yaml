@@ -1,0 +1,16 @@
+id: htm:W-D-T-esteban2001
+property: diffusivity
+material: tungsten
+isotope: T
+method: isotope-extrapolation
+source:
+  key: esteban2001
+  location: null
+reported:
+  form: arrhenius
+  pre_exp: {value: 5.34e-10, unit: "m^2/s"}
+  act_energy: {value: 11.2, unit: "kJ/mol"}
+  range: {value: [673, 1073], unit: K}
+note: >-
+  Extrapolated by the authors from the protium and deuterium results using the
+  oscillation temperatures of a harmonic oscillator model (abstract), not measured.

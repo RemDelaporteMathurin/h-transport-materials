@@ -1,0 +1,32 @@
+id: htm:LiPb-S-H-fauvet1988
+property: solubility
+law: sieverts
+material: lipb
+isotope: H
+method: unknown
+sample:
+  composition: {Li: 17, Pb: 83}
+source:
+  key: fauvet1988
+  location: abstract
+reported:
+  form: constant
+  value:
+    value: 2.7e-8
+    unit: "atfr / Pa^0.5"
+    unit_as_printed: "atomic fraction. Pa^-1/2"
+  temperature: {value: 450, unit: degC}
+  uncertainty: {value: 0.2e-8, unit: "atfr / Pa^0.5", kind: absolute}
+transformations:
+  - op: atom_fraction_to_concentration
+    params:
+      density: "10163.197 kg/m^3"
+      molar_mass: "0.1837757 kg/mol"
+    origin: htm
+    rationale: >-
+      The paper gives an atom fraction. HTM converts it with a constant Pb-17Li
+      density (the value used throughout HTM's LiPb records) and the Pb-17Li
+      molar mass (0.83 M_Pb + 0.17 M_Li). The density is temperature dependent
+      (KIT report https://publikationen.bibliothek.kit.edu/270023422/3813094).
+curation:
+  status: draft
