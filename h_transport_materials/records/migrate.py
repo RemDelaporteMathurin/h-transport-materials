@@ -12,6 +12,7 @@
 
 import ast
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -57,7 +58,7 @@ class Hook(importlib.abc.MetaPathFinder):
 sys.meta_path.insert(0, Hook())
 import h_transport_materials as htm
 
-index = {id(p): i for i, p in enumerate(htm.database)}
+index = {id(p): i for i, p in enumerate(htm.legacy_database())}
 out = []
 for prop, cls, filename, lineno in calls:
     law = getattr(prop, "law", None)
@@ -81,6 +82,7 @@ def capture():
     result = subprocess.run(
         [sys.executable, "-W", "ignore", "-c", _CAPTURE % {"classes": CLASSES}],
         cwd=REPO,
+        env={**os.environ, "HTM_LEGACY_DATABASE": "1"},
         capture_output=True,
         text=True,
         check=True,
@@ -725,6 +727,7 @@ def _match_existing(data_dir, manifest, calls):
         for c in calls
         if c["index"] is not None and "property_database" in Path(c["file"]).parts
     }
+    legacy = htm.legacy_database()
     db = build.build(data_dir)
     materials = {m["id"]: m for m in db["materials"]}
     srcs = {s["key"]: s for s in db["sources"]}
@@ -738,13 +741,13 @@ def _match_existing(data_dir, manifest, calls):
             continue
         new = compat.to_property(record, materials, srcs)
         matches = [
-            i for i, p in enumerate(htm.database)
+            i for i, p in enumerate(legacy)
             if type(p) is type(new) and p.source == new.source
             and (p.isotope or "").upper() == new.isotope
         ]
         form = (record.get("sample") or {}).get("form")
         if len(matches) > 1 and form:
-            matches = [i for i in matches if htm.database[i].note and form in htm.database[i].note]
+            matches = [i for i in matches if legacy[i].note and form in legacy[i].note]
         if len(matches) == 1:
             manifest[record["id"]] = {"index": matches[0], "class": type(new).__name__}
 

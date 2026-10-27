@@ -119,6 +119,11 @@ def to_property(built, materials, sources):
     material = materials[built["material"]]
     legacy = material.get("htm_legacy")
     prop.material = getattr(htm, legacy) if legacy else htm.Material(material["name"])
+    if prop.bibsource is None:
+        # no references.bib entry: author and year from the source file
+        people = source.get("authors") or source.get("editors")
+        prop.author = people[0]["family"].lower()
+        prop.year = source["year"]
     prop.record_id = built["id"]
     prop.record = built
     return prop

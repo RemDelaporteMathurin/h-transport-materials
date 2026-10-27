@@ -1,3 +1,4 @@
+import os
 from importlib import metadata
 
 try:
@@ -37,9 +38,27 @@ from . import plotting
 from .helpers import *
 from .material import *
 
-database = PropertiesGroup()
+# the Python property_database, filled when it is imported (see legacy_database)
+_legacy_database = PropertiesGroup()
 
-from . import property_database
+
+def legacy_database():
+    """Returns the properties defined in the Python property_database modules.
+
+    They are being replaced by the YAML records in data/ (see
+    docs/rfc/0001-data-records.md); this is kept to compare the two.
+    """
+    from . import property_database  # noqa: F401  fills _legacy_database
+
+    return _legacy_database
+
+
+if os.environ.get("HTM_LEGACY_DATABASE", "") not in ("", "0"):
+    database = legacy_database()
+else:
+    from .records.loader import properties as _record_properties
+
+    database = PropertiesGroup(_record_properties())
 
 diffusivities = PropertiesGroup(
     prop for prop in database if isinstance(prop, Diffusivity)

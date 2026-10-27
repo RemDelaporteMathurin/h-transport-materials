@@ -79,4 +79,4 @@ properties = [
 ]
 
 
-htm.database += properties
+htm._legacy_database += properties

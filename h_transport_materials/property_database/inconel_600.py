@@ -174,4 +174,4 @@ properties = [
 for prop in properties:
     prop.material = htm.INCONEL_600
 
-htm.database += properties
+htm._legacy_database += properties

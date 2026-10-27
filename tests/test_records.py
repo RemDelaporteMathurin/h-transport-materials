@@ -59,7 +59,7 @@ def group(db):
 
 @pytest.fixture(scope="module")
 def manifest():
-    """record id -> index of the property it replaces in htm.database"""
+    """record id -> index of the property it replaces in htm.legacy_database()"""
     with open(build.DATA_DIR / "migration" / "legacy.yaml", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
@@ -75,9 +75,9 @@ def test_equivalence_with_current_database(group, manifest):
     """Each record reproduces the property it replaces, except listed differences"""
     for new in group:
         entry = manifest[new.record_id]
-        old = htm.database[entry["index"]]
+        old = htm.legacy_database()[entry["index"]]
         assert type(old).__name__ == entry["class"], (
-            f"{new.record_id}: htm.database changed order, rerun htm migrate"
+            f"{new.record_id}: the legacy database changed order, rerun htm migrate"
         )
         difference = EXPECTED_DIFFERENCES.get(new.record_id, {})
         assert new.material == old.material, new.record_id

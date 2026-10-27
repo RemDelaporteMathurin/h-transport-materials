@@ -201,4 +201,4 @@ properties = [
 for prop in properties:
     prop.material = htm.EUROFER
 
-htm.database += properties
+htm._legacy_database += properties

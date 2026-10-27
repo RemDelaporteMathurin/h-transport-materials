@@ -26,4 +26,4 @@ properties = [
 for prop in properties:
     prop.material = htm.THERMACORE_OXIDIZED
 
-htm.database += properties
+htm._legacy_database += properties

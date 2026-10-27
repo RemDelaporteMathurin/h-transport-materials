@@ -485,4 +485,4 @@ properties = [
 for prop in properties:
     prop.material = htm.STEEL_316L
 
-htm.database += properties
+htm._legacy_database += properties
