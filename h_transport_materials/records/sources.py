@@ -172,10 +172,12 @@ def bibtex_to_sources(text: str, taken=()) -> list[Source]:
         if not authors:
             raise ValueError(f"{entry.key}: no authors")
         year = int(f["year"])
+        title = clean_text(f.get("title"))
         source = Source(
             key=make_key(authors[0]["family"], year, taken),
             type=BIBTEX_TYPES.get(entry.type.lower(), "other"),
-            title=clean_text(f.get("title")),
+            title=title or "[title unknown]",
+            note=None if title else "The BibTeX entry has no title; find the original.",
             authors=authors,
             year=year,
             journal=clean_text(f.get("journal") or f.get("booktitle") or f.get("institution") or f.get("school")),

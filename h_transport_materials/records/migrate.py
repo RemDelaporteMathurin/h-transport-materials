@@ -300,6 +300,50 @@ def _is_np_exp_of_data(node):
     )
 
 
+def _has_units(node):
+    return any(_is_unit(n) for n in ast.walk(node))
+
+
+def _inline(node, call):
+    """Replaces module variables holding a quantity by the expression they were
+    assigned, e.g. data_T_byeon -> u.Quantity([650, 700], u.degC).
+
+    Variables without units (loaded data arrays) are kept as data references.
+
+    Raises:
+        Unsupported: if a variable is modified in place (*=) before the call
+    """
+    _, tree = _trees[call["file"]]
+    call_line = call_node(call)[0].lineno
+
+    def assignment(name):
+        assigned = [
+            s for s in tree.body
+            if isinstance(s, ast.Assign) and s.lineno < call_line
+            and len(s.targets) == 1 and isinstance(s.targets[0], ast.Name)
+            and s.targets[0].id == name
+        ]
+        if not assigned:
+            return None
+        last = assigned[-1]
+        for s in tree.body:
+            if (
+                isinstance(s, ast.AugAssign) and isinstance(s.target, ast.Name)
+                and s.target.id == name and last.lineno < s.lineno < call_line
+            ):
+                raise Unsupported(f"{name} is modified in place before use")
+        return last.value
+
+    class Inliner(ast.NodeTransformer):
+        def visit_Name(self, n):
+            value = assignment(n.id)
+            if value is not None and _has_units(value):
+                return self.visit(ast.parse(ast.unparse(value), mode="eval").body)
+            return n
+
+    return Inliner().visit(ast.parse(ast.unparse(node), mode="eval").body)
+
+
 def _axis_parts(node):
     """Splits an axis expression into (column, numbers, units)
 
@@ -350,8 +394,8 @@ def points_axes(call):
     kwargs = call_kwargs(call)
     if "data_T" not in kwargs or "data_y" not in kwargs:
         raise Unsupported("data_T or data_y missing")
-    (scale_T, values_T, sign_T), numbers_T, units_T = _axis_parts(kwargs["data_T"])
-    (scale_y, values_y, sign_y), numbers_y, units_y = _axis_parts(kwargs["data_y"])
+    (scale_T, values_T, sign_T), numbers_T, units_T = _axis_parts(_inline(kwargs["data_T"], call))
+    (scale_y, values_y, sign_y), numbers_y, units_y = _axis_parts(_inline(kwargs["data_y"], call))
     if scale_T != "linear" or sign_y != 1 or numbers_y:
         raise Unsupported("unusual axis")
 
@@ -414,7 +458,7 @@ def classify(call):
                 return "hand", "data points: T and y have different lengths"
         except Unsupported as e:
             return "hand", f"data points: {e}"
-        if call["source"].startswith("@") or call["source"] not in _bib_entries():
+        if call["source"].startswith("@") or (call["source"] not in _bib_entries() and call["source"] not in _source_aliases()):
             return "hand", "source not in references.bib"
         return "auto", None
     unknown = set(kwargs) - {pre_name, energy_name} - OTHER_ARGS
@@ -435,7 +479,7 @@ def classify(call):
             return "hand", "range bounds in two different units"
     if call["source"].startswith("@"):
         return "hand", "inline bibtex source"
-    if call["source"] not in _bib_entries():
+    if call["source"] not in _bib_entries() and call["source"] not in _source_aliases():
         return "hand", "source not in references.bib"
     return "auto", None
 
@@ -617,15 +661,32 @@ def _material_ids(data_dir):
     return mapping, created
 
 
+def _source_aliases():
+    """Free-text citations used as sources in property_database -> source key"""
+    path = REPO / "data" / "migration" / "source_aliases.yaml"
+    return (_read_yaml(path) or {}) if path.exists() else {}
+
+
 def _source_ref(call, sources_dir, fetch, cache):
-    """{doi: ...} or {key: ...} for the call's source, creating the source file"""
+    """{doi: ...} or {key: ...} for the call's source, creating the source file.
+
+    From the DOI when doi.org returns metadata, else from the references.bib
+    entry, else from data/migration/source_aliases.yaml for free-text citations.
+    """
     from . import sources
 
+    aliases = _source_aliases()
+    if call["source"] in aliases:
+        return {"key": aliases[call["source"]]}, aliases[call["source"]]
     if call["doi"]:
         doi = sources.strip_doi(call["doi"])
         if doi not in cache:
-            cache[doi] = sources.add_doi(doi, sources_dir, fetch=fetch)[0].key
-        return {"doi": doi}, cache[doi]
+            try:
+                cache[doi] = sources.add_doi(doi, sources_dir, fetch=fetch)[0].key
+            except Exception:
+                cache[doi] = None  # no metadata from doi.org: use the bib entry
+        if cache[doi] is not None:
+            return {"doi": doi}, cache[doi]
     bib_key = call["source"]
     if bib_key not in cache:
         from pybtex.database import BibliographyData
@@ -638,6 +699,8 @@ def _source_ref(call, sources_dir, fetch, cache):
             if not s.doi and s.year == candidate.year and s.title.lower() == candidate.title.lower()
         ]
         cache[bib_key] = same[0].key if same else sources.write_source(candidate, sources_dir).stem
+    if call["doi"]:  # bib entry fallback for a DOI without metadata: still cite the DOI
+        return {"doi": sources.strip_doi(call["doi"])}, cache[bib_key]
     return {"key": cache[bib_key]}, cache[bib_key]
 
 

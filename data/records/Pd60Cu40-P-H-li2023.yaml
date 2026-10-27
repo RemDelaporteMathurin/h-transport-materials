@@ -1,0 +1,26 @@
+id: htm:Pd60Cu40-P-H-li2023
+property: permeability
+law: sieverts
+material: 60pd40cu
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2023.154484
+  location: null
+reported:
+  form: points
+  file: Pd60Cu40-P-H-li2023.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: degC
+  y:
+    column: 1
+    quantity: value
+    unit: mol * m**-1 * Pa**-0.5 * s**-1
+note: SI Table 1 (supporting information)
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/palladium_copper.py:37

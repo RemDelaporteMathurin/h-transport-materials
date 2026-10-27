@@ -45,13 +45,27 @@ def _legacy_bib_key(source):
             if normalize_doi(entry.fields.get("doi", "")) == doi:
                 return key
     title = _plain(source.get("title"))
+    year = str(source.get("year"))
     for key, entry in entries.items():
         if (
             not entry.fields.get("doi")
             and _plain(entry.fields.get("title")) == title
-            and str(entry.fields.get("year")) == str(source.get("year"))
+            and str(entry.fields.get("year")) == year
         ):
             return key
+    if title == "[title unknown]" and (source.get("authors") or source.get("editors")):
+        # the bib entry has no title either: match first author and year
+        family = _plain((source.get("authors") or source.get("editors"))[0]["family"])
+        matches = [
+            key
+            for key, entry in entries.items()
+            if not entry.fields.get("title")
+            and str(entry.fields.get("year")) == year
+            and entry.persons.get("author")
+            and _plain(" ".join(entry.persons["author"][0].last_names)) == family
+        ]
+        if len(matches) == 1:
+            return matches[0]
     return source["key"]
 
 

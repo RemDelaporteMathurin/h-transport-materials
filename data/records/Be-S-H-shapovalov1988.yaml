@@ -1,0 +1,28 @@
+id: htm:Be-S-H-shapovalov1988
+property: solubility
+law: sieverts
+material: beryllium
+isotope: H
+method: unknown
+source:
+  key: shapovalov1988
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.019
+    unit: mol * m**-3 * Pa**-0.5
+  act_energy:
+    value: 16.8
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 673.0
+    - 1473.0
+    unit: K
+note: couldn't find the original paper so took values from Shimada 2020 review
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/beryllium.py:17

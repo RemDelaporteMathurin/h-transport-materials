@@ -1,0 +1,27 @@
+id: htm:Cu-S-H-eichenauer1957
+property: solubility
+law: sieverts
+material: copper
+isotope: H
+method: unknown
+source:
+  key: eichenauer1957
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 4.9e+23
+    unit: particle * m**-3 * Pa**-0.5
+  act_energy:
+    value: 0.37
+    unit: eV * particle**-1
+  range:
+    value:
+    - 700.0
+    - 920.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/copper/copper.py:80

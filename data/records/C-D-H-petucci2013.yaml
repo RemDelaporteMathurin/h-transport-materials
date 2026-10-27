@@ -1,0 +1,25 @@
+id: htm:C-D-H-petucci2013
+property: diffusivity
+material: graphite
+isotope: H
+method: unknown
+source:
+  doi: 10.1063/1.4813919
+  location: null
+reported:
+  form: points
+  file: C-D-H-petucci2013.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: K
+  y:
+    column: 1
+    quantity: value
+    unit: angstrom**2 * ps**-1
+note: H2 diffusion in graphite calculated by molecular dynamics. Data from table III
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/carbon.py:80

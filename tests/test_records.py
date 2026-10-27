@@ -37,10 +37,6 @@ EXPECTED_DIFFERENCES = {
     # derived from them (molar volume 1.3e-5 m3/mol, specific volume 8.32e-8 m3/g)
     "htm:Li-S-H-veleckis1974": {"rel": 2e-4},
     "htm:Pd-S-T-favreau1954": {"rel": 1e-5},
-    # cited by a free text string in the current code, a source file here
-    "htm:SS304-S-H-hawkins1953": {"source": True},
-    # the references.bib entry has no title, so it cannot be matched to the source file
-    "htm:W-D-H-ryabchikov1964": {"source": True},
 }
 
 
@@ -78,7 +74,8 @@ def test_equivalence_with_current_database(group, manifest):
         )
         difference = EXPECTED_DIFFERENCES.get(new.record_id, {})
         assert new.material == old.material, new.record_id
-        if not difference.get("source"):
+        if old.source in htm.bib_database.entries:
+            # (otherwise the current code cites free text, here a source file)
             assert new.source == old.source, new.record_id
         assert new.isotope == (old.isotope or "").upper(), new.record_id
         new_range = [T.m_as("K") for T in new.range] if new.range else None
