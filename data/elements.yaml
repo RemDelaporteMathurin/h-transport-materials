@@ -1,0 +1,9 @@
+unit: g/mol
+source: >-
+  IUPAC standard atomic weights. Li uses 6.941 (IUPAC 2007), the value HTM has
+  used so far; the current IUPAC conventional value is 6.94.
+atomic_weights:
+  H: 1.008
+  Li: 6.941
+  Pb: 207.2
+  W: 183.84

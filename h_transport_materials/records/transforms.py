@@ -32,6 +32,8 @@ class State:
     author_fit_pre_exp: object = None
     author_fit_act_energy: object = None
     refit: dict | None = None
+    context: dict = field(default_factory=dict)  # record, materials, elements
+    derived: dict = field(default_factory=dict)  # intermediate values worth reporting
     log: list = field(default_factory=list)
 
     def value_targets(self, applies_to):
@@ -64,11 +66,73 @@ def sieverts_constant_to_solubility(state, params, applies_to):
     return state.map_values(lambda y: 1 / y * concentration_unit, applies_to)
 
 
+def density(material, T=None):
+    """Density of a material from the registry, evaluated at T if it varies"""
+    rho = material.density
+    if rho is None:
+        raise ValueError(f"material {material.id} has no density in the registry")
+    if rho.form == "constant":
+        return ureg.Quantity(rho.value, ureg.Unit(rho.unit))
+    if T is None:
+        raise ValueError(f"density of {material.id} depends on temperature: set density_at")
+    T = T.to(ureg.Unit(rho.T_unit)).magnitude
+    if rho.range is not None and not rho.range.value[0] <= T <= rho.range.value[1]:
+        raise ValueError(f"density_at {T} is outside the correlation range {rho.range.value}")
+    return ureg.Quantity(rho.a + rho.b * T, ureg.Unit(rho.unit))
+
+
+def molar_mass(composition, elements):
+    """Molar mass of a composition given in at.%"""
+    weights = elements.atomic_weights
+    missing = set(composition) - set(weights)
+    if missing:
+        raise ValueError(f"no atomic weight for {sorted(missing)} in the element table")
+    unit = ureg.Unit(elements.unit)
+    return sum(
+        (at / 100 * ureg.Quantity(weights[el], unit) for el, at in composition.items()),
+        start=ureg.Quantity(0, unit),
+    )
+
+
 def atom_fraction_to_concentration(state, params, applies_to):
-    """c = x * rho / M: atom fraction to concentration using a density and molar mass"""
-    density = parse_quantity_string(params["density"])
-    molar_mass = parse_quantity_string(params["molar_mass"])
-    atom_density = density / molar_mass
+    """c = x * rho / M: atom fraction to concentration.
+
+    The density and molar mass come from the material registry unless given
+    explicitly (``density``, ``molar_mass``: quantity strings, for values
+    cited from the paper). Params:
+
+    - ``density_from``: material id (default: the record's material)
+    - ``density_at``: temperature at which a temperature-dependent density
+      is evaluated
+    - ``molar_mass_from``: material id (default: the record's sample
+      composition, else its material)
+    """
+    ctx = state.context
+    if "density" in params:
+        rho = parse_quantity_string(params["density"])
+    else:
+        material = ctx["materials"][params.get("density_from", ctx["record"].material)]
+        T = parse_quantity_string(params["density_at"]) if "density_at" in params else None
+        rho = density(material, T)
+
+    if "molar_mass" in params:
+        M = parse_quantity_string(params["molar_mass"])
+    else:
+        if "molar_mass_from" in params:
+            composition = ctx["materials"][params["molar_mass_from"]].composition
+        else:
+            composition = (
+                ctx["record"].sample.composition
+                or ctx["materials"][ctx["record"].material].composition
+            )
+        if composition is None:
+            raise ValueError("no composition to compute the molar mass from")
+        M = molar_mass(composition, ctx["elements"])
+
+    atom_density = (rho / M).to(ureg.mol * ureg.m**-3)
+    state.derived["density"] = rho
+    state.derived["molar_mass"] = M.to(ureg.kg / ureg.mol)
+    state.derived["atom_density"] = atom_density
     return state.map_values(lambda y: y * atom_density, applies_to)
 
 

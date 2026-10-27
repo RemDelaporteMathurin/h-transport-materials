@@ -8,3 +8,16 @@ htm_legacy: LIPB
 note: >-
   Eutectic lithium-lead used as breeder. Papers report Li content between
   about 15.7 and 17 at.%; the actual composition belongs in each record's sample.
+density:
+  form: linear
+  a: 10520.35
+  b: -1.19051
+  unit: kg/m^3
+  T_unit: K
+  range: null
+  source:
+    doi: 10.1016/j.jnucmat.2008.02.016
+    location: null
+  note: >-
+    rho = a + b T for liquid Pb-17Li. Check the equation number and the
+    validity range in the paper. Pb-17Li melts at about 508 K.

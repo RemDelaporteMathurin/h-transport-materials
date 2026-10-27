@@ -191,8 +191,16 @@ class SourceRef(_Strict):
         return self
 
 
+def _check_composition(composition):
+    if composition is not None and abs(sum(composition.values()) - 100) > 1e-6:
+        raise ValueError(f"composition must sum to 100 at.%, got {composition}")
+    return composition
+
+
 class Sample(_Strict):
     composition: dict[str, float] | None = Field(None, description="atomic %")
+
+    _composition = field_validator("composition")(_check_composition)
     form: str | None = None
     purity: str | None = None
     surface: str | None = None
@@ -250,6 +258,28 @@ class Record(_Strict):
         return self
 
 
+class Density(_Strict):
+    """Mass density, constant or linear in temperature (rho = a + b T)"""
+
+    form: Literal["constant", "linear"]
+    value: float | None = None
+    a: float | None = None
+    b: float | None = None
+    unit: str = "kg/m^3"
+    T_unit: str = "K"
+    range: Range | None = None
+    source: SourceRef
+    note: str | None = None
+
+    @model_validator(mode="after")
+    def coefficients(self):
+        if self.form == "constant" and self.value is None:
+            raise ValueError("a constant density needs value")
+        if self.form == "linear" and (self.a is None or self.b is None):
+            raise ValueError("a linear density needs a and b")
+        return self
+
+
 class Material(_Strict):
     id: str
     code: str = Field(description="short code used in record ids, e.g. W")
@@ -257,11 +287,22 @@ class Material(_Strict):
     families: list[str] = []
     symbol: str | None = None
     composition: dict[str, float] | None = Field(None, description="atomic %")
+    density: Density | None = None
     aliases: list[str] = []
     htm_legacy: str | None = Field(
         None, description="name of the htm material object used by the current API"
     )
     note: str | None = None
+
+    _composition = field_validator("composition")(_check_composition)
+
+
+class ElementTable(_Strict):
+    """Atomic weights used to compute molar masses from compositions"""
+
+    unit: str = "g/mol"
+    source: str
+    atomic_weights: dict[str, float]
 
 
 class Person(_Strict):

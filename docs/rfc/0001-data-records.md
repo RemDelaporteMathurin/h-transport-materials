@@ -126,23 +126,56 @@ Initial vocabulary, each a small tested function in
 |---|---|---|
 | `gas_volume_to_amount` | n = pV / (R T_ref) | `T_ref` |
 | `sieverts_constant_to_solubility` | S = 1 / Ks | `concentration_unit` |
-| `atom_fraction_to_concentration` | c = x rho / M | `density`, `molar_mass` |
+| `atom_fraction_to_concentration` | c = x rho / M | `density_from`, `density_at`, `molar_mass_from` (registry lookups), or explicit `density`, `molar_mass` when the paper gives them |
 | `refit_arrhenius` | unweighted fit of ln y against 1/T | none |
 | `assume_range` | validity range not given in the paper | `range`, `unit` |
 
 To come with the migration: `extrapolate_composition` (Chan 1984),
 `isotope_scaling`, `average` (only in the evaluations layer, section 8).
 
-Density and molar mass are parameters, not hidden constants, so every
-record that relies on the Pb-17Li density says so.
+Material properties are not typed into records. A transformation names
+where they come from and the build looks them up:
+
+```yaml
+- op: atom_fraction_to_concentration
+  params:
+    density_from: lipb      # default: the record's material
+    density_at: "300 K"     # needed when the density depends on T
+  origin: htm
+```
+
+The molar mass is computed from the sample composition (or the material's)
+and the element table; the build reports the density, molar mass and atom
+density it used for each record. So every record that relies on the
+Pb-17Li density says so, a density borrowed from another material is
+visible, and a correction to a material fixes every record that uses it.
 
 ## 5. Registries
 
 `data/materials/<id>.yaml`: id, code (used in record ids), name,
 `families` as a list (fixes `Compound` being a subclass of `Metal`),
-symbol, composition, aliases, and `htm_legacy` (the `htm` material object
-used by the compatibility layer). Li50Pb50 and Pb-17Li are separate
-materials grouped by the `lithium-lead` family.
+symbol, composition (must sum to 100 at.%), aliases, `density` and
+`htm_legacy` (the `htm` material object used by the compatibility layer).
+Li50Pb50 and Pb-17Li are separate materials grouped by the
+`lithium-lead` family.
+
+A `density` is `constant` or `linear` in temperature (rho = a + b T, with
+an optional validity range the build enforces) and cites its source like a
+record does:
+
+```yaml
+density:
+  form: linear
+  a: 10520.35
+  b: -1.19051
+  unit: kg/m^3
+  source: {doi: 10.1016/j.jnucmat.2008.02.016}
+```
+
+`data/elements.yaml` holds the atomic weights (with their source) used to
+compute molar masses. Other material properties needed by future
+transformations (lattice constants, molar volumes) go in the material file
+the same way.
 
 `data/sources/<key>.yaml`: CSL-like fields (type, title, authors, year,
 journal, volume, issue, pages), DOI, URL, open access URL.
@@ -252,12 +285,15 @@ model. They give 12 records:
 | Fauvet 1988, Pb-17Li | D, S (H) | single temperature |
 | Schumacher 1990, Li50Pb50 | S (H) | digitised points, author fit, composition |
 
-**Equivalence.** Built and converted back to property objects, all 12
-records reproduce the current database: pre-exponential factors are
-identical and activation energies agree to 1e-17 eV. The one intended
-difference is Fauvet's range, now the 450 degC (723.15 K) of the paper
-instead of a fake 722 to 724 K (issue #37). `tests/test_records.py`
-enforces this and lists the difference explicitly.
+**Equivalence.** Built and converted back to property objects, the 12
+records reproduce the current database (pre-exponential factors to 1e-12,
+activation energies to 1e-17 eV) except for intended differences, each
+listed in `tests/test_records.py` with its expected size:
+
+- Fauvet's range is now the 450 degC (723.15 K) of the paper instead of a
+  fake 722 to 724 K (issue #37).
+- The two solubilities converted from atom fractions change because the
+  Li molar mass bug (finding 6) is fixed: Fauvet +6.1%, Schumacher +29%.
 
 **Findings the current format was hiding:**
 
@@ -268,6 +304,10 @@ enforces this and lists the difference explicitly.
    10% higher; the digitised points are noisy (r = 0.89).
 2. **Schumacher is converted with the wrong density.** The atom fraction
    is converted with the Li50Pb50 molar mass but the Pb-17Li density.
+   More generally, HTM's Pb-17Li density constant (10163.197 kg/m3) is the
+   Mas de les Valls (2008) correlation 10520.35 - 1.19051 T evaluated at
+   300 K, below the melting point (about 508 K), for liquid metal
+   measured at 573 to 1100 K. At 723 K the density is about 5% lower.
 3. **Fauvet's diffusivity unit is uncertain.** The abstract prints
    1.5e-9 mm2/s; HTM stores 1.5e-9 m2/s, which is the plausible value. The
    record keeps both and is marked `disputed` until someone checks the body
@@ -277,6 +317,11 @@ enforces this and lists the difference explicitly.
    They now carry `method: isotope-extrapolation`.
 5. **Heinola's range is HTM's.** The 300 to 1200 K range is not in the
    paper; it is now an `assume_range` transformation with `origin: htm`.
+6. **The Li molar mass in `lipb.py` is 10 times too large**
+   (0.06941 kg/mol instead of 0.006941 kg/mol). Every Pb-17Li solubility
+   converted from an atom fraction is about 6% too low, and the Li50Pb50
+   one 29% too low. It surfaced as soon as molar masses were computed from
+   a cited table instead of typed by hand.
 
 ## 10. Migration
 
@@ -296,12 +341,19 @@ enforces this and lists the difference explicitly.
    with points and a published fit.
 2. Schumacher: find a Li50Pb50 density, or keep the Pb-17Li one as a
    labelled assumption.
-3. Fauvet: confirm the diffusivity unit from the body of the paper.
-4. Constants: HTM uses `R = 8.314` and `k_B = 8.617e-5`. Moving to CODATA
+3. Pb-17Li density: evaluate it at the measurement temperature
+   (`density_at` per point or at the record's temperature) instead of
+   300 K. The transformation supports it; it is a value change of a few
+   percent for every Pb-17Li solubility, so it should ship as its own
+   labelled change.
+4. Fix the Li molar mass bug (finding 6) in the current `lipb.py` now, in
+   a patch release, rather than wait for the migration.
+5. Fauvet: confirm the diffusivity unit from the body of the paper.
+6. Constants: HTM uses `R = 8.314` and `k_B = 8.617e-5`. Moving to CODATA
    values changes every converted number slightly; do it as one labelled
    data release.
-5. Where `data/` lives in the wheel: ship only the compiled JSON, or the
+7. Where `data/` lives in the wheel: ship only the compiled JSON, or the
    YAML too?
-6. Should `constant` records appear in `htm.diffusivities` at all, given
+8. Should `constant` records appear in `htm.diffusivities` at all, given
    they have no activation energy? They currently appear as an Arrhenius
    law with zero activation energy over a zero-width range.

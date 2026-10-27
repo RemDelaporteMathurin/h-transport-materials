@@ -20,7 +20,7 @@ import yaml
 import h_transport_materials as htm
 
 from . import transforms
-from .models import ID_PATTERN, SCHEMA_VERSION, Material, Record, Source
+from .models import ID_PATTERN, SCHEMA_VERSION, ElementTable, Material, Record, Source
 from .sources import normalize_doi
 from .units import ENERGY_UNIT, NORMALIZED_UNITS, quantity, ureg
 
@@ -37,13 +37,14 @@ def _load_yaml(path):
 
 
 def load(data_dir=DATA_DIR):
-    """Loads and validates materials, sources and records.
+    """Loads and validates the element table, materials, sources and records.
 
     Returns:
-        tuple: (materials, sources, records) where records is a list of
-            (Record, Path) tuples
+        tuple: (elements, materials, sources, records) where records is a
+            list of (Record, Path) tuples
     """
     data_dir = Path(data_dir)
+    elements = ElementTable(**_load_yaml(data_dir / "elements.yaml"))
     materials = {}
     for path in sorted((data_dir / "materials").glob("*.yaml")):
         m = Material(**_load_yaml(path))
@@ -54,6 +55,16 @@ def load(data_dir=DATA_DIR):
         if path.stem != s.key:
             raise BuildError(f"{path.name}: file name must be the source key {s.key}")
         sources[s.key] = s
+
+    dois = {normalize_doi(s.doi): k for k, s in sources.items() if s.doi}
+    for m in materials.values():
+        if m.composition and set(m.composition) - set(elements.atomic_weights):
+            raise BuildError(f"material {m.id}: element missing from elements.yaml")
+        ref = m.density.source if m.density else None
+        if ref and (normalize_doi(ref.doi) not in dois if ref.doi else ref.key not in sources):
+            raise BuildError(
+                f"material {m.id}: density source {ref.doi or ref.key} has no source file"
+            )
 
     records, seen = [], set()
     for path in sorted((data_dir / "records").glob("*.yaml")):
@@ -74,7 +85,7 @@ def load(data_dir=DATA_DIR):
                 f"{r.id}: id must start with material code {materials[r.material].code}"
             )
         records.append((r, path))
-    return materials, sources, records
+    return elements, materials, sources, records
 
 
 def _resolve_source(record, sources):
@@ -142,12 +153,14 @@ def _range(r):
     return {"value": [float(r[0].to(ureg.K).magnitude), float(r[1].to(ureg.K).magnitude)], "unit": "kelvin"}
 
 
-def build_record(record, folder):
+def build_record(record, folder, materials, elements):
     """Builds the normalised values of one record
 
     Args:
         record (Record): the validated record
         folder (Path): folder holding the record (for data files)
+        materials (dict): material id -> Material
+        elements (ElementTable): atomic weights
 
     Returns:
         dict: the record as stored plus a "normalized" block
@@ -160,6 +173,7 @@ def build_record(record, folder):
         state = _initial_state(record, folder, target)
     except Exception as e:
         raise BuildError(f"{record.id}: {e}") from e
+    state.context = {"record": record, "materials": materials, "elements": elements}
 
     for t in record.transformations:
         try:
@@ -183,6 +197,8 @@ def build_record(record, folder):
         if t.origin == "htm"
     ]
     out["transformation_log"] = state.log
+    if state.derived:
+        out["derived"] = {k: _q(v, v.units) for k, v in state.derived.items()}
     return out
 
 
@@ -255,14 +271,17 @@ def build(data_dir=DATA_DIR, data_version="dev"):
     Returns:
         dict: the compiled database
     """
-    materials, sources, records = load(data_dir)
+    elements, materials, sources, records = load(data_dir)
     return {
         "schema_version": SCHEMA_VERSION,
         "data_version": data_version,
         "htm_version": htm.__version__,
+        "elements": elements.model_dump(mode="json"),
         "materials": [m.model_dump(mode="json") for m in materials.values()],
         "sources": [s.model_dump(mode="json") for s in sources.values()],
-        "records": [build_record(r, path.parent) for r, path in records],
+        "records": [
+            build_record(r, path.parent, materials, elements) for r, path in records
+        ],
     }
 
 

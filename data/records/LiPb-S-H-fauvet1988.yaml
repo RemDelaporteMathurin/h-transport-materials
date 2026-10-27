@@ -20,13 +20,13 @@ reported:
 transformations:
   - op: atom_fraction_to_concentration
     params:
-      density: "10163.197 kg/m^3"
-      molar_mass: "0.1837757 kg/mol"
+      density_at: "300 K"
     origin: htm
     rationale: >-
-      The paper gives an atom fraction. HTM converts it with a constant Pb-17Li
-      density (the value used throughout HTM's LiPb records) and the Pb-17Li
-      molar mass (0.83 M_Pb + 0.17 M_Li). The density is temperature dependent
-      (KIT report https://publikationen.bibliothek.kit.edu/270023422/3813094).
+      The paper gives an atom fraction. HTM converts it with the Pb-17Li
+      density from the material registry and the molar mass of the sample
+      composition. The density is evaluated at 300 K, as HTM has always done
+      for Pb-17Li, although the measurement is at 723 K and Pb-17Li is solid
+      at 300 K. At 723 K the density would be about 5% lower.
 curation:
   status: draft

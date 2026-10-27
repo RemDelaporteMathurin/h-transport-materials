@@ -32,13 +32,15 @@ transformations:
       so the solubility is 1 / Ks. The author fit is already written for x_H / sqrt(p).
   - op: atom_fraction_to_concentration
     params:
-      density: "10163.197 kg/m^3"
-      molar_mass: "0.138305 kg/mol"
+      density_from: lipb
+      density_at: "300 K"
     origin: htm
     rationale: >-
-      The paper gives atom fractions. HTM converts them with the Li50Pb50 molar
-      mass (0.5 M_Pb + 0.5 M_Li) but the Pb-17Li density, since HTM has no
-      Li50Pb50 density. Open point: find a Li50Pb50 density.
+      The paper gives atom fractions. The molar mass is computed from the
+      Li50Pb50 sample composition, but HTM has no Li50Pb50 density, so the
+      Pb-17Li density is used, evaluated at 300 K as HTM has always done.
+      Both are HTM choices to revisit: find a Li50Pb50 density and evaluate
+      it at the measurement temperatures.
   - op: refit_arrhenius
     origin: htm
     rationale: >-
