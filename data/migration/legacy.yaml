@@ -67,6 +67,9 @@ htm:Al2O3-S-H-serra2004:
 htm:Au-D-H-eichenauer1962:
   index: 167
   class: Diffusivity
+htm:Au-S-H-mclellan1973:
+  index: 169
+  class: Solubility
 htm:Au-S-H-shimada2020:
   index: 168
   class: Solubility
@@ -99,6 +102,21 @@ htm:C-S-H-atsumi1988:
   class: Solubility
 htm:C-S-H-shirasu1993-a:
   index: 161
+  class: Solubility
+htm:C-S-H-shirasu1993-b:
+  index: 162
+  class: Solubility
+htm:C-S-H-shirasu1993-c:
+  index: 163
+  class: Solubility
+htm:C-S-H-shirasu1993-d:
+  index: 164
+  class: Solubility
+htm:C-S-H-shirasu1993-e:
+  index: 165
+  class: Solubility
+htm:C-S-H-shirasu1993-f:
+  index: 166
   class: Solubility
 htm:Cr-D-D-zhou2024:
   index: 469
@@ -168,6 +186,9 @@ htm:Cu-S-D-eichenauer1965:
   class: Solubility
 htm:Cu-S-H-eichenauer1957:
   index: 36
+  class: Solubility
+htm:Cu-S-H-mclellan1973:
+  index: 37
   class: Solubility
 htm:Cu-S-H-thomas1967:
   index: 34
@@ -289,6 +310,15 @@ htm:FLiBe-P-H-nakamura2015:
 htm:FLiBe-S-D-anderl2004:
   index: 83
   class: Solubility
+htm:FLiBe-S-D-field1967:
+  index: 86
+  class: Solubility
+htm:FLiBe-S-D-malinauskas1974:
+  index: 88
+  class: Solubility
+htm:FLiBe-S-H-field1967:
+  index: 85
+  class: Solubility
 htm:FLiBe-S-H-malinauskas1974:
   index: 87
   class: Solubility
@@ -379,6 +409,9 @@ htm:Fe-P-H-masui1978-b:
 htm:Fe-P-H-tahara1985:
   index: 173
   class: Permeability
+htm:Fe-S-H-eichenauer1958:
+  index: 175
+  class: Solubility
 htm:Fe22Cr5Al-P-D-xu2016:
   index: 435
   class: Permeability
@@ -402,6 +435,9 @@ htm:HastelloyN-P-D-zhang2020:
   class: Permeability
 htm:HastelloyN-P-H-fuerst2024:
   index: 198
+  class: Permeability
+htm:HastelloyN-P-H-webb1965:
+  index: 191
   class: Permeability
 htm:HastelloyN-P-H-zhang2020:
   index: 192
@@ -459,6 +495,9 @@ htm:Incoloy800-P-H-schmidt1985:
   class: Permeability
 htm:Incoloy800-S-D-esteban2002:
   index: 426
+  class: Solubility
+htm:Incoloy800-S-H-schmidt1985:
+  index: 423
   class: Solubility
 htm:Inconel600-D-D-rota1982:
   index: 398
@@ -535,8 +574,17 @@ htm:Inconel750-S-H-kishimoto1985:
 htm:Li-D-H-alire1976:
   index: 130
   class: Diffusivity
+htm:Li-S-D-smith1979:
+  index: 133
+  class: Solubility
+htm:Li-S-H-smith1979:
+  index: 132
+  class: Solubility
 htm:Li-S-H-veleckis1974:
   index: 131
+  class: Solubility
+htm:Li-S-T-smith1979:
+  index: 134
   class: Solubility
 htm:Li50Pb50-S-H-schumacher1990:
   index: 103
@@ -655,6 +703,9 @@ htm:Mo-D-H-tanabe1992:
 htm:Mo-P-D-guthrie1974:
   index: 209
   class: Permeability
+htm:Mo-P-H-frauenfelder1968:
+  index: 208
+  class: Permeability
 htm:Mo-S-H-katsuta1982:
   index: 207
   class: Solubility
@@ -666,6 +717,12 @@ htm:Nb-D-D-qi1983:
   class: Diffusivity
 htm:Nb-D-D-sherman1983:
   index: 228
+  class: Diffusivity
+htm:Nb-D-H-qi1983:
+  index: 225
+  class: Diffusivity
+htm:Nb-D-H-qi1983-b:
+  index: 224
   class: Diffusivity
 htm:Nb-D-H-sherman1983:
   index: 227
@@ -709,6 +766,9 @@ htm:Ni-P-H-masui1978:
 htm:Ni-S-H-louthan1975:
   index: 216
   class: Solubility
+htm:Ni-S-H-robertson1973:
+  index: 215
+  class: Solubility
 htm:Nimonic80A-D-H-kishimoto1985:
   index: 418
   class: Diffusivity
@@ -721,12 +781,27 @@ htm:Nimonic80A-S-H-kishimoto1985:
 htm:Oxidized1605-P-H-ashdown1980:
   index: 436
   class: Permeability
+htm:Pd-D-D-powell1991:
+  index: 235
+  class: Diffusivity
+htm:Pd-D-H-powell1991:
+  index: 234
+  class: Diffusivity
 htm:Pd-D-H-volkl1975:
   index: 229
   class: Diffusivity
 htm:Pd-Kr-D-takagi2003:
   index: 236
   class: RecombinationCoeff
+htm:Pd-S-D-powell1991:
+  index: 233
+  class: Solubility
+htm:Pd-S-H-favreau1954:
+  index: 231
+  class: Solubility
+htm:Pd-S-H-powell1991:
+  index: 232
+  class: Solubility
 htm:Pd-S-T-favreau1954:
   index: 230
   class: Solubility
@@ -753,6 +828,9 @@ htm:PdAg-Kd-D-serra1998:
   class: DissociationCoeff
 htm:PdAg-Kd-H-serra1998:
   index: 139
+  class: DissociationCoeff
+htm:PdAg-Kd-H-vadrucci2013:
+  index: 146
   class: DissociationCoeff
 htm:PdAg-Kr-D-serra1998b:
   index: 142
@@ -1054,6 +1132,9 @@ htm:SiC-D-T-causey1978-e:
 htm:SiC-D-T-causey1978-f:
   index: 465
   class: Diffusivity
+htm:SiC-S-D-causey1978:
+  index: 466
+  class: Solubility
 htm:T35Y-P-H-hu2015:
   index: 437
   class: Permeability
@@ -1084,6 +1165,9 @@ htm:TZM-Kr-H-tominetti1990:
 htm:TZM-P-D-forcey1993:
   index: 444
   class: Permeability
+htm:TZM-P-H-tominetti1990:
+  index: 455
+  class: Permeability
 htm:TZM-S-D-forcey1993:
   index: 448
   class: Solubility
@@ -1095,6 +1179,12 @@ htm:TZM-S-H-tominetti1990:
   class: Solubility
 htm:Ta-D-D-qi1983:
   index: 243
+  class: Diffusivity
+htm:Ta-D-H-qi1983:
+  index: 241
+  class: Diffusivity
+htm:Ta-D-H-qi1983-b:
+  index: 242
   class: Diffusivity
 htm:Ta-D-H-volkl1975:
   index: 239
@@ -1123,6 +1213,9 @@ htm:Ti-D-H-wille1981-c:
 htm:Ti-D-T-reiter1996:
   index: 245
   class: Diffusivity
+htm:Ti-S-T-reiter1996:
+  index: 246
+  class: Solubility
 htm:V-D-D-qi1983:
   index: 306
   class: Diffusivity
@@ -1306,9 +1399,21 @@ htm:W-S-H-frauenfelder1969:
 htm:W-S-T-esteban2001:
   index: 267
   class: Solubility
+htm:Y-S-D-begun1980:
+  index: 442
+  class: Solubility
+htm:Y-S-H-begun1980:
+  index: 441
+  class: Solubility
+htm:Y-S-T-begun1980:
+  index: 443
+  class: Solubility
 htm:Zr-D-H-kearns1972:
   index: 149
   class: Diffusivity
 htm:Zr-S-H-kearns1967:
   index: 150
+  class: Solubility
+htm:Zr-S-H-yamanaka1989:
+  index: 151
   class: Solubility

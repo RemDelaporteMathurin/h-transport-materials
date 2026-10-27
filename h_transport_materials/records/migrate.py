@@ -458,7 +458,8 @@ def classify(call):
                 return "hand", "data points: T and y have different lengths"
         except Unsupported as e:
             return "hand", f"data points: {e}"
-        if call["source"].startswith("@") or (call["source"] not in _bib_entries() and call["source"] not in _source_aliases()):
+        known = call["source"] in _bib_entries() or call["source"] in _source_aliases()
+        if call["source"].startswith("@") or not known:
             return "hand", "source not in references.bib"
         return "auto", None
     unknown = set(kwargs) - {pre_name, energy_name} - OTHER_ARGS

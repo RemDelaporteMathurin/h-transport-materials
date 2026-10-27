@@ -1,0 +1,28 @@
+id: htm:Ta-D-H-qi1983-b
+property: diffusivity
+material: tantalum
+isotope: H
+method: unknown
+source:
+  doi: 10.1088/0305-4608/13/10/015
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.00042
+    unit: cm^2/s
+  act_energy:
+    value: 0.136
+    unit: eV/particle
+  range:
+    value:
+    - 250
+    - 373.15
+    unit: K
+note: table 1, temperature range from Fig 1
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  - range given as 250 K to 100 degC in the current code, stored in K
+  migrated_from: h_transport_materials/property_database/tantalum.py:35

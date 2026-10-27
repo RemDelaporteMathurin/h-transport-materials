@@ -51,6 +51,8 @@ TransformationOp = Literal[
     "mole_fraction_to_concentration",
     "mass_to_volume_basis",
     "concentration_ratio_to_solubility",
+    "concentration_to_solubility",
+    "reciprocal",
     "isotope_scaling",
     "assume_range",
 ]

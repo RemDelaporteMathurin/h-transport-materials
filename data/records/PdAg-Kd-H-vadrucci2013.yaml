@@ -1,0 +1,33 @@
+id: htm:PdAg-Kd-H-vadrucci2013
+property: dissociation_coeff
+material: pdag
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.ijhydene.2013.01.091
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 488.0
+    unit: m^2 * s * Pa / mol
+  act_energy:
+    value: -20.103
+    unit: kJ/mol
+  range:
+    value:
+    - 473
+    - 623
+    unit: K
+transformations:
+- op: reciprocal
+  params:
+    factor: 2
+  origin: paper
+  rationale: Equation 17 gives R_S; the dissociation coefficient is 2 / R_S
+note: equation 17 + probably an error in the units of the activation energy in the original paper
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/pdag/palladium_silver.py:108

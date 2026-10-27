@@ -1,0 +1,34 @@
+id: htm:Ti-S-T-reiter1996
+property: solubility
+law: sieverts
+material: titanium
+isotope: T
+method: unknown
+source:
+  key: reiter1996
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.06e-05
+    unit: atfr / Pa^0.5
+  act_energy:
+    value: -42.7
+    unit: kJ/mol
+  range:
+    value:
+    - 873
+    - 1123
+    unit: K
+transformations:
+- op: mole_fraction_to_concentration
+  params:
+    molar_volume: 1.05e-5 m^3/mol
+  origin: htm
+  rationale: The paper gives an atom fraction. HTM divides it by the molar volume from https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/titanium,
+    a room temperature value.
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/titanium.py:16

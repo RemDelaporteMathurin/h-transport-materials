@@ -111,7 +111,7 @@ The blocks:
   The range is the overlap of the inputs', an explicit `range`, or the
   range of one input (`range_from`). The record says who derived it
   (`origin`) and why, and an HTM derivation is listed with HTM's
-  assumptions. The current database has 16 of these, all computed in HTM.
+  assumptions. The current database has 14 of these, all computed in HTM.
 
 ### Author fit or data points
 
@@ -459,6 +459,24 @@ listed in `tests/test_records.py`:
     hand with a TODO to compute it from the composition. It is now an
     explicit parameter of the transformation, and the 316L density
     (8.0 g/cm3) is in the registry with its handbook source.
+12. **Field 1967 measured hydrogen fluoride, not hydrogen.** The two FLiBe
+    "H" and "D" solubilities from Field 1967 are the solubilities of HF and
+    DF ("The solubilities of hydrogen fluoride and deuterium fluoride in
+    molten fluorides"). The records keep the current isotopes and are
+    flagged; they probably should not be in `htm.solubilities` for H2/D2.
+13. **Molar volumes from a web page.** The copper, gold, nickel, titanium,
+    yttrium and zirconium solubilities divide an atom fraction by a molar
+    volume from aqua-calc (room temperature solids, iron has no source at
+    all). They are now explicit `molar_volume` parameters with their URL.
+14. **Some `references.bib` entries are wrong or incomplete.** The Begun
+    yttrium paper is filed as 2008 but its DOI is a 1980 paper (the record
+    ids use 1980). Ryabchikov 1964 and three Eichenauer papers have no
+    title, and three sources were free-text strings instead of bib
+    entries; their source files say `[title unknown]` with a note.
+15. **Some values are computed from table columns.** Powell 1991
+    (palladium) gives the measured concentration and the control
+    pressure; HTM computes S = c / sqrt(p). That is now a transformation
+    on the point file, which keeps both columns.
 
 ## 10. Migration
 
@@ -493,34 +511,41 @@ inline lists). The CSV written next to the record holds the values as
 digitised (here 1000/T and ln D) and the axes say how to read them, so
 nothing is converted before it is stored.
 
-**Status.** 419 of the 473 properties are records (350 converted
-automatically, 77 of them from data points; 69 by hand), with 50
-materials and 149 sources. All 419 reproduce the current database,
-including the fits of the data points and the derived properties,
-except the differences listed in section 9. Pb-17Li, the steels (316L,
-EUROFER97, 304) and tungsten are complete. 54 remain in `todo.md`:
+Module variables holding a quantity are inlined
+(`data_T = u.Quantity([...], u.degC)`), unless they are modified in place
+before use (`data_y *= density / molar_mass`), which is exactly where HTM
+applied a conversion that needs a named transformation.
 
-| Reason | Count |
+**Status: complete.** All 473 properties are records, with 50 materials
+and 166 sources:
+
+| How | Records |
 |---|---|
-| data points computed in the module (densities, molar volumes, unit gymnastics) | 26 |
-| computed pre-exponential factor (densities, molar volumes, ratios) | 12 |
-| source file could not be generated (e.g. a bib entry without a title) | 7 |
-| range bounds in two different units | 4 |
-| source not in `references.bib` | 3 |
-| product computed by HTM (D x S) | 1 |
-| range computed from 1/T | 1 |
+| converted by `htm migrate` (literal values) | 281 |
+| converted by `htm migrate` (data points) | 88 |
+| transcribed by hand (conversions, derived properties, odd sources) | 104 |
 
-Some `references.bib` entries are incomplete: Ryabchikov 1964 has no
-title, so its source file says `[title unknown]` with a note to find the
-original rather than inventing one.
+All 473 reproduce the current database, including the fits of the data
+points and the 14 derived properties, except the differences listed in
+section 9 and in `tests/test_records.py`. The arithmetic HTM did on
+published numbers is now named transformations with their parameters:
+densities, molar masses and molar volumes, gas volume reference
+temperatures, Sieverts constants, isotope scaling, reciprocals, and
+concentrations divided by pressure. Hand-written records carry
+`curation.migrated_from` too, so the manifest links every record to the
+property it replaces.
 
-What is left is by construction the part where HTM did arithmetic on the
-published numbers, the same part where the findings of section 9 came
-from. It is transcribed by hand, material by material, with a named
-transformation for each step. Hand-written records carry
-`curation.migrated_from` too, so `htm migrate` links them to the property
-they replace. Then the verification sprint on W, 316L, Pb-17Li, EUROFER97
-and FLiBe.
+Next:
+
+1. Switch the library: build `htm.database` from the compiled records
+   instead of `property_database/` (the compatibility layer already
+   produces the same objects), keep both for one release with the
+   equivalence test as the gate, then remove `property_database/`,
+   `references.bib` (generated from `data/sources/`) and `htm migrate`.
+2. Decide the open points of section 11, each as a labelled data change.
+3. Verification sprint on W, 316L, Pb-17Li, EUROFER97 and FLiBe: every
+   record starts as `draft` with a flag asking for a check against the
+   paper.
 
 ## 11. Open points
 

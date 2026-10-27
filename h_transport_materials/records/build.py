@@ -138,7 +138,7 @@ def _read_points(reported, folder):
         T = x
     else:
         raise BuildError("x axis must be temperature or inverse_temperature")
-    return T.to(ureg.K), y
+    return T.to(ureg.K), y, data
 
 
 def _energy(q):
@@ -244,7 +244,7 @@ def _initial_state(record, folder, target):
         state.reported = quantity(rep.value.value, rep.value.unit)
         state.temperature = quantity(rep.temperature.value, rep.temperature.unit)
     else:
-        state.points_T, state.points_y = _read_points(rep, folder)
+        state.points_T, state.points_y, state.points_raw = _read_points(rep, folder)
         if rep.author_fit is not None:
             state.author_fit_pre_exp, state.author_fit_act_energy = _arrhenius_law(
                 rep.author_fit

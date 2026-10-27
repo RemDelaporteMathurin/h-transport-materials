@@ -1,0 +1,28 @@
+id: htm:Incoloy800-S-H-schmidt1985
+property: solubility
+law: sieverts
+material: incoloy_800
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0022-3115(85)90461-1
+  location: null
+reported:
+  form: derived
+  factors:
+  - record: htm:Incoloy800-P-H-schmidt1985
+    power: 1
+  - record: htm:Incoloy800-D-H-schmidt1985
+    power: -1
+  range:
+    value:
+    - 1023
+    - 1223
+    unit: K
+  origin: htm
+  rationale: not given in the paper; HTM computes the solubility as P / D
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/incoloy_800.py:34

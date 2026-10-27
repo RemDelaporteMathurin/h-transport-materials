@@ -36,7 +36,14 @@ EXPECTED_DIFFERENCES = {
     # registry densities are the cited values, the current code used values
     # derived from them (molar volume 1.3e-5 m3/mol, specific volume 8.32e-8 m3/g)
     "htm:Li-S-H-veleckis1974": {"rel": 2e-4},
+    "htm:Li-S-H-smith1979": {"rel": 2e-4},
+    "htm:Li-S-D-smith1979": {"rel": 2e-4},
+    "htm:Li-S-T-smith1979": {"rel": 2e-4},
     "htm:Pd-S-T-favreau1954": {"rel": 1e-5},
+    "htm:Pd-S-H-favreau1954": {"rel": 1e-5},
+    # FLiBe molar mass from the atomic weight table instead of webqc.org values
+    "htm:FLiBe-S-H-field1967": {"rel": 1e-6},
+    "htm:FLiBe-S-D-field1967": {"rel": 1e-6},
 }
 
 

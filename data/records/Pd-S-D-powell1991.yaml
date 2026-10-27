@@ -1,0 +1,36 @@
+id: htm:Pd-S-D-powell1991
+property: solubility
+law: sieverts
+material: palladium
+isotope: D
+method: unknown
+source:
+  doi: 10.1103/PhysRevB.43.6968
+  location: null
+reported:
+  form: points
+  file: Pd-S-D-powell1991.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: mol / m^3
+transformations:
+- op: concentration_to_solubility
+  params:
+    pressure_column: 2
+    pressure_unit: Pa
+    exponent: 0.5
+  origin: htm
+  rationale: Table II gives the measured concentration c_s and the control pressure; HTM computes S =
+    c_s / sqrt(p).
+note: table II, calculated from measured cs and control pressure columns
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/palladium.py:434

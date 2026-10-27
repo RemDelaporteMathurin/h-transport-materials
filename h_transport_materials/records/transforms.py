@@ -31,6 +31,7 @@ class State:
     temperature: object = None
     points_T: object = None
     points_y: object = None
+    points_raw: object = None  # all columns of the point file, for extra columns
     author_fit_pre_exp: object = None
     author_fit_act_energy: object = None
     context: dict = field(default_factory=dict)  # record, materials, elements
@@ -162,15 +163,20 @@ def mole_fraction_to_concentration(state, params, applies_to):
     per = params.get("per", "atom")
     if per not in ("atom", "formula_unit"):
         raise ValueError(f"per must be atom or formula_unit, not {per!r}")
-    rho = _density(ctx, params)
-    if "molar_mass" in params:
-        M = parse_quantity_string(params["molar_mass"])
+    if "molar_volume" in params:
+        # c = x / Vm, when the source of the conversion gives a molar volume
+        molar_volume = parse_quantity_string(params["molar_volume"])
+        number_density = (1 / molar_volume).to(ureg.mol * ureg.m**-3)
+        state.derived["molar_volume"] = molar_volume
     else:
-        M = molar_mass(_composition(ctx, params, per), ctx["elements"])
-
-    number_density = (rho / M).to(ureg.mol * ureg.m**-3)
-    state.derived["density"] = rho
-    state.derived["molar_mass"] = M.to(ureg.kg / ureg.mol)
+        rho = _density(ctx, params)
+        if "molar_mass" in params:
+            M = parse_quantity_string(params["molar_mass"])
+        else:
+            M = molar_mass(_composition(ctx, params, per), ctx["elements"])
+        number_density = (rho / M).to(ureg.mol * ureg.m**-3)
+        state.derived["density"] = rho
+        state.derived["molar_mass"] = M.to(ureg.kg / ureg.mol)
     state.derived["number_density"] = number_density
     return state.map_values(lambda y: y * number_density, applies_to)
 
@@ -195,6 +201,34 @@ def concentration_ratio_to_solubility(state, params, applies_to):
         state.reported = state.reported / (htm.Rg * state.temperature.to(ureg.K))
         return ["reported"]
     raise ValueError("needs data points or a constant at a given temperature")
+
+
+def reciprocal(state, params, applies_to):
+    """y = factor / y, e.g. Kd = 2 / R_S when a paper gives R_S.
+
+    For an Arrhenius law the activation energy changes sign.
+    """
+    factor = params.get("factor", 1)
+    targets = state.map_values(lambda y: factor / y, applies_to)
+    if "reported" in targets and state.act_energy is not None:
+        state.act_energy = -state.act_energy
+    if "author_fit_pre_exp" in targets and state.author_fit_act_energy is not None:
+        state.author_fit_act_energy = -state.author_fit_act_energy
+    return targets
+
+
+def concentration_to_solubility(state, params, applies_to):
+    """S = c / p^exponent, with p another column of the point file.
+
+    For tables that give a measured concentration and the gas pressure
+    instead of a solubility (exponent 0.5 for Sieverts' law, 1 for Henry's).
+    """
+    if state.points_y is None:
+        raise ValueError("needs data points with a pressure column")
+    column = params["pressure_column"]
+    pressure = ureg.Quantity(state.points_raw[:, column], ureg.Unit(params["pressure_unit"]))
+    state.points_y = state.points_y / pressure ** params.get("exponent", 0.5)
+    return ["points"]
 
 
 NOMINAL_MASSES = {"H": 1, "D": 2, "T": 3}
@@ -262,6 +296,8 @@ REGISTRY = {
     "mole_fraction_to_concentration": mole_fraction_to_concentration,
     "mass_to_volume_basis": mass_to_volume_basis,
     "concentration_ratio_to_solubility": concentration_ratio_to_solubility,
+    "concentration_to_solubility": concentration_to_solubility,
+    "reciprocal": reciprocal,
     "isotope_scaling": isotope_scaling,
     "assume_range": assume_range,
 }

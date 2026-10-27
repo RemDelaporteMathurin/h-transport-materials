@@ -6,38 +6,3 @@ not convert automatically.
 
 | Location | Property | Isotope | Material | Reason |
 |---|---|---|---|---|
-| `h_transport_materials/property.py:241` | Permeability | H | tzm | computed by HTM code (property.py, e.g. D x S) |
-| `h_transport_materials/property_database/carbon.py:118` | Solubility | H | carbon | computed S_0: np.exp(-15.6) * graphite_atomic_density * u.Pa **  |
-| `h_transport_materials/property_database/carbon.py:127` | Solubility | H | carbon | computed S_0: np.exp(-15.8) * graphite_atomic_density * u.Pa **  |
-| `h_transport_materials/property_database/carbon.py:136` | Solubility | H | carbon | computed S_0: np.exp(-18.5) * graphite_atomic_density * u.Pa **  |
-| `h_transport_materials/property_database/carbon.py:145` | Solubility | H | carbon | computed S_0: np.exp(-14.7) * graphite_atomic_density * u.Pa **  |
-| `h_transport_materials/property_database/carbon.py:154` | Solubility | H | carbon | computed S_0: np.exp(-18.5) * graphite_atomic_density * u.Pa **  |
-| `h_transport_materials/property_database/copper/copper.py:226` | Solubility | H | copper | data points: data_y_mclellan is modified in place before use |
-| `h_transport_materials/property_database/flibe/flibe.py:86` | Solubility | H | flibe | data points: data_solubility_field_h is modified in place before use |
-| `h_transport_materials/property_database/flibe/flibe.py:98` | Solubility | D | flibe | data points: data_solubility_field_d is modified in place before use |
-| `h_transport_materials/property_database/flibe/flibe.py:123` | Solubility | D | flibe | data points: values computed in the module (data_maulinauskas_sol_d) |
-| `h_transport_materials/property_database/gold.py:54` | Solubility | H | gold | data points: data_y_mclellan is modified in place before use |
-| `h_transport_materials/property_database/hastelloy_n.py:12` | Permeability | H | hastelloy_n | computed range: (1 / 0.0015 * u.K, 1 / 0.0014 * u.K) |
-| `h_transport_materials/property_database/incoloy_800.py:34` | Solubility | H | incoloy_800 | computed S_0: schmidt_permeability.pre_exp / schmidt_diffusivity |
-| `h_transport_materials/property_database/iron.py:57` | Solubility | H | iron | computed S_0: 4.9e-06 / IRON_MOLAR_VOLUME * u.mol * u.m ** (-3)  |
-| `h_transport_materials/property_database/lithium/lithium.py:48` | Solubility | H | lithium | data points: smith_sol_data_y_h is modified in place before use |
-| `h_transport_materials/property_database/lithium/lithium.py:64` | Solubility | D | lithium | data points: smith_sol_data_y_d is modified in place before use |
-| `h_transport_materials/property_database/lithium/lithium.py:80` | Solubility | T | lithium | data points: smith_sol_data_y_t is modified in place before use |
-| `h_transport_materials/property_database/molybdenum.py:41` | Permeability | H | molybdenum | computed pre_exp: frauenfelder_p_0 / (htm.Rg * 300 * u.K) |
-| `h_transport_materials/property_database/nickel.py:55` | Solubility | H | nickel | computed S_0: 5.52e-06 / NI_MOLAR_VOLUME * u.mol * u.m ** (-3) * |
-| `h_transport_materials/property_database/niobium.py:38` | Diffusivity | H | niobium | range bounds in two different units |
-| `h_transport_materials/property_database/niobium.py:50` | Diffusivity | H | niobium | range bounds in two different units |
-| `h_transport_materials/property_database/palladium.py:244` | Solubility | H | palladium | data points: favreau_data_y_h is modified in place before use |
-| `h_transport_materials/property_database/palladium.py:324` | Solubility | H | palladium | data points: values computed in the module (data_T_h) |
-| `h_transport_materials/property_database/palladium.py:356` | Diffusivity | H | palladium | data points: values computed in the module (data_T_h) |
-| `h_transport_materials/property_database/palladium.py:434` | Solubility | D | palladium | data points: values computed in the module (data_T_D) |
-| `h_transport_materials/property_database/palladium.py:464` | Diffusivity | D | palladium | data points: values computed in the module (data_T_D) |
-| `h_transport_materials/property_database/pdag/palladium_silver.py:108` | DissociationCoeff | H | pdag | computed pre_exp: 2 / R_S_0 |
-| `h_transport_materials/property_database/sic.py:69` | Solubility | D | sic | computed S_0: 8.77e-09 * u.atm ** (-0.5) * sic_atom_density |
-| `h_transport_materials/property_database/tantalum.py:23` | Diffusivity | H | tantalum | range bounds in two different units |
-| `h_transport_materials/property_database/tantalum.py:35` | Diffusivity | H | tantalum | range bounds in two different units |
-| `h_transport_materials/property_database/titanium.py:16` | Solubility | T | titanium | computed S_0: 1.06e-05 / TITANIUM_MOLAR_VOLUME * u.mol * u.m **  |
-| `h_transport_materials/property_database/yttrium.py:16` | Solubility | H | yttrium | data points: unusual axis |
-| `h_transport_materials/property_database/yttrium.py:26` | Solubility | D | yttrium | data points: unusual axis |
-| `h_transport_materials/property_database/yttrium.py:36` | Solubility | T | yttrium | data points: unusual axis |
-| `h_transport_materials/property_database/zirconium/zirconium.py:32` | Solubility | H | zirconium | data points: values not read from a single data column |
