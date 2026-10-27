@@ -469,8 +469,8 @@ digitised (here 1000/T and ln D) and the axes say how to read them, so
 nothing is converted before it is stored.
 
 **Status.** 369 of the 473 properties are records (350 converted
-automatically, 79 of them from data points; 19 by hand), with 50
-materials and about 110 sources. All 369 reproduce the current database,
+automatically, 77 of them from data points; 19 by hand), with 50
+materials and 138 sources. All 369 reproduce the current database,
 including the fits of the data points, except the differences listed in
 section 9. 104 remain in `todo.md`:
 
