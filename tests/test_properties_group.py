@@ -49,6 +49,39 @@ def test_filter_isotope_lower_case():
 
 
 @pytest.mark.parametrize(
+    "kwargs",
+    [
+        {"isotope": "H"},
+        {"isotope": "h"},
+        {"isotope": ["H", "D"]},
+        {"author": "REM"},
+        {"author": ["Rem", "other"]},
+        {"material": "Tungsten"},
+        {"material": "w"},
+        {"material": "W"},
+        {"material": "Metal"},
+    ],
+)
+def test_filter_case_insensitive_query(kwargs):
+    """Checks that the filter query is case-insensitive"""
+    my_prop = htm.Property(author="ReM", isotope="H", material=htm.TUNGSTEN)
+    other_prop = htm.Property(author="other", isotope="T", material=htm.COPPER)
+
+    my_group = htm.PropertiesGroup([my_prop, other_prop])
+
+    filtered_group = my_group.filter(**kwargs)
+
+    assert my_prop in filtered_group
+
+
+def test_filter_database_isotope_uppercase():
+    """Checks that filtering the database with an uppercase isotope
+    gives the same result as with a lowercase isotope"""
+    W = htm.diffusivities.filter(material="tungsten")
+    assert len(W.filter(isotope="H")) == len(W.filter(isotope="h")) > 0
+
+
+@pytest.mark.parametrize(
     "mean_D_0,mean_E_D",
     [
         (D_0, E_D)

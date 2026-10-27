@@ -46,14 +46,14 @@ calderoni_solubility = Solubility(
 
 
 anderl_diffusivity = Diffusivity(
-    data_T=np.array([600, 650]) * u.degC,
+    data_T=u.Quantity([600, 650], u.degC),
     data_y=[8.0e-10, 3.0e-9] * u.m**2 * u.s**-1,
     source="anderl_deuteriumtritium_2004",
     isotope="D",
 )
 
 anderl_solubility = Solubility(
-    data_T=np.array([600, 650]) * u.degC,
+    data_T=u.Quantity([600, 650], u.degC),
     data_y=[3.1e-4, 1.0e-4] * u.mol * u.m**-3 * u.Pa**-1,
     source="anderl_deuteriumtritium_2004",
     isotope="D",
@@ -82,7 +82,7 @@ data_solubility_field_h *= flibe_density_field
 data_solubility_field_h *= 1 / flibe_mass_field
 
 field_solubility_h = Solubility(
-    data_T=np.array([500, 600, 700]) * u.degC,
+    data_T=u.Quantity([500, 600, 700], u.degC),
     data_y=data_solubility_field_h,
     source="field_solubilities_1967",
     isotope="H",
@@ -94,7 +94,7 @@ data_solubility_field_d *= flibe_density_field
 data_solubility_field_d *= 1 / flibe_mass_field
 
 field_solubility_d = Solubility(
-    data_T=np.array([500, 600, 700]) * u.degC,
+    data_T=u.Quantity([500, 600, 700], u.degC),
     data_y=data_solubility_field_d,
     source="field_solubilities_1967",
     isotope="D",

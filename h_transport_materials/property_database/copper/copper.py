@@ -177,7 +177,7 @@ wampler_solubility_copper_h = Solubility(
     isotope="H",
 )
 
-data_T_mclellan = (
+data_T_mclellan = u.Quantity(
     np.array(
         [
             1027.0,
@@ -194,8 +194,8 @@ data_T_mclellan = (
             609.0,
             594.0,
         ]
-    )
-    * u.degC
+    ),
+    u.degC,
 )  # in degC (see Table 1)
 
 data_y_mclellan = (

@@ -25,7 +25,7 @@ shimada_solubility = Solubility(
     note="this was computed from the permeability of Caskey and Derrick and the diffusivity of Eichenauer",
 )
 
-data_T_mclellan = (
+data_T_mclellan = u.Quantity(
     np.array(
         [
             1050.0,
@@ -41,8 +41,8 @@ data_T_mclellan = (
             735.0,
             693.0,
         ]
-    )
-    * u.degC
+    ),
+    u.degC,
 )  # degC Table1
 
 data_y_mclellan = (

@@ -7,7 +7,7 @@ import numpy as np
 
 u = htm.ureg
 
-li_data_T = (
+li_data_T = u.Quantity(
     np.array(
         [
             350,
@@ -15,8 +15,8 @@ li_data_T = (
             400,
             425,
         ]
-    )
-    * u.degC
+    ),
+    u.degC,
 )
 
 li_data_y = (

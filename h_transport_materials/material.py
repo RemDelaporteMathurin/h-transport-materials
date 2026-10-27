@@ -19,8 +19,9 @@ class Material:
 
     def __eq__(self, mat) -> bool:
         if isinstance(mat, str):
-            matching_name = self.name == mat
-            matching_family = mat in [p.family for p in self.parents]
+            mat = mat.lower()
+            matching_name = self.name.lower() == mat
+            matching_family = mat in [p.family.lower() for p in self.parents]
             return matching_name or matching_family
         elif inspect.isclass(mat):
             return isinstance(self, mat)
@@ -66,7 +67,7 @@ class PureMetal(Metal):
 
     def __eq__(self, mat) -> bool:
         if isinstance(mat, str):
-            if self.symbol == mat:
+            if self.symbol is not None and self.symbol.lower() == mat.lower():
                 return True
 
         return super().__eq__(mat)
