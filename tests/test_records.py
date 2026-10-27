@@ -40,32 +40,34 @@ def group(db):
     return compat.to_properties_group(db)
 
 
-def _legacy_match(prop):
-    matches = [
-        p
-        for p in htm.database
-        if type(p) is type(prop) and p.source == prop.source and p.isotope == prop.isotope
-    ]
-    # several samples from one source (e.g. graphite grades): match the sample form
-    sample_form = prop.record["sample"].get("form")
-    if len(matches) > 1 and sample_form:
-        matches = [p for p in matches if p.note and sample_form in p.note]
-    assert len(matches) == 1, f"{prop.record_id}: {len(matches)} matches"
-    return matches[0]
+@pytest.fixture(scope="module")
+def manifest():
+    """record id -> index of the property it replaces in htm.database"""
+    with open(build.DATA_DIR / "migration" / "legacy.yaml", encoding="utf-8") as f:
+        return yaml.safe_load(f)
 
 
-def test_all_records_built(db):
-    assert len(db["records"]) == 19
+def test_every_record_is_in_the_manifest(db, manifest):
+    ids = {r["id"] for r in db["records"]}
+    assert ids == set(manifest)
+    indices = [entry["index"] for entry in manifest.values()]
+    assert len(indices) == len(set(indices)), "two records replace the same property"
 
 
-def test_equivalence_with_current_database(group):
-    """Each record reproduces the current database entry, except listed differences"""
+def test_equivalence_with_current_database(group, manifest):
+    """Each record reproduces the property it replaces, except listed differences"""
     for new in group:
-        old = _legacy_match(new)
+        entry = manifest[new.record_id]
+        old = htm.database[entry["index"]]
+        assert type(old).__name__ == entry["class"], (
+            f"{new.record_id}: htm.database changed order, rerun htm migrate"
+        )
         difference = EXPECTED_DIFFERENCES.get(new.record_id)
-        assert new.material == old.material
-        new_range = [T.m_as("K") for T in new.range]
-        old_range = [T.m_as("K") for T in old.range]
+        assert new.material == old.material, new.record_id
+        assert new.source == old.source, new.record_id
+        assert new.isotope == (old.isotope or "").upper(), new.record_id
+        new_range = [T.m_as("K") for T in new.range] if new.range else None
+        old_range = [T.m_as("K") for T in old.range] if old.range else None
 
         if difference == "author_fit":
             # different parameters, same law within 3% over the measured range
@@ -84,8 +86,10 @@ def test_equivalence_with_current_database(group):
         )
         if difference == "range":
             assert new_range != pytest.approx(old_range)
+        elif old_range is None:
+            assert new_range is None, new.record_id
         else:
-            assert new_range == pytest.approx(old_range, rel=1e-12)
+            assert new_range == pytest.approx(old_range, rel=1e-12), new.record_id
 
 
 def test_lipb_density_and_molar_mass_come_from_registry(db):
@@ -125,15 +129,16 @@ def test_registry_matches_schema():
 def test_json_schema_validates_yaml_records():
     jsonschema = pytest.importorskip("jsonschema")
     record_schema = schema.json_schemas()["record"]
+    validator = jsonschema.validators.validator_for(record_schema)(record_schema)
     for path in (build.DATA_DIR / "records").glob("*.yaml"):
-        jsonschema.validate(yaml.safe_load(path.read_text(encoding="utf-8")), record_schema)
+        validator.validate(yaml.safe_load(path.read_text(encoding="utf-8")))
 
     bad = yaml.safe_load(
         (build.DATA_DIR / "records" / "W-D-H-heinola2010.yaml").read_text(encoding="utf-8")
     )
     bad["transformations"][0]["op"] = "make_it_up"
     with pytest.raises(jsonschema.ValidationError):
-        jsonschema.validate(bad, record_schema)
+        validator.validate(bad)
 
 
 # --- invalid records are rejected ---------------------------------------------
@@ -141,8 +146,15 @@ def test_json_schema_validates_yaml_records():
 
 @pytest.fixture
 def data_copy(tmp_path):
-    shutil.copytree(build.DATA_DIR, tmp_path / "data")
-    return tmp_path / "data"
+    """A copy of data/ with only the hand-written records (fast to build)"""
+    target = tmp_path / "data"
+    shutil.copytree(build.DATA_DIR, target, ignore=shutil.ignore_patterns("records"))
+    (target / "records").mkdir()
+    for path in (build.DATA_DIR / "records").glob("*.yaml"):
+        if "migrated_from:" not in path.read_text(encoding="utf-8"):
+            for f in path.parent.glob(path.stem + ".*"):
+                shutil.copy(f, target / "records")
+    return target
 
 
 def _edit(data_dir, name, fn):
@@ -187,7 +199,7 @@ def _set(path, value):
         ),
         (
             "W-D-H-esteban2001",
-            _set(["material"], "copper"),
+            _set(["material"], "unobtainium"),
             "unknown material",
         ),
         (

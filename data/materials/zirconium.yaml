@@ -1,0 +1,10 @@
+id: zirconium
+code: Zr
+name: zirconium
+families:
+- pure metal
+- metal
+symbol: Zr
+composition:
+  Zr: 100
+htm_legacy: ZIRCONIUM

@@ -1,0 +1,9 @@
+id: thermacore_oxidized
+code: ThermacoreOx
+name: thermacore_oxidized
+families:
+- fecral
+- steel
+- alloy
+- metal
+htm_legacy: THERMACORE_OXIDIZED

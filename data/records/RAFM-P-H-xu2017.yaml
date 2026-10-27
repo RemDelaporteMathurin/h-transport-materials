@@ -1,0 +1,28 @@
+id: htm:RAFM-P-H-xu2017
+property: permeability
+law: sieverts
+material: rafm_steel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.fusengdes.2017.04.022
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.0e-09
+    unit: mol * cm**-1 * s**-1 * Pa**-0.5
+  act_energy:
+    value: 0.46
+    unit: eV * particle**-1
+  range:
+    value:
+    - 150.0
+    - 500.0
+    unit: degC
+note: Eq 2, F82H
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/rafm_steel.py:225

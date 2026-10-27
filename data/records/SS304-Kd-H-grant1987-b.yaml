@@ -1,0 +1,27 @@
+id: htm:SS304-Kd-H-grant1987-b
+property: dissociation_coeff
+material: 304_steel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0022-3115(87)90476-4
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.117
+    unit: mol * m**-2 * s**-1 * Pa**-1
+  act_energy:
+    value: 12760.0
+    unit: K
+  range:
+    value:
+    - 645.0
+    - 965.0
+    unit: K
+note: activated surface. uncertainties given in paper
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/ss_304/ss_304.py:51

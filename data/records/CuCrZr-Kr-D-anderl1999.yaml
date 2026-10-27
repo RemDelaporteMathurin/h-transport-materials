@@ -1,0 +1,26 @@
+id: htm:CuCrZr-Kr-D-anderl1999
+property: recombination_coeff
+material: cucrzr
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/S0022-3115(98)00878-2
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 2.9e-14
+    unit: meter**4 * second**-1 * particle**-1
+  act_energy:
+    value: 1.92
+    unit: eV * particle**-1
+  range:
+    value:
+    - 700.0
+    - 800.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/cucrzr/cucrzr.py:107

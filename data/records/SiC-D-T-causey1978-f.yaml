@@ -1,0 +1,27 @@
+id: htm:SiC-D-T-causey1978-f
+property: diffusivity
+material: sic
+isotope: T
+method: unknown
+source:
+  doi: 10.1111/j.1151-2916.1978.tb09284.x
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.000854
+    unit: cm**2 * s**-1
+  act_energy:
+    value: 64.2
+    unit: kcal * mol**-1
+  range:
+    value:
+    - 800.0
+    - 1100.0
+    unit: degC
+note: sintered beta-SiC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/sic.py:51

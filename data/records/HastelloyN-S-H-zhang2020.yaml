@@ -1,0 +1,27 @@
+id: htm:HastelloyN-S-H-zhang2020
+property: solubility
+law: sieverts
+material: hastelloy_n
+isotope: H
+method: unknown
+source:
+  doi: 10.1080/15361055.2020.1725368
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 3.6e-08
+    unit: mol * m**-3 * Pa**-0.5
+  act_energy:
+    value: 17.6
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 400.0
+    - 800.0
+    unit: degC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/hastelloy_n.py:55

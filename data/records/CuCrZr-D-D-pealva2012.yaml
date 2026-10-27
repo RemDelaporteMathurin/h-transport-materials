@@ -1,0 +1,26 @@
+id: htm:CuCrZr-D-D-pealva2012
+property: diffusivity
+material: cucrzr
+isotope: D
+method: unknown
+source:
+  doi: 10.5772/34469
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 3.55e-05
+    unit: m**2 * s**-1
+  act_energy:
+    value: 65500.0
+    unit: J * mol**-1
+  range:
+    value:
+    - 593.0
+    - 773.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/cucrzr/cucrzr.py:91

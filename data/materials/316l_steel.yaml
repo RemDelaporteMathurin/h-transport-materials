@@ -1,0 +1,8 @@
+id: 316l_steel
+code: SS316L
+name: 316l_steel
+families:
+- steel
+- alloy
+- metal
+htm_legacy: STEEL_316L

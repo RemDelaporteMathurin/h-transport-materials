@@ -1,0 +1,26 @@
+id: htm:Inconel600-Kd-D-rota1982
+property: dissociation_coeff
+material: inconel_600
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/0022-3115(82)90214-8
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 2000000000000000.0
+    unit: particle * cm**-2 * s**-1 * mbar**-1
+  act_energy:
+    value: 11.0
+    unit: kcal * mol**-1
+  range:
+    value:
+    - 150.0
+    - 400.0
+    unit: degC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/inconel_600.py:113

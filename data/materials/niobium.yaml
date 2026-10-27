@@ -1,0 +1,10 @@
+id: niobium
+code: Nb
+name: niobium
+families:
+- pure metal
+- metal
+symbol: Nb
+composition:
+  Nb: 100
+htm_legacy: NIOBIUM

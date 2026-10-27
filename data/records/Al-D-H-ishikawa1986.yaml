@@ -1,0 +1,26 @@
+id: htm:Al-D-H-ishikawa1986
+property: diffusivity
+material: aluminium
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0001-6160(86)90219-1
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 9.2e-05
+    unit: m**2 * s**-1
+  act_energy:
+    value: 55.25
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 285.0
+    - 328.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/aluminium/aluminium.py:100

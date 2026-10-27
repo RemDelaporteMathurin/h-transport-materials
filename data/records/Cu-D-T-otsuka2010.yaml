@@ -1,0 +1,26 @@
+id: htm:Cu-D-T-otsuka2010
+property: diffusivity
+material: copper
+isotope: T
+method: unknown
+source:
+  doi: 10.1016/j.fusengdes.2010.03.063
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.11e-06
+    unit: m**2 * s**-1
+  act_energy:
+    value: 0.399
+    unit: eV * particle**-1
+  range:
+    value:
+    - 303.0
+    - 353.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/copper/copper.py:154

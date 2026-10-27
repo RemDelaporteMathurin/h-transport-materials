@@ -256,6 +256,9 @@ class Curation(_Strict):
         [], description="open questions a verifier must resolve against the PDF"
     )
     errata: list[str] = []
+    migrated_from: str | None = Field(
+        None, description="file:line of the property_database entry it was migrated from"
+    )
 
 
 class Record(_Strict):

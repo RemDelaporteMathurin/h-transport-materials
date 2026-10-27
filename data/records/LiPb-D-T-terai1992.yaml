@@ -1,0 +1,26 @@
+id: htm:LiPb-D-T-terai1992
+property: diffusivity
+material: lipb
+isotope: T
+method: unknown
+source:
+  doi: 10.1016/0022-3115(92)90504-E
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 2.5e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 27000.0
+    unit: J * mol**-1
+  range:
+    value:
+    - 573.0
+    - 973.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/lipb/lipb.py:203

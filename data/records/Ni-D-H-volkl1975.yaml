@@ -1,0 +1,26 @@
+id: htm:Ni-D-H-volkl1975
+property: diffusivity
+material: nickel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/B978-0-12-522660-8.50010-6
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 6.87e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 40.5
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 300.0
+    - 1473.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/nickel.py:13

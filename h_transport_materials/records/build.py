@@ -138,17 +138,22 @@ def _read_points(reported, folder):
     return T.to(ureg.K), y
 
 
+def _energy(q):
+    """An activation energy, also when printed as a temperature (E / k_B in K)"""
+    energy = quantity(q.value, q.unit)
+    if energy.check("[temperature]"):
+        return energy.to(ureg.K) * htm.k_B
+    return energy
+
+
 def _arrhenius_law(law):
     """(pre_exp, act_energy) of an arrhenius or log_linear law"""
     if law.form == "arrhenius":
-        return (
-            quantity(law.pre_exp.value, law.pre_exp.unit),
-            quantity(law.act_energy.value, law.act_energy.unit),
-        )
+        return quantity(law.pre_exp.value, law.pre_exp.unit), _energy(law.act_energy)
     ln_base = 1.0 if law.base == "e" else np.log(10)
     pre_exp = np.exp(law.intercept * ln_base) * ureg.Unit(law.y_unit)
     if law.act_energy is not None:
-        return pre_exp, quantity(law.act_energy.value, law.act_energy.unit)
+        return pre_exp, _energy(law.act_energy)
     slope = quantity(law.slope.value, law.slope.unit).to(ureg.K)
     return pre_exp, -slope * ln_base * htm.k_B
 

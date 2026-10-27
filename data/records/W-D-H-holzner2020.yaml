@@ -1,0 +1,26 @@
+id: htm:W-D-H-holzner2020
+property: diffusivity
+material: tungsten
+isotope: H
+method: unknown
+source:
+  doi: 10.1088/1402-4896/ab4b42
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.00206
+    unit: cm**2 * s**-1
+  act_energy:
+    value: 0.28
+    unit: eV * particle**-1
+  range:
+    value:
+    - 1600.0
+    - 2600.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:146

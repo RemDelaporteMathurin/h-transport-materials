@@ -4,6 +4,8 @@ This is the compatibility layer: code using ``htm.diffusivities.filter(...)``
 keeps working when the database is loaded from compiled records.
 """
 
+import re
+
 import h_transport_materials as htm
 
 from .doi import normalize_doi
@@ -24,14 +26,32 @@ def _quantity(d):
     return ureg.Quantity(d["value"], ureg.Unit(d["unit"]))
 
 
+def _plain(text):
+    """Lowercase text without BibTeX braces, dashes or extra spaces, for matching"""
+    text = re.sub(r"[{}]", "", text or "").translate(_DASHES)
+    return re.sub(r"\s+", " ", text).strip().lower()
+
+
+_DASHES = dict.fromkeys(map(ord, "‐‑‒–—−"), "-")
+
+
 def _legacy_bib_key(source):
-    """Key of the matching references.bib entry (by DOI), so author, year and
-    bibdata work as today. Falls back to the source key."""
+    """Key of the matching references.bib entry, so author, year and bibdata
+    work as today: by DOI, else by title and year. Falls back to the source key."""
+    entries = htm.bib_database.entries
     if source.get("doi"):
         doi = normalize_doi(source["doi"])
-        for key, entry in htm.bib_database.entries.items():
+        for key, entry in entries.items():
             if normalize_doi(entry.fields.get("doi", "")) == doi:
                 return key
+    title = _plain(source.get("title"))
+    for key, entry in entries.items():
+        if (
+            not entry.fields.get("doi")
+            and _plain(entry.fields.get("title")) == title
+            and str(entry.fields.get("year")) == str(source.get("year"))
+        ):
+            return key
     return source["key"]
 
 

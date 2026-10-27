@@ -1,0 +1,27 @@
+id: htm:SS316L-D-H-reiter1996
+property: diffusivity
+material: 316l_steel
+isotope: H
+method: unknown
+source:
+  key: reiter1996
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 3.7e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 51.9
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 500.0
+    - 1200.0
+    unit: K
+note: this is an average of 10 papers on diffusivity from Reiter compilation review
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/steel_316L/steel_316L.py:20

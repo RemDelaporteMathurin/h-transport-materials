@@ -1,0 +1,28 @@
+id: htm:Au-S-H-shimada2020
+property: solubility
+law: sieverts
+material: gold
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/B978-0-12-803581-8.11754-0
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 78.0
+    unit: mol * m**-3 * Pa**-0.5
+  act_energy:
+    value: 99.4
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 773.0
+    - 873.0
+    unit: K
+note: this was computed from the permeability of Caskey and Derrick and the diffusivity of Eichenauer
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/gold.py:19

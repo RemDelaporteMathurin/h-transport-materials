@@ -1,0 +1,27 @@
+id: htm:HastelloyN-P-H-fuerst2024
+property: permeability
+law: sieverts
+material: hastelloy_n
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2023.154851
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 5.7e-07
+    unit: mol * m**-1 * Pa**-0.5 * s**-1
+  act_energy:
+    value: 66.2
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 500.0
+    - 700.0
+    unit: degC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/hastelloy_n.py:71

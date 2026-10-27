@@ -1,0 +1,27 @@
+id: htm:CuCrZr-S-T-noh2016
+property: solubility
+law: sieverts
+material: cucrzr
+isotope: T
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2016.01.035
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 7.83e+20
+    unit: particle * m**-3 * Pa**-0.5
+  act_energy:
+    value: 0.0715
+    unit: eV * particle**-1
+  range:
+    value:
+    - 573.0
+    - 873.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/cucrzr/cucrzr.py:65

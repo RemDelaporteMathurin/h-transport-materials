@@ -1,0 +1,26 @@
+id: htm:C-D-H-causey1989
+property: diffusivity
+material: graphite
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0022-3115(89)90265-1
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 9.3e-05
+    unit: m**2 * s**-1
+  act_energy:
+    value: 2.8
+    unit: eV * particle**-1
+  range:
+    value:
+    - 900.0
+    - 1473.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/carbon.py:6

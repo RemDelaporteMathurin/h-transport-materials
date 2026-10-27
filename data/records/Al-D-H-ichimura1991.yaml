@@ -1,0 +1,27 @@
+id: htm:Al-D-H-ichimura1991
+property: diffusivity
+material: aluminium
+isotope: H
+method: unknown
+source:
+  doi: 10.2320/matertrans1989.32.1109
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 4.58e-06
+    unit: m**2 * s**-1
+  act_energy:
+    value: 37.0
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 573.0
+    - 923.0
+    unit: K
+note: columnar grain
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/aluminium/aluminium.py:81

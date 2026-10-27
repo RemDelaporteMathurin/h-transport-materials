@@ -1,0 +1,26 @@
+id: htm:Ni-Kd-H-altunoglu1991
+property: dissociation_coeff
+material: nickel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0022-5088(91)90195-A
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.44e-06
+    unit: mol * m**-2 * s**-1 * Pa**-1
+  act_energy:
+    value: 29.68
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 373.0
+    - 623.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/nickel.py:91

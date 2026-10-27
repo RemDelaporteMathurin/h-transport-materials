@@ -1,0 +1,28 @@
+id: htm:EUROFER97-S-D-chen2021
+property: solubility
+law: sieverts
+material: eurofer_97
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2021.152904
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 400.0
+    unit: mol * m**-3 * MPa**-0.5
+  act_energy:
+    value: 29.2
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 623.0
+    - 823.0
+    unit: K
+note: in the paper, only the 3 hottest points are fitted to measure lattice diffusion only
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/eurofer_97/eurofer_97.py:91

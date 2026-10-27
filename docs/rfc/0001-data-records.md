@@ -437,14 +437,48 @@ listed in `tests/test_records.py`:
 
 ## 10. Migration
 
-1. Auto-convert the ~300 entries built from literal values by capturing
-   constructor arguments before pint converts them.
-2. Hand-transcribe the ~160 computed ones, starting with the CSV-backed
-   ones. Density and composition entries get a transformation each; expect
-   more findings like section 9.
-3. Gate: the equivalence test over all records, with every intended
-   difference listed and explained.
-4. Verification sprint on W, 316L, Pb-17Li, EUROFER97 and FLiBe.
+`htm migrate` (`records/migrate.py`, a one-off tool) does the automatic
+part:
+
+1. It imports the database in a subprocess with the property constructors
+   wrapped, to learn where each property was created and its position in
+   `htm.database`.
+2. It reads each constructor call in the source. A call made only of
+   numbers and units (including `np.exp(-6.53) * u.cm**2 / u.s`, energies
+   written `965 * u.K * htm.k_B`, positional arguments and
+   `(373, 473) * u.K` ranges) is written as a record, with the values as
+   typed in the source rather than as pint converted them. Material
+   entries and source files are created as needed (from the DOI, or from
+   the `references.bib` entry when there is none). Each record says where
+   it came from (`curation.migrated_from`) and carries a flag asking for a
+   check against the paper.
+3. Anything else goes to `data/migration/todo.md` with the reason.
+4. `data/migration/legacy.yaml` maps every record id to the property it
+   replaces in `htm.database`. The equivalence test checks each record
+   against that exact property (class, source, isotope, material, values,
+   range), not against a best match.
+
+The tool is idempotent: rerunning it skips what is migrated and changes
+nothing.
+
+**Status.** 292 of the 473 properties are records (273 converted
+automatically, 19 by hand), with 50 materials and 108 sources. All 292
+reproduce the current database except the differences listed in section 9.
+181 remain in `todo.md`:
+
+| Reason | Count |
+|---|---|
+| data points (CSV files or arrays) | 129 |
+| computed pre-exponential factor (densities, molar volumes, ratios) | 34 |
+| source file could not be generated (e.g. a bib entry without a title) | 6 |
+| source not in `references.bib` | 4 |
+| range bounds in two different units | 4 |
+| product computed by HTM (D x S) | 3 |
+| range computed from 1/T | 1 |
+
+Next: semi-automate the data points (most read a CSV with a fixed
+pattern), transcribe the computed ones by hand material by material, then
+the verification sprint on W, 316L, Pb-17Li, EUROFER97 and FLiBe.
 
 ## 11. Open points
 

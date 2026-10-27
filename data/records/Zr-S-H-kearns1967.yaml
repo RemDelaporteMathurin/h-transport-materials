@@ -1,0 +1,29 @@
+id: htm:Zr-S-H-kearns1967
+property: solubility
+law: sieverts
+material: zirconium
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0022-3115(67)90047-5
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.43
+    unit: mol * m**-3 * Pa**-0.5
+  act_energy:
+    value: -49.5
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 602.0
+    - 1069.0
+    unit: K
+note: this was found in Shimada 2020 review 'Tritium Transport in Fusion Reactor Materials'however, I
+  can't find this activation energy in Kearns paper
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/zirconium/zirconium.py:17

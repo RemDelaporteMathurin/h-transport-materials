@@ -1,0 +1,26 @@
+id: htm:Ag-D-H-katsuta1979
+property: diffusivity
+material: silver
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0036-9748(79)90391-0
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 8.55e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 3620.0
+    unit: K
+  range:
+    value:
+    - 947.0
+    - 1123.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/silver.py:9

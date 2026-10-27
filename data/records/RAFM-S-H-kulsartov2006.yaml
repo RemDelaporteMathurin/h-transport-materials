@@ -1,0 +1,27 @@
+id: htm:RAFM-S-H-kulsartov2006
+property: solubility
+law: sieverts
+material: rafm_steel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.fusengdes.2005.07.019
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 7.7
+    unit: mol * m**-3 * Pa**-0.5
+  act_energy:
+    value: 33.0
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 400.0
+    - 600.0
+    unit: degC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/rafm_steel.py:191
