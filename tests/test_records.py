@@ -37,6 +37,8 @@ EXPECTED_DIFFERENCES = {
     # derived from them (molar volume 1.3e-5 m3/mol, specific volume 8.32e-8 m3/g)
     "htm:Li-S-H-veleckis1974": {"rel": 2e-4},
     "htm:Pd-S-T-favreau1954": {"rel": 1e-5},
+    # cited by a free text string in the current code, a source file here
+    "htm:SS304-S-H-hawkins1953": {"source": True},
 }
 
 
@@ -74,7 +76,8 @@ def test_equivalence_with_current_database(group, manifest):
         )
         difference = EXPECTED_DIFFERENCES.get(new.record_id, {})
         assert new.material == old.material, new.record_id
-        assert new.source == old.source, new.record_id
+        if not difference.get("source"):
+            assert new.source == old.source, new.record_id
         assert new.isotope == (old.isotope or "").upper(), new.record_id
         new_range = [T.m_as("K") for T in new.range] if new.range else None
         old_range = [T.m_as("K") for T in old.range] if old.range else None
@@ -436,3 +439,72 @@ def test_sieverts_constant_inversion_flips_the_activation_energy():
     transforms.sieverts_constant_to_solubility(state, {"concentration_unit": "atfr"}, None)
     assert state.reported.m_as("atfr / atm^0.5") == pytest.approx(0.5)
     assert state.act_energy.m_as("eV/particle") == pytest.approx(-0.3)
+
+
+# --- derived records -------------------------------------------------------------
+
+
+def _derived(record_id, prop, factors, law=None, **extra):
+    content = {
+        "id": record_id,
+        "property": prop,
+        "material": "tungsten",
+        "isotope": "H",
+        "method": "unknown",
+        "source": {"doi": "10.1016/S0022-3115(01)00486-X"},
+        "reported": {
+            "form": "derived",
+            "factors": [{"record": r, "power": p} for r, p in factors],
+            "origin": "htm",
+            "rationale": "test",
+        },
+        **extra,
+    }
+    if law:
+        content["law"] = law
+    return content
+
+
+def _add(data_dir, content):
+    name = content["id"].removeprefix("htm:")
+    (data_dir / "records" / f"{name}.yaml").write_text(yaml.safe_dump(content), encoding="utf-8")
+
+
+ESTEBAN_D, ESTEBAN_S = "htm:W-D-H-esteban2001", "htm:W-S-H-esteban2001"
+
+
+def test_derived_product(data_copy):
+    _add(data_copy, _derived("htm:W-P-H-esteban2001", "permeability",
+                             [(ESTEBAN_D, 1), (ESTEBAN_S, 1)], law="sieverts"))
+    records = {r["id"]: r for r in build.build(data_copy)["records"]}
+    D, S, P = (records[i]["normalized"] for i in (ESTEBAN_D, ESTEBAN_S, "htm:W-P-H-esteban2001"))
+    assert P["pre_exp"]["value"] == pytest.approx(D["pre_exp"]["value"] * S["pre_exp"]["value"])
+    assert P["act_energy"]["value"] == pytest.approx(
+        D["act_energy"]["value"] + S["act_energy"]["value"]
+    )
+    assert P["range"]["value"] == pytest.approx([673, 1073])
+    assert records["htm:W-P-H-esteban2001"]["htm_assumptions"][0]["op"] == "derived"
+
+
+@pytest.mark.parametrize(
+    "contents,message",
+    [
+        ([_derived("htm:W-P-H-esteban2001", "permeability", [(ESTEBAN_D, 1), ("htm:W-S-H-nobody2000", 1)],
+                   law="sieverts")], "unknown input records"),
+        ([_derived("htm:W-P-H-esteban2001", "permeability", [(ESTEBAN_D, 1), ("htm:W-P-H-esteban2001-b", 1)],
+                   law="sieverts"),
+          _derived("htm:W-P-H-esteban2001-b", "permeability", [(ESTEBAN_D, 1), ("htm:W-P-H-esteban2001", 1)],
+                   law="sieverts")], "circular"),
+        ([_derived("htm:W-D-H-esteban2001-b", "diffusivity", [(ESTEBAN_D, 1), (ESTEBAN_S, 1)])],
+         "do not combine into a diffusivity"),
+        ([_derived("htm:W-P-H-esteban2001", "permeability", [(ESTEBAN_D, 1), (ESTEBAN_S, 1)], law="sieverts",
+                   transformations=[{"op": "assume_range", "params": {"range": [1, 2]},
+                                     "origin": "htm", "rationale": "test"}])],
+         "cannot have transformations"),
+    ],
+)
+def test_invalid_derived_rejected(data_copy, contents, message):
+    for content in contents:
+        _add(data_copy, content)
+    with pytest.raises(build.BuildError, match=message):
+        build.build(data_copy)

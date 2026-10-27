@@ -1,0 +1,25 @@
+id: htm:SS316L-P-H-reiter1985
+property: permeability
+law: sieverts
+material: 316l_steel
+isotope: H
+method: unknown
+source:
+  doi: 10.13182/FST85-A24629
+  location: null
+reported:
+  form: derived
+  factors:
+  - record: htm:SS316L-D-H-reiter1985
+    power: 1
+  - record: htm:SS316L-S-H-reiter1985
+    power: 1
+  range_from: htm:SS316L-D-H-reiter1985
+  origin: htm
+  rationale: not given in the paper; HTM computes the permeability as D x S
+note: calculated in HTM
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/steel_316L/steel_316L.py:126

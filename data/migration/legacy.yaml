@@ -223,8 +223,14 @@ htm:EUROFER97-P-H-esteban2007:
 htm:EUROFER97-P-H-montupetleblond2021:
   index: 64
   class: Permeability
+htm:EUROFER97-S-D-aiello2002:
+  index: 57
+  class: Solubility
 htm:EUROFER97-S-D-chen2021:
   index: 60
+  class: Solubility
+htm:EUROFER97-S-H-aiello2002:
+  index: 56
   class: Solubility
 htm:EUROFER97-S-H-esteban2007:
   index: 63
@@ -817,6 +823,9 @@ htm:SS304-D-D-braun1980:
 htm:SS304-D-H-grant1987:
   index: 380
   class: Diffusivity
+htm:SS304-Kd-D-braun1980:
+  index: 390
+  class: DissociationCoeff
 htm:SS304-Kd-H-grant1987:
   index: 382
   class: DissociationCoeff
@@ -829,12 +838,30 @@ htm:SS304-Kd-H-grant1987-c:
 htm:SS304-Kr-D-braun1980:
   index: 389
   class: RecombinationCoeff
+htm:SS304-Kr-H-grant1987:
+  index: 385
+  class: RecombinationCoeff
+htm:SS304-Kr-H-grant1987-b:
+  index: 386
+  class: RecombinationCoeff
+htm:SS304-Kr-H-grant1987-c:
+  index: 387
+  class: RecombinationCoeff
+htm:SS304-P-D-braun1980:
+  index: 391
+  class: Permeability
 htm:SS304-P-H-grant1987:
   index: 379
   class: Permeability
 htm:SS304-P-H-hu2015:
   index: 393
   class: Permeability
+htm:SS304-S-H-grant1987:
+  index: 381
+  class: Solubility
+htm:SS304-S-H-hawkins1953:
+  index: 392
+  class: Solubility
 htm:SS316L-D-D-houben2019:
   index: 343
   class: Diffusivity
@@ -846,6 +873,9 @@ htm:SS316L-D-H-forcey1988:
   class: Diffusivity
 htm:SS316L-D-H-kishimoto1985:
   index: 348
+  class: Diffusivity
+htm:SS316L-D-H-lee2011:
+  index: 360
   class: Diffusivity
 htm:SS316L-D-H-reiter1985:
   index: 367
@@ -892,11 +922,20 @@ htm:SS316L-P-D-houben2019-b:
 htm:SS316L-P-D-houben2022:
   index: 342
   class: Permeability
+htm:SS316L-P-D-reiter1985:
+  index: 370
+  class: Permeability
 htm:SS316L-P-H-forcey1988:
   index: 354
   class: Permeability
 htm:SS316L-P-H-kishimoto1985:
   index: 347
+  class: Permeability
+htm:SS316L-P-H-lee2011:
+  index: 359
+  class: Permeability
+htm:SS316L-P-H-reiter1985:
+  index: 369
   class: Permeability
 htm:SS316L-P-H-serra2004:
   index: 362
@@ -913,14 +952,32 @@ htm:SS316L-P-T-shan1991:
 htm:SS316L-S-D-houben2019:
   index: 344
   class: Solubility
+htm:SS316L-S-D-reiter1985:
+  index: 366
+  class: Solubility
 htm:SS316L-S-H-forcey1988:
   index: 356
   class: Solubility
 htm:SS316L-S-H-kishimoto1985:
   index: 349
   class: Solubility
+htm:SS316L-S-H-lee2011:
+  index: 361
+  class: Solubility
+htm:SS316L-S-H-reiter1985:
+  index: 365
+  class: Solubility
+htm:SS316L-S-H-reiter1996:
+  index: 341
+  class: Solubility
 htm:SS316L-S-H-serra2004:
   index: 364
+  class: Solubility
+htm:SS316L-S-H-shan1991:
+  index: 375
+  class: Solubility
+htm:SS316L-S-T-shan1991:
+  index: 376
   class: Solubility
 htm:SiC-D-T-causey1978:
   index: 460

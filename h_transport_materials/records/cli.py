@@ -27,7 +27,7 @@ def _email(args):
 
 def _report(source, path, created):
     verb = "created" if created else "exists "
-    print(f"{verb} {path.name}: {source.authors[0].family} {source.year}, {source.title}")
+    print(f"{verb} {path.name}: {(source.authors or source.editors)[0].family} {source.year}, {source.title}")
 
 
 def source_add(args):

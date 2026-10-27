@@ -29,6 +29,7 @@ CSL_TYPES = {
     "thesis": "thesis",
     "dissertation": "thesis",
     "book": "book",
+    "edited-book": "book",
     "monograph": "book",
     "chapter": "chapter",
     "book-chapter": "chapter",
@@ -108,26 +109,33 @@ def _orcid(author):
     return orcid.rstrip("/").split("/")[-1] if orcid else None
 
 
-def csl_to_source(csl: dict, taken=()) -> Source:
-    """Converts CSL-JSON into a Source, deriving the key from first author and year"""
-    authors = [
+def _people(entries):
+    return [
         {
             "family": clean_text(a.get("family") or a.get("literal")),
             "given": clean_given(a.get("given")),
             "orcid": _orcid(a),
         }
-        for a in csl.get("author", [])
+        for a in entries
         if a.get("family") or a.get("literal")
     ]
-    if not authors:
-        raise ValueError("no authors in the metadata, write the source by hand")
+
+
+def csl_to_source(csl: dict, taken=()) -> Source:
+    """Converts CSL-JSON into a Source, deriving the key from the first author
+    (or editor, for edited books) and the year"""
+    authors = _people(csl.get("author", []))
+    editors = [] if authors else _people(csl.get("editor", []))
+    if not authors and not editors:
+        raise ValueError("no authors or editors in the metadata, write the source by hand")
     date = csl.get("issued") or csl.get("published-print") or csl.get("published-online")
     year = int(date["date-parts"][0][0])
     return Source(
-        key=make_key(authors[0]["family"], year, taken),
+        key=make_key((authors or editors)[0]["family"], year, taken),
         type=CSL_TYPES.get(csl.get("type"), "other"),
         title=clean_text(csl.get("title")),
         authors=authors,
+        editors=editors,
         year=year,
         journal=clean_text(csl.get("container-title")),
         volume=clean_text(str(csl["volume"])) if csl.get("volume") else None,

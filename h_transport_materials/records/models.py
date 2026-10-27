@@ -197,8 +197,36 @@ class PointsReported(_Strict):
         return self
 
 
+class DerivedFactor(_Strict):
+    record: str = Field(description="id of an input record")
+    power: float = 1.0
+
+
+class DerivedReported(_Strict):
+    """A law computed from other records, e.g. S = permeability / diffusivity.
+
+    value = product of the input laws raised to their powers: the
+    pre-exponential factors multiply and the activation energies add, each
+    with its power. Nothing here is a published value, so the record says
+    who derived it (``origin``) and why.
+    """
+
+    form: Literal["derived"]
+    factors: list[DerivedFactor] = Field(min_length=2)
+    range: Range | None = Field(None, description="default: overlap of the input ranges")
+    range_from: str | None = Field(None, description="id of an input whose range is used")
+    origin: Literal["paper", "htm"]
+    rationale: str
+
+    @model_validator(mode="after")
+    def one_range(self):
+        if self.range is not None and self.range_from is not None:
+            raise ValueError("give range or range_from, not both")
+        return self
+
+
 Reported = Annotated[
-    Union[ArrheniusReported, LogLinear, ConstantReported, PointsReported],
+    Union[ArrheniusReported, LogLinear, ConstantReported, PointsReported, DerivedReported],
     Field(discriminator="form"),
 ]
 
@@ -298,6 +326,8 @@ class Record(_Strict):
         ops = [t.op for t in self.transformations]
         if "assume_range" in ops and getattr(self.reported, "range", None) is not None:
             raise ValueError("assume_range is not allowed when the paper gives a range")
+        if self.reported.form == "derived" and self.transformations:
+            raise ValueError("a derived record cannot have transformations")
         return self
 
 
@@ -367,7 +397,8 @@ class Source(_Strict):
     key: str = Field(pattern=SOURCE_KEY_PATTERN)
     type: Literal["article", "report", "thesis", "book", "chapter", "conference", "other"]
     title: str
-    authors: list[Person]
+    authors: list[Person] = []
+    editors: list[Person] = Field([], description="for edited books, when there are no authors")
     year: int
     journal: str | None = None
     volume: str | None = None
@@ -376,3 +407,10 @@ class Source(_Strict):
     doi: str | None = None
     url: str | None = None
     open_access_url: str | None = None
+    note: str | None = Field(None, description="e.g. original not found, cited by another source")
+
+    @model_validator(mode="after")
+    def has_people(self):
+        if not self.authors and not self.editors:
+            raise ValueError("a source needs authors or editors")
+        return self

@@ -1,0 +1,27 @@
+id: htm:SS304-Kd-D-braun1980
+property: dissociation_coeff
+material: 304_steel
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/0022-3115(80)90219-6
+  location: null
+reported:
+  form: derived
+  factors:
+  - record: htm:SS304-Kr-D-braun1980
+    power: 1
+  - record: htm:SS304-S-H-hawkins1953
+    power: 2
+  range_from: htm:SS304-D-D-braun1980
+  origin: htm
+  rationale: not given in the paper; HTM computes Kd = Kr S^2 with the Hawkins solubility
+note: not given in paper, calculated in HTM using Hawkins solubility, differs from Fuerst 2020 review
+  (Table 5)
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  - combines a deuterium Kr with a protium solubility
+  - the range is the diffusivity's (100 to 600 degC), not Kr's
+  migrated_from: h_transport_materials/property_database/ss_304/ss_304.py:136

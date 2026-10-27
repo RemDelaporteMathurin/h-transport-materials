@@ -324,10 +324,95 @@ def build(data_dir=DATA_DIR, data_version="dev"):
         "elements": elements.model_dump(mode="json"),
         "materials": [m.model_dump(mode="json") for m in materials.values()],
         "sources": [s.model_dump(mode="json") for s in sources.values()],
-        "records": [
-            build_record(r, path.parent, materials, elements) for r, path in records
-        ],
+        "records": build_all(records, materials, elements),
     }
+
+
+def build_all(records, materials, elements):
+    """Builds every record, derived ones after the records they use
+
+    Args:
+        records (list): (Record, Path) tuples
+
+    Returns:
+        list: built records, in the order given
+    """
+    built, pending = {}, []
+    ids = {r.id for r, _ in records}
+    for r, path in records:
+        if r.reported.form == "derived":
+            pending.append(r)
+        else:
+            built[r.id] = build_record(r, path.parent, materials, elements)
+    for r in pending:
+        unknown = [d for d in _inputs(r) if d not in ids]
+        if unknown:
+            raise BuildError(f"{r.id}: unknown input records {unknown}")
+    while pending:
+        ready = [r for r in pending if all(d in built for d in _inputs(r))]
+        if not ready:
+            raise BuildError(f"circular derived records: {sorted(r.id for r in pending)}")
+        for r in ready:
+            built[r.id] = build_derived(r, built)
+            pending.remove(r)
+    return [built[r.id] for r, _ in records]
+
+
+def _inputs(record):
+    rep = record.reported
+    return [f.record for f in rep.factors] + ([rep.range_from] if rep.range_from else [])
+
+
+def build_derived(record, built):
+    """Builds a record derived from other (already built) records"""
+    rep = record.reported
+    law = record.law if record.property in ("solubility", "permeability") else None
+    target = NORMALIZED_UNITS[(record.property, law)]
+
+    pre_exp, act_energy, ranges = 1, 0 * ENERGY_UNIT, []
+    for factor in rep.factors:
+        n = built[factor.record]["normalized"]
+        if "pre_exp" not in n:
+            raise BuildError(f"{record.id}: input {factor.record} is not an Arrhenius law")
+        pre_exp = pre_exp * quantity(n["pre_exp"]["value"], n["pre_exp"]["unit"]) ** factor.power
+        act_energy = act_energy + factor.power * quantity(
+            n["act_energy"]["value"], n["act_energy"]["unit"]
+        )
+        ranges.append(n["range"])
+
+    if rep.range is not None:
+        T_range = tuple(quantity(v, rep.range.unit) for v in rep.range.value)
+    elif rep.range_from is not None:
+        r = built[rep.range_from]["normalized"]["range"]
+        T_range = tuple(quantity(v, r["unit"]) for v in r["value"]) if r else None
+    elif all(ranges):
+        low = max(r["value"][0] for r in ranges)
+        high = min(r["value"][1] for r in ranges)
+        if low >= high:
+            raise BuildError(f"{record.id}: the input ranges do not overlap")
+        T_range = (quantity(low, "K"), quantity(high, "K"))
+    else:
+        T_range = None
+
+    try:
+        normalized = {
+            "selected": "derived",
+            "pre_exp": _q(pre_exp, target),
+            "act_energy": _q(act_energy, ENERGY_UNIT),
+            "range": _range(T_range),
+        }
+    except pint.DimensionalityError as e:
+        raise BuildError(
+            f"{record.id}: the inputs do not combine into a {record.property}: {e}"
+        ) from e
+
+    out = record.model_dump(mode="json")
+    out["normalized"] = normalized
+    out["htm_assumptions"] = (
+        [{"op": "derived", "rationale": rep.rationale}] if rep.origin == "htm" else []
+    )
+    out["transformation_log"] = []
+    return out
 
 
 def main(argv=None):

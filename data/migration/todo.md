@@ -6,8 +6,6 @@ not convert automatically.
 
 | Location | Property | Isotope | Material | Reason |
 |---|---|---|---|---|
-| `h_transport_materials/property.py:241` | Permeability | h | 316l_steel | computed by HTM code (property.py, e.g. D x S) |
-| `h_transport_materials/property.py:241` | Permeability | d | 316l_steel | computed by HTM code (property.py, e.g. D x S) |
 | `h_transport_materials/property.py:241` | Permeability | H | tzm | computed by HTM code (property.py, e.g. D x S) |
 | `h_transport_materials/property_database/aluminium/aluminium.py:20` | Solubility | H | aluminium | source not in references.bib |
 | `h_transport_materials/property_database/aluminium/aluminium.py:30` | Permeability | H | aluminium | source file: 1 validation error for Source |
@@ -24,8 +22,6 @@ not convert automatically.
 | `h_transport_materials/property_database/copper/copper.py:108` | Diffusivity | D | copper | source file: 1 validation error for Source |
 | `h_transport_materials/property_database/copper/copper.py:116` | Solubility | D | copper | source file: 1 validation error for Source |
 | `h_transport_materials/property_database/copper/copper.py:226` | Solubility | H | copper | data points: values computed in the module (data_T_mclellan) |
-| `h_transport_materials/property_database/eurofer_97/eurofer_97.py:47` | Solubility | D | eurofer_97 | computed S_0: aiello_permeability_D.pre_exp / aiello_diffusivity |
-| `h_transport_materials/property_database/eurofer_97/eurofer_97.py:56` | Solubility | H | eurofer_97 | computed S_0: aiello_permeability_H.pre_exp / aiello_diffusivity |
 | `h_transport_materials/property_database/flibe/flibe.py:86` | Solubility | H | flibe | data points: values computed in the module (data_solubility_field_h) |
 | `h_transport_materials/property_database/flibe/flibe.py:98` | Solubility | D | flibe | data points: values computed in the module (data_solubility_field_d) |
 | `h_transport_materials/property_database/flibe/flibe.py:123` | Solubility | D | flibe | data points: values computed in the module (data_maulinauskas_T) |
@@ -57,21 +53,6 @@ not convert automatically.
 | `h_transport_materials/property_database/palladium_copper.py:37` | Permeability | H | 60pd40cu | data points: values computed in the module (li_data_T) |
 | `h_transport_materials/property_database/pdag/palladium_silver.py:108` | DissociationCoeff | H | pdag | computed pre_exp: 2 / R_S_0 |
 | `h_transport_materials/property_database/sic.py:69` | Solubility | D | sic | computed S_0: 8.77e-09 * u.atm ** (-0.5) * sic_atom_density |
-| `h_transport_materials/property_database/ss_304/ss_304.py:33` | Solubility | H | 304_steel | computed S_0: grant_permeability.pre_exp / grant_diffusivity.pre |
-| `h_transport_materials/property_database/ss_304/ss_304.py:69` | RecombinationCoeff | H | 304_steel | computed pre_exp: grant_dissociation_clean.pre_exp / grant_solubilit |
-| `h_transport_materials/property_database/ss_304/ss_304.py:78` | RecombinationCoeff | H | 304_steel | computed pre_exp: grant_dissociation_activated.pre_exp / grant_solub |
-| `h_transport_materials/property_database/ss_304/ss_304.py:87` | RecombinationCoeff | H | 304_steel | computed pre_exp: grant_dissociation_oxidised.pre_exp / grant_solubi |
-| `h_transport_materials/property_database/ss_304/ss_304.py:106` | Solubility | H | 304_steel | source not in references.bib |
-| `h_transport_materials/property_database/ss_304/ss_304.py:117` | Permeability | D | 304_steel | computed pre_exp: braun_diffusivity.pre_exp * hawkins_solubility.pre |
-| `h_transport_materials/property_database/ss_304/ss_304.py:136` | DissociationCoeff | D | 304_steel | computed pre_exp: braun_recombination_coeff.pre_exp * hawkins_solubi |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:29` | Solubility | H | 316l_steel | computed S_0: 5.8e-06 * u.Pa ** (-0.5) * STEEL_316L_MOLAR_VOLUME |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:90` | Solubility | h | 316l_steel | computed S_0: 1.84e-06 * u.Pa ** (-0.5) * STEEL_316L_MOLAR_VOLUM |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:99` | Solubility | d | 316l_steel | computed S_0: 1.96e-06 * u.Pa ** (-0.5) * STEEL_316L_MOLAR_VOLUM |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:307` | Permeability | H | 316l_steel | data points: 1/T axis not in kelvin |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:320` | Diffusivity | H | 316l_steel | data points: 1/T axis not in kelvin |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:327` | Solubility | H | 316l_steel | data points: 1/T axis not in kelvin |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:406` | Solubility | h | 316l_steel | computed S_0: shan_permeability_h.pre_exp / shan_diffusivity_h.p |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:416` | Solubility | t | 316l_steel | computed S_0: shan_permeability_t.pre_exp / shan_diffusivity_t.p |
 | `h_transport_materials/property_database/tantalum.py:23` | Diffusivity | H | tantalum | range bounds in two different units |
 | `h_transport_materials/property_database/tantalum.py:35` | Diffusivity | H | tantalum | range bounds in two different units |
 | `h_transport_materials/property_database/titanium.py:16` | Solubility | T | titanium | computed S_0: 1.06e-05 / TITANIUM_MOLAR_VOLUME * u.mol * u.m **  |

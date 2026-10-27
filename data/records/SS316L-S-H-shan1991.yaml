@@ -1,0 +1,25 @@
+id: htm:SS316L-S-H-shan1991
+property: solubility
+law: sieverts
+material: 316l_steel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0022-3115(91)90091-K
+  location: null
+reported:
+  form: derived
+  factors:
+  - record: htm:SS316L-P-H-shan1991
+    power: 1
+  - record: htm:SS316L-D-H-shan1991
+    power: -1
+  range_from: htm:SS316L-P-H-shan1991
+  origin: htm
+  rationale: not given in the paper; HTM computes the solubility as P / D
+note: calculated in HTM
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/steel_316L/steel_316L.py:406

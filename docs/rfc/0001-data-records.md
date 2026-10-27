@@ -103,6 +103,15 @@ The blocks:
   `author_fit`.
 - `author_fit` takes the form printed: `arrhenius` or `log_linear`
   (Schumacher prints ln y = -A + B/T).
+- `derived`: a law computed from other records, such as S = P / D or
+  Kr = Kd / S^2. The record lists its inputs with a power each
+  (`[{record: P, power: 1}, {record: D, power: -1}]`); the build multiplies
+  the pre-exponential factors and adds the activation energies with those
+  powers, after building the inputs (a derived record can use another).
+  The range is the overlap of the inputs', an explicit `range`, or the
+  range of one input (`range_from`). The record says who derived it
+  (`origin`) and why, and an HTM derivation is listed with HTM's
+  assumptions. The current database has 16 of these, all computed in HTM.
 
 ### Author fit or data points
 
@@ -437,6 +446,19 @@ listed in `tests/test_records.py`:
 9. **Frauenfelder's reference temperature differs between papers.** The W
    solubility uses 273 K and the Mo permeability 300 K for the gas volume
    conversion. Both may be right; each needs checking against its paper.
+10. **Derived properties mix isotopes and ranges.** The 304 permeability
+    attributed to Braun 1980 (deuterium) is Braun's deuterium diffusivity
+    times a protium solubility (Hawkins 1953, a report HTM never found,
+    cited through Braun), over the diffusivity's range although the
+    solubility covers another. The dissociation coefficient computed from
+    the same solubility uses the diffusivity's range too. Both records are
+    flagged.
+11. **The 316L "molar volume" is a number density.**
+    `STEEL_316L_MOLAR_VOLUME` is density / molar mass (mol/m3), so
+    multiplying by it is right, but the molar mass (56.52 g/mol) is typed by
+    hand with a TODO to compute it from the composition. It is now an
+    explicit parameter of the transformation, and the 316L density
+    (8.0 g/cm3) is in the registry with its handbook source.
 
 ## 10. Migration
 
@@ -471,20 +493,21 @@ inline lists). The CSV written next to the record holds the values as
 digitised (here 1000/T and ln D) and the axes say how to read them, so
 nothing is converted before it is stored.
 
-**Status.** 383 of the 473 properties are records (350 converted
-automatically, 77 of them from data points; 33 by hand), with 50
-materials and 142 sources. All 383 reproduce the current database,
-including the fits of the data points, except the differences listed in
-section 9. Pb-17Li is complete. 90 remain in `todo.md`:
+**Status.** 402 of the 473 properties are records (350 converted
+automatically, 77 of them from data points; 52 by hand), with 50
+materials and 145 sources. All 402 reproduce the current database,
+including the fits of the data points and the derived properties,
+except the differences listed in section 9. Pb-17Li and the steels
+(316L, EUROFER97, 304) are complete. 71 remain in `todo.md`:
 
 | Reason | Count |
 |---|---|
-| data points computed in the module (densities, molar volumes, unit gymnastics) | 44 |
-| computed pre-exponential factor (densities, molar volumes, ratios) | 26 |
+| data points computed in the module (densities, molar volumes, unit gymnastics) | 41 |
+| computed pre-exponential factor (densities, molar volumes, ratios) | 13 |
 | source file could not be generated (e.g. a bib entry without a title) | 8 |
-| source not in `references.bib` | 4 |
 | range bounds in two different units | 4 |
-| product computed by HTM (D x S) | 3 |
+| source not in `references.bib` | 3 |
+| product computed by HTM (D x S) | 1 |
 | range computed from 1/T | 1 |
 
 What is left is by construction the part where HTM did arithmetic on the

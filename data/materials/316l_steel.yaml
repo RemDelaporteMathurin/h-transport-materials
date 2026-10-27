@@ -6,3 +6,11 @@ families:
 - alloy
 - metal
 htm_legacy: STEEL_316L
+density:
+  form: constant
+  value: 8.0
+  unit: g/cm^3
+  source:
+    doi: 10.31399/asm.hb.mhde2.9781627081993
+    location: null
+  note: room temperature density, as used in the current steel_316L.py
