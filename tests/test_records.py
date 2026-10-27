@@ -8,28 +8,21 @@ import pytest
 pytest.importorskip("pydantic")
 pytest.importorskip("yaml")
 
+import numpy as np
 import yaml
 
 import h_transport_materials as htm
 from h_transport_materials.records import build, compat, models, schema, transforms
 
-# The current lipb.py uses a Li molar mass of 0.06941 kg/mol (10x too large).
-# Records compute molar masses from data/elements.yaml instead.
-M_LI_WRONG, M_LI, M_PB = 0.06941, 0.006941, 0.2072
+M_LI, M_PB = 0.006941, 0.2072  # kg/mol
 
-
-def _molar_mass_fix(li, pb):
-    """new / old concentration ratio from fixing the Li molar mass"""
-    return (li * M_LI_WRONG + pb * M_PB) / (li * M_LI + pb * M_PB)
-
-
-# records whose values intentionally differ from the current database:
-# id -> (range differs, expected new/old ratio of the pre-exponential factor)
+# records whose values intentionally differ from the current database
 EXPECTED_DIFFERENCES = {
     # single value at 450 degC, was a fake 722-724 K range
-    "htm:LiPb-D-H-fauvet1988": (True, 1.0),
-    "htm:LiPb-S-H-fauvet1988": (True, _molar_mass_fix(0.17, 0.83)),
-    "htm:Li50Pb50-S-H-schumacher1990": (False, _molar_mass_fix(0.5, 0.5)),
+    "htm:LiPb-D-H-fauvet1988": "range",
+    "htm:LiPb-S-H-fauvet1988": "range",
+    # the authors' fit is used; the current entry refits the digitised points
+    "htm:Li50Pb50-S-H-schumacher1990": "author_fit",
 }
 
 
@@ -61,17 +54,26 @@ def test_equivalence_with_current_database(group):
     """Each record reproduces the current database entry, except listed differences"""
     for new in group:
         old = _legacy_match(new)
-        range_differs, pre_exp_ratio = EXPECTED_DIFFERENCES.get(new.record_id, (False, 1.0))
+        difference = EXPECTED_DIFFERENCES.get(new.record_id)
         assert new.material == old.material
+        new_range = [T.m_as("K") for T in new.range]
+        old_range = [T.m_as("K") for T in old.range]
+
+        if difference == "author_fit":
+            # different parameters, same law within 3% over the measured range
+            T = np.linspace(*old_range, 50) * htm.ureg.K
+            ratio = (new.value(T) / old.value(T)).to("dimensionless").magnitude
+            assert np.abs(ratio - 1).max() < 0.03
+            assert new_range == pytest.approx(old_range, rel=1e-12)
+            continue
+
         assert new.pre_exp.to(old.pre_exp.units).magnitude == pytest.approx(
-            old.pre_exp.magnitude * pre_exp_ratio, rel=1e-12
+            old.pre_exp.magnitude, rel=1e-12
         )
         assert new.act_energy.m_as("eV/particle") == pytest.approx(
             old.act_energy.m_as("eV/particle"), rel=1e-12, abs=1e-15
         )
-        new_range = [T.m_as("K") for T in new.range]
-        old_range = [T.m_as("K") for T in old.range]
-        if range_differs:
+        if difference == "range":
             assert new_range != pytest.approx(old_range)
         else:
             assert new_range == pytest.approx(old_range, rel=1e-12)
@@ -90,16 +92,15 @@ def test_fauvet_is_a_single_temperature(group):
         assert [T.m_as("K") for T in prop.range] == pytest.approx([723.15, 723.15])
 
 
-def test_schumacher_keeps_author_fit_and_points(db):
+def test_schumacher_uses_author_fit_and_keeps_both(db):
     record = next(r for r in db["records"] if "schumacher" in r["id"])
     n = record["normalized"]
-    assert n["selected"] == "htm_refit"
-    assert "author_fit" in n
+    assert n["selected"] == "author_fit"
+    assert n["pre_exp"] == n["author_fit"]["pre_exp"]
+    assert "htm_refit" in n
+    assert n["fit_discrepancy"]["max_relative"] < build.FIT_TOLERANCE
     assert len(n["points"]["T"]["value"]) == len(n["points"]["y"]["value"]) > 0
-    assert [a["op"] for a in record["htm_assumptions"]] == [
-        "atom_fraction_to_concentration",
-        "refit_arrhenius",
-    ]
+    assert [a["op"] for a in record["htm_assumptions"]] == ["atom_fraction_to_concentration"]
 
 
 def test_heinola_range_is_an_htm_assumption(db):
@@ -233,4 +234,43 @@ def test_record_copied_under_other_name_rejected(data_copy):
     records = data_copy / "records"
     shutil.copy(records / "W-D-H-esteban2001.yaml", records / "W-D-H-esteban2001-copy.yaml")
     with pytest.raises(build.BuildError, match="duplicate id|file name must match"):
+        build.build(data_copy)
+
+
+# --- choosing between the author fit and the data points ---------------------
+
+SCHUMACHER = "Li50Pb50-S-H-schumacher1990"
+
+
+def _shift_author_fit(content):
+    # exp(0.7) ~ 2: the author fit no longer matches the points
+    content["reported"]["author_fit"]["intercept"] = -8.17 + 0.7
+
+
+def test_disagreeing_author_fit_needs_a_choice(data_copy):
+    _edit(data_copy, SCHUMACHER, _shift_author_fit)
+    with pytest.raises(build.BuildError, match="disagree by .* Set reported.selected"):
+        build.build(data_copy)
+
+
+def test_curator_can_select_the_refit(data_copy):
+    note = "author fit inconsistent with Fig. 3 points; cannot tell which is wrong"
+
+    def choose_refit(content):
+        _shift_author_fit(content)
+        content["reported"]["selected"] = "htm_refit"
+        content["reported"]["selection_note"] = note
+
+    _edit(data_copy, SCHUMACHER, choose_refit)
+    record = next(r for r in build.build(data_copy)["records"] if "schumacher" in r["id"])
+    n = record["normalized"]
+    assert n["selected"] == "htm_refit"
+    assert n["pre_exp"] == n["htm_refit"]["pre_exp"]
+    assert n["fit_discrepancy"]["max_relative"] > build.FIT_TOLERANCE
+    assert {"op": "htm_refit", "rationale": note} in record["htm_assumptions"]
+
+
+def test_explicit_selection_needs_a_note(data_copy):
+    _edit(data_copy, SCHUMACHER, _set(["reported", "selected"], "htm_refit"))
+    with pytest.raises(build.BuildError, match="needs a selection_note"):
         build.build(data_copy)

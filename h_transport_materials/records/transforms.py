@@ -2,10 +2,11 @@
 
 Value transformations act on every value present (reported pre-exponential
 factor or constant, data points, author fit) unless the record restricts
-them with ``applies_to``. Structural transformations (refit_arrhenius,
-assume_range) act on the selected Arrhenius parameters.
+them with ``applies_to``. assume_range acts on the validity range.
 
 Plain unit conversion is never a transformation: it is done implicitly.
+Fitting data points is not one either: the build always fits them (see
+fit_arrhenius) and the record says which law is used.
 """
 
 from dataclasses import dataclass, field
@@ -31,7 +32,6 @@ class State:
     points_y: object = None
     author_fit_pre_exp: object = None
     author_fit_act_energy: object = None
-    refit: dict | None = None
     context: dict = field(default_factory=dict)  # record, materials, elements
     derived: dict = field(default_factory=dict)  # intermediate values worth reporting
     log: list = field(default_factory=list)
@@ -136,20 +136,39 @@ def atom_fraction_to_concentration(state, params, applies_to):
     return state.map_values(lambda y: y * atom_density, applies_to)
 
 
-def refit_arrhenius(state, params, applies_to):
-    """Unweighted least squares on ln(y) vs 1/T (same algorithm as ArrheniusProperty.fit)"""
-    T = state.points_T.to(ureg.K)
-    y = state.points_y.to(state.target_unit)
+def fit_arrhenius(T, y, unit):
+    """Unweighted least squares on ln(y) vs 1/T (same algorithm as ArrheniusProperty.fit)
+
+    Returns:
+        dict: pre_exp, act_energy, range and rvalue of the fit
+    """
+    T = T.to(ureg.K)
+    y = y.to(unit)
     keep = ~(np.isnan(T.magnitude) | np.isnan(y.magnitude))
     T, y = T[keep], y[keep]
     res = stats.linregress(1 / T.magnitude, np.log(y.magnitude))
-    state.refit = {
+    return {
         "pre_exp": np.exp(res.intercept) * y.units,
         "act_energy": -(res.slope * ureg.K) * htm.k_B,
         "range": (T.min(), T.max()),
         "rvalue": res.rvalue,
     }
-    return ["refit"]
+
+
+def max_relative_difference(law_a, law_b, T_range, n=200):
+    """Largest |a / b - 1| between two Arrhenius laws over a temperature range
+
+    Returns:
+        tuple: (max relative difference, temperature where it occurs)
+    """
+    T = np.linspace(T_range[0].m_as(ureg.K), T_range[1].m_as(ureg.K), n) * ureg.K
+
+    def value(law):
+        return law["pre_exp"] * np.exp(-law["act_energy"] / (htm.k_B * T))
+
+    ratio = (value(law_a) / value(law_b)).to(ureg.dimensionless).magnitude
+    i = np.argmax(np.abs(ratio - 1))
+    return float(abs(ratio[i] - 1)), T[i]
 
 
 def assume_range(state, params, applies_to):
@@ -164,7 +183,6 @@ REGISTRY = {
     "gas_volume_to_amount": gas_volume_to_amount,
     "sieverts_constant_to_solubility": sieverts_constant_to_solubility,
     "atom_fraction_to_concentration": atom_fraction_to_concentration,
-    "refit_arrhenius": refit_arrhenius,
     "assume_range": assume_range,
 }
 

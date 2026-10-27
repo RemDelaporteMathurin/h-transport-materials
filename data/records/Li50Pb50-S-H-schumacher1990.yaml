@@ -41,15 +41,11 @@ transformations:
       Pb-17Li density is used, evaluated at 300 K as HTM has always done.
       Both are HTM choices to revisit: find a Li50Pb50 density and evaluate
       it at the measurement temperatures.
-  - op: refit_arrhenius
-    origin: htm
-    rationale: >-
-      Reproduces the current HTM entry, which refits the digitised points
-      (unweighted, ln y against 1/T). The authors' own fit is kept in
-      reported.author_fit; selecting it instead is an open point.
 note: >-
   Measured on equiatomic Li50Pb50, not Pb-17Li. The review of E. Mas de les
-  Valls has a mistake in the conversion, so HTM uses the original data.
+  Valls has a mistake in the conversion, so HTM uses the original paper.
+  The authors' fit agrees with the digitised points within 3% over the
+  measured range, so it is used (the current HTM entry refits the points).
 curation:
   status: draft
   flags:

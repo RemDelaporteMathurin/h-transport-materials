@@ -98,6 +98,33 @@ The blocks:
 - `author_fit` takes the form printed: `arrhenius` (pre-factor and energy)
   or `ln_linear` (ln y = intercept + slope / T, as Schumacher prints it).
 
+### Author fit or data points
+
+Published fits are sometimes wrong, and so are published points; nothing
+in the paper tells which. So HTM never picks silently:
+
+1. The build always fits the points itself (unweighted, ln y against
+   1/T) and keeps both laws in the output, with the largest relative
+   difference between them over the measured range. Laws are compared as
+   curves, not by their parameters: the pre-factor and the activation
+   energy trade off against each other, so the parameters can differ a
+   lot while the curves agree (Schumacher: pre-factor x0.91, energy
+   -0.007 eV, curves within 2.4%).
+2. If the two agree within the tolerance (10%), the authors' fit is used.
+3. If they don't, the build fails until a curator records a choice:
+
+   ```yaml
+   selected: htm_refit       # or author_fit
+   selection_note: >-
+     author fit inconsistent with Fig. 3 points (-35% at 600 K);
+     cannot tell which is wrong; HTM refits the points
+   ```
+
+   The note is mandatory, and a selected HTM refit is listed with HTM's
+   assumptions next to the value.
+4. Without an author fit, the HTM refit is used and listed as an HTM
+   assumption.
+
 Units are strings that pint parses with HTM's registry (which adds
 `ccSTP`, `ccNTP`, `atfr`). When the typeset unit differs from what HTM
 believes the paper means, `unit_as_printed` keeps the original and a
@@ -117,7 +144,9 @@ Each transformation is `{op, params, origin, rationale, applies_to}`:
   (`htm_assumptions`) so a user sees them next to the value.
 - `applies_to` restricts a value transformation to `reported`, `points` or
   `author_fit` (default: all present).
-- Plain unit conversion is never listed; the build does it.
+- Plain unit conversion is never listed; the build does it. Neither is
+  fitting points: the build always does it, and the record only says which
+  law is used (section 3).
 
 Initial vocabulary, each a small tested function in
 `records/transforms.py`:
@@ -127,7 +156,6 @@ Initial vocabulary, each a small tested function in
 | `gas_volume_to_amount` | n = pV / (R T_ref) | `T_ref` |
 | `sieverts_constant_to_solubility` | S = 1 / Ks | `concentration_unit` |
 | `atom_fraction_to_concentration` | c = x rho / M | `density_from`, `density_at`, `molar_mass_from` (registry lookups), or explicit `density`, `molar_mass` when the paper gives them |
-| `refit_arrhenius` | unweighted fit of ln y against 1/T | none |
 | `assume_range` | validity range not given in the paper | `range`, `unit` |
 
 To come with the migration: `extrapolate_composition` (Chan 1984),
@@ -221,15 +249,36 @@ entry by DOI, so author, year and `bibdata` behave as today.
 2. parses units and reads point files;
 3. applies transformations in order;
 4. selects the Arrhenius parameters: the reported law, or for points the
-   HTM refit if `refit_arrhenius` is listed, else the author fit;
+   author fit or the HTM refit (section 3);
 5. converts to the normalised SI units used today and checks dimensions.
 
 The output is one JSON file with every record as stored plus a
-`normalized` block, `htm_assumptions` and a transformation log. The YAML
-is never written to. Release artefacts: `htm-data-<calver>.json`, later
-Parquet and CSV, attached to the GitHub release and shipped in the wheel.
-`python -m h_transport_materials.records.schema` exports JSON Schemas so
-records can be validated without Python (editors, other languages).
+`normalized` block, `htm_assumptions`, the material values used
+(`derived`: density, molar mass) and a transformation log. The YAML is
+never written to. `htm schema` exports JSON Schemas so records can be
+validated without Python (editors, other languages).
+
+**What ships where.**
+
+| Artefact | Contains |
+|---|---|
+| wheel (`pip install`) | the compiled JSON only |
+| sdist and GitHub release | `data/` (YAML, CSV) plus the compiled JSON, later Parquet and CSV tables |
+| Zenodo | each GitHub release, with a DOI |
+
+The compiled JSON already holds every record in full (as printed,
+transformations, curation, points), so the YAML would add nothing to the
+wheel. Leaving it out avoids a second copy that could disagree, about
+9 MB of digitiser projects, and a runtime dependency on pydantic and
+pyyaml (the library reads one JSON file at import). Anyone who wants to
+rebuild with different choices, say densities at the measurement
+temperature, gets `data/` from the repository or a release.
+
+**Constants.** HTM defines its own rounded `k_B = 8.617e-5 eV/K` and
+`R = 8.314 J/mol/K`, while pint converts kJ/mol to eV with exact values. The
+records build will use `scipy.constants` (CODATA). This moves values by
+at most about 0.1% (for 1 eV at 500 K) and is noted in the release notes;
+the equivalence test allows for it.
 
 **Versioning.** Data releases use calendar versions (`2026.11`), the
 library keeps semantic versions. Each library release declares the data
@@ -288,20 +337,21 @@ model. They give 12 records:
 **Equivalence.** Built and converted back to property objects, the 12
 records reproduce the current database (pre-exponential factors to 1e-12,
 activation energies to 1e-17 eV) except for intended differences, each
-listed in `tests/test_records.py` with its expected size:
+listed in `tests/test_records.py`:
 
 - Fauvet's range is now the 450 degC (723.15 K) of the paper instead of a
   fake 722 to 724 K (issue #37).
-- The two solubilities converted from atom fractions change because the
-  Li molar mass bug (finding 6) is fixed: Fauvet +6.1%, Schumacher +29%.
+- Schumacher uses the authors' fit instead of HTM's refit of the
+  digitised points; the two agree within 2.4% over the measured range.
 
 **Findings the current format was hiding:**
 
 1. **Schumacher's own fit was dropped.** The abstract gives
    ln(x_H sqrt(1e5 Pa) / sqrt(p)) = -A + B/T with A = 8.17, B = 734 K.
-   HTM's refit of the digitised points gives an activation energy of
-   -0.0565 eV against -0.0632 eV from the authors' fit, and a pre-factor
-   10% higher; the digitised points are noisy (r = 0.89).
+   HTM refitted the digitised points instead. The parameters look
+   different (activation energy -0.0565 eV against -0.0632 eV, pre-factor
+   10% higher) but the two laws agree within 2.4% over the measured range,
+   so the authors' fit is now used.
 2. **Schumacher is converted with the wrong density.** The atom fraction
    is converted with the Li50Pb50 molar mass but the Pb-17Li density.
    More generally, HTM's Pb-17Li density constant (10163.197 kg/m3) is the
@@ -321,7 +371,9 @@ listed in `tests/test_records.py` with its expected size:
    (0.06941 kg/mol instead of 0.006941 kg/mol). Every Pb-17Li solubility
    converted from an atom fraction is about 6% too low, and the Li50Pb50
    one 29% too low. It surfaced as soon as molar masses were computed from
-   a cited table instead of typed by hand.
+   a cited table instead of typed by hand. Fixed on `main` in #318 (after
+   0.18.3); the existing test had missed it because it checked HTM's value
+   with the same faulty helper.
 
 ## 10. Migration
 
@@ -336,24 +388,21 @@ listed in `tests/test_records.py` with its expected size:
 
 ## 11. Open points
 
-1. Schumacher: select the authors' fit instead of HTM's refit? This would
-   be the first deliberate value change; same question for every record
-   with points and a published fit.
-2. Schumacher: find a Li50Pb50 density, or keep the Pb-17Li one as a
+1. Schumacher: find a Li50Pb50 density, or keep the Pb-17Li one as a
    labelled assumption.
-3. Pb-17Li density: evaluate it at the measurement temperature
+2. Pb-17Li density: evaluate it at the measurement temperature
    (`density_at` per point or at the record's temperature) instead of
    300 K. The transformation supports it; it is a value change of a few
    percent for every Pb-17Li solubility, so it should ship as its own
    labelled change.
-4. Fix the Li molar mass bug (finding 6) in the current `lipb.py` now, in
-   a patch release, rather than wait for the migration.
-5. Fauvet: confirm the diffusivity unit from the body of the paper.
-6. Constants: HTM uses `R = 8.314` and `k_B = 8.617e-5`. Moving to CODATA
-   values changes every converted number slightly; do it as one labelled
-   data release.
-7. Where `data/` lives in the wheel: ship only the compiled JSON, or the
-   YAML too?
-8. Should `constant` records appear in `htm.diffusivities` at all, given
+3. Fauvet: confirm the diffusivity unit from the body of the paper.
+4. Fit tolerance: is 10% over the measured range the right threshold
+   before a curator has to choose between an author fit and the points?
+5. Should `constant` records appear in `htm.diffusivities` at all, given
    they have no activation energy? They currently appear as an Arrhenius
    law with zero activation energy over a zero-width range.
+
+Decided: the authors' fit is used unless it disagrees with the points
+(section 3); the wheel ships the compiled JSON only and the CODATA
+constants come with the records build (section 6); the Li molar mass is
+fixed (#318).

@@ -49,7 +49,6 @@ TransformationOp = Literal[
     "gas_volume_to_amount",
     "sieverts_constant_to_solubility",
     "atom_fraction_to_concentration",
-    "refit_arrhenius",
     "assume_range",
 ]
 
@@ -147,7 +146,15 @@ class ConstantReported(_Strict):
 
 
 class PointsReported(_Strict):
-    """Data points (usually digitised) plus the authors' own fit if they gave one."""
+    """Data points (usually digitised) plus the authors' own fit if they gave one.
+
+    The build always fits the points (HTM refit) and, when there is an
+    author fit, measures how far the two laws are apart over the measured
+    range. The author fit is used unless ``selected`` says otherwise. If the
+    two disagree beyond the tolerance, the build fails until a curator
+    records a choice in ``selected`` and explains it in ``selection_note``:
+    nothing tells us whether the points or the fit are wrong.
+    """
 
     form: Literal["points"]
     file: str = Field(description="CSV next to the record, no header")
@@ -156,6 +163,20 @@ class PointsReported(_Strict):
     digitised_from: str | None = Field(None, description="e.g. 'Fig. 5'")
     wpd_project: str | None = None
     author_fit: AuthorFit | None = None
+    selected: Literal["author_fit", "htm_refit"] | None = Field(
+        None, description="default: author_fit if there is one, else htm_refit"
+    )
+    selection_note: str | None = Field(
+        None, description="why, when selected is set explicitly"
+    )
+
+    @model_validator(mode="after")
+    def selection(self):
+        if self.selected is not None and not self.selection_note:
+            raise ValueError("an explicit selected fit needs a selection_note")
+        if self.selected == "author_fit" and self.author_fit is None:
+            raise ValueError("selected is author_fit but there is no author_fit")
+        return self
 
 
 Reported = Annotated[
@@ -253,8 +274,6 @@ class Record(_Strict):
         ops = [t.op for t in self.transformations]
         if "assume_range" in ops and getattr(self.reported, "range", None) is not None:
             raise ValueError("assume_range is not allowed when the paper gives a range")
-        if "refit_arrhenius" in ops and self.reported.form != "points":
-            raise ValueError("refit_arrhenius needs reported.form == 'points'")
         return self
 
 

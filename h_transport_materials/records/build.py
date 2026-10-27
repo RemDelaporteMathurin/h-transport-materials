@@ -26,6 +26,10 @@ from .units import ENERGY_UNIT, NORMALIZED_UNITS, quantity, ureg
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 
+# largest relative difference allowed between an author fit and the fit of
+# the points over the measured range before a curator has to choose
+FIT_TOLERANCE = 0.10
+
 
 class BuildError(Exception):
     pass
@@ -196,6 +200,14 @@ def build_record(record, folder, materials, elements):
         for t in record.transformations
         if t.origin == "htm"
     ]
+    if normalized["selected"] == "htm_refit":
+        out["htm_assumptions"].append(
+            {
+                "op": "htm_refit",
+                "rationale": record.reported.selection_note
+                or "the paper gives no fit; HTM fits the points (unweighted, ln y against 1/T)",
+            }
+        )
     out["transformation_log"] = state.log
     if state.derived:
         out["derived"] = {k: _q(v, v.units) for k, v in state.derived.items()}
@@ -236,32 +248,48 @@ def _normalize(record, state, target):
         n["value"] = _q(state.reported, target)
         n["temperature"] = _q(state.temperature, ureg.K)
     else:
-        n["points"] = {"T": _q(state.points_T, ureg.K), "y": _q(state.points_y, target)}
-        if state.author_fit_pre_exp is not None:
-            n["author_fit"] = {
-                "pre_exp": _q(state.author_fit_pre_exp, target),
-                "act_energy": _q(state.author_fit_act_energy, ENERGY_UNIT),
-            }
-        if state.refit is not None:
-            n["selected"] = "htm_refit"
-            n["pre_exp"] = _q(state.refit["pre_exp"], target)
-            n["act_energy"] = _q(state.refit["act_energy"], ENERGY_UNIT)
-            n["range"] = _range(state.range or state.refit["range"])
-            n["refit_rvalue"] = float(state.refit["rvalue"])
-        elif state.author_fit_pre_exp is not None:
-            n["selected"] = "author_fit"
-            n["pre_exp"] = n["author_fit"]["pre_exp"]
-            n["act_energy"] = n["author_fit"]["act_energy"]
-            fit_range = rep.author_fit.range
-            n["range"] = (
-                {"value": list(fit_range.value), "unit": fit_range.unit}
-                if fit_range
-                else _range((state.points_T.min(), state.points_T.max()))
-            )
-        else:
-            raise BuildError(
-                f"{record.id}: points without an author fit need refit_arrhenius"
-            )
+        n.update(_select_fit(record, state, target))
+    return n
+
+
+def _law(fit, target):
+    return {"pre_exp": _q(fit["pre_exp"], target), "act_energy": _q(fit["act_energy"], ENERGY_UNIT)}
+
+
+def _select_fit(record, state, target):
+    """Fits the points, compares with the author fit and selects one of them"""
+    rep = record.reported
+    n = {"points": {"T": _q(state.points_T, ureg.K), "y": _q(state.points_y, target)}}
+    refit = transforms.fit_arrhenius(state.points_T, state.points_y, target)
+    n["htm_refit"] = {**_law(refit, target), "rvalue": float(refit["rvalue"])}
+    selected = rep.selected
+
+    if state.author_fit_pre_exp is None:
+        selected = "htm_refit"
+    else:
+        author = {"pre_exp": state.author_fit_pre_exp, "act_energy": state.author_fit_act_energy}
+        n["author_fit"] = _law(author, target)
+        diff, at_T = transforms.max_relative_difference(author, refit, refit["range"])
+        n["fit_discrepancy"] = {"max_relative": diff, "at_T": _q(at_T, ureg.K)}
+        if selected is None:
+            if diff > FIT_TOLERANCE:
+                raise BuildError(
+                    f"{record.id}: the author fit and the data points disagree by"
+                    f" {diff:.0%} at {at_T.m_as(ureg.K):.0f} K (tolerance"
+                    f" {FIT_TOLERANCE:.0%}). Set reported.selected to author_fit or"
+                    " htm_refit and explain why in reported.selection_note"
+                )
+            selected = "author_fit"
+
+    n["selected"] = selected
+    chosen = refit if selected == "htm_refit" else author
+    n.update(_law(chosen, target))
+    fit_range = rep.author_fit.range if selected == "author_fit" and rep.author_fit else None
+    n["range"] = (
+        {"value": list(fit_range.value), "unit": fit_range.unit}
+        if fit_range
+        else _range(state.range or refit["range"])
+    )
     return n
 
 
