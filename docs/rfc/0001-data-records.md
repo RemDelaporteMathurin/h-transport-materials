@@ -493,22 +493,26 @@ inline lists). The CSV written next to the record holds the values as
 digitised (here 1000/T and ln D) and the axes say how to read them, so
 nothing is converted before it is stored.
 
-**Status.** 402 of the 473 properties are records (350 converted
-automatically, 77 of them from data points; 52 by hand), with 50
-materials and 145 sources. All 402 reproduce the current database,
+**Status.** 419 of the 473 properties are records (350 converted
+automatically, 77 of them from data points; 69 by hand), with 50
+materials and 149 sources. All 419 reproduce the current database,
 including the fits of the data points and the derived properties,
-except the differences listed in section 9. Pb-17Li and the steels
-(316L, EUROFER97, 304) are complete. 71 remain in `todo.md`:
+except the differences listed in section 9. Pb-17Li, the steels (316L,
+EUROFER97, 304) and tungsten are complete. 54 remain in `todo.md`:
 
 | Reason | Count |
 |---|---|
-| data points computed in the module (densities, molar volumes, unit gymnastics) | 41 |
-| computed pre-exponential factor (densities, molar volumes, ratios) | 13 |
-| source file could not be generated (e.g. a bib entry without a title) | 8 |
+| data points computed in the module (densities, molar volumes, unit gymnastics) | 26 |
+| computed pre-exponential factor (densities, molar volumes, ratios) | 12 |
+| source file could not be generated (e.g. a bib entry without a title) | 7 |
 | range bounds in two different units | 4 |
 | source not in `references.bib` | 3 |
 | product computed by HTM (D x S) | 1 |
 | range computed from 1/T | 1 |
+
+Some `references.bib` entries are incomplete: Ryabchikov 1964 has no
+title, so its source file says `[title unknown]` with a note to find the
+original rather than inventing one.
 
 What is left is by construction the part where HTM did arithmetic on the
 published numbers, the same part where the findings of section 9 came

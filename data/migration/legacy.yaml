@@ -1090,11 +1090,32 @@ htm:V4Cr4Ti-D-T-hashizume2007:
 htm:V4Cr4Ti-S-H-klepikov2000:
   index: 433
   class: Solubility
+htm:W-D-D-byeon2021:
+  index: 293
+  class: Diffusivity
+htm:W-D-D-byeon2021-b:
+  index: 294
+  class: Diffusivity
 htm:W-D-D-esteban2001:
   index: 259
   class: Diffusivity
 htm:W-D-D-holzner2020:
   index: 262
+  class: Diffusivity
+htm:W-D-D-liu2016:
+  index: 282
+  class: Diffusivity
+htm:W-D-D-liu2016-b:
+  index: 283
+  class: Diffusivity
+htm:W-D-D-liu2016-c:
+  index: 284
+  class: Diffusivity
+htm:W-D-D-liu2016-d:
+  index: 285
+  class: Diffusivity
+htm:W-D-D-liu2016-e:
+  index: 286
   class: Diffusivity
 htm:W-D-D-zhao2020:
   index: 274
@@ -1128,6 +1149,9 @@ htm:W-D-H-liu2014:
   class: Diffusivity
 htm:W-D-H-moore1964:
   index: 255
+  class: Diffusivity
+htm:W-D-H-ryabchikov1964:
+  index: 257
   class: Diffusivity
 htm:W-D-H-zakharov1975:
   index: 256
@@ -1168,17 +1192,44 @@ htm:W-P-D-buchenauer2016-b:
 htm:W-P-D-buchenauer2016-c:
   index: 289
   class: Permeability
+htm:W-P-D-byeon2021:
+  index: 295
+  class: Permeability
+htm:W-P-D-byeon2021-b:
+  index: 296
+  class: Permeability
 htm:W-P-D-esteban2001:
   index: 272
   class: Permeability
 htm:W-P-D-liang2018:
   index: 275
   class: Permeability
+htm:W-P-D-liu2016:
+  index: 276
+  class: Permeability
+htm:W-P-D-liu2016-b:
+  index: 277
+  class: Permeability
+htm:W-P-D-liu2016-c:
+  index: 278
+  class: Permeability
+htm:W-P-D-liu2016-d:
+  index: 279
+  class: Permeability
+htm:W-P-D-liu2016-e:
+  index: 280
+  class: Permeability
+htm:W-P-D-liu2016-f:
+  index: 281
+  class: Permeability
 htm:W-P-D-zhao2020:
   index: 273
   class: Permeability
 htm:W-P-H-esteban2001:
   index: 271
+  class: Permeability
+htm:W-P-H-frauenfelder1968:
+  index: 269
   class: Permeability
 htm:W-P-H-zakharov1975:
   index: 270

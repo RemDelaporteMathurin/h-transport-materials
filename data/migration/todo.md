@@ -56,23 +56,6 @@ not convert automatically.
 | `h_transport_materials/property_database/tantalum.py:23` | Diffusivity | H | tantalum | range bounds in two different units |
 | `h_transport_materials/property_database/tantalum.py:35` | Diffusivity | H | tantalum | range bounds in two different units |
 | `h_transport_materials/property_database/titanium.py:16` | Solubility | T | titanium | computed S_0: 1.06e-05 / TITANIUM_MOLAR_VOLUME * u.mol * u.m **  |
-| `h_transport_materials/property_database/tungsten/tungsten.py:87` | Diffusivity | H | tungsten | source file: 1 validation error for Source |
-| `h_transport_materials/property_database/tungsten/tungsten.py:180` | Permeability | H | tungsten | computed pre_exp: frauenfelder_p_0 |
-| `h_transport_materials/property_database/tungsten/tungsten.py:265` | Permeability | D | tungsten | data points: values computed in the module (rolled_50um_data_y) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:277` | Permeability | D | tungsten | data points: values computed in the module (rolled_114um_data_y) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:289` | Permeability | D | tungsten | data points: values computed in the module (rolled_240um_data_y) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:301` | Permeability | D | tungsten | data points: values computed in the module (annealed_50um_data_y) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:313` | Permeability | D | tungsten | data points: values computed in the module (annealed_250um_data_y) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:331` | Permeability | D | tungsten | data points: values computed in the module (recrystallized_250um_data_y) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:342` | Diffusivity | D | tungsten | data points: values computed in the module (rolled_114um_data_y) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:352` | Diffusivity | D | tungsten | data points: values computed in the module (rolled_240um_data_y) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:362` | Diffusivity | D | tungsten | data points: values computed in the module (annealed_102um_data_y) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:372` | Diffusivity | D | tungsten | data points: values computed in the module (annealed_250um_data_y) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:385` | Diffusivity | D | tungsten | data points: values computed in the module (recrystallized_250um_data_y) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:449` | Diffusivity | D | tungsten | data points: values computed in the module (data_T_byeon) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:459` | Diffusivity | D | tungsten | data points: values computed in the module (data_T_byeon) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:471` | Permeability | D | tungsten | data points: values computed in the module (data_T_byeon) |
-| `h_transport_materials/property_database/tungsten/tungsten.py:483` | Permeability | D | tungsten | data points: values computed in the module (data_T_byeon) |
 | `h_transport_materials/property_database/yttrium.py:16` | Solubility | H | yttrium | data points: values not read from a single data column |
 | `h_transport_materials/property_database/yttrium.py:26` | Solubility | D | yttrium | data points: values not read from a single data column |
 | `h_transport_materials/property_database/yttrium.py:36` | Solubility | T | yttrium | data points: values not read from a single data column |

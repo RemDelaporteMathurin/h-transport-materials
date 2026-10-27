@@ -39,6 +39,8 @@ EXPECTED_DIFFERENCES = {
     "htm:Pd-S-T-favreau1954": {"rel": 1e-5},
     # cited by a free text string in the current code, a source file here
     "htm:SS304-S-H-hawkins1953": {"source": True},
+    # the references.bib entry has no title, so it cannot be matched to the source file
+    "htm:W-D-H-ryabchikov1964": {"source": True},
 }
 
 
