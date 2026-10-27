@@ -255,6 +255,146 @@ def _range_values(node):
     return out
 
 
+class Unsupported(Exception):
+    pass
+
+
+def _is_data_ref(node):
+    """data, data[:, 0], data["H"]["x"][:4]: a reference to loaded data, no arithmetic"""
+    if isinstance(node, ast.Name):
+        return True
+    if not isinstance(node, ast.Subscript) or not _is_data_ref(node.value):
+        return False
+    parts = node.slice.elts if isinstance(node.slice, ast.Tuple) else [node.slice]
+    for p in parts:
+        if isinstance(p, ast.Slice):
+            if not all(b is None or _is_number(b) for b in (p.lower, p.upper, p.step)):
+                return False
+        elif not (_is_number(p) or (isinstance(p, ast.Constant) and isinstance(p.value, str))):
+            return False
+    return True
+
+
+def _is_number_list(node):
+    """[1, 2, 3] or np.array([1, 2, 3])"""
+    if isinstance(node, ast.Call) and _name(node.func) == "array" and len(node.args) == 1:
+        node = node.args[0]
+    return isinstance(node, ast.List) and all(_is_number(e) for e in node.elts)
+
+
+def _column(node):
+    """The data factor of an axis: ("ln" | "linear", values node)"""
+    if _is_np_exp_of_data(node):
+        return "ln", node.args[0]
+    if _is_data_ref(node) or _is_number_list(node):
+        return "linear", node
+    return None
+
+
+def _is_np_exp_of_data(node):
+    return (
+        isinstance(node, ast.Call)
+        and _name(node.func) == "exp"
+        and len(node.args) == 1
+        and (_is_data_ref(node.args[0]) or _is_number_list(node.args[0]))
+    )
+
+
+def _axis_parts(node):
+    """Splits an axis expression into (column, numbers, units)
+
+    Returns:
+        tuple: ((scale, values node, sign), [(number node, sign)], [(unit node, sign)])
+    """
+    if isinstance(node, ast.Call) and _name(node.func) == "Quantity" and len(node.args) == 2:
+        column = _column(node.args[0])
+        if column is None or not _unit_factor(node.args[1]):
+            raise Unsupported("values not read from data")
+        return (*column, 1), [], [(node.args[1], 1)]
+    if isinstance(node, ast.Name):
+        raise Unsupported(f"values computed in the module ({node.id})")
+    factors = _factors(node)
+    if factors is None:
+        raise Unsupported("values not read from data")
+    columns, numbers, units = [], [], []
+    for f, sign in factors:
+        if _unit_factor(f):
+            units.append((f, sign))
+        elif _is_number(f):
+            numbers.append((f, sign))
+        elif _column(f) is not None:
+            columns.append((*_column(f), sign))
+        else:
+            raise Unsupported(f"computed values: {ast.unparse(f)[:40]}")
+    if len(columns) != 1:
+        raise Unsupported("values not read from a single data column")
+    return columns[0], numbers, units
+
+
+def _net_unit(units):
+    """Unit string of a list of unit factors, with each factor's sign applied"""
+    return _unit_string(units)
+
+
+def points_axes(call):
+    """Axis descriptions and value nodes of a data point call.
+
+    Returns:
+        tuple: (x axis dict, x values node, y axis dict, y values node)
+
+    Raises:
+        Unsupported: with the reason, if the call does not fit the patterns
+    """
+    import h_transport_materials as htm
+
+    kwargs = call_kwargs(call)
+    if "data_T" not in kwargs or "data_y" not in kwargs:
+        raise Unsupported("data_T or data_y missing")
+    (scale_T, values_T, sign_T), numbers_T, units_T = _axis_parts(kwargs["data_T"])
+    (scale_y, values_y, sign_y), numbers_y, units_y = _axis_parts(kwargs["data_y"])
+    if scale_T != "linear" or sign_y != 1 or numbers_y:
+        raise Unsupported("unusual axis")
+
+    factor = 1.0
+    for n, sign in numbers_T:
+        factor *= _number(n) ** sign
+    unit_T = htm.ureg.Unit(_net_unit(units_T)) if units_T else htm.ureg.dimensionless
+    if sign_T == -1:  # T = factor / x: the axis is factor / T
+        if unit_T != htm.ureg.K:
+            raise Unsupported("1/T axis not in kelvin")
+        x = {"quantity": "inverse_temperature", "unit": "1/K", "factor": factor}
+    else:
+        if factor != 1.0 or not unit_T.dimensionality == htm.ureg.K.dimensionality:
+            raise Unsupported("temperature axis with a factor")
+        x = {"quantity": "temperature", "unit": _unit_name(units_T[0][0])}
+    y = {"quantity": "value", "unit": _net_unit(units_y)}
+    if scale_y == "ln":
+        y["scale"] = "ln"
+    return x, values_T, y, values_y
+
+
+def _module(call):
+    import importlib
+
+    dotted = Path(call["file"]).resolve().relative_to(REPO).with_suffix("").as_posix()
+    return importlib.import_module(dotted.replace("/", "."))
+
+
+def _values(node, call):
+    """Evaluates a values node (a data reference or a number list) as floats"""
+    import numpy as np
+
+    if _is_number_list(node):
+        if isinstance(node, ast.Call):
+            node = node.args[0]
+        values = ast.literal_eval(node)
+    else:
+        values = eval(compile(ast.Expression(node), "<migrate>", "eval"), vars(_module(call)))
+    if hasattr(values, "magnitude"):
+        raise Unsupported("values are already a quantity")
+    return [float(v) for v in np.asarray(values, dtype=float).ravel()]
+
+
 def classify(call):
     """Returns ("auto", None) or ("hand", reason)"""
     if call["index"] is None:
@@ -264,9 +404,19 @@ def classify(call):
     kwargs = call_kwargs(call)
     if None in kwargs:
         return "hand", "unexpected arguments"
-    if "data_T" in kwargs or "data_y" in kwargs:
-        return "hand", "data points"
     pre_name, energy_name = ARRHENIUS_ARGS[call["cls"]]
+    if "data_T" in kwargs or "data_y" in kwargs:
+        if {pre_name, energy_name, "range"} & set(kwargs):
+            return "hand", "data points with a law or a range"
+        try:
+            x, values_T, y, values_y = points_axes(call)
+            if len(_values(values_T, call)) != len(_values(values_y, call)):
+                return "hand", "data points: T and y have different lengths"
+        except Unsupported as e:
+            return "hand", f"data points: {e}"
+        if call["source"].startswith("@") or call["source"] not in _bib_entries():
+            return "hand", "source not in references.bib"
+        return "auto", None
     unknown = set(kwargs) - {pre_name, energy_name} - OTHER_ARGS
     if unknown:
         return "hand", f"arguments {sorted(unknown)}"
@@ -320,6 +470,16 @@ def _unit_string(units):
 def reported(call):
     """The reported block of an automatically convertible call"""
     kwargs = call_kwargs(call)
+    if "data_T" in kwargs:
+        x, values_T, y, values_y = points_axes(call)
+        rows = list(zip(_values(values_T, call), _values(values_y, call)))
+        return {
+            "form": "points",
+            "file": None,  # set by run() to <record id>.csv
+            "x": {"column": 0, **x},
+            "y": {"column": 1, **y},
+            "_rows": rows,
+        }
     pre_name, energy_name = ARRHENIUS_ARGS[call["cls"]]
     pre = literal_quantity(kwargs[pre_name])
     energy = literal_quantity(kwargs[energy_name])
@@ -555,6 +715,14 @@ def run(data_dir=None, fetch=None):
         record_id, suffix = base, ord("b")
         while record_id in taken:
             record_id, suffix = f"{base}-{chr(suffix)}", suffix + 1
+        try:
+            rep = reported(call)
+        except Unsupported as e:
+            todo.append((call, f"data points: {e}"))
+            continue
+        rows = rep.pop("_rows", None)
+        if rows is not None:
+            rep["file"] = f"{record_id}.csv"
         content = {
             "id": f"htm:{record_id}",
             "property": PROPERTY_NAMES[call["cls"]],
@@ -563,7 +731,7 @@ def run(data_dir=None, fetch=None):
             "isotope": isotope,
             "method": "unknown",
             "source": {**source, "location": None},
-            "reported": reported(call),
+            "reported": rep,
             "note": call["note"],
             "curation": {
                 "status": "draft",
@@ -578,6 +746,10 @@ def run(data_dir=None, fetch=None):
             todo.append((call, f"validation: {str(e).splitlines()[0][:80]}"))
             continue
         _write_yaml(data_dir / "records" / f"{record_id}.yaml", content)
+        if rows is not None:
+            (data_dir / "records" / rep["file"]).write_text(
+                "".join(f"{x!r},{y!r}\n" for x, y in rows), encoding="utf-8"
+            )
         taken.add(record_id)
         manifest[content["id"]] = {"index": call["index"], "class": call["cls"]}
         written += 1

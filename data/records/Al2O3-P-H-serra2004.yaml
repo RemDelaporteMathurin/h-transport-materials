@@ -1,0 +1,26 @@
+id: htm:Al2O3-P-H-serra2004
+property: permeability
+law: sieverts
+material: alumina
+isotope: H
+method: unknown
+source:
+  doi: 10.1111/j.1551-2916.2004.00003.x
+  location: null
+reported:
+  form: points
+  file: Al2O3-P-H-serra2004.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: mol * m**-1 * s**-1 * Pa**-0.5
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/alumina/alumina.py:17

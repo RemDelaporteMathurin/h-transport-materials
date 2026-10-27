@@ -1,0 +1,26 @@
+id: htm:LiPb-D-H-edao2011
+property: diffusivity
+material: lipb
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2010.12.126
+  location: null
+reported:
+  form: points
+  file: LiPb-D-H-edao2011.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: m**2 * s**-1
+note: Li17Pb83
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/lipb/lipb.py:243

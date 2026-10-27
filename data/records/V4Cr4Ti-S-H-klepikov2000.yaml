@@ -1,0 +1,26 @@
+id: htm:V4Cr4Ti-S-H-klepikov2000
+property: solubility
+law: sieverts
+material: v4cr4ti
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/S0920-3796(00)00305-7
+  location: null
+reported:
+  form: points
+  file: V4Cr4Ti-S-H-klepikov2000.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: K
+  y:
+    column: 1
+    quantity: value
+    unit: particle * m**-3 * Pa**-0.5
+note: taken from Table 2
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/vanadium_alloy.py:15

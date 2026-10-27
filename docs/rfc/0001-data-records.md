@@ -461,24 +461,34 @@ part:
 The tool is idempotent: rerunning it skips what is migrated and changes
 nothing.
 
-**Status.** 292 of the 473 properties are records (273 converted
-automatically, 19 by hand), with 50 materials and 108 sources. All 292
-reproduce the current database except the differences listed in section 9.
-181 remain in `todo.md`:
+Data points are converted too when the temperatures and values are read
+straight from loaded data (`1000 / data[:, 0] * u.K`,
+`np.exp(data["y"]) * u.cm**2 / u.s`, `u.Quantity(data[:, 0], u.degC)`,
+inline lists). The CSV written next to the record holds the values as
+digitised (here 1000/T and ln D) and the axes say how to read them, so
+nothing is converted before it is stored.
+
+**Status.** 369 of the 473 properties are records (350 converted
+automatically, 79 of them from data points; 19 by hand), with 50
+materials and about 110 sources. All 369 reproduce the current database,
+including the fits of the data points, except the differences listed in
+section 9. 104 remain in `todo.md`:
 
 | Reason | Count |
 |---|---|
-| data points (CSV files or arrays) | 129 |
+| data points computed in the module (densities, molar volumes, unit gymnastics) | 50 |
 | computed pre-exponential factor (densities, molar volumes, ratios) | 34 |
-| source file could not be generated (e.g. a bib entry without a title) | 6 |
+| source file could not be generated (e.g. a bib entry without a title) | 8 |
 | source not in `references.bib` | 4 |
 | range bounds in two different units | 4 |
 | product computed by HTM (D x S) | 3 |
 | range computed from 1/T | 1 |
 
-Next: semi-automate the data points (most read a CSV with a fixed
-pattern), transcribe the computed ones by hand material by material, then
-the verification sprint on W, 316L, Pb-17Li, EUROFER97 and FLiBe.
+What is left is by construction the part where HTM did arithmetic on the
+published numbers, the same part where the findings of section 9 came
+from. It is transcribed by hand, material by material, with a named
+transformation for each step, before the verification sprint on W, 316L,
+Pb-17Li, EUROFER97 and FLiBe.
 
 ## 11. Open points
 

@@ -9,130 +9,68 @@ not convert automatically.
 | `h_transport_materials/property.py:241` | Permeability | h | 316l_steel | computed by HTM code (property.py, e.g. D x S) |
 | `h_transport_materials/property.py:241` | Permeability | d | 316l_steel | computed by HTM code (property.py, e.g. D x S) |
 | `h_transport_materials/property.py:241` | Permeability | H | tzm | computed by HTM code (property.py, e.g. D x S) |
-| `h_transport_materials/property_database/FeCrAl/apmt/apmt.py:14` | Permeability | H | apmt | data points |
-| `h_transport_materials/property_database/FeCrAl/fe22cr5al/fe22cr5al.py:14` | Permeability | D | fe22cr5al | data points |
-| `h_transport_materials/property_database/FeCrAl/oxidized_1605/oxidized_1605.py:14` | Permeability | H | oxidized_1605 | data points |
-| `h_transport_materials/property_database/FeCrAl/t35y/t35y.py:14` | Permeability | H | t35y | data points |
-| `h_transport_materials/property_database/FeCrAl/t54y/t54y.py:14` | Permeability | H | t54y | data points |
-| `h_transport_materials/property_database/FeCrAl/thermacore/thermacore.py:14` | Permeability | H | thermacore | data points |
-| `h_transport_materials/property_database/FeCrAl/thermacore_oxidized/thermacore_oxidized.py:14` | Permeability | H | thermacore_oxidized | data points |
-| `h_transport_materials/property_database/alumina/alumina.py:17` | Permeability | H | alumina | data points |
-| `h_transport_materials/property_database/alumina/alumina.py:24` | Diffusivity | H | alumina | data points |
-| `h_transport_materials/property_database/alumina/alumina.py:31` | Solubility | H | alumina | data points |
-| `h_transport_materials/property_database/alumina/alumina.py:45` | Diffusivity | H | alumina | data points |
-| `h_transport_materials/property_database/alumina/alumina.py:53` | Diffusivity | H | alumina | data points |
-| `h_transport_materials/property_database/alumina/alumina.py:68` | Diffusivity | T | alumina | data points |
-| `h_transport_materials/property_database/alumina/alumina.py:76` | Diffusivity | T | alumina | data points |
-| `h_transport_materials/property_database/alumina/alumina.py:84` | Diffusivity | T | alumina | data points |
-| `h_transport_materials/property_database/alumina/alumina.py:92` | Diffusivity | T | alumina | data points |
-| `h_transport_materials/property_database/aluminium/aluminium.py:13` | Diffusivity | H | aluminium | data points |
 | `h_transport_materials/property_database/aluminium/aluminium.py:20` | Solubility | H | aluminium | source not in references.bib |
 | `h_transport_materials/property_database/aluminium/aluminium.py:30` | Permeability | H | aluminium | source file: 1 validation error for Source |
-| `h_transport_materials/property_database/aluminium/aluminium.py:90` | Diffusivity | H | aluminium | data points |
 | `h_transport_materials/property_database/beryllium.py:17` | Solubility | H | beryllium | source not in references.bib |
-| `h_transport_materials/property_database/carbon.py:80` | Diffusivity | H | carbon | data points |
-| `h_transport_materials/property_database/carbon.py:93` | Diffusivity | H | carbon | data points |
+| `h_transport_materials/property_database/carbon.py:80` | Diffusivity | H | carbon | data points: values computed in the module (data_T_petucci_graphite) |
+| `h_transport_materials/property_database/carbon.py:93` | Diffusivity | H | carbon | data points: values computed in the module (data_T_petucci_graphene) |
 | `h_transport_materials/property_database/carbon.py:118` | Solubility | H | carbon | computed S_0: np.exp(-15.6) * graphite_atomic_density * u.Pa **  |
 | `h_transport_materials/property_database/carbon.py:127` | Solubility | H | carbon | computed S_0: np.exp(-15.8) * graphite_atomic_density * u.Pa **  |
 | `h_transport_materials/property_database/carbon.py:136` | Solubility | H | carbon | computed S_0: np.exp(-18.5) * graphite_atomic_density * u.Pa **  |
 | `h_transport_materials/property_database/carbon.py:145` | Solubility | H | carbon | computed S_0: np.exp(-14.7) * graphite_atomic_density * u.Pa **  |
 | `h_transport_materials/property_database/carbon.py:154` | Solubility | H | carbon | computed S_0: np.exp(-18.5) * graphite_atomic_density * u.Pa **  |
-| `h_transport_materials/property_database/copper/copper.py:48` | Diffusivity | H | copper | data points |
-| `h_transport_materials/property_database/copper/copper.py:56` | Diffusivity | D | copper | data points |
-| `h_transport_materials/property_database/copper/copper.py:64` | Diffusivity | T | copper | data points |
 | `h_transport_materials/property_database/copper/copper.py:72` | Diffusivity | H | copper | source file: 1 validation error for Source |
 | `h_transport_materials/property_database/copper/copper.py:80` | Solubility | H | copper | source file: 1 validation error for Source |
 | `h_transport_materials/property_database/copper/copper.py:108` | Diffusivity | D | copper | source file: 1 validation error for Source |
 | `h_transport_materials/property_database/copper/copper.py:116` | Solubility | D | copper | source file: 1 validation error for Source |
-| `h_transport_materials/property_database/copper/copper.py:226` | Solubility | H | copper | data points |
-| `h_transport_materials/property_database/cucrzr/cucrzr.py:19` | Diffusivity | H | cucrzr | data points |
-| `h_transport_materials/property_database/cucrzr/cucrzr.py:32` | Diffusivity | D | cucrzr | data points |
-| `h_transport_materials/property_database/cucrzr/cucrzr.py:43` | Solubility | H | cucrzr | data points |
-| `h_transport_materials/property_database/cucrzr/cucrzr.py:50` | Solubility | D | cucrzr | data points |
-| `h_transport_materials/property_database/eurofer_97/eurofer_97.py:9` | Permeability | H | eurofer_97 | data points |
-| `h_transport_materials/property_database/eurofer_97/eurofer_97.py:18` | Permeability | D | eurofer_97 | data points |
-| `h_transport_materials/property_database/eurofer_97/eurofer_97.py:30` | Diffusivity | H | eurofer_97 | data points |
-| `h_transport_materials/property_database/eurofer_97/eurofer_97.py:39` | Diffusivity | D | eurofer_97 | data points |
+| `h_transport_materials/property_database/copper/copper.py:226` | Solubility | H | copper | data points: values computed in the module (data_T_mclellan) |
 | `h_transport_materials/property_database/eurofer_97/eurofer_97.py:47` | Solubility | D | eurofer_97 | computed S_0: aiello_permeability_D.pre_exp / aiello_diffusivity |
 | `h_transport_materials/property_database/eurofer_97/eurofer_97.py:56` | Solubility | H | eurofer_97 | computed S_0: aiello_permeability_H.pre_exp / aiello_diffusivity |
-| `h_transport_materials/property_database/eurofer_97/eurofer_97.py:70` | Permeability | D | eurofer_97 | data points |
-| `h_transport_materials/property_database/eurofer_97/eurofer_97.py:83` | Diffusivity | D | eurofer_97 | data points |
-| `h_transport_materials/property_database/eurofer_97/eurofer_97.py:105` | Permeability | H | eurofer_97 | data points |
-| `h_transport_materials/property_database/eurofer_97/eurofer_97.py:135` | Permeability | H | eurofer_97 | data points |
-| `h_transport_materials/property_database/flibe/flibe.py:49` | Diffusivity | D | flibe | data points |
-| `h_transport_materials/property_database/flibe/flibe.py:56` | Solubility | D | flibe | data points |
-| `h_transport_materials/property_database/flibe/flibe.py:71` | Diffusivity | T | flibe | data points |
-| `h_transport_materials/property_database/flibe/flibe.py:86` | Solubility | H | flibe | data points |
-| `h_transport_materials/property_database/flibe/flibe.py:98` | Solubility | D | flibe | data points |
-| `h_transport_materials/property_database/flibe/flibe.py:123` | Solubility | D | flibe | data points |
-| `h_transport_materials/property_database/flibe/flibe.py:132` | Diffusivity | T | flibe | data points |
-| `h_transport_materials/property_database/flibe/flibe.py:140` | Diffusivity | T | flibe | data points |
-| `h_transport_materials/property_database/flibe/flibe.py:157` | Diffusivity | H | flibe | data points |
-| `h_transport_materials/property_database/flibe/flibe.py:166` | Solubility | H | flibe | data points |
-| `h_transport_materials/property_database/flibe/flibe.py:179` | Permeability | H | flibe | data points |
-| `h_transport_materials/property_database/flinak/flinak.py:13` | Diffusivity | H | flinak | data points |
-| `h_transport_materials/property_database/flinak/flinak.py:27` | Solubility | H | flinak | data points |
-| `h_transport_materials/property_database/flinak/flinak.py:42` | Diffusivity | H | flinak | data points |
-| `h_transport_materials/property_database/flinak/flinak.py:51` | Solubility | H | flinak | data points |
-| `h_transport_materials/property_database/flinak/flinak.py:63` | Permeability | H | flinak | data points |
-| `h_transport_materials/property_database/flinak/flinak.py:77` | Diffusivity | T | flinak | data points |
-| `h_transport_materials/property_database/flinak/flinak.py:89` | Diffusivity | T | flinak | data points |
-| `h_transport_materials/property_database/flinak/flinak.py:102` | Diffusivity | H | flinak | data points |
-| `h_transport_materials/property_database/flinak/flinak.py:114` | Solubility | H | flinak | data points |
-| `h_transport_materials/property_database/flinak/flinak.py:129` | Diffusivity | H | flinak | data points |
-| `h_transport_materials/property_database/flinak/flinak.py:142` | Solubility | H | flinak | data points |
-| `h_transport_materials/property_database/gold.py:54` | Solubility | H | gold | data points |
+| `h_transport_materials/property_database/flibe/flibe.py:86` | Solubility | H | flibe | data points: values computed in the module (data_solubility_field_h) |
+| `h_transport_materials/property_database/flibe/flibe.py:98` | Solubility | D | flibe | data points: values computed in the module (data_solubility_field_d) |
+| `h_transport_materials/property_database/flibe/flibe.py:123` | Solubility | D | flibe | data points: values computed in the module (data_maulinauskas_T) |
+| `h_transport_materials/property_database/flibe/flibe.py:157` | Diffusivity | H | flibe | data points: values computed in the module (data_nakamura_diff_flibe_T) |
+| `h_transport_materials/property_database/flibe/flibe.py:166` | Solubility | H | flibe | data points: values computed in the module (data_nakamura_sol_flibe_T) |
+| `h_transport_materials/property_database/flibe/flibe.py:179` | Permeability | H | flibe | data points: values computed in the module (data_nakamura_perm_flibe_T) |
+| `h_transport_materials/property_database/flinak/flinak.py:42` | Diffusivity | H | flinak | data points: values computed in the module (data_nakamura_diff_flinak_T) |
+| `h_transport_materials/property_database/flinak/flinak.py:51` | Solubility | H | flinak | data points: values computed in the module (data_nakamura_sol_flinak_T) |
+| `h_transport_materials/property_database/flinak/flinak.py:63` | Permeability | H | flinak | data points: values computed in the module (data_nakamura_perm_flinak_T) |
+| `h_transport_materials/property_database/flinak/flinak.py:129` | Diffusivity | H | flinak | source file: HTTP Error 406: Not Acceptable |
+| `h_transport_materials/property_database/flinak/flinak.py:142` | Solubility | H | flinak | source file: HTTP Error 406: Not Acceptable |
+| `h_transport_materials/property_database/gold.py:54` | Solubility | H | gold | data points: values computed in the module (data_T_mclellan) |
 | `h_transport_materials/property_database/hastelloy_n.py:12` | Permeability | H | hastelloy_n | computed range: (1 / 0.0015 * u.K, 1 / 0.0014 * u.K) |
 | `h_transport_materials/property_database/incoloy_800.py:34` | Solubility | H | incoloy_800 | computed S_0: schmidt_permeability.pre_exp / schmidt_diffusivity |
 | `h_transport_materials/property_database/iron.py:57` | Solubility | H | iron | computed S_0: 4.9e-06 / IRON_MOLAR_VOLUME * u.mol * u.m ** (-3)  |
 | `h_transport_materials/property_database/lipb/lipb.py:43` | Solubility | D | lipb | computed S_0: 1 / K_S_wu * atom_density_lipb(nb_li=17, nb_pb=83) |
 | `h_transport_materials/property_database/lipb/lipb.py:52` | Solubility | H | lipb | computed S_0: 4.7e-07 * atom_density_lipb(nb_li=17, nb_pb=83) *  |
 | `h_transport_materials/property_database/lipb/lipb.py:62` | Solubility | H | lipb | computed S_0: 1 / 2900.0 * atom_density_lipb(nb_li=17, nb_pb=83) |
-| `h_transport_materials/property_database/lipb/lipb.py:122` | Diffusivity | H | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:132` | Diffusivity | D | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:151` | Solubility | H | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:167` | Solubility | D | lipb | data points |
+| `h_transport_materials/property_database/lipb/lipb.py:151` | Solubility | H | lipb | data points: values computed in the module (reiter_solubility_data_H_y) |
+| `h_transport_materials/property_database/lipb/lipb.py:167` | Solubility | D | lipb | data points: computed values: reiter_solubility_data_D_T[np.isfinite(r |
 | `h_transport_materials/property_database/lipb/lipb.py:174` | Solubility | T | lipb | computed S_0: 2.32e-08 * u.atfr * u.Pa ** (-0.5) * atom_density_ |
-| `h_transport_materials/property_database/lipb/lipb.py:188` | Solubility | H | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:196` | Diffusivity | T | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:225` | Permeability | H | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:243` | Diffusivity | H | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:251` | Diffusivity | D | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:260` | Solubility | H | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:271` | Solubility | D | lipb | data points |
+| `h_transport_materials/property_database/lipb/lipb.py:260` | Solubility | H | lipb | data points: computed values: atom_density_lipb(nb_li=17, nb_pb=83) |
+| `h_transport_materials/property_database/lipb/lipb.py:271` | Solubility | D | lipb | data points: computed values: atom_density_lipb(nb_li=17, nb_pb=83) |
 | `h_transport_materials/property_database/lipb/lipb.py:318` | Solubility | H | lipb | computed S_0: 8.6e-05 * u.atfr * u.Pa ** (-0.5) * atom_density_l |
 | `h_transport_materials/property_database/lipb/lipb.py:327` | Solubility | D | lipb | computed S_0: 0.00011 * u.atfr * u.Pa ** (-0.5) * atom_density_l |
-| `h_transport_materials/property_database/lipb/lipb.py:342` | Diffusivity | H | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:349` | Diffusivity | D | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:357` | Solubility | H | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:364` | Solubility | D | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:374` | Diffusivity | T | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:382` | Diffusivity | T | lipb | data points |
-| `h_transport_materials/property_database/lipb/lipb.py:391` | Solubility | H | lipb | data points |
+| `h_transport_materials/property_database/lipb/lipb.py:357` | Solubility | H | lipb | data points: computed values: atom_density_lipb(nb_li=17, nb_pb=83) |
+| `h_transport_materials/property_database/lipb/lipb.py:364` | Solubility | D | lipb | data points: computed values: atom_density_lipb(nb_li=17, nb_pb=83) |
 | `h_transport_materials/property_database/lipb/lipb.py:400` | Solubility | H | lipb | computed S_0: 4.16e-07 * u.atfr * u.Pa ** (-0.5) * atom_density_ |
 | `h_transport_materials/property_database/lipb/lipb.py:410` | Solubility | H | lipb | computed S_0: 3.18e-07 * u.atfr * u.Pa ** (-0.5) * atom_density_ |
-| `h_transport_materials/property_database/lithium/lithium.py:19` | Diffusivity | H | lithium | data points |
-| `h_transport_materials/property_database/lithium/lithium.py:48` | Solubility | H | lithium | data points |
-| `h_transport_materials/property_database/lithium/lithium.py:64` | Solubility | D | lithium | data points |
-| `h_transport_materials/property_database/lithium/lithium.py:80` | Solubility | T | lithium | data points |
+| `h_transport_materials/property_database/lithium/lithium.py:48` | Solubility | H | lithium | data points: values computed in the module (smith_sol_data_y_h) |
+| `h_transport_materials/property_database/lithium/lithium.py:64` | Solubility | D | lithium | data points: values computed in the module (smith_sol_data_y_d) |
+| `h_transport_materials/property_database/lithium/lithium.py:80` | Solubility | T | lithium | data points: values computed in the module (smith_sol_data_y_t) |
 | `h_transport_materials/property_database/molybdenum.py:41` | Permeability | H | molybdenum | computed pre_exp: frauenfelder_p_0 / (htm.Rg * 300 * u.K) |
 | `h_transport_materials/property_database/nickel.py:21` | Diffusivity | H | nickel | source not in references.bib |
 | `h_transport_materials/property_database/nickel.py:55` | Solubility | H | nickel | computed S_0: 5.52e-06 / NI_MOLAR_VOLUME * u.mol * u.m ** (-3) * |
 | `h_transport_materials/property_database/niobium.py:38` | Diffusivity | H | niobium | range bounds in two different units |
 | `h_transport_materials/property_database/niobium.py:50` | Diffusivity | H | niobium | range bounds in two different units |
-| `h_transport_materials/property_database/palladium.py:244` | Solubility | H | palladium | data points |
-| `h_transport_materials/property_database/palladium.py:324` | Solubility | H | palladium | data points |
-| `h_transport_materials/property_database/palladium.py:356` | Diffusivity | H | palladium | data points |
-| `h_transport_materials/property_database/palladium.py:434` | Solubility | D | palladium | data points |
-| `h_transport_materials/property_database/palladium.py:464` | Diffusivity | D | palladium | data points |
-| `h_transport_materials/property_database/palladium_copper.py:37` | Permeability | H | 60pd40cu | data points |
-| `h_transport_materials/property_database/pdag/palladium_silver.py:19` | Diffusivity | H | pdag | data points |
-| `h_transport_materials/property_database/pdag/palladium_silver.py:26` | Diffusivity | D | pdag | data points |
-| `h_transport_materials/property_database/pdag/palladium_silver.py:39` | Solubility | H | pdag | data points |
-| `h_transport_materials/property_database/pdag/palladium_silver.py:46` | Solubility | D | pdag | data points |
+| `h_transport_materials/property_database/palladium.py:244` | Solubility | H | palladium | data points: values computed in the module (favreau_data_y_h) |
+| `h_transport_materials/property_database/palladium.py:324` | Solubility | H | palladium | data points: values computed in the module (data_T_h) |
+| `h_transport_materials/property_database/palladium.py:356` | Diffusivity | H | palladium | data points: values computed in the module (data_T_h) |
+| `h_transport_materials/property_database/palladium.py:434` | Solubility | D | palladium | data points: values computed in the module (data_T_D) |
+| `h_transport_materials/property_database/palladium.py:464` | Diffusivity | D | palladium | data points: values computed in the module (data_T_D) |
+| `h_transport_materials/property_database/palladium_copper.py:37` | Permeability | H | 60pd40cu | data points: values computed in the module (li_data_T) |
 | `h_transport_materials/property_database/pdag/palladium_silver.py:108` | DissociationCoeff | H | pdag | computed pre_exp: 2 / R_S_0 |
 | `h_transport_materials/property_database/sic.py:69` | Solubility | D | sic | computed S_0: 8.77e-09 * u.atm ** (-0.5) * sic_atom_density |
-| `h_transport_materials/property_database/silver.py:28` | Solubility | H | silver | data points |
 | `h_transport_materials/property_database/ss_304/ss_304.py:33` | Solubility | H | 304_steel | computed S_0: grant_permeability.pre_exp / grant_diffusivity.pre |
 | `h_transport_materials/property_database/ss_304/ss_304.py:69` | RecombinationCoeff | H | 304_steel | computed pre_exp: grant_dissociation_clean.pre_exp / grant_solubilit |
 | `h_transport_materials/property_database/ss_304/ss_304.py:78` | RecombinationCoeff | H | 304_steel | computed pre_exp: grant_dissociation_activated.pre_exp / grant_solub |
@@ -140,50 +78,35 @@ not convert automatically.
 | `h_transport_materials/property_database/ss_304/ss_304.py:106` | Solubility | H | 304_steel | source not in references.bib |
 | `h_transport_materials/property_database/ss_304/ss_304.py:117` | Permeability | D | 304_steel | computed pre_exp: braun_diffusivity.pre_exp * hawkins_solubility.pre |
 | `h_transport_materials/property_database/ss_304/ss_304.py:136` | DissociationCoeff | D | 304_steel | computed pre_exp: braun_recombination_coeff.pre_exp * hawkins_solubi |
-| `h_transport_materials/property_database/ss_304/ss_304.py:149` | Permeability | H | 304_steel | data points |
 | `h_transport_materials/property_database/steel_316L/steel_316L.py:29` | Solubility | H | 316l_steel | computed S_0: 5.8e-06 * u.Pa ** (-0.5) * STEEL_316L_MOLAR_VOLUME |
 | `h_transport_materials/property_database/steel_316L/steel_316L.py:90` | Solubility | h | 316l_steel | computed S_0: 1.84e-06 * u.Pa ** (-0.5) * STEEL_316L_MOLAR_VOLUM |
 | `h_transport_materials/property_database/steel_316L/steel_316L.py:99` | Solubility | d | 316l_steel | computed S_0: 1.96e-06 * u.Pa ** (-0.5) * STEEL_316L_MOLAR_VOLUM |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:307` | Permeability | H | 316l_steel | data points |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:320` | Diffusivity | H | 316l_steel | data points |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:327` | Solubility | H | 316l_steel | data points |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:340` | Permeability | H | 316l_steel | data points |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:347` | Diffusivity | H | 316l_steel | data points |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:354` | Solubility | H | 316l_steel | data points |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:362` | Permeability | h | 316l_steel | data points |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:374` | Permeability | t | 316l_steel | data points |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:386` | Diffusivity | h | 316l_steel | data points |
-| `h_transport_materials/property_database/steel_316L/steel_316L.py:396` | Diffusivity | t | 316l_steel | data points |
+| `h_transport_materials/property_database/steel_316L/steel_316L.py:307` | Permeability | H | 316l_steel | data points: 1/T axis not in kelvin |
+| `h_transport_materials/property_database/steel_316L/steel_316L.py:320` | Diffusivity | H | 316l_steel | data points: 1/T axis not in kelvin |
+| `h_transport_materials/property_database/steel_316L/steel_316L.py:327` | Solubility | H | 316l_steel | data points: 1/T axis not in kelvin |
 | `h_transport_materials/property_database/steel_316L/steel_316L.py:406` | Solubility | h | 316l_steel | computed S_0: shan_permeability_h.pre_exp / shan_diffusivity_h.p |
 | `h_transport_materials/property_database/steel_316L/steel_316L.py:416` | Solubility | t | 316l_steel | computed S_0: shan_permeability_t.pre_exp / shan_diffusivity_t.p |
 | `h_transport_materials/property_database/tantalum.py:23` | Diffusivity | H | tantalum | range bounds in two different units |
 | `h_transport_materials/property_database/tantalum.py:35` | Diffusivity | H | tantalum | range bounds in two different units |
 | `h_transport_materials/property_database/titanium.py:16` | Solubility | T | titanium | computed S_0: 1.06e-05 / TITANIUM_MOLAR_VOLUME * u.mol * u.m **  |
-| `h_transport_materials/property_database/tungsten/tungsten.py:70` | Diffusivity | H | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:79` | Diffusivity | H | tungsten | data points |
 | `h_transport_materials/property_database/tungsten/tungsten.py:87` | Diffusivity | H | tungsten | source file: 1 validation error for Source |
 | `h_transport_materials/property_database/tungsten/tungsten.py:180` | Permeability | H | tungsten | computed pre_exp: frauenfelder_p_0 |
-| `h_transport_materials/property_database/tungsten/tungsten.py:265` | Permeability | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:277` | Permeability | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:289` | Permeability | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:301` | Permeability | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:313` | Permeability | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:331` | Permeability | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:342` | Diffusivity | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:352` | Diffusivity | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:362` | Diffusivity | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:372` | Diffusivity | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:385` | Diffusivity | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:395` | Permeability | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:402` | Permeability | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:410` | Permeability | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:429` | Diffusivity | T | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:449` | Diffusivity | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:459` | Diffusivity | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:471` | Permeability | D | tungsten | data points |
-| `h_transport_materials/property_database/tungsten/tungsten.py:483` | Permeability | D | tungsten | data points |
-| `h_transport_materials/property_database/vanadium_alloy.py:15` | Solubility | H | v4cr4ti | data points |
-| `h_transport_materials/property_database/yttrium.py:16` | Solubility | H | yttrium | data points |
-| `h_transport_materials/property_database/yttrium.py:26` | Solubility | D | yttrium | data points |
-| `h_transport_materials/property_database/yttrium.py:36` | Solubility | T | yttrium | data points |
-| `h_transport_materials/property_database/zirconium/zirconium.py:32` | Solubility | H | zirconium | data points |
+| `h_transport_materials/property_database/tungsten/tungsten.py:265` | Permeability | D | tungsten | data points: values computed in the module (rolled_50um_data_y) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:277` | Permeability | D | tungsten | data points: values computed in the module (rolled_114um_data_y) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:289` | Permeability | D | tungsten | data points: values computed in the module (rolled_240um_data_y) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:301` | Permeability | D | tungsten | data points: values computed in the module (annealed_50um_data_y) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:313` | Permeability | D | tungsten | data points: values computed in the module (annealed_250um_data_y) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:331` | Permeability | D | tungsten | data points: values computed in the module (recrystallized_250um_data_y) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:342` | Diffusivity | D | tungsten | data points: values computed in the module (rolled_114um_data_y) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:352` | Diffusivity | D | tungsten | data points: values computed in the module (rolled_240um_data_y) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:362` | Diffusivity | D | tungsten | data points: values computed in the module (annealed_102um_data_y) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:372` | Diffusivity | D | tungsten | data points: values computed in the module (annealed_250um_data_y) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:385` | Diffusivity | D | tungsten | data points: values computed in the module (recrystallized_250um_data_y) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:449` | Diffusivity | D | tungsten | data points: values computed in the module (data_T_byeon) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:459` | Diffusivity | D | tungsten | data points: values computed in the module (data_T_byeon) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:471` | Permeability | D | tungsten | data points: values computed in the module (data_T_byeon) |
+| `h_transport_materials/property_database/tungsten/tungsten.py:483` | Permeability | D | tungsten | data points: values computed in the module (data_T_byeon) |
+| `h_transport_materials/property_database/yttrium.py:16` | Solubility | H | yttrium | data points: values not read from a single data column |
+| `h_transport_materials/property_database/yttrium.py:26` | Solubility | D | yttrium | data points: values not read from a single data column |
+| `h_transport_materials/property_database/yttrium.py:36` | Solubility | T | yttrium | data points: values not read from a single data column |
+| `h_transport_materials/property_database/zirconium/zirconium.py:32` | Solubility | H | zirconium | data points: values not read from a single data column |

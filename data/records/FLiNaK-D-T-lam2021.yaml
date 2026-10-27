@@ -1,0 +1,25 @@
+id: htm:FLiNaK-D-T-lam2021
+property: diffusivity
+material: flinak
+isotope: T
+method: unknown
+source:
+  doi: 10.1039/D0TA10576G
+  location: null
+reported:
+  form: points
+  file: FLiNaK-D-T-lam2021.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: m**2 * s**-1
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/flinak/flinak.py:77

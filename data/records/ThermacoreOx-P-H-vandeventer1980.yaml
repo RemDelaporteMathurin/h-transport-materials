@@ -1,0 +1,27 @@
+id: htm:ThermacoreOx-P-H-vandeventer1980
+property: permeability
+law: sieverts
+material: thermacore_oxidized
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0022-3115(80)90397-9
+  location: null
+reported:
+  form: points
+  file: ThermacoreOx-P-H-vandeventer1980.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1000.0
+  y:
+    column: 1
+    quantity: value
+    unit: micromol * m**-1 * s**-1 * kPa**-0.5
+note: Figure 2
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/FeCrAl/thermacore_oxidized/thermacore_oxidized.py:14

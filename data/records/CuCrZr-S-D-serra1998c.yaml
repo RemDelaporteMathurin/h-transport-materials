@@ -1,0 +1,26 @@
+id: htm:CuCrZr-S-D-serra1998c
+property: solubility
+law: sieverts
+material: cucrzr
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/S0022-3115(98)00276-1
+  location: null
+reported:
+  form: points
+  file: CuCrZr-S-D-serra1998c.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1000.0
+  y:
+    column: 1
+    quantity: value
+    unit: mol * m**-3 * Pa**-0.5
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/cucrzr/cucrzr.py:50

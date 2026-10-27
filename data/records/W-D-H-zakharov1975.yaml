@@ -1,0 +1,25 @@
+id: htm:W-D-H-zakharov1975
+property: diffusivity
+material: tungsten
+isotope: H
+method: unknown
+source:
+  doi: 10.1007/BF00715727
+  location: null
+reported:
+  form: points
+  file: W-D-H-zakharov1975.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: degC
+  y:
+    column: 1
+    quantity: value
+    unit: cm**2 * s**-1
+note: the author gives activation energies in cal
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:79

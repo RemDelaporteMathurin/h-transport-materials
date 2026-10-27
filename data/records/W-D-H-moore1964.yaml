@@ -1,0 +1,25 @@
+id: htm:W-D-H-moore1964
+property: diffusivity
+material: tungsten
+isotope: H
+method: unknown
+source:
+  doi: 10.1063/1.1725575
+  location: null
+reported:
+  form: points
+  file: W-D-H-moore1964.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: K
+  y:
+    column: 1
+    quantity: value
+    unit: cm**2 * s**-1
+note: data in table IV. Units are not given but on page 2651 the equation indiquates that D is in cm2/s
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:70

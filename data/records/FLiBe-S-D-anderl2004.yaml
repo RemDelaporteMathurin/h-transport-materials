@@ -1,0 +1,27 @@
+id: htm:FLiBe-S-D-anderl2004
+property: solubility
+law: henry
+material: flibe
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2004.04.220
+  location: null
+reported:
+  form: points
+  file: FLiBe-S-D-anderl2004.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: degC
+  y:
+    column: 1
+    quantity: value
+    unit: mol * m**-3 * Pa**-1
+note: derived from a permeation experiment, not a direct solubility measurement (see Dolan 2021, MIT PhD,
+  Table 2.6)
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/flibe/flibe.py:56

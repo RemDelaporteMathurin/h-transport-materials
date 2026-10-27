@@ -1,0 +1,25 @@
+id: htm:Cu-D-T-katz1971
+property: diffusivity
+material: copper
+isotope: T
+method: unknown
+source:
+  doi: 10.1103/PhysRevB.4.330
+  location: null
+reported:
+  form: points
+  file: Cu-D-T-katz1971.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1000.0
+  y:
+    column: 1
+    quantity: value
+    unit: cm**2 * s**-1
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/copper/copper.py:64

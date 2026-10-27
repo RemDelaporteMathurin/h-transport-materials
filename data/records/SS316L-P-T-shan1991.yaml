@@ -1,0 +1,26 @@
+id: htm:SS316L-P-T-shan1991
+property: permeability
+law: sieverts
+material: 316l_steel
+isotope: T
+method: unknown
+source:
+  doi: 10.1016/0022-3115(91)90091-K
+  location: null
+reported:
+  form: points
+  file: SS316L-P-T-shan1991.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: K
+  y:
+    column: 1
+    quantity: value
+    unit: mol * m**-1 * s**-1 * MPa**-0.5
+note: Table 1
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/steel_316L/steel_316L.py:374
