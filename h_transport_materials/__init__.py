@@ -6,14 +6,16 @@ except Exception:
     __version__ = "unknown"
 
 import pint
+from scipy import constants
 
 ureg = pint.UnitRegistry()
 ureg.setup_matplotlib()
 pint.set_application_registry(ureg)
 
-k_B = 8.617e-5 * ureg.eV * ureg.particle**-1 * ureg.K**-1
-Rg = 8.314 * ureg.Pa * ureg.m**3 * ureg.mol**-1 * ureg.K**-1
-avogadro_nb = 6.022e23 * ureg.particle * ureg.mol**-1
+# CODATA values (exact in the 2019 SI)
+k_B = constants.k / constants.e * ureg.eV * ureg.particle**-1 * ureg.K**-1
+Rg = constants.R * ureg.Pa * ureg.m**3 * ureg.mol**-1 * ureg.K**-1
+avogadro_nb = constants.N_A * ureg.particle * ureg.mol**-1
 
 from pybtex.database import parse_file
 from pathlib import Path
