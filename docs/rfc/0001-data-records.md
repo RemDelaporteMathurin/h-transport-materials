@@ -388,6 +388,9 @@ listed in `tests/test_records.py`:
 - Lithium (+0.014%) and palladium (-0.0003%): the registry stores the
   densities the cited pages give, where the code stored a molar volume
   and a specific volume derived from them.
+- Candido 2022 (two Pb-17Li solubilities, -1.5%): single values at
+  573 K instead of a fake 572 to 574 K range, converted with the molar
+  mass of the Pb-15.7Li sample of the thesis instead of Pb-17Li.
 
 **Findings the current format was hiding:**
 
@@ -468,16 +471,16 @@ inline lists). The CSV written next to the record holds the values as
 digitised (here 1000/T and ln D) and the axes say how to read them, so
 nothing is converted before it is stored.
 
-**Status.** 369 of the 473 properties are records (350 converted
-automatically, 77 of them from data points; 19 by hand), with 50
-materials and 138 sources. All 369 reproduce the current database,
+**Status.** 383 of the 473 properties are records (350 converted
+automatically, 77 of them from data points; 33 by hand), with 50
+materials and 142 sources. All 383 reproduce the current database,
 including the fits of the data points, except the differences listed in
-section 9. 104 remain in `todo.md`:
+section 9. Pb-17Li is complete. 90 remain in `todo.md`:
 
 | Reason | Count |
 |---|---|
-| data points computed in the module (densities, molar volumes, unit gymnastics) | 50 |
-| computed pre-exponential factor (densities, molar volumes, ratios) | 34 |
+| data points computed in the module (densities, molar volumes, unit gymnastics) | 44 |
+| computed pre-exponential factor (densities, molar volumes, ratios) | 26 |
 | source file could not be generated (e.g. a bib entry without a title) | 8 |
 | source not in `references.bib` | 4 |
 | range bounds in two different units | 4 |
@@ -487,8 +490,10 @@ section 9. 104 remain in `todo.md`:
 What is left is by construction the part where HTM did arithmetic on the
 published numbers, the same part where the findings of section 9 came
 from. It is transcribed by hand, material by material, with a named
-transformation for each step, before the verification sprint on W, 316L,
-Pb-17Li, EUROFER97 and FLiBe.
+transformation for each step. Hand-written records carry
+`curation.migrated_from` too, so `htm migrate` links them to the property
+they replace. Then the verification sprint on W, 316L, Pb-17Li, EUROFER97
+and FLiBe.
 
 ## 11. Open points
 

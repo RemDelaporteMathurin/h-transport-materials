@@ -16,17 +16,27 @@ from h_transport_materials.records import build, compat, models, schema, transfo
 
 M_LI, M_PB = 0.006941, 0.2072  # kg/mol
 
-# records whose values intentionally differ from the current database
+def _molar_mass(li, pb):
+    return li * M_LI + pb * M_PB
+
+
+# Records whose values intentionally differ from the current database.
+# range: the range differs; ratio: expected new / old pre-exponential factor;
+# rel: tolerance on it; author_fit: same law within 3%, different parameters
 EXPECTED_DIFFERENCES = {
     # single value at 450 degC, was a fake 722-724 K range
-    "htm:LiPb-D-H-fauvet1988": "range",
-    "htm:LiPb-S-H-fauvet1988": "range",
+    "htm:LiPb-D-H-fauvet1988": {"range": True},
+    "htm:LiPb-S-H-fauvet1988": {"range": True},
+    # single value at 573 K, was a fake 572-574 K range; converted with the
+    # molar mass of the Pb-15.7Li sample instead of Pb-17Li
+    "htm:LiPb-S-H-candido2022": {"range": True, "ratio": _molar_mass(17, 83) / _molar_mass(15.7, 84.3)},
+    "htm:LiPb-S-H-candido2022-b": {"range": True, "ratio": _molar_mass(17, 83) / _molar_mass(15.7, 84.3)},
     # the authors' fit is used; the current entry refits the digitised points
-    "htm:Li50Pb50-S-H-schumacher1990": "author_fit",
+    "htm:Li50Pb50-S-H-schumacher1990": {"author_fit": True},
     # registry densities are the cited values, the current code used values
     # derived from them (molar volume 1.3e-5 m3/mol, specific volume 8.32e-8 m3/g)
-    "htm:Li-S-H-veleckis1974": ("rel", 2e-4),
-    "htm:Pd-S-T-favreau1954": ("rel", 1e-5),
+    "htm:Li-S-H-veleckis1974": {"rel": 2e-4},
+    "htm:Pd-S-T-favreau1954": {"rel": 1e-5},
 }
 
 
@@ -62,14 +72,14 @@ def test_equivalence_with_current_database(group, manifest):
         assert type(old).__name__ == entry["class"], (
             f"{new.record_id}: htm.database changed order, rerun htm migrate"
         )
-        difference = EXPECTED_DIFFERENCES.get(new.record_id)
+        difference = EXPECTED_DIFFERENCES.get(new.record_id, {})
         assert new.material == old.material, new.record_id
         assert new.source == old.source, new.record_id
         assert new.isotope == (old.isotope or "").upper(), new.record_id
         new_range = [T.m_as("K") for T in new.range] if new.range else None
         old_range = [T.m_as("K") for T in old.range] if old.range else None
 
-        if difference == "author_fit":
+        if difference.get("author_fit"):
             # different parameters, same law within 3% over the measured range
             T = np.linspace(*old_range, 50) * htm.ureg.K
             ratio = (new.value(T) / old.value(T)).to("dimensionless").magnitude
@@ -77,14 +87,13 @@ def test_equivalence_with_current_database(group, manifest):
             assert new_range == pytest.approx(old_range, rel=1e-12)
             continue
 
-        rel = difference[1] if isinstance(difference, tuple) else 1e-12
         assert new.pre_exp.to(old.pre_exp.units).magnitude == pytest.approx(
-            old.pre_exp.magnitude, rel=rel
-        )
+            old.pre_exp.magnitude * difference.get("ratio", 1), rel=difference.get("rel", 1e-12)
+        ), new.record_id
         assert new.act_energy.m_as("eV/particle") == pytest.approx(
             old.act_energy.m_as("eV/particle"), rel=1e-12, abs=1e-15
-        )
-        if difference == "range":
+        ), new.record_id
+        if difference.get("range"):
             assert new_range != pytest.approx(old_range)
         elif old_range is None:
             assert new_range is None, new.record_id
@@ -416,3 +425,14 @@ def test_invalid_migration_record_rejected(data_copy, name, edit, message):
     _edit(data_copy, name, edit)
     with pytest.raises(build.BuildError, match=message):
         build.build(data_copy)
+
+
+def test_sieverts_constant_inversion_flips_the_activation_energy():
+    """1 / (K0 exp(-E/kT)) = (1/K0) exp(E/kT)"""
+    u = htm.ureg
+    state = transforms.State(target_unit=u.dimensionless)
+    state.reported = 2.0 * u.atm**0.5
+    state.act_energy = 0.3 * u.eV / u.particle
+    transforms.sieverts_constant_to_solubility(state, {"concentration_unit": "atfr"}, None)
+    assert state.reported.m_as("atfr / atm^0.5") == pytest.approx(0.5)
+    assert state.act_energy.m_as("eV/particle") == pytest.approx(-0.3)

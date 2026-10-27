@@ -118,6 +118,9 @@ def _resolve_source(record, sources):
 
 def _read_points(reported, folder):
     data = np.genfromtxt(folder / reported.file, delimiter=",", ndmin=2)
+    columns = data[:, [reported.x.column, reported.y.column]]
+    if not np.isfinite(columns).all(axis=1).any():
+        raise BuildError(f"{reported.file}: no row with two numbers")
 
     def physical(axis):
         col = data[:, axis.column]

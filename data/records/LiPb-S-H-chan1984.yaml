@@ -1,0 +1,39 @@
+id: htm:LiPb-S-H-chan1984
+property: solubility
+law: sieverts
+material: lipb
+isotope: H
+method: unknown
+sample:
+  composition:
+    Li: 17
+    Pb: 83
+source:
+  doi: 10.1016/0022-3115(84)90198-3
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 4.7e-07
+    unit: atfr / Pa^0.5
+  act_energy:
+    value: 9000
+    unit: J/mol
+  range:
+    value:
+    - 573
+    - 773
+    unit: K
+transformations:
+- op: mole_fraction_to_concentration
+  params:
+    density_at: 300 K
+  origin: htm
+  rationale: The paper gives an atom fraction. HTM converts it with the Pb-17Li density from the material
+    registry, evaluated at 300 K as HTM has always done, and the molar mass of the sample composition.
+note: extrapolated to Pb-17Li
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/lipb/lipb.py:52

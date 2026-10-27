@@ -645,17 +645,32 @@ def _relative(path):
     return Path(path).resolve().relative_to(REPO).as_posix()
 
 
-def _match_existing(data_dir, manifest):
-    """Adds manifest entries for records written by hand before the migration"""
+def _match_existing(data_dir, manifest, calls):
+    """Adds manifest entries for records written by hand.
+
+    A record with ``curation.migrated_from`` is matched to the property
+    created at that location; older ones are matched by class, source,
+    isotope and sample form.
+    """
     import h_transport_materials as htm
 
     from . import build, compat
 
+    by_location = {
+        f"{_relative(c['file'])}:{c['line']}": c
+        for c in calls
+        if c["index"] is not None and "property_database" in Path(c["file"]).parts
+    }
     db = build.build(data_dir)
     materials = {m["id"]: m for m in db["materials"]}
     srcs = {s["key"]: s for s in db["sources"]}
     for record in db["records"]:
         if record["id"] in manifest:
+            continue
+        location = record["curation"].get("migrated_from")
+        if location in by_location:
+            call = by_location[location]
+            manifest[record["id"]] = {"index": call["index"], "class": call["cls"]}
             continue
         new = compat.to_property(record, materials, srcs)
         matches = [
@@ -688,7 +703,8 @@ def run(data_dir=None, fetch=None):
     fetch = fetch or sources.fetch_csl
     manifest_path = data_dir / "migration" / "legacy.yaml"
     manifest = (_read_yaml(manifest_path) if manifest_path.exists() else None) or {}
-    _match_existing(data_dir, manifest)
+    calls = capture()
+    _match_existing(data_dir, manifest, calls)
     done = {v["index"] for v in manifest.values()}
 
     material_ids, created_materials = _material_ids(data_dir)
@@ -696,7 +712,7 @@ def run(data_dir=None, fetch=None):
     taken = {p.stem for p in (data_dir / "records").glob("*.yaml")}
     cache, todo, written = {}, [], 0
 
-    for call in capture():
+    for call in calls:
         if call["index"] in done:
             continue
         kind, reason = classify(call)

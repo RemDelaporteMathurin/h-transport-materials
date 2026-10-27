@@ -41,20 +41,6 @@ not convert automatically.
 | `h_transport_materials/property_database/hastelloy_n.py:12` | Permeability | H | hastelloy_n | computed range: (1 / 0.0015 * u.K, 1 / 0.0014 * u.K) |
 | `h_transport_materials/property_database/incoloy_800.py:34` | Solubility | H | incoloy_800 | computed S_0: schmidt_permeability.pre_exp / schmidt_diffusivity |
 | `h_transport_materials/property_database/iron.py:57` | Solubility | H | iron | computed S_0: 4.9e-06 / IRON_MOLAR_VOLUME * u.mol * u.m ** (-3)  |
-| `h_transport_materials/property_database/lipb/lipb.py:43` | Solubility | D | lipb | computed S_0: 1 / K_S_wu * atom_density_lipb(nb_li=17, nb_pb=83) |
-| `h_transport_materials/property_database/lipb/lipb.py:52` | Solubility | H | lipb | computed S_0: 4.7e-07 * atom_density_lipb(nb_li=17, nb_pb=83) *  |
-| `h_transport_materials/property_database/lipb/lipb.py:62` | Solubility | H | lipb | computed S_0: 1 / 2900.0 * atom_density_lipb(nb_li=17, nb_pb=83) |
-| `h_transport_materials/property_database/lipb/lipb.py:151` | Solubility | H | lipb | data points: values computed in the module (reiter_solubility_data_H_y) |
-| `h_transport_materials/property_database/lipb/lipb.py:167` | Solubility | D | lipb | data points: computed values: reiter_solubility_data_D_T[np.isfinite(r |
-| `h_transport_materials/property_database/lipb/lipb.py:174` | Solubility | T | lipb | computed S_0: 2.32e-08 * u.atfr * u.Pa ** (-0.5) * atom_density_ |
-| `h_transport_materials/property_database/lipb/lipb.py:260` | Solubility | H | lipb | data points: computed values: atom_density_lipb(nb_li=17, nb_pb=83) |
-| `h_transport_materials/property_database/lipb/lipb.py:271` | Solubility | D | lipb | data points: computed values: atom_density_lipb(nb_li=17, nb_pb=83) |
-| `h_transport_materials/property_database/lipb/lipb.py:318` | Solubility | H | lipb | computed S_0: 8.6e-05 * u.atfr * u.Pa ** (-0.5) * atom_density_l |
-| `h_transport_materials/property_database/lipb/lipb.py:327` | Solubility | D | lipb | computed S_0: 0.00011 * u.atfr * u.Pa ** (-0.5) * atom_density_l |
-| `h_transport_materials/property_database/lipb/lipb.py:357` | Solubility | H | lipb | data points: computed values: atom_density_lipb(nb_li=17, nb_pb=83) |
-| `h_transport_materials/property_database/lipb/lipb.py:364` | Solubility | D | lipb | data points: computed values: atom_density_lipb(nb_li=17, nb_pb=83) |
-| `h_transport_materials/property_database/lipb/lipb.py:400` | Solubility | H | lipb | computed S_0: 4.16e-07 * u.atfr * u.Pa ** (-0.5) * atom_density_ |
-| `h_transport_materials/property_database/lipb/lipb.py:410` | Solubility | H | lipb | computed S_0: 3.18e-07 * u.atfr * u.Pa ** (-0.5) * atom_density_ |
 | `h_transport_materials/property_database/lithium/lithium.py:48` | Solubility | H | lithium | data points: values computed in the module (smith_sol_data_y_h) |
 | `h_transport_materials/property_database/lithium/lithium.py:64` | Solubility | D | lithium | data points: values computed in the module (smith_sol_data_y_d) |
 | `h_transport_materials/property_database/lithium/lithium.py:80` | Solubility | T | lithium | data points: values computed in the module (smith_sol_data_y_t) |

@@ -62,9 +62,18 @@ def gas_volume_to_amount(state, params, applies_to):
 
 
 def sieverts_constant_to_solubility(state, params, applies_to):
-    """S = 1 / Ks, where Ks = p^0.5 / c is the Sieverts constant"""
+    """S = 1 / Ks, where Ks = p^0.5 / c is the Sieverts constant
+
+    For an Arrhenius law the activation energy changes sign:
+    1 / (K0 exp(-E / kT)) = (1 / K0) exp(E / kT).
+    """
     concentration_unit = ureg.Unit(params.get("concentration_unit", "dimensionless"))
-    return state.map_values(lambda y: 1 / y * concentration_unit, applies_to)
+    targets = state.map_values(lambda y: 1 / y * concentration_unit, applies_to)
+    if "reported" in targets and state.act_energy is not None:
+        state.act_energy = -state.act_energy
+    if "author_fit_pre_exp" in targets and state.author_fit_act_energy is not None:
+        state.author_fit_act_energy = -state.author_fit_act_energy
+    return targets
 
 
 def density(material, T=None):

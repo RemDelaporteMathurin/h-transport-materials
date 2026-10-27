@@ -535,17 +535,59 @@ htm:LiPb-P-H-edao2011:
 htm:LiPb-P-H-edao2011b:
   index: 115
   class: Permeability
+htm:LiPb-S-D-edao2011:
+  index: 114
+  class: Solubility
+htm:LiPb-S-D-okada2012:
+  index: 124
+  class: Solubility
+htm:LiPb-S-D-okitsu2012:
+  index: 120
+  class: Solubility
+htm:LiPb-S-D-reiter1991:
+  index: 105
+  class: Solubility
+htm:LiPb-S-D-wu1983:
+  index: 99
+  class: Solubility
 htm:LiPb-S-H-aiello2006:
   index: 107
   class: Solubility
 htm:LiPb-S-H-alberro2015:
   index: 108
   class: Solubility
+htm:LiPb-S-H-candido2022:
+  index: 128
+  class: Solubility
+htm:LiPb-S-H-candido2022-b:
+  index: 129
+  class: Solubility
+htm:LiPb-S-H-chan1984:
+  index: 100
+  class: Solubility
+htm:LiPb-S-H-edao2011:
+  index: 113
+  class: Solubility
 htm:LiPb-S-H-fauvet1988:
   index: 102
   class: Solubility
+htm:LiPb-S-H-katsuta1985:
+  index: 101
+  class: Solubility
+htm:LiPb-S-H-okada2012:
+  index: 123
+  class: Solubility
+htm:LiPb-S-H-okitsu2012:
+  index: 119
+  class: Solubility
 htm:LiPb-S-H-penalva2024:
   index: 127
+  class: Solubility
+htm:LiPb-S-H-reiter1991:
+  index: 104
+  class: Solubility
+htm:LiPb-S-T-reiter1991:
+  index: 106
   class: Solubility
 htm:Mo-D-H-katsuta1982:
   index: 205
