@@ -4,7 +4,7 @@ material: tungsten
 isotope: H
 method: unknown
 source:
-  key: frauenfelder1969
+  doi: 10.1116/1.1492699
   location: null
 reported:
   form: arrhenius

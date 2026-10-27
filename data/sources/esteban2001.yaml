@@ -2,14 +2,17 @@ key: esteban2001
 type: article
 title: Hydrogen isotope diffusive transport parameters in pure polycrystalline tungsten
 authors:
-  - {family: Esteban, given: G. A.}
-  - {family: Perujo, given: A.}
-  - {family: Sedano, given: L. A.}
-  - {family: Douglas, given: K.}
+- family: Esteban
+  given: G. A.
+- family: Perujo
+  given: A.
+- family: Sedano
+  given: L. A.
+- family: Douglas
+  given: K.
 year: 2001
 journal: Journal of Nuclear Materials
-volume: "295"
-issue: "1"
+volume: '295'
+issue: '1'
 pages: 49-56
 doi: 10.1016/S0022-3115(01)00486-X
-bibtex_key: esteban_hydrogen_2001

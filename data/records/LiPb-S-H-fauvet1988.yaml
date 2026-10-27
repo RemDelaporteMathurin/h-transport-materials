@@ -7,7 +7,7 @@ method: unknown
 sample:
   composition: {Li: 17, Pb: 83}
 source:
-  key: fauvet1988
+  doi: 10.1016/0022-3115(88)90301-7
   location: abstract
 reported:
   form: constant

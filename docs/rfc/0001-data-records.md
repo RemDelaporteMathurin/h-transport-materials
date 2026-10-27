@@ -52,7 +52,7 @@ material: tungsten
 isotope: H
 method: unknown
 source:
-  key: frauenfelder1969
+  doi: 10.1116/1.1492699
   location: null
 reported:
   form: arrhenius
@@ -79,7 +79,7 @@ The blocks:
 | identity | `id`, `property`, `law` (solubility and permeability only), `material`, `isotope` |
 | `method` | controlled vocabulary: `gas-absorption`, `gas-permeation`, `time-lag`, `isovolumetric-desorption`, `tds`, `ion-implantation`, `electrochemical`, `isotope-extrapolation`, `dft`, `md`, `review`, `unknown` |
 | `sample` | composition (at.%), form, purity, surface; all optional |
-| `source` | `key` into `data/sources/`, `location` in the paper, `via` if the value was taken from a review |
+| `source` | the `doi` (or, without a DOI, the `key` of a source file), `location` in the paper, `via` if the value was taken from a review |
 | `reported` | the values as printed (below) |
 | `transformations` | ordered list (section 4) |
 | `note` | free text, kept short; anything structured gets a field |
@@ -145,10 +145,39 @@ used by the compatibility layer). Li50Pb50 and Pb-17Li are separate
 materials grouped by the `lithium-lead` family.
 
 `data/sources/<key>.yaml`: CSL-like fields (type, title, authors, year,
-journal, volume, issue, pages), DOI, URL, open access URL, and
-`bibtex_key` linking to the current `references.bib`. During migration the
-bib file stays the reference for author and year; afterwards it is
-generated from the source files.
+journal, volume, issue, pages), DOI, URL, open access URL.
+
+**Nobody writes source files by hand.** A record cites its source by DOI
+alone, and the source file is generated from it:
+
+```
+htm source add 10.1116/1.1492699     # one DOI (a doi.org URL also works)
+htm source sync                      # every DOI cited by a record but missing
+htm source from-bib refs.bib         # grey literature without a DOI
+```
+
+- Metadata comes from doi.org (CSL-JSON content negotiation), which covers
+  Crossref and DataCite DOIs. It is cleaned (markup in titles, Unicode
+  hyphens, initials such as `G.A` become `G. A.`, article numbers used as
+  pages) and the key is derived from the first author and year
+  (`frauenfelder1969`, then `frauenfelder1969b` on a collision).
+- The open access URL comes from Unpaywall, which requires a contact
+  email: `--email` or `HTM_UNPAYWALL_EMAIL`. It is skipped otherwise.
+- The generated file is **committed**, not fetched at build time: builds
+  stay offline and reproducible, and when Crossref metadata is wrong the
+  file is corrected and the fix is reviewed like any other change.
+- Sources without a DOI (KIT and OSTI reports, theses) are imported from a
+  BibTeX entry pasted from Zotero or Google Scholar; the record then cites
+  the `key`.
+- BibTeX is an export, not the store: one shared `.bib` file is a merge
+  conflict in every pull request, and BibTeX escaping leaks into titles.
+  The build will generate a `references.bib` for people citing HTM data in
+  LaTeX.
+
+Prototype check: deleting the five hand-written source files and running
+`htm source sync` regenerated them identical, field for field. During
+migration the compatibility layer finds the current `references.bib`
+entry by DOI, so author, year and `bibdata` behave as today.
 
 ## 6. Build and artefacts
 
@@ -205,8 +234,10 @@ passes on all of them.
   draft YAML pull request; YAML pull requests with `htm new` and
   `htm validate`; library code.
 - CI on pull requests: schema and dimension checks, plausibility bounds,
-  DOI resolution, duplicate detection, and a bot comment plotting the new
-  record against existing ones for the same material.
+  duplicate detection, and a bot comment plotting the new record against
+  existing ones for the same material. If a record cites a DOI with no
+  source file, the bot runs `htm source sync` and commits the result, so a
+  contributor only ever types the DOI.
 
 ## 9. What the prototype showed
 

@@ -2,12 +2,13 @@ key: schumacher1990
 type: article
 title: Hydrogen Solubility in the Liquid Alloys Lithium-Indium, Lithium-Lead, and Lithium-Tin
 authors:
-  - {family: Schumacher, given: Richard}
-  - {family: Weiss, given: Alarich}
+- family: Schumacher
+  given: Richard
+- family: Weiss
+  given: Alarich
 year: 1990
 journal: Berichte der Bunsengesellschaft für physikalische Chemie
-volume: "94"
-issue: "6"
+volume: '94'
+issue: '6'
 pages: 684-691
 doi: 10.1002/bbpc.19900940612
-bibtex_key: schumacher_hydrogen_1990

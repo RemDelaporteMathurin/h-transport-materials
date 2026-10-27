@@ -55,8 +55,9 @@ TransformationOp = Literal[
 
 ID_PATTERN = re.compile(
     r"^htm:(?P<material>[A-Za-z0-9]+)-(?P<property>D|S|P|Kr|Kd)-(?P<isotope>H|D|T)"
-    r"-(?P<source>[a-z]+[0-9]{4})(?P<suffix>-[a-z])?$"
+    r"-(?P<source>[a-z]+[0-9]{4}[a-z]?)(?P<suffix>-[a-z])?$"
 )
+SOURCE_KEY_PATTERN = r"^[a-z]+[0-9]{4}[a-z]?$"
 
 
 class _Strict(BaseModel):
@@ -176,9 +177,18 @@ class Transformation(_Strict):
 
 
 class SourceRef(_Strict):
-    key: str
+    """Cites a source by DOI (preferred) or, for sources without a DOI, by key"""
+
+    doi: str | None = None
+    key: str | None = Field(None, pattern=SOURCE_KEY_PATTERN)
     location: str | None = Field(None, description="e.g. 'Table 2', 'Eq. 5'")
-    via: str | None = Field(None, description="source key of a review, if not read in the original")
+    via: str | None = Field(None, description="DOI or key of a review, if not read in the original")
+
+    @model_validator(mode="after")
+    def doi_or_key(self):
+        if (self.doi is None) == (self.key is None):
+            raise ValueError("source needs exactly one of doi or key")
+        return self
 
 
 class Sample(_Strict):
@@ -228,7 +238,7 @@ class Record(_Strict):
             raise ValueError(f"id {self.id} does not match property {self.property}")
         if m["isotope"] != self.isotope:
             raise ValueError(f"id {self.id} does not match isotope {self.isotope}")
-        if m["source"] != self.source.key:
+        if self.source.key is not None and m["source"] != self.source.key:
             raise ValueError(f"id {self.id} does not match source {self.source.key}")
         if self.property in ("solubility", "permeability") and self.law is None:
             raise ValueError(f"{self.property} records need a law (sieverts or henry)")
@@ -261,7 +271,9 @@ class Person(_Strict):
 
 
 class Source(_Strict):
-    key: str
+    """Generated from a DOI or a BibTeX entry by records.sources, then reviewed"""
+
+    key: str = Field(pattern=SOURCE_KEY_PATTERN)
     type: Literal["article", "report", "thesis", "book", "chapter", "conference", "other"]
     title: str
     authors: list[Person]
@@ -273,4 +285,3 @@ class Source(_Strict):
     doi: str | None = None
     url: str | None = None
     open_access_url: str | None = None
-    bibtex_key: str | None = Field(None, description="key in the legacy references.bib")

@@ -20,7 +20,8 @@ import yaml
 import h_transport_materials as htm
 
 from . import transforms
-from .models import SCHEMA_VERSION, Material, Record, Source
+from .models import ID_PATTERN, SCHEMA_VERSION, Material, Record, Source
+from .sources import normalize_doi
 from .units import ENERGY_UNIT, NORMALIZED_UNITS, quantity, ureg
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
@@ -67,14 +68,33 @@ def load(data_dir=DATA_DIR):
             raise BuildError(f"{path.name}: file name must match id {r.id}")
         if r.material not in materials:
             raise BuildError(f"{r.id}: unknown material {r.material!r}")
-        if r.source.key not in sources:
-            raise BuildError(f"{r.id}: unknown source {r.source.key!r}")
+        r.source.key = _resolve_source(r, sources)
         if not r.id.split(":")[1].startswith(materials[r.material].code + "-"):
             raise BuildError(
                 f"{r.id}: id must start with material code {materials[r.material].code}"
             )
         records.append((r, path))
     return materials, sources, records
+
+
+def _resolve_source(record, sources):
+    """Returns the key of the source a record cites (by DOI or key)"""
+    if record.source.doi is not None:
+        doi = normalize_doi(record.source.doi)
+        keys = [k for k, s in sources.items() if s.doi and normalize_doi(s.doi) == doi]
+        if not keys:
+            raise BuildError(
+                f"{record.id}: no source file for DOI {doi}."
+                f" Run: htm source add {doi}"
+            )
+        key = keys[0]
+    else:
+        key = record.source.key
+        if key not in sources:
+            raise BuildError(f"{record.id}: unknown source {key!r}")
+    if ID_PATTERN.match(record.id)["source"] != key:
+        raise BuildError(f"{record.id}: id does not match source key {key}")
+    return key
 
 
 def _read_points(reported, folder):

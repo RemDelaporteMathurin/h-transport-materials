@@ -5,7 +5,7 @@ material: tungsten
 isotope: D
 method: isovolumetric-desorption
 source:
-  key: esteban2001
+  doi: 10.1016/S0022-3115(01)00486-X
   location: null
 reported:
   form: arrhenius

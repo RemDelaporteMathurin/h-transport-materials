@@ -37,6 +37,9 @@ tests = ["pytest", "pytest-cov"]
 plotly = ["plotly"]
 build = ["pydantic >= 2", "pyyaml", "jsonschema"]
 
+[project.scripts]
+htm = "h_transport_materials.records.cli:main"
+
 [project.urls]
 Source = "https://github.com/RemDelaporteMathurin/h_transport_materials"
 Tracker = "https://github.com/RemDelaporteMathurin/h_transport_materials/issues"

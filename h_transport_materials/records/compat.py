@@ -6,6 +6,7 @@ keeps working when the database is loaded from compiled records.
 
 import h_transport_materials as htm
 
+from .sources import normalize_doi
 from .units import ENERGY_UNIT, ureg
 
 CLASSES = {
@@ -21,6 +22,17 @@ LAWS = {"sieverts": "sievert", "henry": "henry", None: None}
 
 def _quantity(d):
     return ureg.Quantity(d["value"], ureg.Unit(d["unit"]))
+
+
+def _legacy_bib_key(source):
+    """Key of the matching references.bib entry (by DOI), so author, year and
+    bibdata work as today. Falls back to the source key."""
+    if source.get("doi"):
+        doi = normalize_doi(source["doi"])
+        for key, entry in htm.bib_database.entries.items():
+            if normalize_doi(entry.fields.get("doi", "")) == doi:
+                return key
+    return source["key"]
 
 
 def to_property(built, materials, sources):
@@ -53,7 +65,7 @@ def to_property(built, materials, sources):
         act_energy=act_energy,
         range=T_range,
         isotope=built["isotope"],
-        source=source["bibtex_key"] or source["key"],
+        source=_legacy_bib_key(source),
         note=built["note"],
     )
     cls = CLASSES[built["property"]]

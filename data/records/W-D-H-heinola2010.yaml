@@ -4,7 +4,7 @@ material: tungsten
 isotope: H
 method: dft
 source:
-  key: heinola2010
+  doi: 10.1063/1.3386515
   location: null
 reported:
   form: arrhenius

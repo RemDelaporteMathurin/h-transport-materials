@@ -7,7 +7,7 @@ method: gas-absorption
 sample:
   composition: {Li: 50, Pb: 50}
 source:
-  key: schumacher1990
+  doi: 10.1002/bbpc.19900940612
   location: null
 reported:
   form: points
