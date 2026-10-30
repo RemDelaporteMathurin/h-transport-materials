@@ -1,0 +1,53 @@
+# Builds the static HTM site from the YAML records and deploys it to GitHub Pages.
+#
+# Prototype: deploys from feat/records-database. One-time repository settings:
+#   Settings > Pages > Source: GitHub Actions
+#   Settings > Environments > github-pages > Deployment branches: add feat/records-database
+# The built site is also kept as the run's "github-pages" artifact, to check locally.
+
+name: Pages
+
+on:
+  push:
+    branches: [feat/records-database]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[build]"
+      - name: Build the site
+        run: python pages/build.py --out _site --branch "${{ github.ref_name }}" --commit "${{ github.sha }}"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

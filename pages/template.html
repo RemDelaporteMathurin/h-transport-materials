@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>H-Transport Materials (prototype)</title>
+<meta name="description" content="Hydrogen isotope transport properties from the published literature, each traced to its source.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-basic-dist-min@2.35.2/plotly-basic.min.js"></script>
+<style>
+/* Layout: instrument console. Filter rail on the left, Arrhenius plot as the main readout, records table + record sheet below. */
+:root {
+  --bg: #f5f6f8;
+  --panel: #ffffff;
+  --fg: #16202c;
+  --muted: #5b6878;
+  --line: #dde2e9;
+  --line-soft: #eceff3;
+  --accent: #1f5fbf;
+  --accent-soft: #e5eefb;
+  --warn: #9a5b00;
+  --warn-soft: #fbf1df;
+  --font-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f141b; --panel: #161d26; --fg: #e3e8ef; --muted: #93a0b1; --line: #2a3441; --line-soft: #202833;
+    --accent: #7fb0ff; --accent-soft: #1b2a40; --warn: #f0b660; --warn-soft: #2e2416; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f141b; --panel: #161d26; --fg: #e3e8ef; --muted: #93a0b1; --line: #2a3441; --line-soft: #202833;
+  --accent: #7fb0ff; --accent-soft: #1b2a40; --warn: #f0b660; --warn-soft: #2e2416; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 14px; line-height: 1.45; }
+.wrap { max-width: 1440px; margin: 0 auto; padding-block: var(--s5) var(--s6); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: var(--s5); }
+
+header.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--s3) var(--s5); border-bottom: 1px solid var(--line); padding-bottom: var(--s4); }
+.brand { display: grid; gap: 2px; }
+.brand h1 { font-family: var(--font-display); font-size: 28px; font-weight: 600; letter-spacing: 0.01em; margin: 0; line-height: 1.1; text-wrap: balance; }
+.brand p { margin: 0; color: var(--muted); max-width: 62ch; }
+.build { display: flex; flex-wrap: wrap; gap: var(--s2); font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+.build span { border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; background: var(--panel); white-space: nowrap; }
+.build b { color: var(--fg); font-weight: 500; }
+
+.layout { display: grid; grid-template-columns: 272px minmax(0, 1fr); gap: var(--s5); align-items: start; }
+@media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+
+aside.rail { display: grid; gap: var(--s5); position: sticky; top: var(--s4); }
+@media (max-width: 900px) { aside.rail { position: static; } }
+.group { display: grid; gap: var(--s2); }
+.label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+
+.seg { display: grid; gap: 2px; background: var(--line-soft); border: 1px solid var(--line); border-radius: var(--r); padding: 2px; }
+.seg.cols2 { grid-template-columns: 1fr 1fr; }
+.seg.cols3 { grid-template-columns: repeat(3, 1fr); }
+.seg button { font: inherit; border: 0; background: transparent; color: var(--fg); padding: 6px 10px; border-radius: 4px; cursor: pointer; text-align: left; display: flex; justify-content: space-between; gap: var(--s2); }
+.seg.cols2 button, .seg.cols3 button { justify-content: center; }
+.seg button .n { font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--panel); box-shadow: 0 0 0 1px var(--line); font-weight: 600; }
+.seg button[aria-pressed="true"] .n { color: var(--accent); }
+.seg button:disabled { opacity: 0.4; cursor: not-allowed; }
+button:focus-visible, input:focus-visible, a:focus-visible, tr:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.search { font: inherit; width: 100%; padding: 7px 10px; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); color: var(--fg); }
+.mats { max-height: 330px; overflow-y: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
+.mats h4 { margin: 0; padding: 8px 10px 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; position: sticky; top: 0; background: var(--panel); }
+.mats label { display: flex; align-items: center; gap: var(--s2); padding: 4px 10px; cursor: pointer; }
+.mats label:hover { background: var(--line-soft); }
+.mats label .n { margin-left: auto; font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+.mats label.empty { opacity: 0.45; }
+.mats input { accent-color: var(--accent); }
+.rail-actions { display: flex; gap: var(--s3); font-size: 13px; }
+.linkbtn { font: inherit; background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+
+main { display: grid; gap: var(--s5); min-width: 0; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); min-width: 0; }
+.plot-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s3); padding: var(--s3) var(--s4); border-bottom: 1px solid var(--line-soft); }
+.eq { font-family: var(--font-data); font-size: 13px; }
+.eq .u { color: var(--muted); }
+.plot-tools { display: flex; flex-wrap: wrap; gap: var(--s3); align-items: center; }
+.plot-tools .seg { grid-auto-flow: column; display: grid; }
+.plot-tools .seg button { padding: 4px 10px; font-size: 13px; }
+.check { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; }
+.check input { accent-color: var(--accent); }
+#plot { width: 100%; height: 440px; }
+@media (max-width: 600px) { #plot { height: 340px; } }
+.plot-foot { padding: var(--s2) var(--s4) var(--s3); color: var(--muted); font-size: 12px; display: flex; flex-wrap: wrap; gap: var(--s2) var(--s4); justify-content: space-between; }
+
+.lower { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: var(--s5); align-items: start; }
+@media (max-width: 1180px) { .lower { grid-template-columns: minmax(0, 1fr); } }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 600; padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; position: sticky; top: 0; background: var(--panel); }
+td { padding: 8px 12px; border-bottom: 1px solid var(--line-soft); white-space: nowrap; vertical-align: middle; }
+td.num { font-family: var(--font-data); font-size: 12.5px; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--line-soft); }
+tbody tr[aria-selected="true"] { background: var(--accent-soft); }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: -1px; }
+.iso { display: inline-block; font-family: var(--font-data); font-size: 11px; font-weight: 500; border: 1px solid var(--line); border-radius: 3px; padding: 0 5px; }
+.tag { display: inline-block; font-size: 11px; border-radius: 3px; padding: 1px 6px; background: var(--line-soft); color: var(--muted); }
+.tag.data { background: var(--accent-soft); color: var(--accent); }
+.tbl-head { display: flex; justify-content: space-between; align-items: baseline; padding: var(--s3) var(--s4); border-bottom: 1px solid var(--line-soft); gap: var(--s3); flex-wrap: wrap; }
+.tbl-head h2, .sheet h2 { font-family: var(--font-display); font-size: 17px; margin: 0; font-weight: 600; }
+.tbl-head .muted { color: var(--muted); font-size: 13px; }
+.scroll-y { max-height: 520px; overflow: auto; }
+
+.sheet { padding: var(--s4); display: grid; gap: var(--s4); position: sticky; top: var(--s4); }
+@media (max-width: 1180px) { .sheet { position: static; } }
+.sheet .cite { margin: 0; font-size: 13px; color: var(--muted); }
+.sheet .cite i { color: var(--fg); font-style: normal; font-weight: 500; }
+dl.kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px var(--s4); margin: 0; }
+dl.kv dt { color: var(--muted); font-size: 13px; }
+dl.kv dd { margin: 0; font-family: var(--font-data); font-size: 12.5px; overflow-wrap: anywhere; }
+.note { background: var(--warn-soft); color: var(--fg); border-radius: var(--r); padding: var(--s2) var(--s3); font-size: 13px; }
+.note b { color: var(--warn); font-weight: 600; }
+.prov { border: 1px dashed var(--line); border-radius: var(--r); padding: var(--s3); display: grid; gap: 6px; font-size: 13px; }
+.prov .label { color: var(--muted); }
+.prov p { margin: 0; color: var(--muted); }
+.code { position: relative; }
+.code pre { margin: 0; padding-top: 36px !important; background: var(--line-soft); border-radius: var(--r); padding: var(--s3); font-family: var(--font-data); font-size: 12px; overflow-x: auto; }
+.code button { position: absolute; top: 6px; right: 6px; font: inherit; font-size: 12px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); border-radius: 4px; padding: 2px 8px; cursor: pointer; }
+.sheet .actions { display: flex; flex-wrap: wrap; gap: var(--s3) var(--s4); font-size: 13px; }
+.sheet .actions a { color: var(--accent); text-underline-offset: 2px; }
+.empty-sheet { color: var(--muted); padding: var(--s5) var(--s4); }
+.prov dl.kv dd { font-size: 12px; }
+.steps { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.steps li { color: var(--fg); }
+.steps code, .rid { font-family: var(--font-data); font-size: 12px; }
+.steps .why { color: var(--muted); display: block; }
+.origin { display: inline-block; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; border-radius: 3px; padding: 0 5px; margin-left: 4px; }
+.origin.paper { background: var(--accent-soft); color: var(--accent); }
+.origin.htm { background: var(--warn-soft); color: var(--warn); }
+.tag.disputed { background: var(--warn-soft); color: var(--warn); }
+.status { font-size: 12px; color: var(--muted); }
+.status b { color: var(--fg); font-weight: 600; }
+.status.disputed b { color: var(--warn); }
+.flags { margin: 0; padding-left: 18px; font-size: 13px; color: var(--muted); display: grid; gap: 4px; }
+footer { color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); padding-top: var(--s4); display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s3); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+.proto { background: var(--warn-soft); color: var(--fg); border-radius: var(--r); padding: var(--s2) var(--s3); font-size: 13px; }
+.proto b { color: var(--warn); }
+footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>H-Transport Materials</h1>
+      <p>Hydrogen isotope diffusivity, solubility, permeability and surface coefficients from the published literature, each traced to its source.</p>
+    </div>
+    <div class="build" id="build"></div>
+  </header>
+  <div class="proto"><b>Prototype.</b> Built from the <code>__BRANCH__</code> branch, where HTM records are YAML files
+    instead of Python. Every record is a draft until someone checks it against the paper; values may still change.</div>
+
+  <div class="layout">
+    <aside class="rail" aria-label="Filters">
+      <div class="group">
+        <div class="label">Property</div>
+        <div class="seg" id="types" role="group" aria-label="Property"></div>
+      </div>
+      <div class="group" id="lawGroup">
+        <div class="label">Solubility law</div>
+        <div class="seg cols2" id="laws" role="group" aria-label="Solubility law"></div>
+      </div>
+      <div class="group">
+        <div class="label">Isotope</div>
+        <div class="seg cols3" id="isos" role="group" aria-label="Isotope"></div>
+      </div>
+      <div class="group">
+        <div class="label"><label for="matq">Materials</label></div>
+        <input id="matq" class="search" type="search" placeholder="Filter materials" autocomplete="off">
+        <div class="mats" id="mats"></div>
+        <div class="rail-actions"><button class="linkbtn" id="clearMats" type="button">Clear selection</button></div>
+      </div>
+    </aside>
+
+    <main>
+      <section class="panel" aria-label="Arrhenius plot">
+        <div class="plot-head">
+          <div class="eq" id="eq"></div>
+          <div class="plot-tools">
+            <div class="seg" id="xaxis" role="group" aria-label="Horizontal axis">
+              <button type="button" data-x="T" aria-pressed="true">T (K)</button>
+              <button type="button" data-x="inv" aria-pressed="false">1000/T</button>
+            </div>
+            <label class="check"><input type="checkbox" id="showPts" checked> Data points</label>
+            <label class="check"><input type="checkbox" id="showMean"> Mean of selection</label>
+          </div>
+        </div>
+        <div id="plot"></div>
+        <div class="plot-foot">
+          <span>Curves span each source's stated temperature range. Dots are experimental points stored with the record.</span>
+          <span id="plotCount"></span>
+        </div>
+      </section>
+
+      <div class="lower">
+        <section class="panel" aria-label="Records">
+          <div class="tbl-head">
+            <h2>Records</h2>
+            <span class="muted" id="tblCount"></span>
+          </div>
+          <div class="table-wrap scroll-y">
+            <table>
+              <thead><tr><th>Source</th><th>Material</th><th>Isotope</th><th id="thA">Pre-exp.</th><th>E (eV)</th><th>Range (K)</th><th></th></tr></thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="panel" aria-label="Record sheet" id="sheet"></section>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <span>Static page: the whole database ships inside this file. No server, no API calls.
+      Download it as <a href="htm-data.json">htm-data.json</a> (<a href="schema/record.schema.json">schema</a>).</span>
+    <span>Built from <code>__BRANCH__</code> at <code>__COMMIT__</code>. Values in the table are SI-normalised; each record sheet shows what the paper printed.</span>
+  </footer>
+</div>
+
+<script type="application/json" id="db">__DB__</script>
+<script>
+(function () {
+  const DB = JSON.parse(document.getElementById("db").textContent);
+  const KB = 8.617333262e-5; // eV/K, CODATA, same constant as htm
+  const REPO = "https://github.com/RemDelaporteMathurin/h-transport-materials";
+  const BRANCH = "__BRANCH__";
+
+  const TYPES = [
+    { id: "Diffusivity", label: "Diffusivity", sym: "D", py: "diffusivities" },
+    { id: "Solubility", label: "Solubility", sym: "S", py: "solubilities" },
+    { id: "Permeability", label: "Permeability", sym: "Φ", py: "permeabilities" },
+    { id: "RecombinationCoeff", label: "Recombination", sym: "K<sub>r</sub>", py: "recombination_coeffs" },
+    { id: "DissociationCoeff", label: "Dissociation", sym: "K<sub>d</sub>", py: "dissociation_coeffs" },
+  ];
+  const NAMES = {
+    "316l_steel": "316L steel", "304_steel": "304 steel", "series_300_steel": "300-series steel", "rafm_steel": "RAFM steel",
+    "eurofer_97": "EUROFER97", "lipb": "Pb-17Li", "li50pb50": "Li50Pb50", "flibe": "FLiBe", "flinak": "FLiNaK", "cucrzr": "CuCrZr", "pdag": "PdAg",
+    "v4cr4ti": "V-4Cr-4Ti", "tzm": "TZM", "sic": "SiC", "apmt": "Kanthal APMT", "fe22cr5al": "Fe-22Cr-5Al",
+    "60pd40cu": "Pd-40Cu", "pd52cu": "Pd-52Cu", "hastelloy_x": "Hastelloy X", "hastelloy_n": "Hastelloy N",
+    "inconel_600": "Inconel 600", "inconel_625": "Inconel 625", "inconel_750": "Inconel 750", "nimonic_80a": "Nimonic 80A",
+    "incoloy_800": "Incoloy 800", "t35y": "T35Y", "t54y": "T54Y", "oxidized_1605": "1605 (oxidised)",
+    "thermacore": "Thermacore", "thermacore_oxidized": "Thermacore (oxidised)"
+  };
+  const nice = m => NAMES[m] || m.charAt(0).toUpperCase() + m.slice(1).replace(/_/g, " ");
+  function groupOf(fams) {
+    if (fams.includes("molten salt")) return "Molten salts";
+    if (fams.includes("liquid metal") && !fams.includes("pure metal")) return "Liquid metals";
+    if (fams.includes("ceramic") || fams.includes("compound") || fams.includes("carbon")) return "Ceramics and carbon";
+    if (fams.includes("pure metal")) return "Pure metals";
+    if (fams.includes("steel")) return "Steels";
+    return "Alloys";
+  }
+  const GROUP_ORDER = ["Pure metals", "Steels", "Alloys", "Liquid metals", "Molten salts", "Ceramics and carbon"];
+  const BY_ID = {};
+  DB.forEach(r => { BY_ID[r.id] = r; });
+  const MATS = {};
+  DB.forEach((r, i) => { r.i = i; MATS[r.m] = MATS[r.m] || { id: r.m, group: groupOf(r.fam) }; });
+
+  const state = { type: "Diffusivity", law: "sievert", iso: new Set(["H", "D", "T"]), mats: new Set(["tungsten"]), x: "T", pts: true, mean: false, sel: null, q: "" };
+  try { const s = JSON.parse(localStorage.getItem("htm-dash") || "null"); if (s && s.type) { state.type = s.type; state.law = s.law || "sievert"; state.mats = new Set(s.mats || []); state.x = s.x || "T"; } } catch (e) {}
+  function save() { try { localStorage.setItem("htm-dash", JSON.stringify({ type: state.type, law: state.law, mats: [...state.mats], x: state.x })); } catch (e) {} }
+
+  const hasLaw = () => state.type === "Solubility" || state.type === "Permeability";
+  const baseMatch = r => r.t === state.type && (!hasLaw() || r.law === state.law) && state.iso.has(r.iso);
+  const visible = () => DB.filter(r => baseMatch(r) && (state.mats.size === 0 || state.mats.has(r.m)));
+
+  // ---------- formatting ----------
+  const SUP = { "-": "⁻", "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹" };
+  function sci(v) {
+    if (!isFinite(v) || v === 0) return String(v);
+    const e = Math.floor(Math.log10(Math.abs(v)));
+    const m = v / Math.pow(10, e);
+    if (e >= -2 && e <= 3) return v.toPrecision(3);
+    return m.toFixed(2) + " × 10" + String(e).split("").map(c => SUP[c]).join("");
+  }
+  const fmtE = e => (Math.abs(e) < 1e-9 ? "0" : e.toFixed(3));
+  const fmtR = r => r ? Math.round(r[0]) + "–" + Math.round(r[1]) : "n/a";
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+  const unitsNow = () => { const v = visible(); return v.length ? v[0].u : (DB.find(baseMatch) || {}).u || ""; };
+
+  // ---------- colours ----------
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  function isDark() {
+    const t = document.documentElement.getAttribute("data-theme");
+    if (t) return t === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  const PAL_L = ["#1f5fbf", "#c2410c", "#0f8a6a", "#9333ea", "#b42318", "#0e7490", "#a16207", "#be185d", "#4d7c0f", "#475569"];
+  const PAL_D = ["#7fb0ff", "#fb923c", "#34d399", "#c084fc", "#f87171", "#22d3ee", "#facc15", "#f472b6", "#a3e635", "#94a3b8"];
+  function colourMap(rows) {
+    const pal = isDark() ? PAL_D : PAL_L;
+    const byMat = new Set(rows.map(r => r.m)).size > 1;
+    const keys = [...new Set(rows.map(r => byMat ? r.m : r.i))];
+    const map = {};
+    rows.forEach(r => { map[r.i] = pal[keys.indexOf(byMat ? r.m : r.i) % pal.length]; });
+    return { map, byMat };
+  }
+
+  // ---------- rail ----------
+  function renderTypes() {
+    const el = document.getElementById("types");
+    el.innerHTML = TYPES.map(t => {
+      const n = DB.filter(r => r.t === t.id).length;
+      return `<button type="button" data-t="${t.id}" aria-pressed="${state.type === t.id}">${t.label}<span class="n">${n}</span></button>`;
+    }).join("");
+    el.querySelectorAll("button").forEach(b => b.onclick = () => { state.type = b.dataset.t; state.sel = null; save(); renderAll(); });
+  }
+  function renderLaws() {
+    document.getElementById("lawGroup").hidden = !hasLaw();
+    if (!hasLaw()) return;
+    const el = document.getElementById("laws");
+    const opts = [["sievert", "Sieverts"], ["henry", "Henry"]];
+    el.innerHTML = opts.map(([id, lab]) => {
+      const n = DB.filter(r => r.t === state.type && r.law === id).length;
+      return `<button type="button" data-l="${id}" aria-pressed="${state.law === id}" ${n ? "" : "disabled"}>${lab} <span class="n">${n}</span></button>`;
+    }).join("");
+    el.querySelectorAll("button").forEach(b => b.onclick = () => { state.law = b.dataset.l; state.sel = null; save(); renderAll(); });
+  }
+  function renderIsos() {
+    const el = document.getElementById("isos");
+    el.innerHTML = ["H", "D", "T"].map(i => `<button type="button" data-i="${i}" aria-pressed="${state.iso.has(i)}">${i}</button>`).join("");
+    el.querySelectorAll("button").forEach(b => b.onclick = () => {
+      const i = b.dataset.i;
+      if (state.iso.has(i) && state.iso.size > 1) state.iso.delete(i); else state.iso.add(i);
+      renderAll();
+    });
+  }
+  function renderMats() {
+    const el = document.getElementById("mats");
+    const counts = {};
+    DB.forEach(r => { if (baseMatch(r)) counts[r.m] = (counts[r.m] || 0) + 1; });
+    const q = state.q.toLowerCase();
+    let html = "";
+    GROUP_ORDER.forEach(g => {
+      const ms = Object.values(MATS).filter(m => m.group === g && (!q || nice(m.id).toLowerCase().includes(q) || m.id.includes(q)))
+        .sort((a, b) => (counts[b.id] || 0) - (counts[a.id] || 0) || nice(a.id).localeCompare(nice(b.id)));
+      if (!ms.length) return;
+      html += `<h4>${g}</h4>` + ms.map(m => {
+        const n = counts[m.id] || 0;
+        return `<label class="${n ? "" : "empty"}"><input type="checkbox" data-m="${m.id}" ${state.mats.has(m.id) ? "checked" : ""}> ${esc(nice(m.id))}<span class="n">${n}</span></label>`;
+      }).join("");
+    });
+    el.innerHTML = html || `<p style="padding:10px;margin:0;color:var(--muted)">No material matches "${esc(state.q)}".</p>`;
+    el.querySelectorAll("input").forEach(c => c.onchange = () => {
+      if (c.checked) state.mats.add(c.dataset.m); else state.mats.delete(c.dataset.m);
+      state.sel = null; save(); renderMain();
+    });
+  }
+  document.getElementById("matq").addEventListener("input", e => { state.q = e.target.value; renderMats(); });
+  document.getElementById("clearMats").onclick = () => { state.mats.clear(); state.sel = null; save(); renderMats(); renderMain(); };
+  document.querySelectorAll("#xaxis button").forEach(b => b.onclick = () => {
+    state.x = b.dataset.x; save();
+    document.querySelectorAll("#xaxis button").forEach(o => o.setAttribute("aria-pressed", o === b));
+    renderPlot();
+  });
+  document.getElementById("showPts").onchange = e => { state.pts = e.target.checked; renderPlot(); };
+  document.getElementById("showMean").onchange = e => { state.mean = e.target.checked; renderPlot(); };
+
+  // ---------- plot ----------
+  function curve(r, n = 50) {
+    const [a, b] = r.r || [300, 1000];
+    const xs = [], ys = [];
+    for (let k = 0; k < n; k++) {
+      const T = a + (b - a) * k / (n - 1);
+      xs.push(state.x === "T" ? T : 1000 / T);
+      ys.push(r.A * Math.exp(-r.E / (KB * T)));
+    }
+    return { xs, ys };
+  }
+  function meanRecord(rows) {
+    if (rows.length < 2) return null;
+    const lnA = rows.reduce((s, r) => s + Math.log(r.A), 0) / rows.length;
+    const E = rows.reduce((s, r) => s + r.E, 0) / rows.length;
+    const ranged = rows.filter(r => r.r);
+    const lo = ranged.length ? Math.min(...ranged.map(r => r.r[0])) : 300;
+    const hi = ranged.length ? Math.max(...ranged.map(r => r.r[1])) : 1000;
+    return { A: Math.exp(lnA), E, r: [lo, hi] };
+  }
+  function renderPlot() {
+    const rows = visible();
+    const { map } = colourMap(rows);
+    const fg = css("--fg"), muted = css("--muted"), grid = css("--line-soft"), line = css("--line");
+    const traces = [];
+    const sel = state.sel;
+    rows.forEach(r => {
+      const c = curve(r);
+      const dim = sel != null && sel !== r.i;
+      const hover = `<b>${esc(cap(r.a))} ${r.y}</b><br>${esc(nice(r.m))} · ${r.iso}<br>%{y:.3e} ${esc(r.u)}<extra></extra>`;
+      traces.push({ x: c.xs, y: c.ys, mode: "lines", type: "scatter", line: { color: map[r.i], width: sel === r.i ? 3.5 : 1.8 }, opacity: dim ? 0.18 : 1, hovertemplate: hover, customdata: c.xs.map(() => r.i), showlegend: false });
+      if (state.pts && r.dT) {
+        traces.push({ x: r.dT.map(T => state.x === "T" ? T : 1000 / T), y: r.dy, mode: "markers", type: "scatter", marker: { color: map[r.i], size: sel === r.i ? 7 : 5, opacity: dim ? 0.15 : 0.85 }, hovertemplate: `<b>${esc(cap(r.a))} ${r.y}</b> data<br>T = %{customdata[1]:.0f} K<br>%{y:.3e}<extra></extra>`, customdata: r.dT.map(T => [r.i, T]), showlegend: false });
+      }
+    });
+    if (state.mean) {
+      const m = meanRecord(rows);
+      if (m) { const c = curve(m, 80); traces.push({ x: c.xs, y: c.ys, mode: "lines", type: "scatter", line: { color: fg, width: 2.5, dash: "dash" }, hovertemplate: `<b>Mean of ${rows.length}</b><br>A = ${sci(m.A)}<br>E = ${m.E.toFixed(3)} eV<extra></extra>`, showlegend: false }); }
+    }
+    const layout = {
+      margin: { l: 72, r: 18, t: 12, b: 52 },
+      paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+      font: { family: "IBM Plex Sans, system-ui, sans-serif", color: fg, size: 12 },
+      xaxis: { title: { text: state.x === "T" ? "Temperature (K)" : "1000 / T (K⁻¹)", font: { color: muted } }, gridcolor: grid, linecolor: line, zeroline: false, ticks: "outside", tickcolor: line },
+      yaxis: { type: "log", exponentformat: "power", title: { text: unitsNow(), font: { color: muted } }, gridcolor: grid, linecolor: line, zeroline: false, ticks: "outside", tickcolor: line },
+      hoverlabel: { bgcolor: css("--panel"), bordercolor: line, font: { color: fg, family: "IBM Plex Sans, system-ui, sans-serif" } },
+      hovermode: "closest",
+      annotations: rows.length ? [] : [{ text: "No record matches these filters", showarrow: false, xref: "paper", yref: "paper", x: 0.5, y: 0.5, font: { color: muted, size: 14 } }]
+    };
+    if (!window.Plotly) { document.getElementById("plot").innerHTML = '<p style="padding:16px;color:var(--muted)">The plotting library did not load. The records table below still works.</p>'; return; }
+    Plotly.react("plot", traces, layout, { displaylogo: false, responsive: true, modeBarButtonsToRemove: ["lasso2d", "select2d", "autoScale2d"] });
+    const p = document.getElementById("plot");
+    if (!p._wired) {
+      p._wired = true;
+      p.on("plotly_click", ev => {
+        const cd = ev.points[0] && ev.points[0].customdata;
+        if (cd == null) return;
+        const i = Array.isArray(cd) ? cd[0] : cd;
+        select(i, true);
+      });
+    }
+    const pts = rows.filter(r => r.dT).length;
+    document.getElementById("plotCount").textContent = `${rows.length} curves · ${pts} with data points`;
+  }
+
+  // ---------- table ----------
+  function renderTable() {
+    const rows = visible().sort((a, b) => a.m.localeCompare(b.m) || a.y - b.y);
+    const { map } = colourMap(visible());
+    document.getElementById("tblCount").textContent = rows.length + " of " + DB.filter(r => r.t === state.type).length + " " + TYPES.find(t => t.id === state.type).label.toLowerCase() + " records";
+    document.getElementById("thA").textContent = "Pre-exp. (" + unitsNow() + ")";
+    const tb = document.getElementById("rows");
+    tb.innerHTML = rows.map(r => `<tr tabindex="0" data-i="${r.i}" aria-selected="${state.sel === r.i}">
+      <td><span class="sw" style="background:${map[r.i]}"></span>${esc(cap(r.a))} ${r.y}</td>
+      <td>${esc(nice(r.m))}</td>
+      <td><span class="iso">${r.iso}</span></td>
+      <td class="num">${sci(r.A)}</td>
+      <td class="num">${fmtE(r.E)}</td>
+      <td class="num">${fmtR(r.r)}</td>
+      <td>${r.dT ? '<span class="tag data">data</span> ' : ""}${r.rep.form === "derived" ? '<span class="tag">derived</span> ' : ""}${r.status === "disputed" ? '<span class="tag disputed">disputed</span>' : ""}</td></tr>`).join("") ||
+      `<tr><td colspan="7" style="color:var(--muted);padding:16px">Nothing here. Pick a material on the left, or clear the selection to see every material.</td></tr>`;
+    tb.querySelectorAll("tr[data-i]").forEach(tr => {
+      tr.onclick = () => select(+tr.dataset.i, false);
+      tr.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(+tr.dataset.i, false); } };
+    });
+  }
+
+  // ---------- record sheet ----------
+  function pySnippet(r) {
+    const T = r.r ? Math.round((r.r[0] + r.r[1]) / 2) : 600;
+    return `import h_transport_materials as htm\n\nprop = htm.get("${r.id}")\nprop.value(${T} * htm.ureg.K)\nprop.record["reported"]  # as printed`;
+  }
+  const qty = q => q ? `${esc(q.value)} ${esc(q.unit)}${q.unit_as_printed ? ` <span class="why">(printed: ${esc(q.unit_as_printed)})</span>` : ""}` : "";
+  const rng = g => g ? `${g.value.map(esc).join(" to ")} ${esc(g.unit)}` : "not given in the paper";
+  const pars = p => Object.entries(p || {}).map(([k, v]) => `${esc(k)}: ${esc(typeof v === "object" ? JSON.stringify(v) : v)}`).join(", ");
+  function reportedRows(r) {
+    const p = r.rep;
+    if (p.form === "arrhenius") return `<dt>Pre-exp.</dt><dd>${qty(p.pre_exp)}</dd><dt>Activation</dt><dd>${qty(p.act_energy)}</dd><dt>Range</dt><dd>${rng(p.range)}</dd>`;
+    if (p.form === "log_linear") {
+      const lg = p.base === "10" ? "log<sub>10</sub>" : "ln";
+      const rhs = p.slope ? `${esc(p.intercept)} + (${qty(p.slope)}) / T` : `${esc(p.intercept)} - (${qty(p.act_energy)}) / RT`;
+      return `<dt>Law</dt><dd>${lg}(y / ${esc(p.y_unit)}) = ${rhs}</dd><dt>Range</dt><dd>${rng(p.range)}</dd>`;
+    }
+    if (p.form === "constant") return `<dt>Value</dt><dd>${qty(p.value)}</dd><dt>At</dt><dd>${qty(p.temperature)}</dd>`;
+    if (p.form === "points") {
+      const ax = a => `${a.scale && a.scale !== "linear" ? a.scale + " " : ""}${a.factor && a.factor !== 1 ? esc(a.factor) + " / T" : esc(a.quantity)} [${esc(a.unit)}]`;
+      const fit = r.sel === "author_fit" ? "authors' fit used" : "fitted by HTM";
+      return `<dt>Points</dt><dd>${r.dT ? r.dT.length : 0} in <code>${esc(p.file)}</code></dd><dt>Axes</dt><dd>x: ${ax(p.x)}<br>y: ${ax(p.y)}</dd>` +
+        `<dt>Fit</dt><dd>${p.author_fit ? `authors' ${esc(p.author_fit.form)} fit stored; ` : "no fit in the paper; "}${fit}${r.fd != null ? ` (fits differ by ${(100 * r.fd).toFixed(1)}%)` : ""}</dd>`;
+    }
+    if (p.form === "derived") return `<dt>Computed</dt><dd>${p.factors.map(f => `<a href="#${esc(f.record)}" data-go="${esc(f.record)}">${esc(f.record)}</a>${f.power !== 1 ? `<sup>${f.power}</sup>` : ""}`).join(" × ")}</dd><dt>By</dt><dd>${esc(p.origin)}: ${esc(p.rationale)}</dd>`;
+    return "";
+  }
+  function renderSheet() {
+    const el = document.getElementById("sheet");
+    const r = state.sel != null ? DB[state.sel] : null;
+    if (!r || !visible().includes(r)) {
+      el.innerHTML = `<div class="empty-sheet"><h2 style="font-family:var(--font-display);font-size:17px;margin:0 0 6px;color:var(--fg)">Record sheet</h2>Select a curve or a table row to see its source, values and how to load it in Python.</div>`;
+      return;
+    }
+    const t = TYPES.find(t => t.id === r.t);
+    const title = `${t.label}: ${nice(r.m)}, ${r.iso}, ${cap(r.a)} ${r.y}`;
+    const issue = `${REPO}/issues/new?title=${encodeURIComponent("Problem with " + r.id)}&body=${encodeURIComponent("Record: " + r.id + " (" + title + ")\nFile: data/records/" + r.file + ".yaml\n\nWhat looks wrong, and where in the paper:\n")}`;
+    const yaml = `${REPO}/blob/${BRANCH}/data/records/${r.file}.yaml`;
+    const steps = (r.tr || []).map(t => `<li><code>${esc(t.op)}</code>${t.params && Object.keys(t.params).length ? ` (${pars(t.params)})` : ""}<span class="origin ${t.origin}">${t.origin === "htm" ? "HTM" : "paper"}</span><span class="why">${esc(t.rationale)}</span></li>`).join("");
+    const asm = (r.asm || []).filter(a => !(r.tr || []).some(t => t.op === a.op));
+    el.innerHTML = `<div class="sheet">
+      <div style="display:grid;gap:4px">
+        <div class="label">${t.label} · ${r.law ? (r.law === "sievert" ? "Sieverts' law" : "Henry's law") : "Arrhenius"}</div>
+        <h2>${esc(cap(r.a))} ${r.y}: ${esc(nice(r.m))}, ${r.iso}</h2>
+        <p class="cite"><i>${esc(r.title)}</i>${r.journal ? ". " + esc(r.journal) : ""}${r.authors ? ". " + esc(r.authors) : ""}${r.loc ? `. <b>${esc(r.loc)}</b>` : ""}</p>
+        <div class="rid">${esc(r.id)}</div>
+        <div class="status ${r.status}">Status: <b>${esc(r.status)}</b>${r.method && r.method !== "unknown" ? ` · method: ${esc(r.method)}` : ""}${r.sample ? ` · sample: ${esc(r.sample)}` : ""}</div>
+      </div>
+      <dl class="kv">
+        <dt>Pre-exp.</dt><dd>${sci(r.A)} ${esc(r.u)}</dd>
+        <dt>Activation</dt><dd>${fmtE(r.E)} eV</dd>
+        <dt>Range</dt><dd>${fmtR(r.r)} K</dd>
+        <dt>DOI</dt><dd>${r.doi ? `<a href="https://doi.org/${esc(r.doi)}" target="_blank" rel="noopener">${esc(r.doi)}</a>` : "none"}</dd>
+      </dl>
+      ${r.note ? `<div class="note"><b>Note.</b> ${esc(r.note)}</div>` : ""}
+      <div class="prov">
+        <div class="label">As published</div>
+        <dl class="kv">${reportedRows(r)}</dl>
+        ${steps ? `<div class="label">What HTM did</div><ol class="steps">${steps}</ol>` : `<p>Used as printed, apart from unit conversion.</p>`}
+        ${asm.length ? `<div class="label">HTM's own choices</div><ol class="steps">${asm.map(a => `<li><code>${esc(a.op)}</code><span class="origin htm">HTM</span><span class="why">${esc(a.rationale)}</span></li>`).join("")}</ol>` : ""}
+      </div>
+      ${(r.flags || []).length ? `<div><div class="label">Open questions for a verifier</div><ul class="flags">${r.flags.map(f => `<li>${esc(f)}</li>`).join("")}</ul></div>` : ""}
+      <div class="code"><pre id="py">${esc(pySnippet(r))}</pre><button type="button" id="copyPy">Copy</button></div>
+      <div class="actions">
+        ${r.doi ? `<a href="https://doi.org/${esc(r.doi)}" target="_blank" rel="noopener">Open the paper</a>` : ""}
+        <a href="records/${esc(r.file)}/">Record page</a>
+        <a href="${yaml}" target="_blank" rel="noopener">Edit the YAML</a>
+        <a href="${issue}" target="_blank" rel="noopener">Report a problem</a>
+      </div>
+    </div>`;
+    el.querySelectorAll("[data-go]").forEach(a => a.onclick = e => { e.preventDefault(); goTo(a.dataset.go); });
+    document.getElementById("copyPy").onclick = e => {
+      const btn = e.currentTarget, txt = pySnippet(r);
+      const done = () => { btn.textContent = "Copied"; setTimeout(() => btn.textContent = "Copy", 1400); };
+      try {
+        navigator.clipboard.writeText(txt).then(done, () => selectPre());
+      } catch (err) { selectPre(); }
+      function selectPre() { const rng = document.createRange(); rng.selectNodeContents(document.getElementById("py")); const s = getSelection(); s.removeAllRanges(); s.addRange(rng); btn.textContent = "Selected"; }
+    };
+  }
+  function goTo(id) {
+    const r = BY_ID[id];
+    if (!r) return false;
+    state.type = r.t;
+    if (r.law) state.law = r.law;
+    state.iso.add(r.iso);
+    state.mats.add(r.m);
+    state.sel = r.i;
+    renderAll();
+    history.replaceState(null, "", "#" + r.id);
+    return true;
+  }
+  window.addEventListener("hashchange", () => goTo(decodeURIComponent(location.hash.slice(1))));
+  function select(i, fromPlot) {
+    state.sel = state.sel === i && !fromPlot ? null : i;
+    history.replaceState(null, "", state.sel == null ? location.pathname : "#" + DB[state.sel].id);
+    renderPlot(); renderTable(); renderSheet();
+    if (fromPlot) { const tr = document.querySelector(`#rows tr[data-i="${i}"]`); if (tr) tr.scrollIntoView({ block: "nearest" }); }
+  }
+
+  // ---------- header ----------
+  function renderBuild() {
+    const nMat = new Set(DB.map(r => r.m)).size, nSrc = new Set(DB.map(r => r.src)).size, nPts = DB.filter(r => r.dT).length;
+    const nHtm = DB.filter(r => (r.asm || []).length).length;
+    document.getElementById("build").innerHTML = `<span><b>${DB.length}</b> records</span><span><b>${nMat}</b> materials</span><span><b>${nSrc}</b> sources</span><span><b>${nPts}</b> with data points</span><span><b>${nHtm}</b> with HTM choices</span><span>data __VERSION__</span>`;
+  }
+  function renderEq() {
+    const t = TYPES.find(t => t.id === state.type);
+    document.getElementById("eq").innerHTML = `${t.sym} = ${t.sym}<sub>0</sub> exp(−E / k<sub>B</sub>T) <span class="u">· ${esc(unitsNow())}</span>`;
+  }
+
+  function renderMain() { renderEq(); renderPlot(); renderTable(); renderSheet(); }
+  function renderAll() { renderTypes(); renderLaws(); renderIsos(); renderMats(); renderMain(); }
+
+  renderBuild();
+  document.querySelectorAll("#xaxis button").forEach(o => o.setAttribute("aria-pressed", o.dataset.x === state.x));
+  if (!(location.hash && goTo(decodeURIComponent(location.hash.slice(1))))) renderAll();
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { renderPlot(); renderTable(); });
+  new MutationObserver(() => { renderPlot(); renderTable(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+})();
+</script>
+</body>
+</html>

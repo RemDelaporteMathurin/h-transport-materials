@@ -133,3 +133,6 @@ dmypy.json
 
 # compiled record database, built by `htm build` (shipped in wheels, never committed)
 h_transport_materials/_data/
+
+# static site built by pages/build.py
+_site/
