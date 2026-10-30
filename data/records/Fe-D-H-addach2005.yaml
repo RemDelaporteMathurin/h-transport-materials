@@ -2,25 +2,45 @@ id: htm:Fe-D-H-addach2005
 property: diffusivity
 material: iron
 isotope: H
-method: unknown
+method: time-lag
 source:
   doi: 10.1016/j.matlet.2004.12.037
   location: null
 reported:
-  form: arrhenius
-  pre_exp:
-    value: 1.02e-06
-    unit: cm**2 * s**-1
-  act_energy:
-    value: 19.6
-    unit: kJ * mol**-1
-  range:
-    value:
-    - 25.0
-    - 45.0
+  form: points
+  file: Fe-D-H-addach2005.csv
+  x:
+    column: 0
+    quantity: temperature
     unit: degC
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: m^2/s
+  digitised_from: Table 2
+  author_fit:
+    form: arrhenius
+    pre_exp:
+      value: 1.02e-06
+      unit: cm**2 * s**-1
+    act_energy:
+      value: 19.6
+      unit: kJ * mol**-1
+    range:
+      value:
+      - 25.0
+      - 45.0
+      unit: degC
+  selected: htm_refit
+  selection_note: There probably is a typo in the units of the author's reported fit (cm2/s instead of
+    m2/s)
 curation:
   status: draft
   flags:
   - 'migrated automatically: check the values, method and location against the paper'
+  - 'changed through issue #320 (The author reports the pre-exponential factor in cm2/s but I think this
+    is a typo and it should be in m2/s otherwise this is an outlier.): check against the paper'
   migrated_from: h_transport_materials/property_database/iron.py:92
+  contributed_by:
+  - https://orcid.org/0000-0003-1064-8882
