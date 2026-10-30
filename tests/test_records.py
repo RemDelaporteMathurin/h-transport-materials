@@ -22,7 +22,8 @@ def _molar_mass(li, pb):
 
 # Records whose values intentionally differ from the current database.
 # range: the range differs; ratio: expected new / old pre-exponential factor;
-# rel: tolerance on it; author_fit: same law within 3%, different parameters
+# rel: tolerance on it; author_fit: same law within 3%, different parameters;
+# value_ratio: (min, max) of new / old value over the new range, for a new fit
 EXPECTED_DIFFERENCES = {
     # single value at 450 degC, was a fake 722-724 K range
     "htm:LiPb-D-H-fauvet1988": {"range": True},
@@ -44,8 +45,10 @@ EXPECTED_DIFFERENCES = {
     # FLiBe molar mass from the atomic weight table instead of webqc.org values
     "htm:FLiBe-S-H-field1967": {"rel": 1e-6},
     "htm:FLiBe-S-D-field1967": {"rel": 1e-6},
-    # used for testing the automated workflow + realised there was a typo in the original paper
-    "htm:Fe-D-H-addach2005": {"ratio": 1e6}
+    # issue #320: the printed fit (1.02e-6 cm2/s, 19.6 kJ/mol) is probably in m2/s;
+    # HTM now refits the Table 2 points (m2/s, 25-40 degC): 1.05e-5 m2/s, 24.4 kJ/mol,
+    # 1.5e4 to 1.7e4 times the old value
+    "htm:Fe-D-H-addach2005": {"range": True, "value_ratio": (1.5e4, 1.7e4)},
 }
 
 
@@ -103,6 +106,15 @@ def test_equivalence_with_current_database(group, manifest):
             ratio = (new.value(T) / old.value(T)).to("dimensionless").magnitude
             assert np.abs(ratio - 1).max() < 0.03
             assert new_range == pytest.approx(old_range, rel=1e-12)
+            continue
+
+        if "value_ratio" in difference:
+            # a new fit: check the size of the change over the new range
+            T = np.linspace(*new_range, 50) * htm.ureg.K
+            ratio = (new.value(T) / old.value(T)).to("dimensionless").magnitude
+            low, high = difference["value_ratio"]
+            assert low <= ratio.min() and ratio.max() <= high, new.record_id
+            assert new_range != pytest.approx(old_range), new.record_id
             continue
 
         assert new.pre_exp.to(old.pre_exp.units).magnitude == pytest.approx(
