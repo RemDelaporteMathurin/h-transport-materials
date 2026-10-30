@@ -12,7 +12,7 @@ Diffusivity
 
 ### Law
 
-Not applicable (diffusivity, recombination, dissociation)
+Not applicable (diffusivity and surface coefficients)
 
 ### Material
 
@@ -87,7 +87,7 @@ Fig. 3
 
 ### If the points and the authors' fit disagree
 
-Let HTM decide: the authors' fit, unless it is more than 10% away from the points
+Let HTM decide: the authors' fit unless it is more than 10% away from the points
 
 ### Why that fit
 

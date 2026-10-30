@@ -8,7 +8,7 @@ labels:
 body:
 - type: markdown
   attributes:
-    value: 'The fields below hold the record''s current values when you come from the [explorer](https://remdelaportemathurin.github.io/h-transport-materials/). Change only what is wrong. A wrong material, isotope or property needs a new record: say so under *What is wrong* and choose *Only flag it*.'
+    value: 'Fill in only what is wrong: **an empty field keeps the current value**. Coming from the [explorer](https://remdelaportemathurin.github.io/h-transport-materials/), *Current values* shows what HTM holds now. A wrong material, isotope or property needs a new record: say so under *What is wrong* and choose *Only flag it*.'
 - type: input
   id: record
   attributes:
@@ -26,6 +26,14 @@ body:
     - Only flag it for a verifier
   validations:
     required: true
+- type: textarea
+  id: current
+  attributes:
+    label: Current values
+    description: 'For reference, as stored in the record. Editing this box changes nothing: use the fields below.'
+    render: yaml
+  validations:
+    required: false
 - type: textarea
   id: reason
   attributes:
@@ -47,7 +55,7 @@ body:
     options:
     - Sieverts' law (pressure^0.5)
     - Henry's law (pressure)
-    - Not applicable (diffusivity, recombination, dissociation)
+    - Not applicable (diffusivity and surface coefficients)
   validations:
     required: false
 - type: dropdown
@@ -183,7 +191,7 @@ body:
     label: If the points and the authors' fit disagree
     description: Only for data points with the authors' fit
     options:
-    - 'Let HTM decide: the authors'' fit, unless it is more than 10% away from the points'
+    - 'Let HTM decide: the authors'' fit unless it is more than 10% away from the points'
     - Use the authors' fit
     - Use HTM's fit of the points
   validations:

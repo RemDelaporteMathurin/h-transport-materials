@@ -1,6 +1,7 @@
 """The contribution bot: issue forms -> records, and the record report"""
 
 import io
+import math
 import json
 import shutil
 import urllib.error
@@ -23,7 +24,7 @@ CSL = {
     "container-title": "Journal of Nuclear Materials",
     "DOI": "10.9999/test.2025.002",
 }
-NA = "Not applicable (diffusivity, recombination, dissociation)"
+NA = "Not applicable (diffusivity and surface coefficients)"
 ARRHENIUS = "An Arrhenius law (pre-exponential factor and activation energy)"
 POINTS_AND_FIT = "Data points and the authors' Arrhenius fit of them"
 FRAUENFELDER = {
@@ -82,6 +83,14 @@ def test_form_lists_every_material():
     form = contribute.new_record_form(contribute._materials(build.DATA_DIR))
     options = next(i for i in form["body"] if i.get("id") == "material")["attributes"]["options"]
     assert set(options) == {p.stem for p in (build.DATA_DIR / "materials").glob("*.yaml")} | {contribute.OTHER_MATERIAL}
+
+
+def test_dropdown_options_have_no_commas():
+    """GitHub splits prefilled dropdown values on commas, so such an option can never be prefilled"""
+    for form in (contribute.new_record_form(["tungsten"]), contribute.change_record_form()):
+        for item in form["body"]:
+            for option in item["attributes"].get("options", []):
+                assert "," not in option, option
 
 
 def test_form_labels_are_unique():
@@ -311,7 +320,7 @@ def test_prefill_survives_the_issue_body(built):
 
 def test_change_a_unit(data, built):
     fields = contribute.prefill_change(built["htm:W-D-H-frauenfelder1969"])
-    old_unit = fields["pre_exp_unit"]
+    old_unit = built["htm:W-D-H-frauenfelder1969"]["reported"]["pre_exp"]["unit"]
     fields.update(pre_exp_unit="mm^2/s", reason="Table 2 prints mm^2/s, not cm^2/s")
     c = contribute.change_record(fields, data, author="janedoe", issue=9)
     rec = _record(c)
@@ -320,6 +329,52 @@ def test_change_a_unit(data, built):
     assert "github:janedoe" in rec["curation"]["contributed_by"]
     assert f"| Pre-exponential factor | 0.0041 {old_unit} | 0.0041 mm^2/s |" in c.summary
     assert "EXPECTED_DIFFERENCES" not in c.summary  # hand-written, not migrated
+
+
+def test_change_only_the_unit_from_an_issue(data, built):
+    """Issue #320: the explorer prefills the id and the current values; the contributor fills in one field"""
+    form = contribute.change_record_form()
+    fields = contribute.prefill_change(built["htm:W-D-H-frauenfelder1969"])
+    fields.update(pre_exp_unit="m2/s", reason="the unit in the paper is a typo")
+    parsed = contribute.parse_issue_body(contribute.render_issue_body(form, fields), form)
+    rec = _record(contribute.change_record(parsed, data, issue=320))
+    assert rec["reported"]["pre_exp"] == {"value": 4.1e-3, "unit": "m^2/s", "unit_as_printed": "m2/s"}
+    assert rec["reported"]["act_energy"]["unit"] == "cal/mol"
+
+
+def test_editing_the_current_values_box_changes_nothing(data, built):
+    fields = contribute.prefill_change(built["htm:W-D-H-frauenfelder1969"])
+    fields.update(current="pre_exp: 1", reason="x")
+    with pytest.raises(ContributionError, match="Nothing differs"):
+        contribute.change_record(fields, data)
+
+
+def test_points_turn_an_arrhenius_record_into_points_with_the_fit(data, built):
+    """Issue #320: the contributor adds the points of Table 2 to a record that only had the law"""
+    fields = contribute.prefill_change(built["htm:W-D-H-frauenfelder1969"])
+    T = [1100.0, 1500.0, 2000.0, 2400.0]
+    law = built["htm:W-D-H-frauenfelder1969"]["normalized"]
+    D = [law["pre_exp"]["value"] * math.exp(-law["act_energy"]["value"] / (8.617333262e-5 * t)) for t in T]
+    fields.update(points="\n".join(f"{t}, {d}" for t, d in zip(T, D)), x_axis="T (K)", y_unit="m^2/s",
+                  digitised_from="Table 2", reason="Table 2 gives the points")
+    c = contribute.change_record(fields, data, issue=320)
+    rec = _record(c)
+    assert rec["reported"]["form"] == "points" and rec["reported"]["file"] == "W-D-H-frauenfelder1969.csv"
+    assert rec["reported"]["author_fit"]["pre_exp"]["unit"] == "cm^2/s"
+    assert rec["reported"]["author_fit"]["range"] == {"value": [1100.0, 2400.0], "unit": "K"}
+    assert c.files["records/W-D-H-frauenfelder1969.csv"].startswith("1100.0,")
+    contribute.Contribution("", "", "", "", c.files).write(data)
+    n = next(r for r in build.build(data)["records"] if r["id"] == "htm:W-D-H-frauenfelder1969")["normalized"]
+    assert n["selected"] == "author_fit"  # same law as before
+    assert n["pre_exp"]["value"] == pytest.approx(law["pre_exp"]["value"])
+
+
+def test_points_for_a_record_with_transformations_need_a_maintainer(data):
+    fields = {"record": "htm:W-D-H-heinola2010", "kind": "Change the values", "reason": "Fig. 2 gives points",
+              "points": "300, 1e-9\n400, 2e-9", "x_axis": "T (K)", "y_unit": "m^2/s"}
+    with pytest.raises(ContributionError) as e:
+        contribute.change_record(fields, data)
+    assert e.value.maintainer
 
 
 def test_change_adds_the_range_and_drops_the_assumed_one(data, built):

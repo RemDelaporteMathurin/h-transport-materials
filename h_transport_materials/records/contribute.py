@@ -45,7 +45,7 @@ PROPERTIES = {
 LAWS = {
     "Sieverts' law (pressure^0.5)": "sieverts",
     "Henry's law (pressure)": "henry",
-    "Not applicable (diffusivity, recombination, dissociation)": None,
+    "Not applicable (diffusivity and surface coefficients)": None,
 }
 FORMS = {
     "An Arrhenius law (pre-exponential factor and activation energy)": "arrhenius",
@@ -62,7 +62,7 @@ X_AXES = {
 Y_SCALES = {"the value": "linear", "ln(value)": "ln", "log10(value)": "log10"}
 T_UNITS = {"K": "K", "°C": "degC"}
 FIT_CHOICES = {
-    "Let HTM decide: the authors' fit, unless it is more than 10% away from the points": None,
+    "Let HTM decide: the authors' fit unless it is more than 10% away from the points": None,
     "Use the authors' fit": "author_fit",
     "Use HTM's fit of the points": "htm_refit",
 }
@@ -262,13 +262,19 @@ def change_record_form():
         "labels": ["change-record"],
         "body": [
             _markdown(
-                "The fields below hold the record's current values when you come from the"
-                " [explorer](https://remdelaportemathurin.github.io/h-transport-materials/)."
-                " Change only what is wrong. A wrong material, isotope or property needs a new"
-                " record: say so under *What is wrong* and choose *Only flag it*."
+                "Fill in only what is wrong: **an empty field keeps the current value**. Coming from the"
+                " [explorer](https://remdelaportemathurin.github.io/h-transport-materials/), *Current values*"
+                " shows what HTM holds now. A wrong material, isotope or property needs a new record: say so"
+                " under *What is wrong* and choose *Only flag it*."
             ),
             _input("record", "Record", "The record id", "htm:W-D-H-frauenfelder1969", True),
             _dropdown("kind", "What to do", CHANGE_KINDS, required=True),
+            _textarea(
+                "current",
+                "Current values",
+                "For reference, as stored in the record. Editing this box changes nothing: use the fields below.",
+                render="yaml",
+            ),
             _textarea("reason", "What is wrong, and where in the paper", required=True),
             _input("location", "Where in the paper", "Table, equation or figure", "Table 2"),
             _dropdown("law", "Law", LAWS),
@@ -803,29 +809,27 @@ def prefill_new(rec):
 
 
 def prefill_change(rec):
-    """Field id -> text prefilling the change-record form with the record's current values"""
-    rep = rec["reported"]
-    out = {
+    """Field id -> text prefilling the change-record form: the record id and, for
+    reference, its current values.
+
+    The value fields are left empty (empty keeps the current value): GitHub's
+    form kept reverting edits to fields prefilled through the URL.
+    """
+    current = {"location": rec["source"].get("location"), "method": rec.get("method")}
+    if rec.get("law"):
+        current["law"] = rec["law"]
+    current["reported"] = rec["reported"]
+
+    def drop_empty(node):
+        if isinstance(node, dict):
+            return {k: drop_empty(v) for k, v in node.items() if v is not None}
+        return node
+
+    return {
         "record": rec["id"],
         "kind": "Change the values",
-        "location": rec["source"].get("location"),
-        "law": _label(LAWS, rec.get("law")),
-        "method": rec.get("method"),
+        "current": yaml.safe_dump(drop_empty(current), sort_keys=False, allow_unicode=True, width=100).strip(),
     }
-    law = _law_block(rep)
-    if law:
-        for key in ("pre_exp", "act_energy"):
-            out[key] = repr(float(law[key]["value"]))
-            out[f"{key}_unit"] = law[key]["unit"]
-        if law.get("range"):
-            out["t_min"], out["t_max"] = (repr(float(v)) for v in law["range"]["value"])
-            out["t_unit"] = _label(T_UNITS, law["range"].get("unit", "K"))
-    if rep["form"] == "points":
-        out["x_axis"] = _axis_label(rep["x"])
-        out["y_scale"] = _label(Y_SCALES, rep["y"].get("scale", "linear"))
-        out["y_unit"] = rep["y"]["unit"]
-        out["digitised_from"] = rep.get("digitised_from")
-    return {k: v for k, v in out.items() if v is not None}
 
 
 def _label(options, value):
@@ -906,6 +910,32 @@ def change_record(fields, data_dir=build.DATA_DIR, author=None, issue=None):
 
         rep = content["reported"]
         n_before = len(changes)
+        converted = False
+        if rep["form"] != "points" and fields.get("points"):
+            if rep["form"] != "arrhenius" or content.get("transformations") or any(
+                rep.get(k) for k in ("pre_exp_uncertainty", "act_energy_uncertainty")
+            ):
+                raise ContributionError(
+                    f"`{record_id}` cannot take data points from the form: it is a `{rep['form']}` record, or it"
+                    " has transformations or uncertainties that must be told whether they apply to the points"
+                    f" or to the fit. The change asked for: {_oneline(reason)}",
+                    maintainer=True,
+                )
+            # the printed law becomes the authors' fit of the new points
+            rows = r.points()
+            x, y = r.axes()
+            r.check()
+            fit = {"form": "arrhenius", "pre_exp": rep["pre_exp"], "act_energy": rep["act_energy"]}
+            if rep.get("range"):
+                fit["range"] = rep["range"]
+            rep = content["reported"] = {"form": "points", "file": f"{stem}.csv", "x": x, "y": y}
+            digitised = r.text("digitised_from", "Points read from")
+            if digitised:
+                rep["digitised_from"] = digitised
+            rep["author_fit"] = fit
+            files[f"records/{stem}.csv"] = points_csv(rows)
+            changes.append(("Data points", "none", f"{len(rows)} rows; the printed law becomes the authors' fit"))
+            converted = True
         arrhenius_given = any(fields.get(k) for k in ("pre_exp", "act_energy", "t_min", "t_max"))
         block = _law_block(rep)
         if block is None and rep["form"] == "points" and "author_fit" not in rep and arrhenius_given:
@@ -929,7 +959,7 @@ def change_record(fields, data_dir=build.DATA_DIR, author=None, issue=None):
                     content["transformations"] = kept
                     changes.append(("HTM's assumed range", "used", "removed: the paper gives a range"))
         if rep["form"] == "points":
-            rows = r.points()
+            rows = None if converted else r.points()
             if rows is not None:
                 files[f"records/{rep['file']}"] = points_csv(rows)
                 old_rows = (path.parent / rep["file"]).read_text(encoding="utf-8").strip().splitlines()
