@@ -37,7 +37,8 @@ jobs:
           python -m pip install -e ".[build]"
       - name: Build the site
         run: python pages/build.py --out _site --branch "${{ github.ref_name }}" --commit "${{ github.sha }}"
-      - uses: actions/configure-pages@v5
+      # (no configure-pages: the site only uses relative links, and leaving it
+      # out lets the build and its artifact succeed before Pages is enabled)
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
