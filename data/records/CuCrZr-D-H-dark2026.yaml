@@ -9,8 +9,8 @@ source:
 reported:
   form: arrhenius
   pre_exp:
-    value: 6.0e-07
-    unit: m^2/s
+    value: 0.006
+    unit: cm^2/s
   act_energy:
     value: 0.7
     unit: eV/particle
