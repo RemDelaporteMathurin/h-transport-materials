@@ -44,6 +44,8 @@ EXPECTED_DIFFERENCES = {
     # FLiBe molar mass from the atomic weight table instead of webqc.org values
     "htm:FLiBe-S-H-field1967": {"rel": 1e-6},
     "htm:FLiBe-S-D-field1967": {"rel": 1e-6},
+    # used for testing the automated workflow + realised there was a typo in the original paper
+    "htm:Fe-D-H-addach2005": {"ratio": 1e4}
 }
 
 
