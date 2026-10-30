@@ -1,8 +1,8 @@
 """The record report posted on pull requests that touch ``data/``.
 
 Compares two compiled databases (the PR's base and head) and writes, for each
-record added or changed, a plot of it next to the records of the same
-material and of similar materials, its values as typed and as normalised,
+record added or changed, a plot of it next to the other records of the same
+material, its values as typed and as normalised,
 and checks a reviewer should look at. The checks only warn: the build has
 already rejected what is invalid.
 
@@ -23,8 +23,6 @@ K_B = constants.k / constants.e  # eV/K, same CODATA value as htm.k_B
 MAX_PLOTS = 12
 MAX_CHARS = 60000  # GitHub comments are limited to 65536 characters
 
-# families too broad to say two materials are similar
-BROAD_FAMILIES = {"metal", "alloy"}
 LABELS = {
     ("diffusivity", None): "Diffusivity (m$^2$ s$^{-1}$)",
     ("solubility", "sieverts"): "Solubility (m$^{-3}$ Pa$^{-0.5}$)",
@@ -87,14 +85,11 @@ def _same_kind(a, b):
     return a["property"] == b["property"] and a.get("law") == b.get("law")
 
 
-def neighbours(rec, db):
-    """(records of the same material, records of similar materials), same property and law"""
-    families = {m["id"]: set(m.get("families", [])) for m in db["materials"]}
-    specific = families.get(rec["material"], set()) - BROAD_FAMILIES
-    others = [r for r in db["records"] if r["id"] != rec["id"] and _same_kind(r, rec)]
-    same = [r for r in others if r["material"] == rec["material"]]
-    similar = [r for r in others if r["material"] != rec["material"] and specific & families.get(r["material"], set())]
-    return same, similar
+def same_material(rec, db):
+    """The other records of the same material, property and law (all isotopes)"""
+    return [
+        r for r in db["records"] if r["id"] != rec["id"] and r["material"] == rec["material"] and _same_kind(r, rec)
+    ]
 
 
 def _source_label(rec, sources):
@@ -114,7 +109,7 @@ def _source_key(rec, sources):
 
 
 def plot_record(rec, db, path, before=None):
-    """Plots a record against the records of the same and of similar materials
+    """Plots a record against the other records of the same material
 
     Args:
         rec (dict): the built record
@@ -129,37 +124,26 @@ def plot_record(rec, db, path, before=None):
     import numpy as np
 
     sources = {s["key"]: s for s in db["sources"]}
-    same, similar = neighbours(rec, db)
+    same = same_material(rec, db)
     fig, ax = plt.subplots(figsize=(7.5, 4.8), dpi=110)
 
     def T_span(r):
         T_range = law(r)[2]
         return T_range or (300.0, 1200.0)
 
-    # the window: this record and its material; similar materials are clipped to it
+    # the window: this record and the others of its material
     spans = [T_span(r) for r in [rec, *same] + ([before] if before else [])]
     lo, hi = min(s[0] for s in spans), max(s[1] for s in spans)
     lo, hi = (lo - 50, hi + 50) if lo == hi else (lo, hi)
 
-    def draw(r, clip=False, **kwargs):
+    def draw(r, **kwargs):
         A, E, T_range = law(r)
         if T_range and T_range[0] == T_range[1]:
-            if not clip or lo <= T_range[0] <= hi:
-                ax.plot([1000 / T_range[0]], [A], ls="none", marker=ISOTOPE_MARKERS[r["isotope"]], **kwargs)
+            ax.plot([1000 / T_range[0]], [A], ls="none", marker=ISOTOPE_MARKERS[r["isotope"]], **kwargs)
             return
-        a, b = T_span(r)
-        if clip:
-            a, b = max(a, lo), min(b, hi)
-            if a >= b:
-                return False
-        T = np.linspace(a, b, 60)
+        T = np.linspace(*T_span(r), 60)
         ax.plot(1000 / T, A * np.exp(-E / (K_B * T)), ls=kwargs.pop("ls", "-" if T_range else ":"), **kwargs)
-        return True
 
-    shown = 0
-    for r in similar:
-        if draw(r, clip=True, color="0.78", lw=0.8, zorder=1, label=None if shown else "similar materials"):
-            shown += 1
     colours = plt.get_cmap("tab10").colors
     for i, r in enumerate(sorted(same, key=lambda r: r["id"])):
         if len(same) <= 10:
@@ -191,7 +175,7 @@ def plot_record(rec, db, path, before=None):
     top.set_xticks([1000 / T for T in ticks], [str(T) for T in ticks])
     top.set_xlabel("T (K)", fontsize=9)
     ax.set_title(
-        f"{rec['id']}\n{len(same)} other {rec['material']} records, {shown} of similar materials in this range",
+        f"{rec['id']}\n{len(same)} other {rec['material']} records with this property (all isotopes)",
         fontsize=8,
         loc="left",
     )
@@ -219,7 +203,7 @@ def checks(rec, db, base=None):
     if T_range is None:
         out.append("no temperature range")
 
-    same, _ = neighbours(rec, db)
+    same = same_material(rec, db)
     if same:
         T = mid_temperature(rec)
         others = sorted(value(r, T) for r in same)
@@ -375,8 +359,8 @@ def report_markdown(base, head, plot_urls=None):
         parts += [f"- `{r['id']}`: record ids are permanent, is this intended?" for r in d["removed"]]
     parts += [
         "",
-        "<sub>Plots: this record in black, other records of the same material in colour, materials"
-        " of the same family in grey; dotted where the paper gives no range. The checks only warn.</sub>",
+        "<sub>Plots: this record in black, the other records of the same material and property in colour"
+        " (all isotopes); dotted where the paper gives no range. The checks only warn.</sub>",
     ]
     text = "\n".join(parts)
     if len(text) > MAX_CHARS:
