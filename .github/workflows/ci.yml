@@ -33,6 +33,11 @@ jobs:
         python -m pip install .[tests,plotly,build]
         python -m pip install --upgrade "${{ matrix.pint }}"
         pip install flake8
+    - name: Compile the records into the installed package
+      run: |
+        # as the release workflow does: htm.database is built from this file
+        python -m h_transport_materials.records.build --data data --out h_transport_materials/_data/htm-data.json
+        python -m pip install --no-deps --force-reinstall .
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names

@@ -19,7 +19,10 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r "docs/requirements.txt"
-          pip install .
+          pip install ".[build]"
+          # htm.database is built from the compiled records, as in a released wheel
+          python -m h_transport_materials.records.build --data data --out h_transport_materials/_data/htm-data.json
+          pip install --no-deps --force-reinstall .
 
       - name: Build documentation
         run: sphinx-build -n -j auto -b html -d build/doctrees docs build/html
