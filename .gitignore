@@ -136,3 +136,6 @@ h_transport_materials/_data/
 
 # static site built by pages/build.py
 _site/
+
+# written by setuptools_scm at install time
+h_transport_materials/_version.py
