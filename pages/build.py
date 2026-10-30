@@ -16,6 +16,7 @@ Needs the build extra (pydantic, pyyaml), not the rest of the library.
 import argparse
 import html
 import json
+import math
 import subprocess
 import sys
 from pathlib import Path
@@ -99,8 +100,12 @@ def compact(db):
             "sel": n["selected"],
         }
         if "points" in n:
-            entry["dT"] = [round(x, 3) for x in n["points"]["T"]["value"]]
-            entry["dy"] = [float(f"{y:.5g}") for y in n["points"]["y"]["value"]]
+            # some point files keep the legacy nan,nan padding rows; the
+            # browser's JSON.parse rejects NaN, so they are left out here
+            pairs = [(T, y) for T, y in zip(n["points"]["T"]["value"], n["points"]["y"]["value"])
+                     if math.isfinite(T) and math.isfinite(y)]
+            entry["dT"] = [round(T, 3) for T, _ in pairs]
+            entry["dy"] = [float(f"{y:.5g}") for _, y in pairs]
         if "fit_discrepancy" in n:
             entry["fd"] = n["fit_discrepancy"]["max_relative"]
         out.append({k: v for k, v in entry.items() if v is not None})
@@ -182,7 +187,9 @@ def main(argv=None):
     records = compact(db)
 
     args.out.mkdir(parents=True, exist_ok=True)
-    payload = json.dumps(records, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
+    # allow_nan=False: a NaN or Infinity would stop the page's JSON.parse and
+    # leave it blank, so fail the build instead
+    payload = json.dumps(records, separators=(",", ":"), ensure_ascii=False, allow_nan=False).replace("</", "<\\/")
     page = (HERE / "template.html").read_text(encoding="utf-8")
     for key, value in (("__DB__", payload), ("__BRANCH__", branch), ("__COMMIT__", commit),
                        ("__VERSION__", f"{branch}@{commit}")):
