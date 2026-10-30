@@ -24,7 +24,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 
-from h_transport_materials.records import build, schema  # noqa: E402
+from h_transport_materials.records import build, contribute, schema  # noqa: E402
 
 REPO = "https://github.com/RemDelaporteMathurin/h-transport-materials"
 
@@ -98,6 +98,9 @@ def compact(db):
             "status": r["curation"]["status"],
             "flags": r["curation"].get("flags") or [],
             "sel": n["selected"],
+            # issue form fields prefilled by "Add a record from this paper" and "Propose a change"
+            "pn": contribute.prefill_new(r),
+            "pc": contribute.prefill_change(r),
         }
         if "points" in n:
             # some point files keep the legacy nan,nan padding rows; the
@@ -191,8 +194,14 @@ def main(argv=None):
     # leave it blank, so fail the build instead
     payload = json.dumps(records, separators=(",", ":"), ensure_ascii=False, allow_nan=False).replace("</", "<\\/")
     page = (HERE / "template.html").read_text(encoding="utf-8")
-    for key, value in (("__DB__", payload), ("__BRANCH__", branch), ("__COMMIT__", commit),
-                       ("__VERSION__", f"{branch}@{commit}")):
+    # labels of the new-record form, for the "Contribute a record" button
+    form = {
+        "property": {CLASSES[p]: label for label, p in contribute.PROPERTIES.items()},
+        "law": {LAWS[law]: label for label, law in contribute.LAWS.items()},
+    }
+    form_json = json.dumps(form, ensure_ascii=False).replace("</", "<\\/")
+    for key, value in (("__DB__", payload), ("__FORM__", form_json), ("__BRANCH__", branch),
+                       ("__COMMIT__", commit), ("__VERSION__", f"{branch}@{commit}")):
         page = page.replace(key, value)
     (args.out / "index.html").write_text(page, encoding="utf-8")
 

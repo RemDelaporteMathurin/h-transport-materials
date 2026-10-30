@@ -146,6 +146,13 @@ dl.kv dd { margin: 0; font-family: var(--font-data); font-size: 12.5px; overflow
 .flags { margin: 0; padding-left: 18px; font-size: 13px; color: var(--muted); display: grid; gap: 4px; }
 footer { color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); padding-top: var(--s4); display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s3); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+.head-right { display: grid; gap: var(--s2); justify-items: end; }
+@media (max-width: 900px) { .head-right { justify-items: start; } }
+.cta { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-weight: 600; font-size: 13px; color: #fff; background: var(--accent); border-radius: var(--r); padding: 7px 14px; text-decoration: none; white-space: nowrap; }
+:root[data-theme="dark"] .cta { color: #0f141b; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cta { color: #0f141b; } }
+.cta:hover { filter: brightness(1.08); }
+.sheet .actions a.primary { font-weight: 600; }
 .proto { background: var(--warn-soft); color: var(--fg); border-radius: var(--r); padding: var(--s2) var(--s3); font-size: 13px; }
 .proto b { color: var(--warn); }
 footer a { color: var(--accent); }
@@ -159,7 +166,10 @@ footer a { color: var(--accent); }
       <h1>H-Transport Materials</h1>
       <p>Hydrogen isotope diffusivity, solubility, permeability and surface coefficients from the published literature, each traced to its source.</p>
     </div>
-    <div class="build" id="build"></div>
+    <div class="head-right">
+      <a class="cta" id="contribute" href="#" target="_blank" rel="noopener" title="Opens a GitHub issue form; a bot turns it into a pull request">+ Contribute a record</a>
+      <div class="build" id="build"></div>
+    </div>
   </header>
   <div class="proto"><b>Prototype.</b> Built from the <code>__BRANCH__</code> branch, where HTM records are YAML files
     instead of Python. Every record is a draft until someone checks it against the paper; values may still change.</div>
@@ -228,13 +238,17 @@ footer a { color: var(--accent); }
     <span>Static page: the whole database ships inside this file. No server, no API calls.
       Download it as <a href="htm-data.json">htm-data.json</a> (<a href="schema/record.schema.json">schema</a>).</span>
     <span>Built from <code>__BRANCH__</code> at <code>__COMMIT__</code>. Values in the table are SI-normalised; each record sheet shows what the paper printed.</span>
+    <span>Anyone can add or correct a record: the buttons open a GitHub issue form, a bot turns it into a pull request
+      with a plot against the existing records, and a maintainer reviews it. No git or Python needed.</span>
   </footer>
 </div>
 
 <script type="application/json" id="db">__DB__</script>
+<script type="application/json" id="form">__FORM__</script>
 <script>
 (function () {
   const DB = JSON.parse(document.getElementById("db").textContent);
+  const FORM = JSON.parse(document.getElementById("form").textContent);
   const KB = 8.617333262e-5; // eV/K, CODATA, same constant as htm
   const REPO = "https://github.com/RemDelaporteMathurin/h-transport-materials";
   const BRANCH = "__BRANCH__";
@@ -292,6 +306,21 @@ footer a { color: var(--accent); }
   const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
   const unitsNow = () => { const v = visible(); return v.length ? v[0].u : (DB.find(baseMatch) || {}).u || ""; };
+
+  // ---------- contributions: GitHub issue forms, prefilled through the URL ----------
+  function issueUrl(template, title, fields) {
+    const q = Object.entries({ template, title, ...fields }).filter(([, v]) => v != null && v !== "")
+      .map(([k, v]) => k + "=" + encodeURIComponent(v)).join("&");
+    return `${REPO}/issues/new?${q}`;
+  }
+  function contributeUrl() {
+    const fields = { property: FORM.property[state.type], law: FORM.law[hasLaw() ? state.law : "null"] };
+    if (state.mats.size === 1) fields.material = [...state.mats][0];
+    if (state.iso.size === 1) fields.isotope = [...state.iso][0];
+    return issueUrl("new-record.yml", "New record: ", fields);
+  }
+  const newFromPaperUrl = r => issueUrl("new-record.yml", "New record: ", r.pn);
+  const changeUrl = r => issueUrl("change-record.yml", "Change: " + r.id, r.pc);
 
   // ---------- colours ----------
   const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -451,7 +480,8 @@ footer a { color: var(--accent); }
       <td class="num">${fmtE(r.E)}</td>
       <td class="num">${fmtR(r.r)}</td>
       <td>${r.dT ? '<span class="tag data">data</span> ' : ""}${r.rep.form === "derived" ? '<span class="tag">derived</span> ' : ""}${r.status === "disputed" ? '<span class="tag disputed">disputed</span>' : ""}</td></tr>`).join("") ||
-      `<tr><td colspan="7" style="color:var(--muted);padding:16px">Nothing here. Pick a material on the left, or clear the selection to see every material.</td></tr>`;
+      `<tr><td colspan="7" style="color:var(--muted);padding:16px">Nothing here. Pick a material on the left, or clear the selection to see every material.
+        Missing a paper? <a href="${esc(contributeUrl())}" target="_blank" rel="noopener">Contribute it</a>.</td></tr>`;
     tb.querySelectorAll("tr[data-i]").forEach(tr => {
       tr.onclick = () => select(+tr.dataset.i, false);
       tr.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(+tr.dataset.i, false); } };
@@ -492,8 +522,6 @@ footer a { color: var(--accent); }
       return;
     }
     const t = TYPES.find(t => t.id === r.t);
-    const title = `${t.label}: ${nice(r.m)}, ${r.iso}, ${cap(r.a)} ${r.y}`;
-    const issue = `${REPO}/issues/new?title=${encodeURIComponent("Problem with " + r.id)}&body=${encodeURIComponent("Record: " + r.id + " (" + title + ")\nFile: data/records/" + r.file + ".yaml\n\nWhat looks wrong, and where in the paper:\n")}`;
     const yaml = `${REPO}/blob/${BRANCH}/data/records/${r.file}.yaml`;
     const steps = (r.tr || []).map(t => `<li><code>${esc(t.op)}</code>${t.params && Object.keys(t.params).length ? ` (${pars(t.params)})` : ""}<span class="origin ${t.origin}">${t.origin === "htm" ? "HTM" : "paper"}</span><span class="why">${esc(t.rationale)}</span></li>`).join("");
     const asm = (r.asm || []).filter(a => !(r.tr || []).some(t => t.op === a.op));
@@ -523,8 +551,9 @@ footer a { color: var(--accent); }
       <div class="actions">
         ${r.doi ? `<a href="https://doi.org/${esc(r.doi)}" target="_blank" rel="noopener">Open the paper</a>` : ""}
         <a href="records/${esc(r.file)}/">Record page</a>
+        <a class="primary" href="${esc(changeUrl(r))}" target="_blank" rel="noopener" title="Correct a value or flag the record for a verifier">Propose a change</a>
+        <a href="${esc(newFromPaperUrl(r))}" target="_blank" rel="noopener" title="Same paper, another property, isotope or material">Add a record from this paper</a>
         <a href="${yaml}" target="_blank" rel="noopener">Edit the YAML</a>
-        <a href="${issue}" target="_blank" rel="noopener">Report a problem</a>
       </div>
     </div>`;
     el.querySelectorAll("[data-go]").forEach(a => a.onclick = e => { e.preventDefault(); goTo(a.dataset.go); });
@@ -568,7 +597,7 @@ footer a { color: var(--accent); }
     document.getElementById("eq").innerHTML = `${t.sym} = ${t.sym}<sub>0</sub> exp(−E / k<sub>B</sub>T) <span class="u">· ${esc(unitsNow())}</span>`;
   }
 
-  function renderMain() { renderEq(); renderPlot(); renderTable(); renderSheet(); }
+  function renderMain() { renderEq(); renderPlot(); renderTable(); renderSheet(); document.getElementById("contribute").href = contributeUrl(); }
   function renderAll() { renderTypes(); renderLaws(); renderIsos(); renderMats(); renderMain(); }
 
   renderBuild();

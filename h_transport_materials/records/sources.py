@@ -202,13 +202,36 @@ def existing_sources(sources_dir) -> dict:
     return out
 
 
-def write_source(source: Source, sources_dir) -> Path:
-    path = Path(sources_dir) / f"{source.key}.yaml"
+def source_yaml(source: Source) -> str:
     data = source.model_dump(mode="json", exclude_none=True)
     data["authors"] = [{k: v for k, v in a.items() if v is not None} for a in data["authors"]]
+    return yaml.safe_dump(data, sort_keys=False, allow_unicode=True, width=100)
+
+
+def write_source(source: Source, sources_dir) -> Path:
+    path = Path(sources_dir) / f"{source.key}.yaml"
     with open(path, "w", encoding="utf-8") as f:
-        yaml.safe_dump(data, f, sort_keys=False, allow_unicode=True, width=100)
+        f.write(source_yaml(source))
     return path
+
+
+def find_or_fetch(doi, sources_dir, email=None, fetch=fetch_csl):
+    """The source of a DOI: from its source file, or fetched from doi.org (not written).
+
+    Returns:
+        tuple: (Source, fetched)
+    """
+    existing = existing_sources(sources_dir)
+    as_cited, doi = strip_doi(doi), normalize_doi(doi)
+    for s in existing.values():
+        if s.doi and normalize_doi(s.doi) == doi:
+            return s, False
+    source = csl_to_source(fetch(doi), taken=existing)
+    if source.doi and normalize_doi(source.doi) == doi:
+        source.doi = as_cited  # doi.org sometimes returns DOIs lowercased
+    if email:
+        source.open_access_url = fetch_open_access_url(doi, email)
+    return source, True
 
 
 def add_doi(doi, sources_dir, email=None, fetch=fetch_csl):
@@ -217,16 +240,9 @@ def add_doi(doi, sources_dir, email=None, fetch=fetch_csl):
     Returns:
         tuple: (Source, Path, created)
     """
-    existing = existing_sources(sources_dir)
-    as_cited, doi = strip_doi(doi), normalize_doi(doi)
-    for s in existing.values():
-        if s.doi and normalize_doi(s.doi) == doi:
-            return s, Path(sources_dir) / f"{s.key}.yaml", False
-    source = csl_to_source(fetch(doi), taken=existing)
-    if source.doi and normalize_doi(source.doi) == doi:
-        source.doi = as_cited  # doi.org sometimes returns DOIs lowercased
-    if email:
-        source.open_access_url = fetch_open_access_url(doi, email)
+    source, fetched = find_or_fetch(doi, sources_dir, email=email, fetch=fetch)
+    if not fetched:
+        return source, Path(sources_dir) / f"{source.key}.yaml", False
     return source, write_source(source, sources_dir), True
 
 

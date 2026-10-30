@@ -43,6 +43,8 @@ h_transport_materials/          the library
     loader.py                   reads the compiled JSON (no pydantic needed)
     sources.py, doi.py          source files from DOIs or BibTeX
     migrate.py                  one-off property_database -> YAML tool
+    contribute.py               issue forms -> record files (the contribution bot)
+    report.py                   record report (plots, checks) commented on PRs
     cli.py                      the `htm` command
 data/
   records/<id>.yaml (+ .csv)    one record per source x property x isotope x material
@@ -73,6 +75,9 @@ htm source add <DOI>                     # create data/sources/<key>.yaml from d
 htm source sync                          # add every DOI cited by a record or material
 htm source from-bib refs.bib             # sources without a DOI
 htm migrate                              # rerun the migration (idempotent)
+htm contribute form                      # regenerate .github/ISSUE_TEMPLATE/{new,change}-record.yml
+htm contribute from-issue issue.json --dry-run   # what the bot does with an issue (REST API JSON)
+htm report --base a.json --head b.json --plots plots/   # the record report posted on PRs
 
 flake8 h_transport_materials/records --max-line-length=127
 ```
@@ -97,6 +102,26 @@ pydantic or pyyaml.
 - After editing records, run the equivalence test. A record that intentionally
   differs from the legacy database must be listed in `EXPECTED_DIFFERENCES` in
   `tests/test_records.py` with the reason and the expected size.
+
+## Contributions through issues
+
+- The explorer's buttons open the issue forms `new-record.yml` and
+  `change-record.yml`, prefilled through the URL (`contribute.prefill_new`,
+  `prefill_change`). The forms are generated from `contribute.py`: edit it,
+  then run `htm contribute form`. A test fails if they drift, including when
+  a material is added to `data/materials`.
+- `.github/workflows/contribute.yml` (must be on `main`: issue events run from
+  the default branch) runs `htm contribute from-issue` and opens a PR from
+  `contrib/issue-<N>` into `HTM_RECORDS_BRANCH`. It uses a GitHub App token
+  (`HTM_BOT_APP_ID`, `HTM_BOT_PRIVATE_KEY`) so CI runs on its PRs. Editing the
+  issue adds a commit to the same PR.
+- `.github/workflows/record-report.yml` comments on every PR touching `data/`;
+  plots go to the orphan branch `bot-assets`.
+- Contributed records are not in `data/migration/legacy.yaml`; the
+  equivalence test skips them. Changing a migrated record's values still
+  needs an `EXPECTED_DIFFERENCES` entry.
+- "Closes #N" only closes the issue when merging into the default branch:
+  close it by hand while the bot targets `feat/records-database`.
 
 ## Gotchas
 

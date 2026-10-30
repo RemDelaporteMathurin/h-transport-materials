@@ -1,0 +1,112 @@
+# The record report: on each pull request that touches data/, builds the
+# database before and after, plots every added or changed record against the
+# records of the same and of similar materials, and posts one comment
+# (updated on each push). h_transport_materials/records/report.py does the work.
+#
+# Plots are pushed to the orphan branch bot-assets so the comment can show
+# them. Pull requests from forks get a read-only token: their report goes to
+# the job summary, with the plots as an artifact.
+
+name: Record report
+
+on:
+  pull_request:
+    paths: ["data/**"]
+
+permissions:
+  contents: write       # push plots to bot-assets
+  pull-requests: write  # the report comment
+
+concurrency:
+  group: record-report-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    env:
+      PR: ${{ github.event.pull_request.number }}
+      BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      SAME_REPO: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+
+      - name: Install
+        run: python -m pip install -e ".[build]"
+
+      - name: Build the database before and after
+        run: |
+          git worktree add --detach "$RUNNER_TEMP/base" "$BASE_SHA"
+          # the base is built with this PR's code; if its data no longer
+          # builds with it (a schema change), every record counts as added
+          htm build --data "$RUNNER_TEMP/base/data" --out "$RUNNER_TEMP/base.json" \
+            || echo '{"records": [], "materials": [], "sources": []}' > "$RUNNER_TEMP/base.json"
+          htm build --data data --out "$RUNNER_TEMP/head.json"
+
+      - name: Write the report
+        run: |
+          url=""
+          if [ "$SAME_REPO" = true ]; then
+            url="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/bot-assets/pr-${PR}/${HEAD_SHA}"
+          fi
+          htm report --base "$RUNNER_TEMP/base.json" --head "$RUNNER_TEMP/head.json" \
+            --out "$RUNNER_TEMP/report.md" --plots "$RUNNER_TEMP/plots" --plot-url "$url"
+          cat "$RUNNER_TEMP/report.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: record-report
+          path: |
+            ${{ runner.temp }}/report.md
+            ${{ runner.temp }}/plots
+          if-no-files-found: ignore
+
+      - name: Publish the plots
+        if: env.SAME_REPO == 'true'
+        run: |
+          shopt -s nullglob
+          plots=("$RUNNER_TEMP"/plots/*.png)
+          [ ${#plots[@]} -eq 0 ] && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          assets="$RUNNER_TEMP/assets"
+          if git ls-remote --exit-code --heads origin bot-assets > /dev/null; then
+            git fetch --depth 1 origin bot-assets
+            git worktree add "$assets" FETCH_HEAD
+            git -C "$assets" checkout -B bot-assets
+          else
+            git worktree add --detach "$assets"
+            git -C "$assets" checkout --orphan bot-assets
+            git -C "$assets" rm -rf --quiet .
+            echo "Plots for the record report on pull requests. Generated, do not edit." > "$assets/README.md"
+          fi
+          mkdir -p "$assets/pr-${PR}/${HEAD_SHA}"
+          cp "${plots[@]}" "$assets/pr-${PR}/${HEAD_SHA}/"
+          git -C "$assets" add .
+          git -C "$assets" commit --quiet -m "record report plots for #${PR} at ${HEAD_SHA}"
+          # other pull requests push here too: retry on top of theirs
+          for i in 1 2 3; do
+            git -C "$assets" push --quiet origin HEAD:bot-assets && exit 0
+            git -C "$assets" pull --quiet --rebase origin bot-assets
+          done
+          exit 1
+
+      - name: Comment
+        if: env.SAME_REPO == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          comment_id=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR}/comments" --paginate \
+            --jq '[.[] | select(.body | contains("<!-- htm-record-report -->"))][0].id // empty')
+          if [ -n "$comment_id" ]; then
+            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${comment_id}" -F "body=@$RUNNER_TEMP/report.md" > /dev/null
+          else
+            gh pr comment "$PR" --body-file "$RUNNER_TEMP/report.md"
+          fi

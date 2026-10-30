@@ -65,8 +65,13 @@ def manifest():
 
 
 def test_every_record_is_in_the_manifest(db, manifest):
+    """Every record that replaces a legacy property is in the manifest; records
+    contributed since (never in the legacy database) are not"""
     ids = {r["id"] for r in db["records"]}
-    assert ids == set(manifest)
+    assert set(manifest) <= ids
+    for r in db["records"]:
+        if r["id"] not in manifest:
+            assert not r["curation"].get("migrated_from"), f"{r['id']} is migrated but not in the manifest"
     indices = [entry["index"] for entry in manifest.values()]
     assert len(indices) == len(set(indices)), "two records replace the same property"
 
@@ -74,7 +79,9 @@ def test_every_record_is_in_the_manifest(db, manifest):
 def test_equivalence_with_current_database(group, manifest):
     """Each record reproduces the property it replaces, except listed differences"""
     for new in group:
-        entry = manifest[new.record_id]
+        entry = manifest.get(new.record_id)
+        if entry is None:  # contributed after the migration
+            continue
         old = htm.legacy_database()[entry["index"]]
         assert type(old).__name__ == entry["class"], (
             f"{new.record_id}: the legacy database changed order, rerun htm migrate"

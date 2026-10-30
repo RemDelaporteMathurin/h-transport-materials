@@ -6,6 +6,9 @@
     htm build                            compile the records
     htm schema                           export JSON Schemas
     htm migrate                          convert property_database to records (one-off)
+    htm contribute from-issue issue.json turn a GitHub issue form into a record (the bot)
+    htm contribute form                  write the issue forms to .github/ISSUE_TEMPLATE
+    htm report --base a.json --head b.json   the record report posted on pull requests
 """
 
 import argparse
@@ -63,6 +66,14 @@ def main(argv=None):
         return build.main(argv[1:])
     if argv[:1] == ["schema"]:
         return schema.main(argv[1:])
+    if argv[:1] == ["contribute"]:
+        from . import contribute
+
+        return contribute.main(argv[1:])
+    if argv[:1] == ["report"]:
+        from . import report
+
+        return report.main(argv[1:])
     if argv[:1] == ["migrate"]:
         from . import migrate
 
@@ -80,6 +91,8 @@ def main(argv=None):
     sub.add_parser("build", help="compile the records (see htm build --help)")
     sub.add_parser("schema", help="export JSON Schemas (see htm schema --help)")
     sub.add_parser("migrate", help="convert property_database to records (one-off)")
+    sub.add_parser("contribute", help="the contribution bot (see htm contribute --help)")
+    sub.add_parser("report", help="the record report on pull requests (see htm report --help)")
     src = sub.add_parser("source", help="manage source files").add_subparsers(
         dest="command", required=True
     )
