@@ -1,0 +1,197 @@
+# The contribution bot: turns a "New record" or "Change a record" issue into a
+# pull request (h_transport_materials/records/contribute.py does the work).
+#
+# Issue events only run workflows from the default branch, so this file must
+# be on main. It checks out the branch holding the records (repository
+# variable HTM_RECORDS_BRANCH, default feat/records-database) and opens the
+# pull request against it.
+#
+# One-time setup: a GitHub App with Contents, Issues and Pull requests set to
+# read and write, installed on this repository, with its id and private key
+# in the secrets HTM_BOT_APP_ID and HTM_BOT_PRIVATE_KEY. Pull requests opened
+# with the default GITHUB_TOKEN would not trigger CI.
+#
+# Security: the issue is untrusted text. It only reaches the scripts below
+# through environment variables and files, never through ${{ }} expressions
+# inside `run:`, and the bot parses it without executing anything.
+
+name: Contribution bot
+
+on:
+  issues:
+    types: [opened, edited, labeled]
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: Issue number to (re)process
+        required: true
+
+permissions: {}  # everything goes through the app token
+
+concurrency:
+  group: contribute-${{ github.event.issue.number || inputs.issue }}
+  cancel-in-progress: false
+
+jobs:
+  contribute:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.issue.state == 'open' &&
+       (contains(github.event.issue.labels.*.name, 'new-record') ||
+        contains(github.event.issue.labels.*.name, 'change-record')) &&
+       (github.event.action != 'labeled' ||
+        github.event.label.name == 'new-record' || github.event.label.name == 'change-record'))
+    runs-on: ubuntu-latest
+    env:
+      NUMBER: ${{ github.event.issue.number || inputs.issue }}
+      RECORDS_BRANCH: ${{ vars.HTM_RECORDS_BRANCH || 'feat/records-database' }}
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app
+        with:
+          app-id: ${{ secrets.HTM_BOT_APP_ID }}
+          private-key: ${{ secrets.HTM_BOT_PRIVATE_KEY }}
+
+      - name: Bot identity
+        id: bot
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          SLUG: ${{ steps.app.outputs.app-slug }}
+        run: |
+          user_id=$(gh api "/users/${SLUG}%5Bbot%5D" --jq .id)
+          echo "name=${SLUG}[bot]" >> "$GITHUB_OUTPUT"
+          echo "email=${user_id}+${SLUG}[bot]@users.noreply.github.com" >> "$GITHUB_OUTPUT"
+          echo "running as ${SLUG}[bot]"
+
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ env.RECORDS_BRANCH }}
+          token: ${{ steps.app.outputs.token }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+
+      - name: Install
+        run: python -m pip install -e ".[build]"
+
+      - name: Labels
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          gh label create new-record --color 0e8a16 --description "Add a record (contribution bot)" 2>/dev/null || true
+          gh label create change-record --color 1d76db --description "Change a record (contribution bot)" 2>/dev/null || true
+          gh label create needs-changes --color fbca04 --description "The bot needs the issue to be edited" 2>/dev/null || true
+          gh label create needs-maintainer --color d93f0b --description "The bot cannot do it alone" 2>/dev/null || true
+
+      - name: Turn the issue into record files
+        id: run
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          gh api "repos/${GITHUB_REPOSITORY}/issues/${NUMBER}" > "$RUNNER_TEMP/issue.json"
+          htm contribute from-issue "$RUNNER_TEMP/issue.json" --result "$RUNNER_TEMP/result.json"
+          echo "ok=$(jq -r .ok "$RUNNER_TEMP/result.json")" >> "$GITHUB_OUTPUT"
+
+      - name: Open or update the pull request
+        id: pr
+        if: steps.run.outputs.ok == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          BOT_NAME: ${{ steps.bot.outputs.name }}
+          BOT_EMAIL: ${{ steps.bot.outputs.email }}
+        run: |
+          result="$RUNNER_TEMP/result.json"
+          branch="contrib/issue-${NUMBER}"
+          title=$(jq -r .title "$result")
+          jq -r .pr_body "$result" > "$RUNNER_TEMP/pr.md"
+          login=$(jq -r .user.login "$RUNNER_TEMP/issue.json")
+          user_id=$(jq -r .user.id "$RUNNER_TEMP/issue.json")
+          git config user.name "$BOT_NAME"
+          git config user.email "$BOT_EMAIL"
+
+          # the files this run wrote, kept aside while switching branches
+          out=$(mktemp -d)
+          jq -r '.files[]' "$result" > "$RUNNER_TEMP/files.txt"
+          while read -r f; do mkdir -p "$out/$(dirname "$f")"; cp "$f" "$out/$f"; done < "$RUNNER_TEMP/files.txt"
+
+          if git ls-remote --exit-code --heads origin "$branch" > /dev/null; then
+            # the issue was edited: put the new state on top of the branch
+            # (a new commit, never a force-push)
+            git stash push --include-untracked --quiet
+            git fetch origin "$branch"
+            git checkout -B "$branch" "origin/$branch"
+            # files an earlier run of this issue wrote but this one did not
+            git diff --name-only "origin/${RECORDS_BRANCH}...HEAD" -- data | while read -r f; do
+              if ! grep -qxF "$f" "$RUNNER_TEMP/files.txt"; then
+                if git cat-file -e "origin/${RECORDS_BRANCH}:$f" 2>/dev/null; then
+                  git checkout "origin/${RECORDS_BRANCH}" -- "$f"
+                else
+                  git rm --quiet "$f"
+                fi
+              fi
+            done
+            cp -r "$out/." .
+            existing=true
+          else
+            git checkout -b "$branch"
+            existing=false
+          fi
+
+          git add data
+          if git diff --cached --quiet; then
+            echo "nothing changed since the last run"
+          else
+            git commit --quiet -F - <<EOF
+          ${title}
+
+          From issue #${NUMBER}.
+
+          Co-authored-by: ${login} <${user_id}+${login}@users.noreply.github.com>
+          EOF
+            git push --quiet origin "$branch"
+          fi
+
+          if [ "$existing" = true ]; then
+            url=$(gh pr list --head "$branch" --state open --json url --jq '.[0].url')
+          fi
+          if [ -z "${url:-}" ]; then
+            url=$(gh pr create --base "$RECORDS_BRANCH" --head "$branch" --title "$title" --body-file "$RUNNER_TEMP/pr.md")
+          else
+            gh pr edit "$url" --title "$title" --body-file "$RUNNER_TEMP/pr.md"
+          fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on the issue
+        if: always() && steps.run.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          PR_URL: ${{ steps.pr.outputs.url }}
+        run: |
+          result="$RUNNER_TEMP/result.json"
+          jq -r .comment "$result" | sed "s|PR_URL|${PR_URL}|" > "$RUNNER_TEMP/comment.md"
+          # one bot comment per issue, updated in place
+          comment_id=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${NUMBER}/comments" --paginate \
+            --jq '[.[] | select(.body | contains("<!-- htm-contribution-bot -->"))][0].id // empty')
+          if [ -n "$comment_id" ]; then
+            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${comment_id}" -F "body=@$RUNNER_TEMP/comment.md" > /dev/null
+          else
+            gh issue comment "$NUMBER" --body-file "$RUNNER_TEMP/comment.md"
+          fi
+          if [ "$(jq -r .ok "$result")" = true ]; then
+            gh issue edit "$NUMBER" --remove-label needs-changes --remove-label needs-maintainer 2>/dev/null || true
+          elif [ "$(jq -r .maintainer "$result")" = true ]; then
+            gh issue edit "$NUMBER" --add-label needs-maintainer
+          else
+            gh issue edit "$NUMBER" --add-label needs-changes
+          fi
+
+      - name: Say so when the bot itself fails
+        if: failure() && steps.app.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh issue comment "$NUMBER" --body "The contribution bot failed on this issue ([log](${RUN_URL})). This is not your fault: a maintainer will look at it."
+          gh issue edit "$NUMBER" --add-label needs-maintainer
