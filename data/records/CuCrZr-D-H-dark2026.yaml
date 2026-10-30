@@ -1,0 +1,28 @@
+id: htm:CuCrZr-D-H-dark2026
+property: diffusivity
+material: cucrzr
+isotope: H
+method: md
+source:
+  doi: 10.1016/j.ijhydene.2026.153987
+  location: Section 2
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 6.0e-07
+    unit: m^2/s
+  act_energy:
+    value: 0.7
+    unit: eV/particle
+  range:
+    value:
+    - 800.0
+    - 1200.0
+    unit: K
+note: Here's a note just to remind people that James is great
+curation:
+  status: draft
+  contributed_by:
+  - github:RemDelaporteMathurin
+  flags:
+  - 'submitted through issue #322: check the values, units and location against the paper'
