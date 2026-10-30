@@ -45,7 +45,7 @@ body:
     options:
     - Sieverts' law (pressure^0.5)
     - Henry's law (pressure)
-    - Not applicable (diffusivity, recombination, dissociation)
+    - Not applicable (diffusivity and surface coefficients)
   validations:
     required: true
 - type: dropdown
@@ -260,7 +260,7 @@ body:
     label: If the points and the authors' fit disagree
     description: Only for data points with the authors' fit
     options:
-    - 'Let HTM decide: the authors'' fit, unless it is more than 10% away from the points'
+    - 'Let HTM decide: the authors'' fit unless it is more than 10% away from the points'
     - Use the authors' fit
     - Use HTM's fit of the points
   validations:
