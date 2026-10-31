@@ -1,0 +1,29 @@
+id: htm:HastelloyN-P-H-webb1965
+property: permeability
+law: sieverts
+material: hastelloy_n
+isotope: H
+method: unknown
+source:
+  doi: 10.2172/4583045
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 190
+    unit: ccSTP * mm / cm^2 / h / atm^0.5
+  act_energy:
+    value: 13800
+    unit: cal/mol
+  range:
+    value:
+    - 666.6666666666666
+    - 714.2857142857143
+    unit: K
+note: Table 1
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  - range read from a 1/T axis, 0.0014 to 0.0015 1/K
+  migrated_from: h_transport_materials/property_database/hastelloy_n.py:12

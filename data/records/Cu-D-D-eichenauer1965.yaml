@@ -1,0 +1,26 @@
+id: htm:Cu-D-D-eichenauer1965
+property: diffusivity
+material: copper
+isotope: D
+method: unknown
+source:
+  key: eichenauer1965
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 6.19e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 0.392
+    unit: eV * particle**-1
+  range:
+    value:
+    - 703.0
+    - 913.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/copper/copper.py:108

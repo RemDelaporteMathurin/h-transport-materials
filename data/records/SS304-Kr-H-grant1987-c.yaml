@@ -1,0 +1,30 @@
+id: htm:SS304-Kr-H-grant1987-c
+property: recombination_coeff
+material: 304_steel
+isotope: H
+method: unknown
+sample:
+  surface: oxidized
+source:
+  doi: 10.1016/0022-3115(87)90476-4
+  location: null
+reported:
+  form: derived
+  factors:
+  - record: htm:SS304-Kd-H-grant1987-c
+    power: 1
+  - record: htm:SS304-S-H-grant1987
+    power: -2
+  range:
+    value:
+    - 645
+    - 965
+    unit: K
+  origin: htm
+  rationale: not given in the paper; HTM computes the recombination coefficient as Kd / S^2
+note: oxidized surface. not given in paper, calculated in HTM
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/ss_304/ss_304.py:87

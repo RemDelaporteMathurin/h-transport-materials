@@ -1,0 +1,28 @@
+id: htm:LiPb-P-D-edao2011b
+property: permeability
+law: sieverts
+material: lipb
+isotope: D
+method: unknown
+source:
+  doi: 10.13182/FST60-1163
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 2.87e-07
+    unit: mol * m**-1 * s**-1 * Pa**-0.5
+  act_energy:
+    value: 75500.0
+    unit: J * mol**-1
+  range:
+    value:
+    - 773.0
+    - 973.0
+    unit: K
+note: Li17Pb83, co-permeation of H and D
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/lipb/lipb.py:291

@@ -1,0 +1,28 @@
+id: htm:Pd52Cu-D-H-piper1966
+property: diffusivity
+material: pd52cu
+isotope: H
+method: unknown
+source:
+  doi: 10.1063/1.1708243
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.003
+    unit: cm**2 * s**-1
+  act_energy:
+    value: 2400.0
+    unit: cal * mol**-1
+  range:
+    value:
+    - 50.0
+    - 600.0
+    unit: degC
+note: Equation 6 - this Arrhenius fit holds for when the alloy is in the beta phase for 52.5 percent copper.
+  These range values were found outside of the paper.
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/palladium_copper.py:46

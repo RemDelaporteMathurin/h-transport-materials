@@ -1,0 +1,8 @@
+id: inconel_625
+code: Inconel625
+name: inconel_625
+families:
+- inconel
+- alloy
+- metal
+htm_legacy: INCONEL_625

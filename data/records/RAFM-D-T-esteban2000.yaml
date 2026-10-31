@@ -1,0 +1,27 @@
+id: htm:RAFM-D-T-esteban2000
+property: diffusivity
+material: rafm_steel
+isotope: T
+method: unknown
+source:
+  doi: 10.1016/S0022-3115(00)00188-4
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 4.166e-08
+    unit: m**2 * s**-1
+  act_energy:
+    value: 12027.0
+    unit: J * mol**-1
+  range:
+    value:
+    - 423.0
+    - 892.0
+    unit: K
+note: extrapolation
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/rafm_steel.py:138

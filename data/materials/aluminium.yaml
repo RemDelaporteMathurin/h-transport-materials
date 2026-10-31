@@ -1,0 +1,10 @@
+id: aluminium
+code: Al
+name: aluminium
+families:
+- pure metal
+- metal
+symbol: Al
+composition:
+  Al: 100
+htm_legacy: ALUMINIUM

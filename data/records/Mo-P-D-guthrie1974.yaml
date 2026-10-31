@@ -1,0 +1,28 @@
+id: htm:Mo-P-D-guthrie1974
+property: permeability
+law: sieverts
+material: molybdenum
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/0022-3115(74)90263-3
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.0038
+    unit: ccSTP * cm**-1 * s**-1 * atm**-0.5
+  act_energy:
+    value: 17.4
+    unit: kcal * mol**-1
+  range:
+    value:
+    - 270.0
+    - 640.0
+    unit: degC
+note: Figure 7
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/molybdenum.py:52

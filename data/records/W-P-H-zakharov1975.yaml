@@ -1,0 +1,28 @@
+id: htm:W-P-H-zakharov1975
+property: permeability
+law: sieverts
+material: tungsten
+isotope: H
+method: unknown
+source:
+  doi: 10.1007/BF00715727
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.0052
+    unit: ccNTP * cm * cm**-2 * s**-1 * atm**-0.5
+  act_energy:
+    value: 25400.0
+    unit: cal * mol**-1
+  range:
+    value:
+    - 400.0
+    - 1200.0
+    unit: degC
+note: the author gives activation energies in cal
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:188

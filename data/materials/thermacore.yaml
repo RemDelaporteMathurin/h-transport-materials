@@ -1,0 +1,9 @@
+id: thermacore
+code: Thermacore
+name: thermacore
+families:
+- fecral
+- steel
+- alloy
+- metal
+htm_legacy: THERMACORE

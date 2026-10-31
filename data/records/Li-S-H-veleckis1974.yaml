@@ -1,0 +1,27 @@
+id: htm:Li-S-H-veleckis1974
+property: solubility
+law: sieverts
+material: lithium
+isotope: H
+method: gas-absorption
+source:
+  doi: 10.1021/j100612a013
+  location: Table 1
+reported:
+  form: log_linear
+  base: e
+  intercept: -6.498
+  slope: {value: 6182, unit: K}
+  y_unit: "atfr / atm^0.5"
+  range: {value: [710, 903], unit: degC}
+transformations:
+  - op: mole_fraction_to_concentration
+    params: {per: atom}
+    origin: htm
+    rationale: >-
+      The paper gives the atom fraction of hydrogen in liquid lithium. HTM
+      converts it with the lithium density from the material registry.
+curation:
+  status: draft
+  flags:
+    - see the lithium density flag (room temperature solid density)

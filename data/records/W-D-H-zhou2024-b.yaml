@@ -1,0 +1,27 @@
+id: htm:W-D-H-zhou2024-b
+property: diffusivity
+material: tungsten
+isotope: H
+method: unknown
+source:
+  doi: 10.1063/5.0204192
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.876e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 0.201
+    unit: eV * particle**-1
+  range:
+    value:
+    - 297.0
+    - 1000.0
+    unit: K
+note: Table 2. Model 4 considering lattice pDOS coupled with hydrogen isotope vibrations and thermal expansion
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:500

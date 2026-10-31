@@ -1,0 +1,27 @@
+id: htm:RAFM-D-H-xu2017
+property: diffusivity
+material: rafm_steel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.fusengdes.2017.04.022
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.00099
+    unit: cm**2 * s**-1
+  act_energy:
+    value: 0.14
+    unit: eV * particle**-1
+  range:
+    value:
+    - 250.0
+    - 500.0
+    unit: degC
+note: Eq 5, F82H, effective diffusivity
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/rafm_steel.py:243

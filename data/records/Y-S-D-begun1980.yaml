@@ -1,0 +1,33 @@
+id: htm:Y-S-D-begun1980
+property: solubility
+law: sieverts
+material: yttrium
+isotope: D
+method: unknown
+source:
+  doi: 10.1063/1.439496
+  location: null
+reported:
+  form: points
+  file: Y-S-D-begun1980.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: degC
+  y:
+    column: 1
+    quantity: value
+    unit: atfr / torr^0.5
+transformations:
+- op: mole_fraction_to_concentration
+  params:
+    molar_volume: 1.99e-5 m^3/mol
+  origin: htm
+  rationale: The paper gives an atom fraction. HTM divides it by the molar volume from https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/yttrium,
+    a room temperature value.
+note: table I
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/yttrium.py:26

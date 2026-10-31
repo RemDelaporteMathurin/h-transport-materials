@@ -1,0 +1,38 @@
+id: htm:SS316L-S-H-reiter1996
+property: solubility
+law: sieverts
+material: 316l_steel
+isotope: H
+method: unknown
+source:
+  key: reiter1996
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 5.8e-06
+    unit: atfr / Pa^0.5
+  act_energy:
+    value: 13.1
+    unit: kJ/mol
+  range:
+    value:
+    - 500
+    - 1200
+    unit: K
+transformations:
+- op: mole_fraction_to_concentration
+  params:
+    molar_mass: 56.52 g/mol
+  origin: htm
+  rationale: The value is a mole fraction per sqrt(Pa). HTM converts it with the 316L density from the
+    material registry (8.0 g/cm3, ASM handbook) and a molar mass of 56.52 g/mol typed in the current code,
+    still to be computed from the composition.
+note: this is an average of 5 papers on diffusivity from Reiter compilation review
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  - the note says diffusivity but this is the solubility average
+  - check the unit of the solubility in the compilation (atom fraction?)
+  migrated_from: h_transport_materials/property_database/steel_316L/steel_316L.py:29

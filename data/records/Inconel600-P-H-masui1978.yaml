@@ -1,0 +1,27 @@
+id: htm:Inconel600-P-H-masui1978
+property: permeability
+law: sieverts
+material: inconel_600
+isotope: H
+method: unknown
+source:
+  doi: 10.2355/tetsutohagane1955.64.5_615
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 2540.0
+    unit: ccNTP * mm * cm**-2 * h**-1 * atm**-0.5
+  act_energy:
+    value: 15800.0
+    unit: cal * mol**-1
+  range:
+    value:
+    - 800.0
+    - 1000.0
+    unit: degC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/inconel_600.py:146

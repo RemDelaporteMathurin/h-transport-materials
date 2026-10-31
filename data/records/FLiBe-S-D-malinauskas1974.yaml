@@ -1,0 +1,31 @@
+id: htm:FLiBe-S-D-malinauskas1974
+property: solubility
+law: henry
+material: flibe
+isotope: D
+method: unknown
+source:
+  doi: 10.1021/i160051a015
+  location: null
+reported:
+  form: points
+  file: FLiBe-S-D-malinauskas1974.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: K
+  y:
+    column: 1
+    quantity: value
+    unit: dimensionless
+transformations:
+- op: concentration_ratio_to_solubility
+  origin: paper
+  rationale: The paper gives Kc, the ratio of the concentration in the salt to the concentration in the
+    gas (Equation 1), so the Henry solubility is Kc / (R T).
+note: direct measurement (saturation and stripping), see Dolan 2021, MIT PhD, Fig. 2.15
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/flibe/flibe.py:123

@@ -1,0 +1,26 @@
+id: htm:Al2O3-D-H-belonoshko2004
+property: diffusivity
+material: alumina
+isotope: H
+method: unknown
+source:
+  doi: 10.1103/PhysRevB.69.024302
+  location: null
+reported:
+  form: points
+  file: Al2O3-D-H-belonoshko2004.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: m**2 * s**-1
+note: solid alpha alumina
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/alumina/alumina.py:45

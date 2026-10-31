@@ -1,0 +1,27 @@
+id: htm:Cr-D-H-zhou2024
+property: diffusivity
+material: chromium
+isotope: H
+method: unknown
+source:
+  doi: 10.1063/5.0204192
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.68e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 0.0994
+    unit: eV * particle**-1
+  range:
+    value:
+    - 297.0
+    - 1000.0
+    unit: K
+note: Table 2. Model 1 considering only hydrogen isotope vibrations
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/chromium.py:6

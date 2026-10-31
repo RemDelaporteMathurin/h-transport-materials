@@ -1,0 +1,10 @@
+id: titanium
+code: Ti
+name: titanium
+families:
+- pure metal
+- metal
+symbol: Ti
+composition:
+  Ti: 100
+htm_legacy: TITANIUM

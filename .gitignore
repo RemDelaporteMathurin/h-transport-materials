@@ -130,3 +130,6 @@ dmypy.json
 
 # macOS stuff
 .DS_Store
+
+# compiled record database, built by `htm build` (shipped in wheels, never committed)
+h_transport_materials/_data/

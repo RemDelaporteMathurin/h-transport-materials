@@ -1,0 +1,8 @@
+id: hastelloy_x
+code: HastelloyX
+name: hastelloy_x
+families:
+- hastelloy
+- alloy
+- metal
+htm_legacy: HASTELLOY_X

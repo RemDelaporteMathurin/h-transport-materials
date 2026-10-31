@@ -1,0 +1,27 @@
+id: htm:CuCrZr-P-D-houben2022
+property: permeability
+law: sieverts
+material: cucrzr
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/j.nme.2022.101256
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 6.0e-06
+    unit: mol * m**-1 * s**-1 * mbar**-0.5
+  act_energy:
+    value: 79.0
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 300.0
+    - 550.0
+    unit: degC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/cucrzr/cucrzr.py:116

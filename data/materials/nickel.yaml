@@ -1,0 +1,7 @@
+id: nickel
+code: Ni
+name: nickel
+families: [metal, pure metal]
+symbol: Ni
+composition: {Ni: 100}
+htm_legacy: NICKEL

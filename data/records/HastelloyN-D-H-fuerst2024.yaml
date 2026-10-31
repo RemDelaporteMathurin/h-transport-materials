@@ -1,0 +1,26 @@
+id: htm:HastelloyN-D-H-fuerst2024
+property: diffusivity
+material: hastelloy_n
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2023.154851
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 2.89e-06
+    unit: m**2 * s**-1
+  act_energy:
+    value: 55.9
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 500.0
+    - 700.0
+    unit: degC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/hastelloy_n.py:85

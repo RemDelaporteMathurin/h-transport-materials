@@ -1,0 +1,26 @@
+id: htm:Fe-D-D-tahara1985
+property: diffusivity
+material: iron
+isotope: D
+method: unknown
+source:
+  doi: 10.2320/matertrans1960.26.869
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 4.28e-08
+    unit: m**2 * s**-1
+  act_energy:
+    value: 6.47
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 500.0
+    - 1000.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/iron.py:31

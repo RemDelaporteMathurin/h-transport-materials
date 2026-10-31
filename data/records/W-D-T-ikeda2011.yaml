@@ -1,0 +1,25 @@
+id: htm:W-D-T-ikeda2011
+property: diffusivity
+material: tungsten
+isotope: T
+method: unknown
+source:
+  doi: 10.13182/FST11-A12707
+  location: null
+reported:
+  form: points
+  file: W-D-T-ikeda2011.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1000.0
+  y:
+    column: 1
+    quantity: value
+    unit: m**2 * s**-1
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:429

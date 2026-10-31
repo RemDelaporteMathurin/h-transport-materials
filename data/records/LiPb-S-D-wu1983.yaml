@@ -1,0 +1,44 @@
+id: htm:LiPb-S-D-wu1983
+property: solubility
+law: sieverts
+material: lipb
+isotope: D
+method: unknown
+sample:
+  composition:
+    Li: 17
+    Pb: 83
+source:
+  doi: 10.1016/0022-3115(83)90069-7
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 5000.0
+    unit: atm^0.5
+  act_energy:
+    value: 0
+    unit: eV/particle
+  range:
+    value:
+    - 850
+    - 1040
+    unit: K
+transformations:
+- op: sieverts_constant_to_solubility
+  params:
+    concentration_unit: atfr
+  origin: paper
+  rationale: The paper gives the Sieverts constant Ks = sqrt(p) / x, so S = 1 / Ks.
+- op: mole_fraction_to_concentration
+  params:
+    density_at: 300 K
+  origin: htm
+  rationale: The paper gives an atom fraction. HTM converts it with the Pb-17Li density from the material
+    registry, evaluated at 300 K as HTM has always done, and the molar mass of the sample composition.
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  - check that Ks is given per atom fraction
+  migrated_from: h_transport_materials/property_database/lipb/lipb.py:43

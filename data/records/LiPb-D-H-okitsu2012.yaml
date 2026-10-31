@@ -1,0 +1,27 @@
+id: htm:LiPb-D-H-okitsu2012
+property: diffusivity
+material: lipb
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.fusengdes.2012.03.004
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 2.0e-08
+    unit: m**2 * s**-1
+  act_energy:
+    value: 11200.0
+    unit: J * mol**-1
+  range:
+    value:
+    - 773.0
+    - 973.0
+    unit: K
+note: Li17Pb83. Typo in Okitsu's paper on the pre-exponential factor
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/lipb/lipb.py:300

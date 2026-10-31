@@ -1,0 +1,28 @@
+id: htm:Al-P-H-song1997
+property: permeability
+law: sieverts
+material: aluminium
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/S0022-3115(97)00146-3
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.0e-06
+    unit: mol * m**-1 * s**-1 * MPa**-0.5
+  act_energy:
+    value: 52.5
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 400.0
+    - 500.0
+    unit: degC
+note: natural oxide
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/aluminium/aluminium.py:50

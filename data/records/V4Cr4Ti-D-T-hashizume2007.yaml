@@ -1,0 +1,27 @@
+id: htm:V4Cr4Ti-D-T-hashizume2007
+property: diffusivity
+material: v4cr4ti
+isotope: T
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2007.03.239
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.00075
+    unit: cm**2 * s**-1
+  act_energy:
+    value: 0.13
+    unit: eV * particle**-1
+  range:
+    value:
+    - 373.0
+    - 573.0
+    unit: K
+note: there is a conversion mistake for D_0 in Shimada 2020 review
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/vanadium_alloy.py:6

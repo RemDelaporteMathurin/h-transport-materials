@@ -1,0 +1,27 @@
+id: htm:FLiBe-D-T-calderoni2008
+property: diffusivity
+material: flibe
+isotope: T
+method: unknown
+source:
+  doi: 10.1016/j.fusengdes.2008.05.016
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 9.3e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 42000.0
+    unit: J * mol**-1
+  range:
+    value:
+    - 550.0
+    - 700.0
+    unit: degC
+note: 2LiF–BeF_2
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/flibe/flibe.py:23

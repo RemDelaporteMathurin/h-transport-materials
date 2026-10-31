@@ -1,0 +1,28 @@
+id: htm:Fe-Kr-D-nagasaki1993-b
+property: recombination_coeff
+material: iron
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/0022-3115(93)90392-C
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 9.93e-20
+    unit: cm**4 * s**-1 * particle**-1
+  act_energy:
+    value: 78.8
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 900.0
+    - 1050.0
+    unit: degC
+note: gamma iron, Nagasaki also gives an equivalent form for the recombination coefficient. Here we take
+  the Arrhenius one (Eq. 9)
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/iron.py:79

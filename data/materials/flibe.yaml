@@ -1,0 +1,19 @@
+id: flibe
+code: FLiBe
+name: FLiBe
+families: [molten salt]
+formula_units: {LiF: 66, BeF2: 34}
+aliases: [flibe, 2LiF-BeF2, Li2BeF4]
+htm_legacy: FLIBE
+density:
+  form: linear
+  a: 2413
+  b: -0.488
+  unit: kg/m^3
+  T_unit: K
+  source:
+    doi: 10.1016/j.anucene.2017.05.036
+    location: null
+  note: rho = a + b T for liquid FLiBe.
+  flags:
+    - check the coefficients, equation number and validity range in the review

@@ -1,0 +1,8 @@
+id: 304_steel
+code: SS304
+name: 304_steel
+families:
+- steel
+- alloy
+- metal
+htm_legacy: STEEL_304

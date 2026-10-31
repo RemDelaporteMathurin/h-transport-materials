@@ -1,0 +1,10 @@
+id: vanadium
+code: V
+name: vanadium
+families:
+- pure metal
+- metal
+symbol: V
+composition:
+  V: 100
+htm_legacy: VANADIUM

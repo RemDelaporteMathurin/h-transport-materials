@@ -1,0 +1,8 @@
+id: series_300_steel
+code: SS300
+name: series_300_steel
+families:
+- steel
+- alloy
+- metal
+htm_legacy: STEEL_SERIES_300

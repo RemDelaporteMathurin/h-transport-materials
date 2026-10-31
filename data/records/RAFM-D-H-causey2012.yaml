@@ -1,0 +1,27 @@
+id: htm:RAFM-D-H-causey2012
+property: diffusivity
+material: rafm_steel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/B978-0-08-056033-5.00116-6
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.0e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 13.2
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 300.0
+    - 973.0
+    unit: K
+note: value obtained from a average estimate from several authors
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/rafm_steel.py:6

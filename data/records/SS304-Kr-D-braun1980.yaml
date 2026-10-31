@@ -1,0 +1,26 @@
+id: htm:SS304-Kr-D-braun1980
+property: recombination_coeff
+material: 304_steel
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/0022-3115(80)90219-6
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 5.4e-19
+    unit: particle * cm**4 * particle**-2 * s**-1
+  act_energy:
+    value: 15600.0
+    unit: cal * mol**-1
+  range:
+    value:
+    - 150.0
+    - 400.0
+    unit: degC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/ss_304/ss_304.py:127

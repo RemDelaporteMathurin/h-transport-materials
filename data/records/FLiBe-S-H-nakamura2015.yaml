@@ -1,0 +1,28 @@
+id: htm:FLiBe-S-H-nakamura2015
+property: solubility
+law: henry
+material: flibe
+isotope: H
+method: unknown
+source:
+  key: nakamura2015
+  location: null
+reported:
+  form: points
+  file: FLiBe-S-H-nakamura2015.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: mol * m**-3 * Pa**-1
+note: derived from a permeation experiment, not a direct solubility measurement (see Dolan 2021, MIT PhD,
+  Table 2.6)
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/flibe/flibe.py:166

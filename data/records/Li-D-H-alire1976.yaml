@@ -1,0 +1,26 @@
+id: htm:Li-D-H-alire1976
+property: diffusivity
+material: lithium
+isotope: H
+method: unknown
+source:
+  key: alire1976
+  location: null
+reported:
+  form: points
+  file: Li-D-H-alire1976.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: cm**2 * s**-1
+note: in Shimada 2020, there is an error in Table 1 Lithium (lq.) line E_D column it should be 105.0 kJ/mol
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/lithium/lithium.py:19

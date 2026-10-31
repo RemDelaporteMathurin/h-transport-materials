@@ -1,0 +1,36 @@
+id: htm:FLiBe-S-H-field1967
+property: solubility
+law: henry
+material: flibe
+isotope: H
+method: unknown
+source:
+  doi: 10.1021/j100869a013
+  location: null
+reported:
+  form: points
+  file: FLiBe-S-H-field1967.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: degC
+  y:
+    column: 1
+    quantity: value
+    unit: 1 / atm
+transformations:
+- op: mole_fraction_to_concentration
+  params:
+    per: formula_unit
+    density: 2.419 g/cm^3
+  origin: htm
+  rationale: The paper gives a mole fraction per atm. HTM converts it with the molar mass of FLiBe per
+    formula unit and a density averaged by mole fraction from solid LiF (2.64 g/cm3) and BeF2 (1.99 g/cm3).
+note: HF
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  - this is the solubility of HF (hydrogen fluoride), not of H2
+  - the density is that of the solid salts, about 20% above liquid FLiBe
+  migrated_from: h_transport_materials/property_database/flibe/flibe.py:86

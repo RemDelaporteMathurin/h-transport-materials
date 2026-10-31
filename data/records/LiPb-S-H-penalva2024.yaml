@@ -1,0 +1,26 @@
+id: htm:LiPb-S-H-penalva2024
+property: solubility
+law: sieverts
+material: lipb
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.fusengdes.2023.114136
+  location: null
+reported:
+  form: points
+  file: LiPb-S-H-penalva2024.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: degC
+  y:
+    column: 1
+    quantity: value
+    unit: mol * m**-3 * Pa**-0.5
+note: Table 4, PbLi, absorption method
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/lipb/lipb.py:391

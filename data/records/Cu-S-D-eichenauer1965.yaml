@@ -1,0 +1,27 @@
+id: htm:Cu-S-D-eichenauer1965
+property: solubility
+law: sieverts
+material: copper
+isotope: D
+method: unknown
+source:
+  key: eichenauer1965
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 3.19e+24
+    unit: particle * m**-3 * Pa**-0.5
+  act_energy:
+    value: 0.41
+    unit: eV * particle**-1
+  range:
+    value:
+    - 703.0
+    - 913.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/copper/copper.py:116

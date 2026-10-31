@@ -1,0 +1,26 @@
+id: htm:FLiNaK-D-H-fukada2006
+property: diffusivity
+material: flinak
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2006.07.011
+  location: null
+reported:
+  form: points
+  file: FLiNaK-D-H-fukada2006.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: m**2 * s**-1
+note: in original paper, the equation displayed on Fig 5 doesn't match the plotted line.
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/flinak/flinak.py:13

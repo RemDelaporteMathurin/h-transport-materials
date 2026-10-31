@@ -1,0 +1,26 @@
+id: htm:Al-D-H-young1998
+property: diffusivity
+material: aluminium
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/S1359-6454(98)00333-4
+  location: null
+reported:
+  form: points
+  file: Al-D-H-young1998.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1000.0
+  y:
+    column: 1
+    quantity: value
+    unit: cm**2 * s**-1
+    scale: ln
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/aluminium/aluminium.py:13

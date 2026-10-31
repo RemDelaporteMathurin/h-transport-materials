@@ -1,0 +1,27 @@
+id: htm:Cu-S-H-thomas1967
+property: solubility
+law: sieverts
+material: copper
+isotope: H
+method: unknown
+source:
+  key: thomas1967
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.9e+24
+    unit: particle * m**-3 * Pa**-0.5
+  act_energy:
+    value: 0.51
+    unit: eV * particle**-1
+  range:
+    value:
+    - 770.0
+    - 1320.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/copper/copper.py:163

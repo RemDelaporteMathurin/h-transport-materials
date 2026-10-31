@@ -1,0 +1,28 @@
+id: htm:SS304-P-H-grant1987
+property: permeability
+law: sieverts
+material: 304_steel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0022-3115(87)90476-4
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 4.8e-07
+    unit: mol * s**-1 * m**-1 * Pa**-0.5
+  act_energy:
+    value: 7990.0
+    unit: K
+  range:
+    value:
+    - 645.0
+    - 965.0
+    unit: K
+note: uncertainties given in paper
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/ss_304/ss_304.py:14

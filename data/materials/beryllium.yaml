@@ -1,0 +1,11 @@
+id: beryllium
+code: Be
+name: beryllium
+families:
+- pure metal
+- metal
+- plasma facing
+symbol: Be
+composition:
+  Be: 100
+htm_legacy: BERYLLIUM
