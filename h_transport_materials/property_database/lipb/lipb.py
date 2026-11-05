@@ -418,6 +418,91 @@ candido_solubility_desorption = Solubility(
 )
 
 
+alberghi_solubility_h_300c = Solubility(
+    S_0=1.003e-01 * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=0 * u.eV * u.particle**-1,
+    range=(573.15 * u.K - 1 * u.K, 573.15 * u.K + 1 * u.K),  # single temperature, 300 C
+    isotope="H",
+    source="alberghi_analysis_2023",
+    note="Table 33, PDF p.134, sample mean, n = 8. Same table gives 1.766e-6 at.fr. Pa^-0.5"
+    + " with standard deviation 9.321e-7. Single temperature only."
+    + " Sample is Pb-15.7Li in the thesis. mol read as mol of H atoms,"
+    + " consistent with the at.fr. row",
+)
+
+alberghi_solubility_h_350c = Solubility(
+    S_0=7.138e-02 * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=0 * u.eV * u.particle**-1,
+    range=(623.15 * u.K - 1 * u.K, 623.15 * u.K + 1 * u.K),  # single temperature, 350 C
+    isotope="H",
+    source="alberghi_analysis_2023",
+    note="Table 33, PDF p.134, sample mean, n = 2. Same table gives 1.264e-6 at.fr. Pa^-0.5"
+    + " with standard deviation 3.476e-7. Single temperature only."
+    + " Sample is Pb-15.7Li in the thesis. mol read as mol of H atoms,"
+    + " consistent with the at.fr. row",
+)
+
+alberghi_solubility_h_400c = Solubility(
+    S_0=7.708e-02 * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=0 * u.eV * u.particle**-1,
+    range=(673.15 * u.K - 1 * u.K, 673.15 * u.K + 1 * u.K),  # single temperature, 400 C
+    isotope="H",
+    source="alberghi_analysis_2023",
+    note="Table 33, PDF p.134, sample mean, n = 2. Same table gives 1.373e-6 at.fr. Pa^-0.5"
+    + " with standard deviation 2.777e-7. Single temperature only."
+    + " Sample is Pb-15.7Li in the thesis. mol read as mol of H atoms,"
+    + " consistent with the at.fr. row",
+)
+
+alberghi_solubility_h_430c = Solubility(
+    S_0=8.104e-02 * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=0 * u.eV * u.particle**-1,
+    range=(703.15 * u.K - 1 * u.K, 703.15 * u.K + 1 * u.K),  # single temperature, 430 C
+    isotope="H",
+    source="alberghi_analysis_2023",
+    note="Table 33, PDF p.134, sample mean, n = 2. Same table gives 1.426e-6 at.fr. Pa^-0.5"
+    + " with standard deviation 1.027e-7. Single temperature only."
+    + " Sample is Pb-15.7Li in the thesis. mol read as mol of H atoms,"
+    + " consistent with the at.fr. row",
+)
+
+alberghi_solubility_d_300c = Solubility(
+    S_0=1.108e-01 * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=0 * u.eV * u.particle**-1,
+    range=(573.15 * u.K - 1 * u.K, 573.15 * u.K + 1 * u.K),  # single temperature, 300 C
+    isotope="D",
+    source="alberghi_analysis_2023",
+    note="Table 35, PDF p.136, sample mean, n = 2. Same table gives 1.950e-6 at.fr. Pa^-0.5"
+    + " with standard deviation 1.522e-6. Single temperature only."
+    + " Sample is Pb-15.7Li in the thesis. mol read as mol of H atoms,"
+    + " consistent with the at.fr. row",
+)
+
+alberghi_solubility_d_350c = Solubility(
+    S_0=1.273e-01 * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=0 * u.eV * u.particle**-1,
+    range=(623.15 * u.K - 1 * u.K, 623.15 * u.K + 1 * u.K),  # single temperature, 350 C
+    isotope="D",
+    source="alberghi_analysis_2023",
+    note="Table 35, PDF p.136, sample mean, n = 2. Same table gives 2.241e-6 at.fr. Pa^-0.5"
+    + " with standard deviation 1.464e-6. Single temperature only."
+    + " Sample is Pb-15.7Li in the thesis. mol read as mol of H atoms,"
+    + " consistent with the at.fr. row",
+)
+
+alberghi_solubility_d_430c = Solubility(
+    S_0=9.513e-02 * u.mol * u.m**-3 * u.Pa**-0.5,
+    E_S=0 * u.eV * u.particle**-1,
+    range=(703.15 * u.K - 1 * u.K, 703.15 * u.K + 1 * u.K),  # single temperature, 430 C
+    isotope="D",
+    source="alberghi_analysis_2023",
+    note="Table 35, PDF p.136, sample mean, n = 2. Same table gives 1.674e-6 at.fr. Pa^-0.5"
+    + " with standard deviation 4.404e-7. Single temperature only."
+    + " Sample is Pb-15.7Li in the thesis. mol read as mol of H atoms,"
+    + " consistent with the at.fr. row",
+)
+
+
 properties = [
     fauvet_diffusivity,
     reiter_diffusivity_h,
@@ -455,6 +540,13 @@ properties = [
     penalva_solubility,
     candido_solubility_absorption,
     candido_solubility_desorption,
+    alberghi_solubility_h_300c,
+    alberghi_solubility_h_350c,
+    alberghi_solubility_h_400c,
+    alberghi_solubility_h_430c,
+    alberghi_solubility_d_300c,
+    alberghi_solubility_d_350c,
+    alberghi_solubility_d_430c,
 ]
 
 for prop in properties:

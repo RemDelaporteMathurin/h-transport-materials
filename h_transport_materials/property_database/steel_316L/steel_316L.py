@@ -440,6 +440,17 @@ penzhorn_diffusivity_2 = Diffusivity(
     note="Section III.C, temperature range is unclear",
 )
 
+alberghi_diffusivity = Diffusivity(
+    D_0=4.96e-8 * u.m**2 * u.s**-1,
+    E_D=38860 * u.J * u.mol**-1,
+    range=(u.Quantity(500, u.degC), u.Quantity(650, u.degC)),
+    isotope="H",
+    source="alberghi_analysis_2023",
+    note="1.4404 (316L) disc, uncoated, gas-driven permeation, 100 to 10000 Pa."
+    + " Arrhenius fit of the diffusivities in Tables 36 and 37, PDF p.146",
+)
+
+
 properties = [
     reiter_diffusivity,
     reiter_solubility,
@@ -480,6 +491,7 @@ properties = [
     shan_solubility_t,
     penzhorn_diffusivity_1,
     penzhorn_diffusivity_2,
+    alberghi_diffusivity,
 ]
 
 for prop in properties:
