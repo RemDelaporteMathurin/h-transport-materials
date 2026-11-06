@@ -302,10 +302,10 @@ def _select_fit(record, state, target):
     chosen = refit if selected == "htm_refit" else author
     n.update(_law(chosen, target))
     fit_range = rep.author_fit.range if selected == "author_fit" and rep.author_fit else None
-    n["range"] = (
-        {"value": list(fit_range.value), "unit": fit_range.unit}
+    n["range"] = _range(
+        tuple(quantity(v, fit_range.unit) for v in fit_range.value)
         if fit_range
-        else _range(state.range or refit["range"])
+        else state.range or refit["range"]
     )
     return n
 
