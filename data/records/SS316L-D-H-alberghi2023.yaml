@@ -1,0 +1,26 @@
+id: htm:SS316L-D-H-alberghi2023
+property: diffusivity
+material: 316l_steel
+isotope: H
+method: gas-permeation
+sample:
+  form: 1.4404 (316L) disc, uncoated
+source:
+  key: alberghi2023
+  location: Tables 36 and 37, PDF p.146
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 4.96e-08
+    unit: m^2 / s
+  act_energy:
+    value: 38860
+    unit: J / mol
+  range:
+    value: [500, 650]
+    unit: degC
+note: >-
+  Gas-driven permeation, 100 to 10000 Pa. Arrhenius fit of the diffusivities in
+  Tables 36 and 37.
+curation:
+  status: draft
