@@ -159,6 +159,20 @@ shirasu_solubility_EK_98_high_temp = Solubility(
     range=(u.Quantity(800, u.degC), u.Quantity(1000, u.degC)),
     isotope="H",
 )
+dolan_diffusivity_tritium = Diffusivity(
+    D_0=3.65e-15 * u.m**2 * u.s**-1,
+    E_D=0 * u.eV * u.particle**-1,
+    range=(873.15 * u.K - 1 * u.K, 873.15 * u.K + 1 * u.K),  # single temperature, 600 C
+    isotope="T",
+    source="dolan_tritium_2021",
+    note="bulk diffusivity of tritium in POCO AXF-5Q1 graphite, PDF p.219, given as"
+    + " determined in the thesis's Section 4 by fitting a transport model to retention data."
+    + " Single temperature only. The text quotes it next to a 600 C value for 316 steel."
+    + " It matches the fit D = 0.417 exp(-235 kJ/mol / RT) m2/s on PDF p.228 evaluated at 873 K."
+    + " About 2e4 times higher than atsumi_diffusivity (D) at the same temperature,"
+    + " a model-fit value on a different graphite grade",
+)
+
 
 properties = [
     causey_diffusivity,
@@ -172,6 +186,7 @@ properties = [
     shirasu_solubility_ISO_880U_high_temp,
     shirasu_solubility_EK_98_low_temp,
     shirasu_solubility_EK_98_high_temp,
+    dolan_diffusivity_tritium,
 ]
 
 for prop in properties:
