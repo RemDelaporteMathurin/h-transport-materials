@@ -45,6 +45,7 @@ h_transport_materials/          the library
     migrate.py                  one-off property_database -> YAML tool
     contribute.py               issue forms -> record files (the contribution bot)
     report.py                   record report (plots, checks) commented on PRs
+    curate.py                   /verify and /dispute (the curation bot), htm curate
     cli.py                      the `htm` command
 data/
   records/<id>.yaml (+ .csv)    one record per source x property x isotope x material
@@ -78,6 +79,7 @@ htm migrate                              # rerun the migration (idempotent)
 htm contribute form                      # regenerate .github/ISSUE_TEMPLATE/{new,change}-record.yml
 htm contribute from-issue issue.json --dry-run   # what the bot does with an issue (REST API JSON)
 htm report --base a.json --head b.json --plots plots/   # the record report posted on PRs
+htm curate verify <id> --by <who> --note "..."   # verify a record (also: dispute, check, from-comment)
 
 flake8 h_transport_materials/records --max-line-length=127
 ```
@@ -120,6 +122,16 @@ pydantic or pyyaml.
 - Contributed records are not in `data/migration/legacy.yaml`; the
   equivalence test skips them. Changing a migrated record's values still
   needs an `EXPECTED_DIFFERENCES` entry.
+- Verification: on a PR, someone with write access who did not contribute
+  the record comments `/verify <id>` (or `/verify all`), then a note on what
+  was checked. Open flags must be resolved: the note is required when there
+  are any, and they move into the new `curation.verifications` entry.
+  `/dispute <id> <reason>` sets `disputed` and adds a flag.
+  `.github/workflows/curate.yml` (must be on `main`) handles the comment and
+  commits to the PR branch; it never runs the PR's code and cannot push to
+  forks. A verified record whose values change must go back to draft or be
+  verified again: the `curation` job in `ci.yml` (`htm curate check`) fails
+  otherwise.
 - "Closes #N" only closes the issue when merging into the default branch:
   close it by hand while the bot targets `feat/records-database`.
 

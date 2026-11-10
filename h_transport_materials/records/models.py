@@ -5,6 +5,7 @@ ordered list of ``transformations`` HTM applies to it. Normalised SI values
 are never stored in the YAML: they are computed by the build.
 """
 
+import datetime
 import re
 from typing import Annotated, Literal, Union
 
@@ -278,10 +279,23 @@ class Sample(_Strict):
     _composition = field_validator("composition", "formula_units")(_check_composition)
 
 
+class Verification(_Strict):
+    """One check of a record against its source, by someone who did not contribute it"""
+
+    by: str = Field(description="https://orcid.org/... or github:<login>")
+    date: datetime.date
+    pr: int | None = Field(None, description="the pull request it was verified in")
+    commit: str | None = Field(None, description="the commit the verifier looked at")
+    note: str | None = Field(None, description="what was checked, and how the flags were resolved")
+    resolved_flags: list[str] = Field([], description="the flags open when it was verified")
+
+
 class Curation(_Strict):
     status: Literal["draft", "verified", "disputed"] = "draft"
     contributed_by: list[str] = []
-    verified_by: list[str] = []
+    verifications: list[Verification] = Field(
+        [], description="oldest first; `htm curate verify` or `/verify` on a pull request adds one"
+    )
     flags: list[str] = Field(
         [], description="open questions a verifier must resolve against the PDF"
     )
@@ -289,6 +303,15 @@ class Curation(_Strict):
     migrated_from: str | None = Field(
         None, description="file:line of the property_database entry it was migrated from"
     )
+
+    @model_validator(mode="after")
+    def _verified_means_checked(self):
+        if self.status == "verified":
+            if not self.verifications:
+                raise ValueError("a verified record needs at least one entry in curation.verifications")
+            if self.flags:
+                raise ValueError("a verified record cannot have open flags: resolve them or set status to draft")
+        return self
 
 
 class Record(_Strict):

@@ -209,6 +209,7 @@ def test_new_points_record_from_github_body(data):
     assert rec["curation"]["contributed_by"] == ["github:janedoe"]
     assert (data / "records" / "Ni-D-D-doe2025.csv").read_text(encoding="utf-8").startswith("2.0,-11.03182\n")
     assert "Closes #7." in result["pr_body"] and "```yaml" in result["pr_body"]
+    assert "`/verify all`" in result["pr_body"]
     db = build.build(data)
     n = next(r for r in db["records"] if r["id"] == "htm:Ni-D-D-doe2025")["normalized"]
     assert n["selected"] == "author_fit"
