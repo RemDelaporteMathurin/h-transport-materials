@@ -1,0 +1,121 @@
+# Publishes the record report of pull requests from forks.
+#
+# A pull_request run from a fork only gets a read-only token, so
+# record-report.yml cannot push plots or comment there. This workflow runs
+# after it, in this repository's context with a write token: it downloads the
+# report and plots it uploaded, pushes the plots to bot-assets and posts (or
+# updates) the comment.
+#
+# workflow_run only triggers workflows on the default branch, so this file
+# must be on main.
+#
+# Security: the artifact was produced by the pull request's code, so it is
+# untrusted. Nothing here checks out or runs it: the plots are copied only if
+# they are PNG files with plain names, the report is posted as comment text,
+# and the pull request number comes from the API, not from the artifact.
+
+name: Record report (publish)
+
+on:
+  workflow_run:
+    workflows: ["Record report"]
+    types: [completed]
+
+permissions:
+  actions: read         # download the artifact of the triggering run
+  contents: write       # push plots to bot-assets
+  pull-requests: write  # the report comment
+
+concurrency:
+  group: record-report-publish-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_repository.full_name != github.repository
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+    steps:
+      - name: Find the pull request
+        run: |
+          pr=$(gh api "repos/${GITHUB_REPOSITORY}/pulls?state=open&per_page=100" --paginate \
+            --jq ".[] | select(.head.sha == \"${HEAD_SHA}\") | .number" | head -n 1)
+          if [ -z "$pr" ]; then
+            echo "no open pull request with head ${HEAD_SHA} (pushed again since?)"
+            exit 0
+          fi
+          echo "PR=$pr" >> "$GITHUB_ENV"
+
+      - uses: actions/download-artifact@v4
+        if: env.PR
+        with:
+          name: record-report
+          path: ${{ runner.temp }}/in
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/checkout@v5
+        if: env.PR
+        with:
+          fetch-depth: 1
+          persist-credentials: true
+
+      - name: Publish the plots
+        if: env.PR
+        run: |
+          shopt -s nullglob
+          plots=()
+          for f in "$RUNNER_TEMP"/in/plots/*; do
+            name=$(basename "$f")
+            if [[ ! "$name" =~ ^[A-Za-z0-9._-]+\.png$ ]] || [ -L "$f" ] || [ ! -f "$f" ] \
+              || [ "$(head -c 8 "$f" | od -An -tx1 | tr -d ' \n')" != "89504e470d0a1a0a" ] \
+              || [ "$(stat -c %s "$f")" -gt 5000000 ]; then
+              echo "skipping $name: not a plain PNG file under 5 MB"
+              continue
+            fi
+            plots+=("$f")
+          done
+          [ ${#plots[@]} -eq 0 ] && exit 0
+          [ ${#plots[@]} -gt 200 ] && { echo "too many plots (${#plots[@]})"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          assets="$RUNNER_TEMP/assets"
+          if git ls-remote --exit-code --heads origin bot-assets > /dev/null; then
+            git fetch --depth 1 origin bot-assets
+            git worktree add "$assets" FETCH_HEAD
+            git -C "$assets" checkout -B bot-assets
+          else
+            git worktree add --detach "$assets"
+            git -C "$assets" checkout --orphan bot-assets
+            git -C "$assets" rm -rf --quiet .
+            echo "Plots for the record report on pull requests. Generated, do not edit." > "$assets/README.md"
+          fi
+          mkdir -p "$assets/pr-${PR}/${HEAD_SHA}"
+          cp "${plots[@]}" "$assets/pr-${PR}/${HEAD_SHA}/"
+          git -C "$assets" add .
+          git -C "$assets" commit --quiet -m "record report plots for #${PR} at ${HEAD_SHA}"
+          for i in 1 2 3; do
+            git -C "$assets" push --quiet origin HEAD:bot-assets && exit 0
+            git -C "$assets" pull --quiet --rebase origin bot-assets
+          done
+          exit 1
+
+      - name: Comment
+        if: env.PR
+        run: |
+          report="$RUNNER_TEMP/in/report.md"
+          [ -f "$report" ] || { echo "no report in the artifact"; exit 1; }
+          url="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/bot-assets/pr-${PR}/${HEAD_SHA}"
+          sed "s#(__HTM_PLOT_URL__/#(${url}/#g" "$report" > "$RUNNER_TEMP/body.md"
+          comment_id=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR}/comments" --paginate \
+            --jq '[.[] | select(.user.login == "github-actions[bot]" and (.body | contains("<!-- htm-record-report -->")))][0].id // empty')
+          if [ -n "$comment_id" ]; then
+            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${comment_id}" -F "body=@$RUNNER_TEMP/body.md" > /dev/null
+          else
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${PR}/comments" -F "body=@$RUNNER_TEMP/body.md" > /dev/null
+          fi
