@@ -4,8 +4,9 @@
 # (updated on each push). h_transport_materials/records/report.py does the work.
 #
 # Plots are pushed to the orphan branch bot-assets so the comment can show
-# them. Pull requests from forks get a read-only token: their report goes to
-# the job summary, with the plots as an artifact.
+# them. Pull requests from forks get a read-only token: this job only uploads
+# the report and plots as an artifact, and record-report-publish.yml (which
+# must be on main) pushes the plots and posts the comment.
 
 name: Record report
 
@@ -52,13 +53,15 @@ jobs:
 
       - name: Write the report
         run: |
-          url=""
+          # forks: record-report-publish.yml replaces the placeholder with the
+          # URL of the plots once it has pushed them to bot-assets
+          url="__HTM_PLOT_URL__"
           if [ "$SAME_REPO" = true ]; then
             url="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/bot-assets/pr-${PR}/${HEAD_SHA}"
           fi
           htm report --base "$RUNNER_TEMP/base.json" --head "$RUNNER_TEMP/head.json" \
             --out "$RUNNER_TEMP/report.md" --plots "$RUNNER_TEMP/plots" --plot-url "$url"
-          cat "$RUNNER_TEMP/report.md" >> "$GITHUB_STEP_SUMMARY"
+          grep -v '(__HTM_PLOT_URL__/' "$RUNNER_TEMP/report.md" >> "$GITHUB_STEP_SUMMARY" || true
 
       - uses: actions/upload-artifact@v4
         with:
