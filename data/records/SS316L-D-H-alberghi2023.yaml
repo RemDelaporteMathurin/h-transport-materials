@@ -9,18 +9,32 @@ source:
   key: alberghi2023
   location: Tables 36 and 37, PDF p.146
 reported:
-  form: arrhenius
-  pre_exp:
-    value: 4.96e-08
-    unit: m^2 / s
-  act_energy:
-    value: 38860
-    unit: J / mol
-  range:
-    value: [500, 650]
+  form: points
+  file: SS316L-D-H-alberghi2023.csv
+  x:
+    column: 0
+    quantity: temperature
     unit: degC
+  y:
+    column: 1
+    quantity: value
+    unit: m^2 / s
+  digitised_from: Table 37 (average D at each temperature, typed from the table)
+  author_fit:
+    form: arrhenius
+    pre_exp:
+      value: 4.96e-08
+      unit: m^2 / s
+    act_energy:
+      value: 38860
+      unit: J / mol
+    range:
+      value: [500, 650]
+      unit: degC
 note: >-
-  Gas-driven permeation, 100 to 10000 Pa. Arrhenius fit of the diffusivities in
-  Tables 36 and 37.
+  Gas-driven permeation, diffusivity from the time lag. Table 37 averages the Table 36
+  values at each temperature, with standard deviations of 2.12e-11, 3.65e-11 and
+  1.00e-10 m2/s at 500, 550 and 650 C. Table 36 heads its pressure columns 1, 10, 50 and
+  100 Pa while the text gives 100 to 10000 Pa, so the columns may be in hPa.
 curation:
   status: draft

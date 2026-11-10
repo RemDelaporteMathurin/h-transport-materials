@@ -43,12 +43,20 @@ def test_alberghi_diffusivity_matches_thesis_fit():
     assert value == pytest.approx(expected, rel=1e-4)
 
 
-def test_dolan_tritium_diffusivity_matches_thesis_fit_at_873K():
-    """The single value agrees with D = 0.417 exp(-235 kJ/mol / RT) m2/s
-    quoted by the same thesis"""
-    prop = record("htm:C-D-T-dolan2021")
-    T = 873.15
+def test_alberghi_diffusivity_points_are_table_37():
+    prop = record("htm:SS316L-D-H-alberghi2023")
+    T = prop.data_T.to("degC").magnitude
+    y = prop.data_y.to("m**2 s**-1").magnitude
+    assert T == pytest.approx([500, 550, 650])
+    assert y == pytest.approx([1.12e-10, 1.84e-10, 3.03e-10])
+
+
+def test_dolan_bulk_diffusivity_is_the_thesis_fit():
+    """D = 0.417 exp(-235 kJ/mol / RT) m2/s, fitted to deuterium desorption
+    (Eq. 4.3 and Fig. 4.5)"""
+    prop = record("htm:C-D-D-dolan2021")
+    T = 1200.0
     fit = 0.417 * np.exp(-235e3 / (8.314462618 * T))
     value = prop.value(T * u.K).to("m**2 s**-1").magnitude
-    assert prop.isotope == "T"
-    assert value == pytest.approx(fit, rel=0.02)
+    assert prop.isotope == "D"
+    assert value == pytest.approx(fit, rel=1e-4)
