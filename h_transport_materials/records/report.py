@@ -300,6 +300,7 @@ def _record_section(rec, db, base_db, plot_url, before=None):
         f"| Location | {rec['source'].get('location') or 'not given'} |",
         f"| As typed | {_fmt_reported(rec)} |",
         f"| Normalised | {_fmt_normalized(rec)} |",
+        f"| Curation | {_fmt_curation(rec)} |",
     ]
     if before is not None:
         T = mid_temperature(rec, before)
@@ -318,7 +319,58 @@ def _record_section(rec, db, base_db, plot_url, before=None):
     warnings = checks(rec, db, base={r["id"] for r in base_db["records"]})
     if warnings:
         lines += ["", "**To check:**"] + [f"- {w}" for w in warnings]
+    flags = (rec.get("curation") or {}).get("flags") or []
+    if flags:
+        lines += ["", "**Open flags** (a verifier resolves them against the paper):"] + [f"- {f}" for f in flags]
     return "\n".join(lines)
+
+
+VERIFY_HELP = (
+    "To verify, check the records against the paper, then comment (copy and edit):",
+    "",
+    "```",
+    "/verify all",
+    "What I checked (table, figure, equation) and how each flag was resolved.",
+    "```",
+    "",
+    "Or one record: `/verify htm:<id>`. To dispute one: `/dispute htm:<id> <reason>`."
+    " Who can: people with write access who did not contribute the record or change it in this pull request.",
+)
+
+
+def _values_changed(before, after):
+    """True if a record changed other than in its curation"""
+    keep = lambda r: {k: v for k, v in r.items() if k not in DERIVED_KEYS + ("curation",)}  # noqa: E731
+    points = lambda r: r["normalized"].get("points")  # noqa: E731
+    return keep(before) != keep(after) or law(before) != law(after) or points(before) != points(after)
+
+
+def curation_section(base, head):
+    """The table of the records a pull request adds or changes, with how to verify them"""
+    d = diff(base, head)
+    rows = []
+    for before, rec in [(None, r) for r in d["added"]] + d["changed"]:
+        cur = rec.get("curation") or {}
+        status = cur.get("status", "draft")
+        if before is not None and status == "verified" and _values_changed(before, rec):
+            if len(cur.get("verifications") or []) <= len((before.get("curation") or {}).get("verifications") or []):
+                status = "verified, **needs verifying again**: its values changed"
+        rows.append(f"| `{rec['id']}` | {status} | {len(cur.get('flags') or [])} |")
+    if not rows:
+        return ""
+    return "\n".join(
+        ["### Curation", "", "| Record | Status | Open flags |", "| --- | --- | --- |", *rows, "", *VERIFY_HELP]
+    )
+
+
+def _fmt_curation(rec):
+    cur = rec.get("curation") or {}
+    parts = [f"**{cur.get('status', 'draft')}**"]
+    if cur.get("contributed_by"):
+        parts.append("contributed by " + ", ".join(cur["contributed_by"]))
+    for v in cur.get("verifications") or []:
+        parts.append(f"verified by {v['by']} on {v['date']}" + (f" (#{v['pr']})" if v.get("pr") else ""))
+    return "; ".join(parts)
 
 
 def report_markdown(base, head, plot_urls=None):
@@ -350,6 +402,9 @@ def report_markdown(base, head, plot_urls=None):
             "| --- | --- | --- | --- |",
             *value_changes,
         ]
+    curation = curation_section(base, head)
+    if curation:
+        parts += ["", curation]
     for rec in d["added"]:
         parts += ["", _record_section(rec, head, base, plot_urls.get(rec["id"]))]
     for b, h in d["changed"]:

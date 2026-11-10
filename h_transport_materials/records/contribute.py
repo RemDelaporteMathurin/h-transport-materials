@@ -594,7 +594,7 @@ def _table(rows, header=("", "")):
 NEXT_STEPS = (
     "**What happens next.** The record report on the pull request plots this record next to"
     " the others. A maintainer reviews and merges it. The record stays a *draft* until"
-    " someone checks it against the paper."
+    " someone else checks it against the paper and comments `/verify` on the pull request."
 )
 
 
@@ -995,9 +995,11 @@ def change_record(fields, data_dir=build.DATA_DIR, author=None, issue=None):
                 "Nothing differs from the record. Change at least one field, or choose *Only flag it for a verifier*."
             )
         if curation.get("status") == "verified" and values_changed:
-            curation["status"] = "draft"
             flags.append(f"values changed through issue #{issue} after verification: verify again")
         flags.append(f"changed through issue #{issue} ({_oneline(reason)}): check against the paper")
+    if curation.get("status") == "verified":
+        # a verified record has no open flag (models.Curation): it goes back to draft
+        curation["status"] = "draft"
 
     who = _who(author, fields.get("orcid"))
     if who and who not in curation.setdefault("contributed_by", []):
@@ -1064,10 +1066,23 @@ def from_issue(issue, data_dir=build.DATA_DIR, dry_run=False, fetch=sources.fetc
         "title": c.title,
         "files": [str(Path("data") / rel).replace("\\", "/") for rel in c.files],
         "pr_body": "\n\n".join(
-            [c.summary, _yaml_details(c.files), f"Closes #{number}.", f"Opened by the contribution bot from issue #{number}."]
+            [
+                c.summary,
+                _yaml_details(c.files),
+                VERIFY_HINT,
+                f"Closes #{number}.",
+                f"Opened by the contribution bot from issue #{number}.",
+            ]
         ),
         "comment": f"{MARKER}\nThanks! I turned this issue into a pull request: PR_URL\n\n{c.summary}",
     }
+
+
+VERIFY_HINT = (
+    "**To verify** (write access, and not the author of the issue): check the record against the paper,"
+    " then comment `/verify all` followed by what you checked and how each flag was resolved."
+    " The record report below lists the records and their flags."
+)
 
 
 def _yaml_details(files):

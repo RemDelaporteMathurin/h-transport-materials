@@ -1,0 +1,190 @@
+# The curation bot: handles /verify and /dispute comments on pull requests
+# (h_transport_materials/records/curate.py does the work) and commits the
+# result to the pull request branch.
+#
+#     /verify htm:W-D-H-frauenfelder1969
+#     Checked Table 2 and eq. 3; the method is gas permeation (section 2).
+#
+# Only people with write access to the repository can use it, and not on the
+# records they contributed or changed in the pull request.
+#
+# Comment events only run workflows from the default branch, so this file
+# must be on main. It uses the GitHub App of the contribution bot (secrets
+# HTM_BOT_APP_ID and HTM_BOT_PRIVATE_KEY) so that its commit triggers CI.
+#
+# Security: this job holds a write token, so it never runs the pull request's
+# code. HTM is installed from the pull request's base branch; the pull
+# request's data/ is only read as YAML. The comment reaches the script through
+# the event file, never through ${{ }} expressions inside `run:`.
+#
+# Pull requests from forks: the app cannot push to them, so the bot says so;
+# verify the records after merging, or with `htm curate verify` locally.
+
+name: Curation bot
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions: {}  # everything goes through the app token
+
+concurrency:
+  group: curate-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  curate:
+    if: >-
+      github.event.issue.pull_request &&
+      github.event.comment.user.type != 'Bot' &&
+      (contains(github.event.comment.body, '/verify') || contains(github.event.comment.body, '/dispute'))
+    runs-on: ubuntu-latest
+    env:
+      PR: ${{ github.event.issue.number }}
+      LOGIN: ${{ github.event.comment.user.login }}
+      COMMENT_ID: ${{ github.event.comment.id }}
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app
+        with:
+          app-id: ${{ secrets.HTM_BOT_APP_ID }}
+          private-key: ${{ secrets.HTM_BOT_PRIVATE_KEY }}
+
+      - name: Bot identity
+        id: bot
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          SLUG: ${{ steps.app.outputs.app-slug }}
+        run: |
+          user_id=$(gh api "/users/${SLUG}%5Bbot%5D" --jq .id)
+          echo "name=${SLUG}[bot]" >> "$GITHUB_OUTPUT"
+          echo "email=${user_id}+${SLUG}[bot]@users.noreply.github.com" >> "$GITHUB_OUTPUT"
+
+      - name: Check the commenter and the pull request
+        id: gate
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          # only a comment that starts a line with a command
+          jq -r .comment.body "$GITHUB_EVENT_PATH" | grep -qE '^[[:space:]]*/(verify|dispute)\b' || { echo "no command"; exit 0; }
+          gh api "repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID}/reactions" -f content=eyes > /dev/null
+          reply() {
+            printf '<!-- htm-curation-bot -->\n%s\n' "$1" > "$RUNNER_TEMP/reply.md"
+            gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/reply.md"
+          }
+          perm=$(gh api "repos/${GITHUB_REPOSITORY}/collaborators/${LOGIN}/permission" --jq .permission 2>/dev/null || echo none)
+          if [ "$perm" != admin ] && [ "$perm" != write ]; then
+            reply "Only people with write access to this repository can verify or dispute records. Thanks for checking: say what you found in a comment and a maintainer will take it from there."
+            exit 0
+          fi
+          gh api "repos/${GITHUB_REPOSITORY}/pulls/${PR}" > "$RUNNER_TEMP/pr.json"
+          if [ "$(jq -r .state "$RUNNER_TEMP/pr.json")" != open ]; then
+            reply "This pull request is closed: verify the records in a new one, or with \`htm curate verify\`."
+            exit 0
+          fi
+          if [ "$(jq -r .head.repo.full_name "$RUNNER_TEMP/pr.json")" != "$GITHUB_REPOSITORY" ]; then
+            reply "This pull request comes from a fork, so I cannot commit to it. Verify the records once it is merged, or run \`htm curate verify <id> --by github:<login> --note ...\` on its branch."
+            exit 0
+          fi
+          echo "base=$(jq -r .base.ref "$RUNNER_TEMP/pr.json")" >> "$GITHUB_OUTPUT"
+          echo "head=$(jq -r .head.ref "$RUNNER_TEMP/pr.json")" >> "$GITHUB_OUTPUT"
+          echo "go=true" >> "$GITHUB_OUTPUT"
+
+      - name: HTM from the base branch (trusted code)
+        if: steps.gate.outputs.go == 'true'
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.gate.outputs.base }}
+          path: trusted
+          persist-credentials: false
+
+      - name: The pull request branch (data only, never executed)
+        if: steps.gate.outputs.go == 'true'
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.gate.outputs.head }}
+          path: pr
+          token: ${{ steps.app.outputs.token }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        if: steps.gate.outputs.go == 'true'
+        with:
+          python-version: "3.14"
+
+      - name: Verify or dispute
+        id: run
+        if: steps.gate.outputs.go == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          BASE_REF: ${{ steps.gate.outputs.base }}
+        run: |
+          python -m pip install -e "./trusted[build]"
+          git -C pr worktree add --detach "$RUNNER_TEMP/base" "$(git -C pr merge-base "origin/${BASE_REF}" HEAD)"
+          jq .comment "$GITHUB_EVENT_PATH" > "$RUNNER_TEMP/comment.json"
+          # the author of the issue a contribution bot PR comes from cannot verify its records
+          issue_args=()
+          n=$(jq -r .body "$RUNNER_TEMP/pr.json" | grep -oE 'Opened by the contribution bot from issue #[0-9]+' | grep -oE '[0-9]+$' | head -n 1 || true)
+          if [ -n "$n" ]; then
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${n}" > "$RUNNER_TEMP/issue.json"
+            issue_args=(--issue "$RUNNER_TEMP/issue.json")
+          fi
+          htm curate from-comment "$RUNNER_TEMP/comment.json" --pr "$RUNNER_TEMP/pr.json" "${issue_args[@]}" \
+            --data pr/data --base "$RUNNER_TEMP/base/data" --result "$RUNNER_TEMP/result.json"
+          echo "ok=$(jq -r .ok "$RUNNER_TEMP/result.json")" >> "$GITHUB_OUTPUT"
+
+      - name: Commit to the pull request
+        if: steps.run.outputs.ok == 'true'
+        env:
+          BOT_NAME: ${{ steps.bot.outputs.name }}
+          BOT_EMAIL: ${{ steps.bot.outputs.email }}
+          HEAD_REF: ${{ steps.gate.outputs.head }}
+          USER_ID: ${{ github.event.comment.user.id }}
+        run: |
+          cd pr
+          git config user.name "$BOT_NAME"
+          git config user.email "$BOT_EMAIL"
+          git add data/records
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+            exit 0
+          fi
+          {
+            echo "Curation from a comment by ${LOGIN}"
+            echo
+            jq -r '.done[] | "- " + .' "$RUNNER_TEMP/result.json" | tr -d '`'
+            echo
+            echo "Co-authored-by: ${LOGIN} <${USER_ID}+${LOGIN}@users.noreply.github.com>"
+          } > "$RUNNER_TEMP/message.txt"
+          git commit --quiet -F "$RUNNER_TEMP/message.txt"
+          # a push to the branch since the checkout: the comment applies to
+          # what the curator saw, so do not rebase onto it
+          git push --quiet origin "HEAD:${HEAD_REF}"
+
+      - name: Reply
+        if: always() && steps.run.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          COMMITTED: ${{ steps.run.outputs.ok == 'true' && job.status == 'success' }}
+        run: |
+          jq -r .comment "$RUNNER_TEMP/result.json" > "$RUNNER_TEMP/reply.md"
+          if [ "$(jq -r .ok "$RUNNER_TEMP/result.json")" = true ]; then
+            if [ "$COMMITTED" = true ]; then
+              reaction=rocket
+            else
+              printf '\n\nI could not push the commit (the branch moved since?): comment again.\n' >> "$RUNNER_TEMP/reply.md"
+              reaction=confused
+            fi
+          else
+            reaction=confused
+          fi
+          gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/reply.md"
+          gh api "repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID}/reactions" -f content="$reaction" > /dev/null
+
+      - name: Say so when the bot itself fails
+        if: failure() && steps.run.outcome != 'success' && steps.app.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body "The curation bot failed on this comment ([log](${RUN_URL}))."

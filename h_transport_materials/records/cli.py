@@ -9,6 +9,7 @@
     htm contribute from-issue issue.json turn a GitHub issue form into a record (the bot)
     htm contribute form                  write the issue forms to .github/ISSUE_TEMPLATE
     htm report --base a.json --head b.json   the record report posted on pull requests
+    htm curate verify <id> --by <who>    verify a record against its source (also: dispute, check)
 """
 
 import argparse
@@ -74,6 +75,10 @@ def main(argv=None):
         from . import report
 
         return report.main(argv[1:])
+    if argv[:1] == ["curate"]:
+        from . import curate
+
+        return curate.main(argv[1:])
     if argv[:1] == ["migrate"]:
         from . import migrate
 
@@ -93,6 +98,7 @@ def main(argv=None):
     sub.add_parser("migrate", help="convert property_database to records (one-off)")
     sub.add_parser("contribute", help="the contribution bot (see htm contribute --help)")
     sub.add_parser("report", help="the record report on pull requests (see htm report --help)")
+    sub.add_parser("curate", help="verify or dispute records (see htm curate --help)")
     src = sub.add_parser("source", help="manage source files").add_subparsers(
         dest="command", required=True
     )

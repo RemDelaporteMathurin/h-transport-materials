@@ -83,7 +83,7 @@ The blocks:
 | `reported` | the values as printed (below) |
 | `transformations` | ordered list (section 4) |
 | `note` | free text, kept short; anything structured gets a field |
-| `curation` | `status` (draft, verified, disputed), contributors, verifiers, open `flags`, `errata` |
+| `curation` | `status` (draft, verified, disputed), contributors, `verifications` (who, when, pull request, commit, note, the flags it resolved), open `flags`, `errata`. A verified record has no open flag. |
 
 ### `reported` forms
 
