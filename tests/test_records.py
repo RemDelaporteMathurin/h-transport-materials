@@ -330,6 +330,14 @@ def test_curator_can_select_the_refit(data_copy):
     assert {"op": "htm_refit", "rationale": note} in record["htm_assumptions"]
 
 
+def test_author_fit_range_in_degC_is_normalised_to_kelvin(data_copy):
+    _edit(data_copy, SCHUMACHER, _set(["reported", "author_fit", "range"], {"value": [300, 500], "unit": "degC"}))
+    record = next(r for r in build.build(data_copy)["records"] if "schumacher" in r["id"])
+    assert record["normalized"]["selected"] == "author_fit"
+    assert record["normalized"]["range"]["unit"] == "kelvin"
+    assert record["normalized"]["range"]["value"] == pytest.approx([573.15, 773.15])
+
+
 def test_explicit_selection_needs_a_note(data_copy):
     _edit(data_copy, SCHUMACHER, _set(["reported", "selected"], "htm_refit"))
     with pytest.raises(build.BuildError, match="needs a selection_note"):

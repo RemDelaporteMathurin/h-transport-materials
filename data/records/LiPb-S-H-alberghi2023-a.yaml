@@ -1,0 +1,28 @@
+id: htm:LiPb-S-H-alberghi2023-a
+property: solubility
+law: sieverts
+material: lipb
+isotope: H
+method: unknown
+sample:
+  composition:
+    Li: 15.7
+    Pb: 84.3
+source:
+  key: alberghi2023
+  location: Table 33, PDF p.134
+reported:
+  form: constant
+  value:
+    value: 1.003e-01
+    unit: mol / m^3 / Pa^0.5
+  temperature:
+    value: 300
+    unit: degC
+note: >-
+  Sample mean, n = 8. The same table gives 1.766e-6 at.fr. Pa^-0.5 with standard
+  deviation 9.321e-7. mol read as mol of H atoms, consistent with the at.fr. row.
+curation:
+  status: draft
+  flags:
+  - composition taken from the sample name Pb-15.7Li in the thesis, read as at.% Li
