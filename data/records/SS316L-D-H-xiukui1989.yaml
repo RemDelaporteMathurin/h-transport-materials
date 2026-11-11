@@ -1,0 +1,26 @@
+id: htm:SS316L-D-H-xiukui1989
+property: diffusivity
+material: 316l_steel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0921-5093(89)90857-5
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 4.79e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 51.59
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 200.0
+    - 430.0
+    unit: degC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/steel_316L/steel_316L.py:290

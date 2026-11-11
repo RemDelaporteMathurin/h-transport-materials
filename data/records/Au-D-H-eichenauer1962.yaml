@@ -1,0 +1,26 @@
+id: htm:Au-D-H-eichenauer1962
+property: diffusivity
+material: gold
+isotope: H
+method: unknown
+source:
+  key: eichenauer1962
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 5.6e-08
+    unit: m**2 * s**-1
+  act_energy:
+    value: 23.6
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 773.0
+    - 1273.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/gold.py:10

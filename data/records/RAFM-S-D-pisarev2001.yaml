@@ -1,0 +1,27 @@
+id: htm:RAFM-S-D-pisarev2001
+property: solubility
+law: sieverts
+material: rafm_steel
+isotope: D
+method: unknown
+source:
+  doi: 10.1238/Physica.Topical.094a00121
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 2.0e+18
+    unit: particle * cm**-3 * Pa**-0.5
+  act_energy:
+    value: 0.343
+    unit: eV * particle**-1
+  range:
+    value:
+    - 573.0
+    - 873.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/rafm_steel.py:94

@@ -1,0 +1,26 @@
+id: htm:Al2O3-D-T-fowler1977
+property: diffusivity
+material: alumina
+isotope: T
+method: unknown
+source:
+  doi: 10.1111/j.1151-2916.1977.tb15493.x
+  location: null
+reported:
+  form: points
+  file: Al2O3-D-T-fowler1977.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: cm**2 * s**-1
+note: single crystal
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/alumina/alumina.py:68

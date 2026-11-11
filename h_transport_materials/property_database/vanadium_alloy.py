@@ -28,4 +28,4 @@ properties = [hashizume_diffusivity, klepikov_solubility]
 for prop in properties:
     prop.material = htm.V4CR4TI
 
-htm.database += properties
+htm._legacy_database += properties

@@ -1,0 +1,27 @@
+id: htm:W-D-T-otsuka2009
+property: diffusivity
+material: tungsten
+isotope: T
+method: unknown
+source:
+  doi: 10.1088/0031-8949/2009/T138/014052
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 3.0e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 0.39
+    unit: eV * particle**-1
+  range:
+    value:
+    - 473.0
+    - 673.0
+    unit: K
+note: likely an apparent diffusivity
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:419

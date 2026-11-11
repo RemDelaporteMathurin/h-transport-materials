@@ -1,0 +1,27 @@
+id: htm:SS304-P-D-braun1980
+property: permeability
+law: sieverts
+material: 304_steel
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/0022-3115(80)90219-6
+  location: null
+reported:
+  form: derived
+  factors:
+  - record: htm:SS304-D-D-braun1980
+    power: 1
+  - record: htm:SS304-S-H-hawkins1953
+    power: 1
+  range_from: htm:SS304-D-D-braun1980
+  origin: htm
+  rationale: Braun gives no permeability and assumes the Hawkins solubility; HTM computes D x S
+note: Braun doesn't plot the permeability and assumes a solubility from N.L. Hawkins, Report KAPL 863
+  (1953)
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  - combines a deuterium diffusivity with a protium solubility
+  migrated_from: h_transport_materials/property_database/ss_304/ss_304.py:117

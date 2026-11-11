@@ -1,5 +1,5 @@
 # Builds and uploads the package to PyPI when a release is published,
-# then attaches the compiled database to the release.
+# then attaches the compiled databases to the release.
 # PyPI publishing uses trusted publishing (OIDC): no API token needed.
 # See https://docs.pypi.org/trusted-publishers/
 
@@ -28,8 +28,19 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install build
+        pip install -e ".[build]"
+    - name: Compile the record database into the package
+      run: |
+        htm build --data data --out h_transport_materials/_data/htm-data.json --data-version ${{ github.ref_name }}
     - name: Build package
-      run: python -m build
+      run: |
+        python -m build
+        python -c "import zipfile, glob; assert 'h_transport_materials/_data/htm-data.json' in zipfile.ZipFile(glob.glob('dist/*.whl')[0]).namelist()"
+    - name: Keep the compiled database for the release
+      uses: actions/upload-artifact@v4
+      with:
+        name: htm-data
+        path: h_transport_materials/_data/htm-data.json
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@release/v1
 
@@ -44,12 +55,19 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Compile database
+      - name: Compile legacy database
         run: |
           pip install h_transport_materials==${{ github.ref_name }}
           python -c "import h_transport_materials as htm;htm.database.export_to_json('database.json')"
 
-      - name: Upload Release Asset
+      - name: Get the compiled record database
+        uses: actions/download-artifact@v4
+        with:
+          name: htm-data
+
+      - name: Upload Release Assets
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload ${{ github.ref_name }} database.json --repo ${{ github.repository }}
+        run: |
+          mv htm-data.json htm-data-${{ github.ref_name }}.json
+          gh release upload ${{ github.ref_name }} database.json htm-data-${{ github.ref_name }}.json --repo ${{ github.repository }}

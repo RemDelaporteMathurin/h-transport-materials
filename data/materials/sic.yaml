@@ -1,0 +1,14 @@
+id: sic
+code: SiC
+name: silicon carbide
+families: [ceramic, compound]
+composition: {Si: 50, C: 50}
+formula_units: {SiC: 100}
+htm_legacy: SIC
+density:
+  form: constant
+  value: 3.21
+  unit: g/cm^3
+  url: https://pubchem.ncbi.nlm.nih.gov/compound/Silicon-carbide
+  flags:
+    - replace the web page with a handbook or paper

@@ -1,0 +1,26 @@
+id: htm:Mo-D-H-tanabe1992
+property: diffusivity
+material: molybdenum
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/S0022-3115(09)80083-4
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 4.0e-08
+    unit: m**2 * s**-1
+  act_energy:
+    value: 22.3
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 500.0
+    - 1100.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/molybdenum.py:7

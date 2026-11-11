@@ -1,0 +1,10 @@
+id: gold
+code: Au
+name: gold
+families:
+- pure metal
+- metal
+symbol: Au
+composition:
+  Au: 100
+htm_legacy: GOLD

@@ -1,0 +1,26 @@
+id: htm:Cu-Kr-D-anderl1999
+property: recombination_coeff
+material: copper
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/S0022-3115(98)00878-2
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 9.1e-18
+    unit: m**4 * s**-1 * particle**-1
+  act_energy:
+    value: 0.99
+    unit: eV * particle**-1
+  range:
+    value:
+    - 700.0
+    - 800.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/copper/copper.py:233

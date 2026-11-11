@@ -1,0 +1,26 @@
+id: htm:W-Kr-D-anderl1992
+property: recombination_coeff
+material: tungsten
+isotope: D
+method: unknown
+source:
+  doi: 10.13182/FST92-A29837
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 3.2e-15
+    unit: m**4 * s**-1 * particle**-1
+  act_energy:
+    value: 1.16
+    unit: eV * particle**-1
+  range:
+    value:
+    - 610.0
+    - 823.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:169

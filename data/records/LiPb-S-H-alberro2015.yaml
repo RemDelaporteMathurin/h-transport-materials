@@ -1,0 +1,27 @@
+id: htm:LiPb-S-H-alberro2015
+property: solubility
+law: sieverts
+material: lipb
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.fusengdes.2015.05.060
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.00864
+    unit: mol * m**-3 * Pa**-0.5
+  act_energy:
+    value: 9000.0
+    unit: J * mol**-1
+  range:
+    value:
+    - 523.0
+    - 922.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/lipb/lipb.py:211

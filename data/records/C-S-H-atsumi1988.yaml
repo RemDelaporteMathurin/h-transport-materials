@@ -1,0 +1,27 @@
+id: htm:C-S-H-atsumi1988
+property: solubility
+law: sieverts
+material: graphite
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0022-3115(88)90247-4
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.19
+    unit: mol * m**-3 * Pa**-0.5
+  act_energy:
+    value: -19.2
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 850.0
+    - 1050.0
+    unit: degC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/carbon.py:26

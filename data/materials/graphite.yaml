@@ -1,0 +1,21 @@
+id: graphite
+code: C
+name: graphite
+families: [carbon, plasma facing]
+symbol: C
+composition: {C: 100}
+htm_legacy: CARBON
+density:
+  form: constant
+  value: 2.266
+  unit: g/cm^3
+  note: >-
+    Theoretical (single crystal) density of graphite, as used in the current
+    carbon.py. Nuclear graphite grades such as IG-110U have bulk densities of
+    about 1.7 to 1.9 g/cm3.
+  flags:
+    - no source in the current code; cite one for 2.266 g/cm3
+    - >-
+      check whether solubilities in atom fraction (Shirasu 1993) refer to the
+      carbon atoms of the bulk sample; if so the bulk density of the grade
+      applies, about 20% lower

@@ -1,0 +1,10 @@
+id: copper
+code: Cu
+name: copper
+families:
+- pure metal
+- metal
+symbol: Cu
+composition:
+  Cu: 100
+htm_legacy: COPPER

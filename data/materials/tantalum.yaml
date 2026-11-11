@@ -1,0 +1,10 @@
+id: tantalum
+code: Ta
+name: tantalum
+families:
+- pure metal
+- metal
+symbol: Ta
+composition:
+  Ta: 100
+htm_legacy: TANTALUM

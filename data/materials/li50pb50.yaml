@@ -1,0 +1,10 @@
+id: li50pb50
+code: Li50Pb50
+name: Li50Pb50
+families: [liquid metal, lithium-lead]
+composition: {Li: 50, Pb: 50}
+aliases: [LiPb (equiatomic)]
+htm_legacy: LIPB
+note: >-
+  Equiatomic lithium-lead. Mapped to the htm LIPB object for compatibility
+  because the current database files these records under lipb.

@@ -1,0 +1,26 @@
+id: htm:PdAg-Kr-H-serra1998b
+property: recombination_coeff
+material: pdag
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/S0022-3115(98)00038-5
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.51
+    unit: mol**-1 * m**4 * s**-1
+  act_energy:
+    value: 65.49
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 323.0
+    - 773.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/pdag/palladium_silver.py:66

@@ -1,0 +1,28 @@
+id: htm:Inconel625-S-H-gervasini1984
+property: solubility
+law: sieverts
+material: inconel_625
+isotope: H
+method: unknown
+source:
+  doi: 10.13182/FST84-A23218
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.209
+    unit: mol * m**-3 * Pa**-0.5
+  act_energy:
+    value: 10.52
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 650.0
+    - 900.0
+    unit: K
+note: the value of the pre-exp factor conversion was taken from Shimada 2020
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/inconel_625.py:27

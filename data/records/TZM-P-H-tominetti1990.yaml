@@ -1,0 +1,23 @@
+id: htm:TZM-P-H-tominetti1990
+property: permeability
+law: sieverts
+material: tzm
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0022-3115(90)90125-7
+  location: null
+reported:
+  form: derived
+  factors:
+  - record: htm:TZM-D-H-tominetti1990
+    power: 1
+  - record: htm:TZM-S-H-tominetti1990
+    power: 1
+  origin: htm
+  rationale: not given in the paper; HTM computes the permeability as D x S
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tzm.py:112

@@ -1,0 +1,27 @@
+id: htm:Ta-S-H-veleckis1969
+property: solubility
+law: sieverts
+material: tantalum
+isotope: H
+method: unknown
+source:
+  doi: 10.1021/j100723a033
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.132
+    unit: mol * m**-3 * Pa**-0.5
+  act_energy:
+    value: -33.7
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 623.0
+    - 904.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tantalum.py:14

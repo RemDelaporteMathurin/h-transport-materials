@@ -1,0 +1,34 @@
+id: htm:Fe-S-H-eichenauer1958
+property: solubility
+law: sieverts
+material: iron
+isotope: H
+method: unknown
+source:
+  doi: 10.1515/ijmr-1958-490502
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 4.9e-06
+    unit: atfr / Pa^0.5
+  act_energy:
+    value: 24.3
+    unit: kJ/mol
+  range:
+    value:
+    - 473
+    - 1183
+    unit: K
+transformations:
+- op: mole_fraction_to_concentration
+  params:
+    molar_volume: 7.09e-6 m^3/mol
+  origin: htm
+  rationale: The paper gives an atom fraction. HTM divides it by the molar volume (no source in the current
+    code), a room temperature value.
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/iron.py:57

@@ -1,0 +1,25 @@
+id: htm:LiPb-D-D-okada2012
+property: diffusivity
+material: lipb
+isotope: D
+method: unknown
+source:
+  doi: 10.1585/pfr.7.2405074
+  location: null
+reported:
+  form: points
+  file: LiPb-D-D-okada2012.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: m**2 * s**-1
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/lipb/lipb.py:349

@@ -64,4 +64,4 @@ properties = [eichenauer_diffusivity, shimada_solubility, mclellan_solubility]
 for prop in properties:
     prop.material = htm.GOLD
 
-htm.database += properties
+htm._legacy_database += properties

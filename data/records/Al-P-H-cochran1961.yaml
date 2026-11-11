@@ -1,0 +1,28 @@
+id: htm:Al-P-H-cochran1961
+property: permeability
+law: sieverts
+material: aluminium
+isotope: H
+method: unknown
+source:
+  doi: 10.1149/1.2428079
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 4.5e-06
+    unit: mol * m**-1 * s**-1 * Pa**-0.5
+  act_energy:
+    value: 12360.0
+    unit: K
+  range:
+    value:
+    - 670.0
+    - 870.0
+    unit: K
+note: the units given in the original paper are odd. This is the conversion found in DOI:10.2172/5277693
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/aluminium/aluminium.py:40

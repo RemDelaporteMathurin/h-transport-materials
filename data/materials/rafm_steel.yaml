@@ -1,0 +1,8 @@
+id: rafm_steel
+code: RAFM
+name: rafm_steel
+families:
+- steel
+- alloy
+- metal
+htm_legacy: STEEL_RAFM

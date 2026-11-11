@@ -1,0 +1,14 @@
+id: htm:W-D-D-esteban2001
+property: diffusivity
+material: tungsten
+isotope: D
+method: isovolumetric-desorption
+source:
+  doi: 10.1016/S0022-3115(01)00486-X
+  location: null
+reported:
+  form: arrhenius
+  pre_exp: {value: 5.49e-10, unit: "m^2/s"}
+  act_energy: {value: 10, unit: "kJ/mol"}
+  range: {value: [673, 1073], unit: K}
+

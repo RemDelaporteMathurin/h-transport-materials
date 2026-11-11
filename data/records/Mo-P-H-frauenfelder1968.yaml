@@ -1,0 +1,34 @@
+id: htm:Mo-P-H-frauenfelder1968
+property: permeability
+law: sieverts
+material: molybdenum
+isotope: H
+method: unknown
+source:
+  doi: 10.1063/1.1669720
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.00071
+    unit: torr * L / cm / s / torr^0.5
+  act_energy:
+    value: 21.5
+    unit: kcal/mol
+  range:
+    value:
+    - 1050
+    - 2400
+    unit: degC
+transformations:
+- op: gas_volume_to_amount
+  params:
+    T_ref: 300 K
+  origin: htm
+  rationale: the permeating amount is a gas volume; the current code converts it at 300 K
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  - 'the tungsten records of the same author use 273 K: check the reference temperature'
+  migrated_from: h_transport_materials/property_database/molybdenum.py:41

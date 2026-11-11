@@ -1,0 +1,27 @@
+id: htm:Incoloy800-S-D-esteban2002
+property: solubility
+law: sieverts
+material: incoloy_800
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/S0022-3115(01)00715-2
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.102
+    unit: mol * m**-3 * Pa**-0.5
+  act_energy:
+    value: 7.8
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 427.0
+    - 780.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/incoloy_800.py:60

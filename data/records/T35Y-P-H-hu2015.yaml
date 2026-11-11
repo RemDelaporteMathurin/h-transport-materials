@@ -1,0 +1,27 @@
+id: htm:T35Y-P-H-hu2015
+property: permeability
+law: sieverts
+material: t35y
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2015.02.040
+  location: null
+reported:
+  form: points
+  file: T35Y-P-H-hu2015.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1000.0
+  y:
+    column: 1
+    quantity: value
+    unit: mol * m**-1 * s**-1 * MPa**-0.5
+note: Figure 6
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/FeCrAl/t35y/t35y.py:14

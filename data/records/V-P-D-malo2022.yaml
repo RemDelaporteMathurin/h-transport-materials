@@ -1,0 +1,27 @@
+id: htm:V-P-D-malo2022
+property: permeability
+law: sieverts
+material: vanadium
+isotope: D
+method: unknown
+source:
+  doi: 10.3390/membranes12060579
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.000127
+    unit: mol * m**-1 * s**-1 * Pa**-0.5
+  act_energy:
+    value: 8667.0
+    unit: K
+  range:
+    value:
+    - 250.0
+    - 550.0
+    unit: degC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/vanadium.py:58

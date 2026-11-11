@@ -1,0 +1,26 @@
+id: htm:LiPb-D-T-okuno1986
+property: diffusivity
+material: lipb
+isotope: T
+method: unknown
+source:
+  doi: 10.1016/0022-5088(86)90682-X
+  location: null
+reported:
+  form: points
+  file: LiPb-D-T-okuno1986.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1000.0
+  y:
+    column: 1
+    quantity: value
+    unit: cm**2 * s**-1
+note: Li7Pb2, figure 6
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/lipb/lipb.py:374

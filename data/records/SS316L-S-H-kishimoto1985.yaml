@@ -1,0 +1,27 @@
+id: htm:SS316L-S-H-kishimoto1985
+property: solubility
+law: sieverts
+material: 316l_steel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0022-3115(85)90056-X
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 16.0
+    unit: ccNTP * cm**-3 * MPa**-0.5
+  act_energy:
+    value: 0.13
+    unit: eV * particle**-1
+  range:
+    value:
+    - 873.0
+    - 1173.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/steel_316L/steel_316L.py:201

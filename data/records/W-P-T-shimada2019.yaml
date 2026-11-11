@@ -1,0 +1,28 @@
+id: htm:W-P-T-shimada2019
+property: permeability
+law: sieverts
+material: tungsten
+isotope: T
+method: unknown
+source:
+  doi: 10.1016/j.fusengdes.2019.03.083
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 2.13e-09
+    unit: mol * m**-1 * Pa**-0.5 * s**-1
+  act_energy:
+    value: 93.32
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 573.0
+    - 873.0
+    unit: K
+note: polycristalline tungsten, pressure range 5.8e-2-6.8e-2 Pa, details in table 1
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:436

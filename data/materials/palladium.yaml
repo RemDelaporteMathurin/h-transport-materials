@@ -1,0 +1,15 @@
+id: palladium
+code: Pd
+name: palladium
+families: [metal, pure metal]
+symbol: Pd
+composition: {Pd: 100}
+htm_legacy: PALLADIUM
+density:
+  form: constant
+  value: 12.0192
+  unit: g/cm^3
+  url: https://www.aqua-calc.com/calculate/weight-to-volume/palladium
+  note: from the specific volume of 8.32e-8 m3/g given on that page (room temperature)
+  flags:
+    - replace the web page with a handbook or paper

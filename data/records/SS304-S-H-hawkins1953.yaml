@@ -1,0 +1,35 @@
+id: htm:SS304-S-H-hawkins1953
+property: solubility
+law: sieverts
+material: 304_steel
+isotope: H
+method: unknown
+source:
+  key: hawkins1953
+  via: 10.1016/0022-3115(80)90219-6
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 2.2e+19
+    unit: particle / cm^3 / bar^0.5
+  act_energy:
+    value: 1700
+    unit: cal/mol
+  range: null
+transformations:
+- op: assume_range
+  params:
+    range:
+    - 300
+    - 800
+    unit: degC
+  origin: htm
+  rationale: The original report was not found; the range is taken from https://doi.org/10.2172/4414215
+note: Found in Braun 1980 braun_determination_1980 paper but couldn't find the original reference.
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  - original report not found; values as cited by Braun 1980
+  migrated_from: h_transport_materials/property_database/ss_304/ss_304.py:106

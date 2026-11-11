@@ -30,9 +30,14 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install .[tests,plotly]
+        python -m pip install .[tests,plotly,build]
         python -m pip install --upgrade "${{ matrix.pint }}"
         pip install flake8
+    - name: Compile the records into the installed package
+      run: |
+        # as the release workflow does: htm.database is built from this file
+        python -m h_transport_materials.records.build --data data --out h_transport_materials/_data/htm-data.json
+        python -m pip install --no-deps --force-reinstall .
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -54,6 +59,59 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: ./coverage.xml
+
+  wheel:
+    # the wheel must ship the compiled record database and read it without
+    # the build extra (no pydantic, no pyyaml)
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: "3.14"
+    - name: Compile the record database and build the wheel
+      run: |
+        python -m pip install --upgrade pip build
+        python -m pip install -e ".[build]"
+        htm build --data data --out h_transport_materials/_data/htm-data.json
+        python -m build --wheel
+    - name: Install the wheel in a clean environment and read a record
+      run: |
+        python -m venv /tmp/clean
+        /tmp/clean/bin/pip install dist/*.whl
+        cd /tmp
+        /tmp/clean/bin/python -c "
+        import sys
+        import h_transport_materials as htm
+        D = htm.get('htm:W-D-H-frauenfelder1969')
+        print(D.record_id, D.pre_exp, D.act_energy)
+        assert D.record['reported']['pre_exp']['unit'] == 'cm^2/s'
+        assert 'pydantic' not in sys.modules and 'yaml' not in sys.modules
+        "
+
+  curation:
+    # a verified record whose values change goes back to draft, or is
+    # verified again in the same pull request (/verify)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-python@v6
+      with:
+        python-version: "3.14"
+    - name: Verified records changed without being verified again
+      env:
+        BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      run: |
+        python -m pip install -e ".[build]"
+        git worktree add --detach "$RUNNER_TEMP/base" "$(git merge-base "$BASE_SHA" HEAD)"
+        htm curate check --base "$RUNNER_TEMP/base/data" --head data
 
   check_unused_variables:
     runs-on: ubuntu-latest

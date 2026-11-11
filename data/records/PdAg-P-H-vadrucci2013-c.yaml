@@ -1,0 +1,28 @@
+id: htm:PdAg-P-H-vadrucci2013-c
+property: permeability
+law: sieverts
+material: pdag
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.ijhydene.2013.01.091
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 2.06e-08
+    unit: mol * m**-1 * s**-1 * Pa**-0.5
+  act_energy:
+    value: 2592.56
+    unit: J * mol**-1
+  range:
+    value:
+    - 473.0
+    - 623.0
+    unit: K
+note: wt = 200 micron
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/pdag/palladium_silver.py:96

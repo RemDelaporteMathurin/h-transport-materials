@@ -1,3 +1,4 @@
+import os
 from importlib import metadata
 
 try:
@@ -37,9 +38,27 @@ from . import plotting
 from .helpers import *
 from .material import *
 
-database = PropertiesGroup()
+# the Python property_database, filled when it is imported (see legacy_database)
+_legacy_database = PropertiesGroup()
 
-from . import property_database
+
+def legacy_database():
+    """Returns the properties defined in the Python property_database modules.
+
+    They are being replaced by the YAML records in data/ (see
+    docs/rfc/0001-data-records.md); this is kept to compare the two.
+    """
+    from . import property_database  # noqa: F401  fills _legacy_database
+
+    return _legacy_database
+
+
+if os.environ.get("HTM_LEGACY_DATABASE", "") not in ("", "0"):
+    database = legacy_database()
+else:
+    from .records.loader import properties as _record_properties
+
+    database = PropertiesGroup(_record_properties())
 
 diffusivities = PropertiesGroup(
     prop for prop in database if isinstance(prop, Diffusivity)
@@ -60,3 +79,36 @@ recombination_coeffs = PropertiesGroup(
 dissociation_coeffs = PropertiesGroup(
     prop for prop in database if isinstance(prop, DissociationCoeff)
 )
+
+
+def get(record_id: str, path=None):
+    """Returns a property from the record database by its id.
+
+    Usage::
+
+        D = htm.get("htm:W-D-H-frauenfelder1969")
+        D.record["reported"]  # as published
+
+    Args:
+        record_id (str): the permanent record id
+        path (str, optional): a compiled database file (e.g. attached to a
+            GitHub release). Defaults to the one shipped with the package.
+
+    Returns:
+        ArrheniusProperty: the property, with the full record in ``.record``
+    """
+    from .records.loader import get as _get
+
+    return _get(record_id, path)
+
+
+def load(path=None):
+    """Returns the record database as a PropertiesGroup.
+
+    Args:
+        path (str, optional): a compiled database file (e.g. attached to a
+            GitHub release). Defaults to the one shipped with the package.
+    """
+    from .records.loader import properties
+
+    return properties(path)

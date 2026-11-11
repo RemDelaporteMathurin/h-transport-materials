@@ -1,0 +1,27 @@
+id: htm:V-S-H-veleckis1969
+property: solubility
+law: sieverts
+material: vanadium
+isotope: H
+method: unknown
+source:
+  doi: 10.1021/j100723a033
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.138
+    unit: mol * m**-3 * Pa**-0.5
+  act_energy:
+    value: -29.0
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 519.0
+    - 827.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/vanadium.py:14

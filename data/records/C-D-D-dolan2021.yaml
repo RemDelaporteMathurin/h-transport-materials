@@ -1,0 +1,40 @@
+id: htm:C-D-D-dolan2021
+property: diffusivity
+material: graphite
+isotope: D
+method: unknown
+sample:
+  form: POCO AXF-5Q1 graphite
+source:
+  key: dolan2021
+  location: Eq. 4.3 and Fig. 4.5, PDF p.171 to 174, and Table 5.11, PDF p.228
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.417
+    unit: m^2 / s
+  act_energy:
+    value: 235
+    unit: kJ / mol
+  range: null
+transformations:
+- op: assume_range
+  params:
+    range: [800, 1425]
+    unit: K
+  origin: htm
+  rationale: >-
+    The thesis gives no range for the fit. Fig. 4.5 compares it with desorption
+    measurements from 800 K up, and p.172 counts the diffusion-controlled peak as the
+    desorption up to 1425 K. This range is HTM's, not the author's.
+note: >-
+  Bulk diffusivity, D_Bulk = Do exp(-Ea/RT) (Eq. 4.3), fitted to a deuterium thermal
+  desorption profile of POCO AXF-5Q1 graphite by searching Do and Ea for the lowest error
+  (Figs. 4.3 to 4.5). Activation energies of 230 to 260 kJ/mol fit about as well.
+  Table 5.11 uses the same law, without isotope scaling, as the tritium bulk diffusivity.
+  1.3e4 to 2.7e4 times higher than htm:C-D-D-atsumi1988 where the two ranges overlap
+  (800 to 1173 K). On p.174 the thesis puts this bulk value about four orders of magnitude
+  above grain diffusivities and below pore diffusivities, and relates the gap to the 1 mm
+  sample thickness against a 10 um grain size.
+curation:
+  status: draft

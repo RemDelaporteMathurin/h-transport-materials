@@ -1,0 +1,27 @@
+id: htm:Fe22Cr5Al-P-D-xu2016
+property: permeability
+law: sieverts
+material: fe22cr5al
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2016.04.054
+  location: null
+reported:
+  form: points
+  file: Fe22Cr5Al-P-D-xu2016.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1000.0
+  y:
+    column: 1
+    quantity: value
+    unit: mol * m**-1 * s**-1 * Pa**-0.5
+note: Figure 1, oxidised
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/FeCrAl/fe22cr5al/fe22cr5al.py:14

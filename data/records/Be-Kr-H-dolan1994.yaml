@@ -1,0 +1,29 @@
+id: htm:Be-Kr-H-dolan1994
+property: recombination_coeff
+material: beryllium
+isotope: H
+method: unknown
+source:
+  doi: 10.2172/10191406
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.46e-29
+    unit: m**4 * s**-1 * particle**-1
+  act_energy:
+    value: 0.214
+    unit: eV * particle**-1
+  range:
+    value:
+    - 333.0
+    - 800.0
+    unit: K
+note: Comes from a review (p. 14). The data from Hsu 1990 https://doi.org/10.1016/0022-3115(90)90049-S
+  (range taking from them) seems to have been used by the PERI code to extract D/2kr then using D from
+  another source Dolan obtained Kr.
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/beryllium.py:37

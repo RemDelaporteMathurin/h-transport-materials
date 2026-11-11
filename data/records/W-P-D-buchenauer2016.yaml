@@ -1,0 +1,26 @@
+id: htm:W-P-D-buchenauer2016
+property: permeability
+law: sieverts
+material: tungsten
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/j.fusengdes.2016.03.045
+  location: null
+reported:
+  form: points
+  file: W-P-D-buchenauer2016.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1000.0
+  y:
+    column: 1
+    quantity: value
+    unit: mol * m**-1 * s**-1 * MPa**-0.5
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:395

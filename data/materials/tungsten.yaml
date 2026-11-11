@@ -1,0 +1,7 @@
+id: tungsten
+code: W
+name: tungsten
+families: [metal, pure metal, plasma facing]
+symbol: W
+composition: {W: 100}
+htm_legacy: TUNGSTEN

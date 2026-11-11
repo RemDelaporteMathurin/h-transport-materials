@@ -1,0 +1,10 @@
+id: iron
+code: Fe
+name: iron
+families:
+- pure metal
+- metal
+symbol: Fe
+composition:
+  Fe: 100
+htm_legacy: IRON

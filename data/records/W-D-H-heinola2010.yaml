@@ -1,0 +1,22 @@
+id: htm:W-D-H-heinola2010
+property: diffusivity
+material: tungsten
+isotope: H
+method: dft
+source:
+  doi: 10.1063/1.3386515
+  location: null
+reported:
+  form: arrhenius
+  pre_exp: {value: 5.2e-8, unit: "m^2/s"}
+  act_energy: {value: 0.21, unit: "eV/particle"}
+  range: null
+transformations:
+  - op: assume_range
+    params: {range: [300, 1200], unit: K}
+    origin: htm
+    rationale: >-
+      The paper gives no temperature range for the fit. HTM uses 300 to 1200 K
+      so the law can be plotted; this range is not the authors'.
+curation:
+  status: draft

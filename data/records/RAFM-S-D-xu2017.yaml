@@ -1,0 +1,28 @@
+id: htm:RAFM-S-D-xu2017
+property: solubility
+law: sieverts
+material: rafm_steel
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/j.fusengdes.2017.04.022
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 9.4e-07
+    unit: mol * cm**-3 * Pa**-0.5
+  act_energy:
+    value: 0.32
+    unit: eV * particle**-1
+  range:
+    value:
+    - 250.0
+    - 500.0
+    unit: degC
+note: Eq 9, F82H
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/rafm_steel.py:270

@@ -1,0 +1,27 @@
+id: htm:SS304-P-H-hu2015
+property: permeability
+law: sieverts
+material: 304_steel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2015.02.040
+  location: null
+reported:
+  form: points
+  file: SS304-P-H-hu2015.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1000.0
+  y:
+    column: 1
+    quantity: value
+    unit: mol * m**-1 * s**-1 * MPa**-0.5
+note: Figure 6
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/ss_304/ss_304.py:149

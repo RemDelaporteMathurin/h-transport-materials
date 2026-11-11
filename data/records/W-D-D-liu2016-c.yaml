@@ -1,0 +1,27 @@
+id: htm:W-D-D-liu2016-c
+property: diffusivity
+material: tungsten
+isotope: D
+method: unknown
+sample:
+  form: annealed, 102 um
+source:
+  doi: 10.1016/j.fusengdes.2016.09.003
+  location: null
+reported:
+  form: points
+  file: W-D-D-liu2016-c.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: m^2 / s
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:362

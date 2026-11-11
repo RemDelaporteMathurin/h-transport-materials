@@ -1,0 +1,28 @@
+id: htm:W-P-D-byeon2021
+property: permeability
+law: sieverts
+material: tungsten
+isotope: D
+method: unknown
+sample:
+  form: ITER grade
+source:
+  doi: 10.1016/j.jnucmat.2020.152675
+  location: null
+reported:
+  form: points
+  file: W-P-D-byeon2021.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: degC
+  y:
+    column: 1
+    quantity: value
+    unit: mol / m / s / Pa^0.5
+note: Table 2, ITER grade
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:471

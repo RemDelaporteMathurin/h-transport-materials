@@ -1,0 +1,10 @@
+id: silver
+code: Ag
+name: silver
+families:
+- pure metal
+- metal
+symbol: Ag
+composition:
+  Ag: 100
+htm_legacy: SILVER

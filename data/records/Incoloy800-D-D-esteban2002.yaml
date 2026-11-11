@@ -1,0 +1,26 @@
+id: htm:Incoloy800-D-D-esteban2002
+property: diffusivity
+material: incoloy_800
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/S0022-3115(01)00715-2
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 3.87e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 47.8
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 427.0
+    - 780.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/incoloy_800.py:52

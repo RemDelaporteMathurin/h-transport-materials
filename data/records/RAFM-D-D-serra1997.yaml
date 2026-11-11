@@ -1,0 +1,26 @@
+id: htm:RAFM-D-D-serra1997
+property: diffusivity
+material: rafm_steel
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/S0022-3115(97)00021-4
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.07e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 13950.0
+    unit: J * mol**-1
+  range:
+    value:
+    - 373.0
+    - 743.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/rafm_steel.py:49

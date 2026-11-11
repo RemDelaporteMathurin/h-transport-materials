@@ -1,0 +1,32 @@
+id: htm:Au-S-H-mclellan1973
+property: solubility
+law: sieverts
+material: gold
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/S0022-3697(73)80022-8
+  location: null
+reported:
+  form: points
+  file: Au-S-H-mclellan1973.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: degC
+  y:
+    column: 1
+    quantity: value
+    unit: atfr / Pa^0.5
+transformations:
+- op: mole_fraction_to_concentration
+  params:
+    molar_volume: 1.02e-5 m^3/mol
+  origin: htm
+  rationale: The paper gives an atom fraction. HTM divides it by the molar volume from https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/gold,
+    a room temperature value.
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/gold.py:54

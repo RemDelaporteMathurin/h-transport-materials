@@ -1,0 +1,27 @@
+id: htm:LiPb-P-H-edao2011
+property: permeability
+law: sieverts
+material: lipb
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2010.12.126
+  location: null
+reported:
+  form: points
+  file: LiPb-P-H-edao2011.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: mol * s**-1 * m**-1 * Pa**-0.5
+note: Li17Pb83, in the paper Eq. 9 doesn't match the line shown on Fig. 4
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/lipb/lipb.py:225

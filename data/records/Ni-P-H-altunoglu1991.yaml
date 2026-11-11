@@ -1,0 +1,27 @@
+id: htm:Ni-P-H-altunoglu1991
+property: permeability
+law: sieverts
+material: nickel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0022-5088(91)90195-A
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 3.35e-07
+    unit: mol * m**-1 * s**-1 * Pa**-0.5
+  act_energy:
+    value: 54.24
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 373.0
+    - 623.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/nickel.py:75

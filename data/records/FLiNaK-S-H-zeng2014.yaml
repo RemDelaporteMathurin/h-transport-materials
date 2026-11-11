@@ -1,0 +1,25 @@
+id: htm:FLiNaK-S-H-zeng2014
+property: solubility
+law: henry
+material: flinak
+isotope: H
+method: unknown
+source:
+  doi: 10.13538/j.1001-8042/nst.25.040602
+  location: null
+reported:
+  form: points
+  file: FLiNaK-S-H-zeng2014.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: degC
+  y:
+    column: 1
+    quantity: value
+    unit: mol * m**-3 * Pa**-1
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/flinak/flinak.py:142

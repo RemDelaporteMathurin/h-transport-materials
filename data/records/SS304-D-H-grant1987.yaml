@@ -1,0 +1,27 @@
+id: htm:SS304-D-H-grant1987
+property: diffusivity
+material: 304_steel
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/0022-3115(87)90476-4
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.22e-06
+    unit: m**2 * s**-1
+  act_energy:
+    value: 6600.0
+    unit: K
+  range:
+    value:
+    - 645.0
+    - 965.0
+    unit: K
+note: uncertainties given in paper
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/ss_304/ss_304.py:24

@@ -1,0 +1,27 @@
+id: htm:W-D-H-ryabchikov1964
+property: diffusivity
+material: tungsten
+isotope: H
+method: unknown
+source:
+  key: ryabchikov1964
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 8.1e-06
+    unit: m^2/s
+  act_energy:
+    value: 82.9
+    unit: kJ/mol
+  range:
+    value:
+    - 1055
+    - 1570
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  - source title unknown
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:87

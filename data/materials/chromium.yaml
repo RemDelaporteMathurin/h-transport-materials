@@ -1,0 +1,10 @@
+id: chromium
+code: Cr
+name: chromium
+families:
+- pure metal
+- metal
+symbol: Cr
+composition:
+  Cr: 100
+htm_legacy: CHROMIUM

@@ -1,0 +1,30 @@
+id: htm:C-S-H-shirasu1993-a
+property: solubility
+law: sieverts
+material: graphite
+isotope: H
+method: unknown
+sample:
+  form: IG-110U
+source:
+  doi: 10.1016/0022-3115(93)90332-S
+  location: Table 1
+reported:
+  form: log_linear
+  base: e
+  intercept: -14.5
+  act_energy: {value: -18.2, unit: "kJ/mol"}
+  y_unit: "atfr / Pa^0.5"
+  range: {value: [700, 1000], unit: degC}
+transformations:
+  - op: mole_fraction_to_concentration
+    params: {per: atom}
+    origin: htm
+    rationale: >-
+      The paper gives the H/C atom ratio. HTM converts it with the density of
+      graphite from the material registry.
+note: graphite IG-110U
+curation:
+  status: draft
+  flags:
+    - see the graphite density flags (theoretical vs bulk density)

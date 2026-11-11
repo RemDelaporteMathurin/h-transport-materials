@@ -163,4 +163,4 @@ properties = [
 for prop in properties:
     prop.material = htm.FLINAK
 
-htm.database += properties
+htm._legacy_database += properties

@@ -1,0 +1,25 @@
+id: htm:FLiBe-D-T-lam2021
+property: diffusivity
+material: flibe
+isotope: T
+method: unknown
+source:
+  doi: 10.1039/D0TA10576G
+  location: null
+reported:
+  form: points
+  file: FLiBe-D-T-lam2021.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: K
+  y:
+    column: 1
+    quantity: value
+    unit: m**2 * s**-1
+note: Calculated for T+
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/flibe/flibe.py:132

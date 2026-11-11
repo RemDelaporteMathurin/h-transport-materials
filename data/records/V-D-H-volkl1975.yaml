@@ -1,0 +1,26 @@
+id: htm:V-D-H-volkl1975
+property: diffusivity
+material: vanadium
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/B978-0-12-522660-8.50010-6
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 2.9e-08
+    unit: m**2 * s**-1
+  act_energy:
+    value: 4.2
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 173.0
+    - 573.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/vanadium.py:6

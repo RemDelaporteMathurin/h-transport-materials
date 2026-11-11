@@ -1,0 +1,26 @@
+id: htm:W-D-H-fernandez2015
+property: diffusivity
+material: tungsten
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.actamat.2015.04.052
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.93e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 0.2
+    unit: eV * particle**-1
+  range:
+    value:
+    - 300.0
+    - 1200.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:161

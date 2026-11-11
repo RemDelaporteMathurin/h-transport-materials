@@ -78,4 +78,4 @@ properties = [
 for prop in properties:
     prop.material = htm.VANADIUM
 
-htm.database += properties
+htm._legacy_database += properties

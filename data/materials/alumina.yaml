@@ -1,0 +1,7 @@
+id: alumina
+code: Al2O3
+name: alumina
+families:
+- compound
+- ceramic
+htm_legacy: ALUMINA

@@ -1,0 +1,27 @@
+id: htm:W-D-D-byeon2021-b
+property: diffusivity
+material: tungsten
+isotope: D
+method: unknown
+sample:
+  form: CR
+source:
+  doi: 10.1016/j.jnucmat.2020.152675
+  location: null
+reported:
+  form: points
+  file: W-D-D-byeon2021-b.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: degC
+  y:
+    column: 1
+    quantity: value
+    unit: m^2 / s
+note: Table 2, CR
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:459

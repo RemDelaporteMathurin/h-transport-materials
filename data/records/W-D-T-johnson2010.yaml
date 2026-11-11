@@ -1,0 +1,26 @@
+id: htm:W-D-T-johnson2010
+property: diffusivity
+material: tungsten
+isotope: T
+method: unknown
+source:
+  doi: 10.1557/JMR.2010.0036
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 5.16e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 0.4
+    unit: eV * particle**-1
+  range:
+    value:
+    - 500.0
+    - 1450.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:61

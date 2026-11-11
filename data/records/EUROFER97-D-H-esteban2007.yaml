@@ -1,0 +1,28 @@
+id: htm:EUROFER97-D-H-esteban2007
+property: diffusivity
+material: eurofer_97
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.jnucmat.2007.03.114
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 4.57e-07
+    unit: m**2 * s**-1
+  act_energy:
+    value: 22.3
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 376.0
+    - 724.0
+    unit: K
+note: The authors also give an effective diffusivity, this is the lattice diffusivity measured at high
+  temperature
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/eurofer_97/eurofer_97.py:112

@@ -1,0 +1,28 @@
+id: htm:PdAg-P-D-serra1998
+property: permeability
+law: sieverts
+material: pdag
+isotope: D
+method: unknown
+source:
+  doi: 10.1007/s11661-998-1011-3
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 3.43e-08
+    unit: mol * m**-1 * Pa**-0.5 * s**-1
+  act_energy:
+    value: 6156.0
+    unit: J * mol**-1
+  range:
+    value:
+    - 373.0
+    - 773.0
+    unit: K
+note: Figure 2 or Equation 7
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/pdag/palladium_silver.py:126

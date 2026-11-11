@@ -1,0 +1,26 @@
+id: htm:SS316L-S-H-lee2011
+property: solubility
+law: sieverts
+material: 316l_steel
+isotope: H
+method: unknown
+source:
+  doi: 10.3938/jkps.59.3019
+  location: null
+reported:
+  form: points
+  file: SS316L-S-H-lee2011.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: mol / m^3 / Pa^0.5
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/steel_316L/steel_316L.py:327

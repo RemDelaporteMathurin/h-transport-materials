@@ -105,4 +105,4 @@ properties = [
 for prop in properties:
     prop.material = htm.NIOBIUM
 
-htm.database += properties
+htm._legacy_database += properties

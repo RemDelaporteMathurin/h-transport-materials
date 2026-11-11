@@ -1,0 +1,27 @@
+id: htm:Nb-D-D-sherman1983
+property: diffusivity
+material: niobium
+isotope: D
+method: unknown
+source:
+  doi: 10.1007/BF02651617
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 3.1e-08
+    unit: m**2 * s**-1
+  act_energy:
+    value: 14.0
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 860.0
+    - 1012.0
+    unit: degC
+note: equation after 14, range taken from figure 9
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/niobium.py:82

@@ -1,0 +1,26 @@
+id: htm:EUROFER97-S-D-aiello2002
+property: solubility
+law: sieverts
+material: eurofer_97
+isotope: D
+method: unknown
+source:
+  doi: 10.13182/FST41-872
+  location: null
+reported:
+  form: derived
+  factors:
+  - record: htm:EUROFER97-P-D-aiello2002
+    power: 1
+  - record: htm:EUROFER97-D-D-aiello2002
+    power: -1
+  range_from: htm:EUROFER97-P-D-aiello2002
+  origin: htm
+  rationale: HTM computes the solubility as P / D from its fits of the points
+note: there is a typo in Eq 2 of the paper. This property is obtained by dividing the permeability by
+  the diffusivity.
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/eurofer_97/eurofer_97.py:47

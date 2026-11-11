@@ -1,0 +1,27 @@
+id: htm:Pd-Kr-D-takagi2003
+property: recombination_coeff
+material: palladium
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/S0022-3115(02)01370-3
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.5e-27
+    unit: m**4 * s**-1 * particle**-1
+  act_energy:
+    value: 0.48
+    unit: eV * particle**-1
+  range:
+    value:
+    - 398.0
+    - 571.0
+    unit: K
+note: Equation 6
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/palladium.py:472

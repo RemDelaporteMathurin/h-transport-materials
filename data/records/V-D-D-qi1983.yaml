@@ -1,0 +1,27 @@
+id: htm:V-D-D-qi1983
+property: diffusivity
+material: vanadium
+isotope: D
+method: unknown
+source:
+  doi: 10.1088/0305-4608/13/10/015
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.00038
+    unit: cm**2 * s**-1
+  act_energy:
+    value: 0.073
+    unit: eV * particle**-1
+  range:
+    value:
+    - -130.0
+    - 200.0
+    unit: degC
+note: table 1, temperature range from Fig 1
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/vanadium.py:34

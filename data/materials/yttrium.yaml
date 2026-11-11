@@ -1,0 +1,10 @@
+id: yttrium
+code: Y
+name: yttrium
+families:
+- pure metal
+- metal
+symbol: Y
+composition:
+  Y: 100
+htm_legacy: YTTRIUM

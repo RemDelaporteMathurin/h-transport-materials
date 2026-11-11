@@ -1,0 +1,27 @@
+id: htm:Be-D-T-jones1967
+property: diffusivity
+material: beryllium
+isotope: T
+method: unknown
+source:
+  doi: 10.1016/0022-3115(67)90190-0
+  location: null
+reported:
+  form: log_linear
+  base: e
+  intercept: -6.53
+  y_unit: cm**2 * s**-1
+  slope:
+    value: -965.0
+    unit: K
+  range:
+    value:
+    - 400.0
+    - 900.0
+    unit: K
+note: Jones also gives a solubility but the units are weird
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/beryllium.py:28

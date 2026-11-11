@@ -1,0 +1,19 @@
+id: lithium
+code: Li
+name: lithium
+families: [metal, pure metal, liquid metal]
+symbol: Li
+composition: {Li: 100}
+htm_legacy: LITHIUM
+density:
+  form: constant
+  value: 534
+  unit: kg/m^3
+  url: https://www.aqua-calc.com/calculate/mole-to-volume-and-weight/substance/lithium
+  note: >-
+    Solid lithium at room temperature. The current lithium.py uses the
+    equivalent molar volume of 1.3e-5 m3/mol from the same page.
+  flags:
+    - >-
+      used for liquid lithium measurements at about 1000 to 1200 K, where the
+      density is about 10% lower; use a liquid density correlation

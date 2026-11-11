@@ -1,0 +1,27 @@
+id: htm:W-P-H-esteban2001
+property: permeability
+law: sieverts
+material: tungsten
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/S0022-3115(01)00486-X
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.65e-11
+    unit: mol * m**-1 * Pa**-0.5 * s**-1
+  act_energy:
+    value: 36.2
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 673.0
+    - 1073.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:200

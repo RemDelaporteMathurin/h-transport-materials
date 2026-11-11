@@ -1,0 +1,27 @@
+id: htm:Inconel600-S-D-rota1982
+property: solubility
+law: sieverts
+material: inconel_600
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/0022-3115(82)90214-8
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.2e+17
+    unit: particle * cm**-3 * mbar**-0.5
+  act_energy:
+    value: 1.2
+    unit: kcal * mol**-1
+  range:
+    value:
+    - 150.0
+    - 400.0
+    unit: degC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/inconel_600.py:91

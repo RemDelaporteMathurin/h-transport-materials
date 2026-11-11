@@ -1,0 +1,34 @@
+id: htm:W-P-H-frauenfelder1968
+property: permeability
+law: sieverts
+material: tungsten
+isotope: H
+method: unknown
+source:
+  doi: 10.1063/1.1669720
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.0015
+    unit: torr * L / cm / s / torr^0.5
+  act_energy:
+    value: 31.5
+    unit: kcal/mol
+  range:
+    value:
+    - 1050
+    - 2400
+    unit: K
+transformations:
+- op: gas_volume_to_amount
+  params:
+    T_ref: 273 K
+  origin: paper
+  rationale: the paper gives the permeating amount as a gas volume (torr L) at 273 K
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  - check that 273 K (not 273.15 K) is the reference temperature printed
+  migrated_from: h_transport_materials/property_database/tungsten/tungsten.py:180

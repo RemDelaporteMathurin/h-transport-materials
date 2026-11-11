@@ -1,0 +1,28 @@
+id: htm:SS304-D-D-braun1980
+property: diffusivity
+material: 304_steel
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/0022-3115(80)90219-6
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.18
+    unit: cm**2 * s**-1
+  act_energy:
+    value: 14800.0
+    unit: cal * mol**-1
+  range:
+    value:
+    - 100.0
+    - 600.0
+    unit: degC
+note: Braun doesn't plot the permeability and assumes a solubility from N.L. Hawkins, Report KAPL 863
+  (1953). However we can't find this report.
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/ss_304/ss_304.py:97

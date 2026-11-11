@@ -48,4 +48,4 @@ properties = [begun_solubility_h, begun_solubility_d, begun_solubility_t]
 for prop in properties:
     prop.material = htm.YTTRIUM
 
-htm.database += properties
+htm._legacy_database += properties

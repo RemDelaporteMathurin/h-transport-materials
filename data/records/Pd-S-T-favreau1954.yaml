@@ -1,0 +1,22 @@
+id: htm:Pd-S-T-favreau1954
+property: solubility
+law: sieverts
+material: palladium
+isotope: T
+method: gas-absorption
+source:
+  doi: 10.2172/4413386
+  location: Table II
+reported:
+  form: points
+  file: Pd-S-T-favreau1954.csv
+  x: {column: 0, quantity: temperature, unit: degC}
+  y: {column: 1, quantity: value, unit: "ccSTP / g / cmHg^0.5"}
+transformations:
+  - op: mass_to_volume_basis
+    origin: htm
+    rationale: >-
+      The paper gives cm3 (STP) of gas per gram of palladium. HTM converts to
+      per m3 with the room temperature density of palladium.
+curation:
+  status: draft

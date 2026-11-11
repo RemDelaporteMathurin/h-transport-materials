@@ -1,0 +1,24 @@
+id: htm:LiPb-D-T-shibuya1987
+property: diffusivity
+material: lipb
+isotope: T
+method: unknown
+source:
+  doi: 10.1016/0022-3115(87)90006-7
+  location: null
+reported:
+  form: points
+  file: LiPb-D-T-shibuya1987.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: degC
+  y:
+    column: 1
+    quantity: value
+    unit: cm**2 * s**-1
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/lipb/lipb.py:196

@@ -1,0 +1,28 @@
+id: htm:EUROFER97-P-D-houben2019-b
+property: permeability
+law: sieverts
+material: eurofer_97
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/j.nme.2019.01.030
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 5.0e-07
+    unit: mol * m**-1 * s**-1 * mbar**-0.5
+  act_energy:
+    value: 46.0
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 300.0
+    - 600.0
+    unit: degC
+note: oxidised
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/eurofer_97/eurofer_97.py:172

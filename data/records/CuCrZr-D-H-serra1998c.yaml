@@ -1,0 +1,27 @@
+id: htm:CuCrZr-D-H-serra1998c
+property: diffusivity
+material: cucrzr
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/S0022-3115(98)00276-1
+  location: null
+reported:
+  form: points
+  file: CuCrZr-D-H-serra1998c.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1000.0
+  y:
+    column: 1
+    quantity: value
+    unit: m**2 * s**-1
+note: "Serra equation doesn't match the experimental points on their graph\n Serra gives D_0=5.7e-7 m2/s\
+  \ and E_D = 41220 J/mol \nITER also gives a diffusivity but they adapted it from the wrong equations..."
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/cucrzr/cucrzr.py:19

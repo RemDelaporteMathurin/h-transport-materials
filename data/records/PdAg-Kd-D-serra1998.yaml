@@ -1,0 +1,26 @@
+id: htm:PdAg-Kd-D-serra1998
+property: dissociation_coeff
+material: pdag
+isotope: D
+method: unknown
+source:
+  doi: 10.1007/s11661-998-1011-3
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.013
+    unit: mol * m**-2 * s**-1 * Pa**-1
+  act_energy:
+    value: 24.78
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 323.0
+    - 773.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/pdag/palladium_silver.py:59

@@ -1,0 +1,37 @@
+id: htm:SiC-S-D-causey1978
+property: solubility
+law: sieverts
+material: sic
+isotope: D
+method: unknown
+sample:
+  form: vapor-deposited beta-SiC
+source:
+  doi: 10.1111/j.1151-2916.1978.tb09284.x
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 8.77e-09
+    unit: atfr / atm^0.5
+  act_energy:
+    value: -37.0
+    unit: kcal/mol
+  range:
+    value:
+    - 1000
+    - 1400
+    unit: degC
+transformations:
+- op: mole_fraction_to_concentration
+  params:
+    per: formula_unit
+  origin: htm
+  rationale: HTM converts with the density of SiC and its molar mass per SiC formula unit.
+note: vapor-deposited beta-SiC, at 1 atm
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  - check whether the paper's fraction is per SiC or per atom
+  migrated_from: h_transport_materials/property_database/sic.py:69

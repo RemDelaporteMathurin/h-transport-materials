@@ -1,0 +1,27 @@
+id: htm:EUROFER97-P-H-aiello2002
+property: permeability
+law: sieverts
+material: eurofer_97
+isotope: H
+method: unknown
+source:
+  doi: 10.13182/FST41-872
+  location: null
+reported:
+  form: points
+  file: EUROFER97-P-H-aiello2002.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1000.0
+  y:
+    column: 1
+    quantity: value
+    unit: mol * m**-1 * Pa**-0.5 * s**-1
+note: in the paper, only the 3 hottest points are fitted to measure lattice diffusion only
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/eurofer_97/eurofer_97.py:9

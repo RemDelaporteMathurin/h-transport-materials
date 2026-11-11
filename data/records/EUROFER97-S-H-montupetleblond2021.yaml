@@ -1,0 +1,28 @@
+id: htm:EUROFER97-S-H-montupetleblond2021
+property: solubility
+law: sieverts
+material: eurofer_97
+isotope: H
+method: unknown
+source:
+  doi: 10.1016/j.nme.2021.101062
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 0.176
+    unit: mol * m**-3 * Pa**-0.5
+  act_energy:
+    value: 0.27
+    unit: eV * particle**-1
+  range:
+    value:
+    - 473.0
+    - 673.0
+    unit: K
+note: The authors also give an effective solubilty, this is the lattice solubility measured at high temperature
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/eurofer_97/eurofer_97.py:155

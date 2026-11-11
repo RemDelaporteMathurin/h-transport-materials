@@ -1,0 +1,39 @@
+id: htm:Li-S-D-smith1979
+property: solubility
+law: sieverts
+material: lithium
+isotope: D
+method: unknown
+source:
+  doi: 10.1016/0022-1902(79)80077-9
+  location: null
+reported:
+  form: points
+  file: Li-S-D-smith1979.csv
+  x:
+    column: 0
+    quantity: temperature
+    unit: degC
+  y:
+    column: 1
+    quantity: value
+    unit: torr^0.5
+transformations:
+- op: sieverts_constant_to_solubility
+  params:
+    concentration_unit: atfr
+  origin: paper
+  rationale: The paper gives the Sieverts constant Ks = sqrt(p) / x.
+- op: mole_fraction_to_concentration
+  params:
+    per: atom
+  origin: htm
+  rationale: HTM converts the atom fraction with the lithium density from the material registry (room
+    temperature solid).
+note: table 1 of original paper
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  - see the lithium density flag
+  migrated_from: h_transport_materials/property_database/lithium/lithium.py:64

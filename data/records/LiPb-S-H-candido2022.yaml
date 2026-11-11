@@ -1,0 +1,34 @@
+id: htm:LiPb-S-H-candido2022
+property: solubility
+law: sieverts
+material: lipb
+isotope: H
+method: unknown
+sample:
+  composition:
+    Li: 15.7
+    Pb: 84.3
+source:
+  key: candido2022
+  location: null
+reported:
+  form: constant
+  value:
+    value: 4.16e-07
+    unit: atfr / Pa^0.5
+  temperature:
+    value: 573
+    unit: K
+transformations:
+- op: mole_fraction_to_concentration
+  params:
+    density_at: 300 K
+  origin: htm
+  rationale: The paper gives an atom fraction. HTM converts it with the Pb-17Li density from the material
+    registry, evaluated at 300 K as HTM has always done, and the molar mass of the sample composition.
+note: Table 3.21, absorption technique, mean of 3 tests at 573 K and 25 hPa
+curation:
+  status: draft
+  flags:
+  - 'transcribed from the current HTM entry: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/lipb/lipb.py:400

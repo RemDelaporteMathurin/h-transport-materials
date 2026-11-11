@@ -1,0 +1,25 @@
+id: htm:FLiBe-D-H-nakamura2015
+property: diffusivity
+material: flibe
+isotope: H
+method: unknown
+source:
+  key: nakamura2015
+  location: null
+reported:
+  form: points
+  file: FLiBe-D-H-nakamura2015.csv
+  x:
+    column: 0
+    quantity: inverse_temperature
+    unit: 1/K
+    factor: 1.0
+  y:
+    column: 1
+    quantity: value
+    unit: m**2 * s**-1
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/flibe/flibe.py:157

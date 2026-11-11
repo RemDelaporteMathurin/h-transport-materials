@@ -1,0 +1,27 @@
+id: htm:Cu-S-H-wampler1976
+property: solubility
+law: sieverts
+material: copper
+isotope: H
+method: unknown
+source:
+  doi: 10.1080/14786437608228179
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.07e+24
+    unit: particle * m**-3 * Pa**-0.5
+  act_energy:
+    value: 0.44
+    unit: eV * particle**-1
+  range:
+    value:
+    - 770.0
+    - 1070.0
+    unit: K
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/copper/copper.py:172

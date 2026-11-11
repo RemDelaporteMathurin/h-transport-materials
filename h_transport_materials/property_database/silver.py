@@ -38,4 +38,4 @@ properties = [katsuta_diffusivity, mclellan_solubility]
 for prop in properties:
     prop.material = htm.SILVER
 
-htm.database += properties
+htm._legacy_database += properties

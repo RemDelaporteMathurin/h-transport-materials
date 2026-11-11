@@ -1,0 +1,27 @@
+id: htm:HastelloyN-P-D-zhang2020
+property: permeability
+law: sieverts
+material: hastelloy_n
+isotope: D
+method: unknown
+source:
+  doi: 10.1080/15361055.2020.1725368
+  location: null
+reported:
+  form: arrhenius
+  pre_exp:
+    value: 1.9e-07
+    unit: mol * m**-1 * Pa**-0.5 * s**-1
+  act_energy:
+    value: 60.61
+    unit: kJ * mol**-1
+  range:
+    value:
+    - 400.0
+    - 800.0
+    unit: degC
+curation:
+  status: draft
+  flags:
+  - 'migrated automatically: check the values, method and location against the paper'
+  migrated_from: h_transport_materials/property_database/hastelloy_n.py:31
